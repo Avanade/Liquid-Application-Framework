@@ -4,9 +4,13 @@ name: .NET library pack and push to Nuget.org
 on:
   push:
     branches: [ main ]
-
+    paths:
+    - 'Liquid.Core/**'
+    
   pull_request:
     branches: [ main ]
+    paths:
+    - 'Liquid.Core/**'
 
 jobs:
   build:

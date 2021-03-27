@@ -1,5 +1,4 @@
-# This is a basic workflow to help you get started with Actions
-
+# CD workflow to publish a new version of the library on Nuget.org
 name: .NET library pack and push to Nuget.org
 
 on:

@@ -39,8 +39,8 @@ namespace Liquid.Domain.Pipelines
         {
             await Task.Run(() =>
             {
-                _telemetry.CollectTelemetryStopWatchMetric("RequestTime", _context.GetNotifications());
-                _telemetry.DequeueContext(request.GetType().Name);
+                _telemetry.CollectTelemetryStopWatchMetric($"{request.GetType().Name}_RequestTime", _context.GetNotifications());
+                _telemetry.RemoveContext(request.GetType().Name);
 
             }, cancellationToken);
         }

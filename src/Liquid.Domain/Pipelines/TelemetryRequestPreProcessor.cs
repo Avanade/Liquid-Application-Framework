@@ -33,8 +33,8 @@ namespace Liquid.Domain.Pipelines
         {
             await Task.Run(() =>
             {
-                _telemetry.EnqueueContext(request.GetType().Name);
-                _telemetry.StartTelemetryStopWatchMetric("RequestTime");
+                _telemetry.AddContext(request.GetType().Name);
+                _telemetry.StartTelemetryStopWatchMetric($"{request.GetType().Name}_RequestTime");
             }, cancellationToken);
         }
     }

@@ -1,0 +1,13 @@
+﻿{
+  "items": [
+    {
+      "key": "stringValueKey",
+      "values": [
+        {
+          "channels": "web;android",
+          "value": "Texto em português"
+        }
+      ]
+    }
+  ]
+}

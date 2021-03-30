@@ -1,0 +1,16 @@
+﻿{
+  "items": [
+    {
+      "key": "stringValueKey",
+      "values": [
+        {
+          "value": "texto en español"
+        },
+        {
+          "channels": "iphone",
+          "value": "texto en español"
+        }
+      ]
+    }
+  ]
+}

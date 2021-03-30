@@ -1,0 +1,12 @@
+﻿{
+  "items": [
+    {
+      "key": "stringValueKey",
+      "values": [
+        {
+          "value": "English text"
+        }
+      ]
+    }
+  ]
+}

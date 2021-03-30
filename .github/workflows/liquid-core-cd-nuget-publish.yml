@@ -36,17 +36,17 @@ jobs:
     - name: Run Tests
       run: dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
       
-    - name: Install Test Report Tool
-      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
+#    - name: Install Test Report Tool
+#      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
       
-    - name: Create Test Report
-      run: ./reportgenerator -reports:${{runner.temp}}/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura"
+#    - name: Create Test Report
+#      run: ./reportgenerator -reports:${{runner.temp}}/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura"
       
-    - name: Publish Test Report on Workflow
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: CoverageReport # Artifact name        
-        path: $GITHUB_WORKSPACE/coverlet/reports/Cobertura.xml
+#    - name: Publish Test Report on Workflow
+#      uses: actions/upload-artifact@v1.0.0
+#      with:
+#        name: CoverageReport # Artifact name        
+#        path: $GITHUB_WORKSPACE/coverlet/reports/Cobertura.xml
        
     - name: Nuget Pack
       run: dotnet pack --no-build --configuration Release src/Liquid.Core/Liquid.Core.csproj --output .

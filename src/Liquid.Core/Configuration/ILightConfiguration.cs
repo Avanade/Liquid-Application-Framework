@@ -12,6 +12,6 @@
         /// <value>
         /// The settings.
         /// </value>
-        TConfiguration Settings { get; }
+        TConfiguration Settings { get; } 
     }
 }

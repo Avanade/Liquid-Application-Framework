@@ -24,6 +24,6 @@ namespace Liquid.Core.Configuration
         public ConfigurationSectionAttribute(string sectionName)
         {
             SectionName = sectionName;
-        }
+        }  
     }
 }

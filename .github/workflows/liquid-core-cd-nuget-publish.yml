@@ -5,12 +5,12 @@ on:
   push:
     branches: [ main ]
     paths:
-    - 'Liquid.Core/**'
+    - 'src/Liquid.Core/**'
     
   pull_request:
     branches: [ main ]
     paths:
-    - 'Liquid.Core/**'
+    - 'src/Liquid.Core/**'
 
 jobs:
   build:
@@ -28,13 +28,13 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Restore dependencies
-      run: dotnet restore **/*.csproj
+      run: dotnet restore src/**/*.csproj
 
     - name: Build Project
-      run: dotnet build **/*.csproj --configuration Release --no-restore
+      run: dotnet build src/**/*.csproj --configuration Release --no-restore
       
     - name: Run Tests
-      run: dotnet test **/*Tests.csproj --settings $GITHUB_WORKSPACE/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
+      run: dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
       
     - name: Install Test Report Tool
       run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
@@ -49,7 +49,7 @@ jobs:
         path: $GITHUB_WORKSPACE/coverlet/reports/Cobertura.xml
        
     - name: Nuget Pack
-      run: dotnet pack --no-build --configuration Release Liquid.Core/Liquid.Core.csproj --output .
+      run: dotnet pack --no-build --configuration Release src/Liquid.Core/Liquid.Core.csproj --output .
       
     - name: PushNuget
       run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate

@@ -28,10 +28,10 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Restore dependencies
-      run: dotnet restore src/Liquid.Code.sln
+      run: dotnet restore src/Liquid.Core.sln
 
     - name: Build Project
-      run: dotnet build src/Liquid.Code.sln --configuration Release --no-restore
+      run: dotnet build src/Liquid.Core.sln --configuration Release --no-restore
       
     - name: Run Tests
       run: dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"

@@ -1,0 +1,94 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache", "Liquid.Cache\Liquid.Cache.csproj", "{16EEF504-D7B3-4F07-B7C0-53EB3975904B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{FA14D3D7-18B1-409A-B2A2-A9CD7E02BF5C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.Redis", "Liquid.Cache.Redis\Liquid.Cache.Redis.csproj", "{3BA88F9C-9561-45B4-98F1-77506D1DC701}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.Memory", "Liquid.Cache.Memory\Liquid.Cache.Memory.csproj", "{D25CEFF8-B6FF-4451-AB8A-B4C54BB3B9CC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{249FB28C-766C-4FF5-8472-F59BC83DAD79}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.Memory.Tests", "Liquid.Cache.Memory.Tests\Liquid.Cache.Memory.Tests.csproj", "{BC5F5785-A262-41D8-9DA2-F29056EF3BE6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.Redis.Tests", "Liquid.Cache.Redis.Tests\Liquid.Cache.Redis.Tests.csproj", "{0EECEF2E-4B6B-4950-A45F-8F997A6E2413}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8E1F0732-3F9F-4C40-BECE-EA460C11CC4C}"
+	ProjectSection(SolutionItems) = preProject
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+		logo.png = logo.png
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.NCache", "Liquid.Cache.NCache\Liquid.Cache.NCache.csproj", "{B74DD8BC-43BD-4F75-9726-4267F25140C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.NCache.Tests", "Liquid.Cache.NCache.Tests\Liquid.Cache.NCache.Tests.csproj", "{17A489D0-010C-4725-BF96-D72793185223}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.Ignite", "Liquid.Cache.Ignite\Liquid.Cache.Ignite.csproj", "{8796BE89-5060-4A3E-90A7-016D69BDE6DC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.Ignite.Tests", "Liquid.Cache.Ignite.Tests\Liquid.Cache.Ignite.Tests.csproj", "{4A5AA7D3-A37F-447D-8D4F-2271043F19E8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16EEF504-D7B3-4F07-B7C0-53EB3975904B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16EEF504-D7B3-4F07-B7C0-53EB3975904B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16EEF504-D7B3-4F07-B7C0-53EB3975904B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16EEF504-D7B3-4F07-B7C0-53EB3975904B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BA88F9C-9561-45B4-98F1-77506D1DC701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BA88F9C-9561-45B4-98F1-77506D1DC701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BA88F9C-9561-45B4-98F1-77506D1DC701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BA88F9C-9561-45B4-98F1-77506D1DC701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D25CEFF8-B6FF-4451-AB8A-B4C54BB3B9CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D25CEFF8-B6FF-4451-AB8A-B4C54BB3B9CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D25CEFF8-B6FF-4451-AB8A-B4C54BB3B9CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D25CEFF8-B6FF-4451-AB8A-B4C54BB3B9CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC5F5785-A262-41D8-9DA2-F29056EF3BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC5F5785-A262-41D8-9DA2-F29056EF3BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC5F5785-A262-41D8-9DA2-F29056EF3BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC5F5785-A262-41D8-9DA2-F29056EF3BE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0EECEF2E-4B6B-4950-A45F-8F997A6E2413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0EECEF2E-4B6B-4950-A45F-8F997A6E2413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0EECEF2E-4B6B-4950-A45F-8F997A6E2413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0EECEF2E-4B6B-4950-A45F-8F997A6E2413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B74DD8BC-43BD-4F75-9726-4267F25140C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B74DD8BC-43BD-4F75-9726-4267F25140C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B74DD8BC-43BD-4F75-9726-4267F25140C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B74DD8BC-43BD-4F75-9726-4267F25140C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17A489D0-010C-4725-BF96-D72793185223}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17A489D0-010C-4725-BF96-D72793185223}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17A489D0-010C-4725-BF96-D72793185223}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17A489D0-010C-4725-BF96-D72793185223}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8796BE89-5060-4A3E-90A7-016D69BDE6DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8796BE89-5060-4A3E-90A7-016D69BDE6DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8796BE89-5060-4A3E-90A7-016D69BDE6DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8796BE89-5060-4A3E-90A7-016D69BDE6DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A5AA7D3-A37F-447D-8D4F-2271043F19E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A5AA7D3-A37F-447D-8D4F-2271043F19E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A5AA7D3-A37F-447D-8D4F-2271043F19E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A5AA7D3-A37F-447D-8D4F-2271043F19E8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3BA88F9C-9561-45B4-98F1-77506D1DC701} = {FA14D3D7-18B1-409A-B2A2-A9CD7E02BF5C}
+		{D25CEFF8-B6FF-4451-AB8A-B4C54BB3B9CC} = {FA14D3D7-18B1-409A-B2A2-A9CD7E02BF5C}
+		{BC5F5785-A262-41D8-9DA2-F29056EF3BE6} = {249FB28C-766C-4FF5-8472-F59BC83DAD79}
+		{0EECEF2E-4B6B-4950-A45F-8F997A6E2413} = {249FB28C-766C-4FF5-8472-F59BC83DAD79}
+		{B74DD8BC-43BD-4F75-9726-4267F25140C1} = {FA14D3D7-18B1-409A-B2A2-A9CD7E02BF5C}
+		{17A489D0-010C-4725-BF96-D72793185223} = {249FB28C-766C-4FF5-8472-F59BC83DAD79}
+		{8796BE89-5060-4A3E-90A7-016D69BDE6DC} = {FA14D3D7-18B1-409A-B2A2-A9CD7E02BF5C}
+		{4A5AA7D3-A37F-447D-8D4F-2271043F19E8} = {249FB28C-766C-4FF5-8472-F59BC83DAD79}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BC45FBB9-D2C3-4E3F-8668-5AA9146BBE4C}
+	EndGlobalSection
+EndGlobal

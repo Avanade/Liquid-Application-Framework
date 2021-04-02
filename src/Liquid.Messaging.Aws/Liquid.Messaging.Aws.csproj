@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>Liquid.Messaging.Aws</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Avanade Brazil</Authors>
+    <Company>Avanade Inc.</Company>
+    <Product>Liquid - Modern Application Framework</Product>
+    <Copyright>Avanade 2019</Copyright>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <Version>2.0.0-alpha</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>
+      The Liquid.Messaging.Aws provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
+      The main components are ILightProducer and ILightConsumer. This component allows send messages and consuming messages from AWS.
+      This component is part of Liquid Application Framework.
+    </Description>
+    <ProjectGuid>{4AE2C176-6BEE-404D-A846-F0FB620C6323}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.0.7" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.0.7" />
+    <PackageReference Include="Liquid.Domain" Version="2.0.0-alpha" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-preview.2.21154.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Messaging\Liquid.Messaging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

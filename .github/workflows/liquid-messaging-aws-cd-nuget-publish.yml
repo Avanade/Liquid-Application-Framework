@@ -1,0 +1,63 @@
+# CD workflow to publish a new version of the library on Nuget.org
+name: .NET library pack and push to Nuget.org
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'src/Liquid.Messaging.Aws/**'
+    
+  pull_request:
+    branches: [ main ]
+    paths:
+    - 'src/Liquid.Messaging.Aws/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        # SDK version to use. Examples: 2.2.104, 3.1, 3.1.x
+        dotnet-version: 3.1.x
+
+    - name: Restore dependencies
+      run: dotnet restore src/Liquid.Messaging.Aws/Liquid.Messaging.Aws.csproj
+
+    - name: Build Project
+      run: dotnet build src/Liquid.Messaging.Aws/Liquid.Messaging.Aws.csproj --configuration Release --no-restore
+      
+    - name: Parse Secrets
+      uses: jwsi/secret-parser@v1
+      with:
+        filename: src/Liquid.Messaging.Aws.Tests/appsettings.json
+        secret-name: LIQUID_MESSAGING_AWS_TEST_CONNECTIONS
+        secret-value: ${{ secrets.LIQUID_MESSAGING_AWS_TEST_CONNECTIONS }}
+
+    - name: Run Tests
+      run: dotnet test src/Liquid.Messaging.Aws.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
+      
+#    - name: Install Test Report Tool
+#      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .
+      
+#    - name: Create Test Report
+#      run: ./reportgenerator -reports:${{runner.temp}}/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura"
+      
+#    - name: Publish Test Report on Workflow
+#      uses: actions/upload-artifact@v1.0.0
+#      with:
+#        name: CoverageReport # Artifact name        
+#        path: $GITHUB_WORKSPACE/coverlet/reports/Cobertura.xml
+       
+    - name: Nuget Pack
+      run: dotnet pack --no-build --configuration Release src/Liquid.Messaging.Aws/Liquid.Messaging.Aws.csproj --output .
+      
+    - name: PushNuget
+      if: github.event_name == 'push' 
+      run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate

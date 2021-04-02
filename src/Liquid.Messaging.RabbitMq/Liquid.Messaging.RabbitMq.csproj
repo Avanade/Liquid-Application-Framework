@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>Liquid.Messaging.RabbitMq</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Avanade Brazil</Authors>
+    <Company>Avanade Inc.</Company>
+    <Product>Liquid - Modern Application Framework</Product>
+    <Copyright>Avanade 2019</Copyright>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <Version>2.0.0-alpha</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>
+      The Liquid.Messaging.RabbitMq provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
+      The main components are ILightProducer and ILightConsumer. This component allows send and consuming messages from RabbitMq.
+      This component is part of Liquid Application Framework.
+    </Description>
+    <ProjectGuid>{6CFF2DEC-50E9-417C-A6E1-A0EFCD1EB94C}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Liquid.Domain" Version="2.0.0-alpha" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-preview.2.21154.6" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Messaging\Liquid.Messaging.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

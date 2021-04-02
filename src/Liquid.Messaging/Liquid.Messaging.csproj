@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>Liquid.Messaging</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Avanade Brazil</Authors>
+    <Company>Avanade Inc.</Company>
+    <Product>Liquid - Modern Application Framework</Product>
+    <Copyright>Avanade 2019</Copyright>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <Version>2.0.0-alpha</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Description>
+      The Liquid.Messaging provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
+      The main components are ILightProducer and ILightConsumer.
+      This component is part of Liquid Application Framework.
+    </Description>
+    <ProjectGuid>{CE81EFD6-CA1D-493B-9ABD-ABD8EB577DCC}</ProjectGuid>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Liquid.Core" Version="2.0.0-alpha" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

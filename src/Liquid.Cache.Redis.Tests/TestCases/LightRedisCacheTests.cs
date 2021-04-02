@@ -194,19 +194,19 @@ namespace Liquid.Cache.Redis.Tests.TestCases
     [SetUpFixture]
     public class GlobalFixture
     {
-        private RedisInside.Redis _redisServer;
-        [OneTimeSetUp]
-        public void GlobalSetup()
-        {
-            _redisServer = new RedisInside.Redis(config => { config.Port(4321); });
-        }
+        //private RedisInside.Redis _redisServer;
+        //[OneTimeSetUp]
+        //public void GlobalSetup()
+        //{
+        //    _redisServer = new RedisInside.Redis(config => { config.Port(6379); });
+        //}
 
-        [OneTimeTearDown]
-        public void GlobalTearDown()
-        {
-            _redisServer.Dispose();
-            _redisServer = null;
-        }
+        //[OneTimeTearDown]
+        //public void GlobalTearDown()
+        //{
+        //    _redisServer.Dispose();
+        //    _redisServer = null;
+        //}
     }
 
     [ExcludeFromCodeCoverage]

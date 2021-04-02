@@ -1,4 +1,4 @@
-| [Main](About-Liquid) > About Lightweight Architectures |
+| [Main](About-Liquid.md) > About Lightweight Architectures |
 |----|
 
 Successful modern digital solutions, like startups, while starts small and agile, had to cope with accelerated growth, reaching hundreds of millions of concurrent users while still being able to compete and evolve rapidly.

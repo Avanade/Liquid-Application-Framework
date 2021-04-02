@@ -41,7 +41,7 @@ jobs:
       run: dotnet build src/Liquid.Messaging.Kafka/Liquid.Messaging.Kafka.csproj --configuration Release --no-restore
       
     - name: Run Tests
-      run: dotnet test src/Liquid.Messaging.Kafka.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettingss
+      run: dotnet test src/Liquid.Messaging.Kafka.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
       
 #    - name: Install Test Report Tool
 #      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .

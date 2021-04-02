@@ -3,7 +3,7 @@
 
 The most fundamental strategy steering Liquid's design is its responsibility to decouple as much as possible the application components from the underlying platforms.
 
- ![PlatformAbstractionLayer.png](PlatformAbstractionLayer.png =1000x) 
+ ![PlatformAbstractionLayer.png](PlatformAbstractionLayer.png) 
 
 Liquid concentrates most of platform (technology) specific dependencies in one single point of code thus freeing up the many application (business) components to access pre-integrated, high abstraction primitives for doing their jobs.
 

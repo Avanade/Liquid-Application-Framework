@@ -7,8 +7,6 @@ A small group of core concepts balances the many aspects dealt by Liquid and det
 ## Architectural Strategies
 - [**Platform abstraction layer:**](Platform-Abstraction-Layer.md) using the best from PaaS offerings while avoiding lock-in;
 
-- [**Leveling up platform providers:**](Leveling-up-Platform-Providers.md) ensuring top functionality in the market even if a particular vendor has not yet reached the level of the others;
-
 - [**Business logic separation:**](Business-Logic-Separation.md) avoiding mixing domain (business) logic along with underlying platform (technical) logic;
 
 - [**DevOps for microservices:**](DevOps-for-Microservices.md) giving this fine-grained unit of software an easier way of being built, deployed and tested in a continuous fashion.

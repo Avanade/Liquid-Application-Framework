@@ -96,8 +96,8 @@ namespace Liquid.Messaging.Aws
                 var aggregationId = context.GetAggregationId();
                 _queueUrl = await _client.GetAwsQueueUrlAsync(_attribute.Queue);
 
-                customHeaders.TryAdd("liquidCulture", context.ContextCulture);
-                customHeaders.TryAdd("liquidChannel", context.ContextChannel);
+                if (!string.IsNullOrEmpty(context.ContextCulture)) customHeaders.TryAdd("liquidCulture", context.ContextCulture);
+                if (!string.IsNullOrEmpty(context.ContextChannel)) customHeaders.TryAdd("liquidChannel", context.ContextChannel);
                 customHeaders.TryAdd("liquidCorrelationId", context.ContextId.ToString());
                 customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
                 customHeaders.TryAdd("liquidAggregationId", aggregationId);

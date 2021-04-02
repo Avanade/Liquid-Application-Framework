@@ -97,8 +97,8 @@ namespace Liquid.Messaging.Aws
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);
                 var aggregationId = context.GetAggregationId();
 
-                customHeaders.TryAdd("liquidCulture", context.ContextCulture);
-                customHeaders.TryAdd("liquidChannel", context.ContextChannel);
+                if (!string.IsNullOrEmpty(context.ContextCulture)) customHeaders.TryAdd("liquidCulture", context.ContextCulture);
+                if (!string.IsNullOrEmpty(context.ContextChannel)) customHeaders.TryAdd("liquidChannel", context.ContextChannel);
                 customHeaders.TryAdd("liquidCorrelationId", context.ContextId.ToString());
                 customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
                 customHeaders.TryAdd("liquidAggregationId", aggregationId);

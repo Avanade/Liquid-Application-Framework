@@ -1,17 +1,15 @@
-# Liquid-Application-Framework-2 
-- This repo will be renamed to Liquid-Application-Framework before going public
-- at the same time, the current public Liquid-Application-Framework repo will be renamed to Liquid-Application-Framework-1.0-deprecated 
-- and the README.md inside it will be updated to state this deprecation and provide a link to this new repo
+# Liquid-Application-Framework
 
-This repository contains Liquid Application Framework documentation, useful links and sample project
+This repository contains [Liquid Application Framework](./About-Liquid.md) documentation, useful links and sample project
 
-
-
-
-
-
-| [Main](/About-Liquid) > Introduction |
+| Warning |
 |----|
+- This is the new major version of Liquid Application Framework, launched on April/2021. 
+- We've made significant breaking changes and a complete rearchitecture of our framework. So, this version isn't compatible and there is no easy conversion from the old one. 
+- We decided to deprecate the old version and it will not receive any kind of updates, not even bug fixes. But, for historical purposes and to allow anyone relying on it to fork the code and maintain its own version of it, we'll keep the [old repository](https://github.com/Avanade/Liquid-Application-Framework-1.0-deprecated) public. 
+
+
+### Introduction
 
 In the last years, the always challenging task of developing multi-hundred-line-of-code business applications has reached elevated sophistication and professionalism.
 
@@ -25,7 +23,7 @@ Now Avanade provides Liquid, a workbench envisioned to boost such engineering ca
 | :-- | 
 | [Technical Context](#Technical-Context) <br> [Avanade as a Thought Leader](#Avanade-as-a-Thought-Leader) <br> [Business Drivers](#Business-Drivers) <br> [Guiding Principles](#Guiding-Principles) | 
 
-#Technical Context
+### Technical Context
 
 The development of enterprise custom application has passed through several architectural waves in the last couple decades, with each new wave adding some complexity on top of the old ones.
 
@@ -35,7 +33,7 @@ However, the complexity of designing, building and running such applications inc
 
 Moreover, such effort is a repeating task while yet an error-prone one. That opens a great space for building a set of pre-built software components following a general-purpose technical design, thereby condensed as a framework for developing and running those so called modern applications.
 
-#Avanade as a Thought Leader
+### Avanade as a Thought Leader
 
 Born on the union of Microsoft and Accenture, Avanade has quickly become [a major competence center for the Microsoft's ecosystem of technology, services and partners](https://www.avanade.com/en-us/media-center/press-releases/2020-microsoft-global-alliance-si-partner-of-the-year), with a track record of hundreds of enterprise grade, innovative projects delivered.
 
@@ -47,7 +45,7 @@ On the other hand, Accenture is a top leader in technology consulting field and 
 
 Therefore, Avanade is best positioned to advise methods, patterns and building blocks on top of mature stacks and tools such as Microsoft's as well as to materialize the usual tech-agnostic point of view of Accenture.
 
-#Business Drivers
+### Business Drivers
 
 The purpose of Liquid is to allow the building of modern applications with better quality in a more efficient way. Therefore, the following business drivers were stated:
 - **Reduce time-to-value with faster development and testing activities:** The learning curve is shorter if developers can abstract technical complexity and have their components easily and automatically put into a DevOps pipeline;
@@ -58,15 +56,24 @@ The purpose of Liquid is to allow the building of modern applications with bette
 
 - **Catalyze the use of delivery centers:** by getting most of the technical design out of the box, remote teams can focus on requirements (backlog) and on the design of the business solution (business logic on the application layer).
 
-#Guiding Principles
+### Guiding Principles
 
 From a technical perspective, the Liquid development was stressed toward the following principles:
 
-- **Prescriptive yet non-intrusive programming model for business components:** frameworks and platform services (_e.g._ .NET Core and CosmosDB, respectively) are designed for broad use-case scenarios, very much broader than the vast majority of enterprise digital solutions actually demands. Liquid stands for the later scenarios and this is the high value space that it tries to fulfill. Therefore, Liquid [prescribes a "light" way of building business application](/Key-Concepts#prescriptive-programming-model) without compromising the capability of developers to use the underlying technology in any other ways, if this is a requirement;
+- **Prescriptive yet non-intrusive programming model for business components:** frameworks and platform services (_e.g._ .NET Core and CosmosDB, respectively) are designed for broad use-case scenarios, very much broader than the vast majority of enterprise digital solutions actually demands. Liquid stands for the later scenarios and this is the high value space that it tries to fulfill. Therefore, Liquid [prescribes a "light" way of building business application](./Key-Concepts.md/#prescriptive-programming-model) without compromising the capability of developers to use the underlying technology in any other ways, if this is a requirement;
 
-- **Multi platform based on workbench components replacement:** Liquid puts itself between application (business) components and underlying platform (technical) components to avoid (or, at least, minimize) vendor and/or technology lock-in of the application, during both building and execution time. Hence there ought to be a way of [simply replacing Liquid "cartridges"](/Key-Concepts/Leveling-up-Platform-Providers) of each type (_e.g._ database repository) from one specific technology to another (_e.g._ CosmosDB and DynamoDB) to seamlessly moving application (business) logic from one platform to another. This, obviously, will depend a lot on how the application development team will deal with specific features provided by the underlying technology being used. Most of the time, we only use a small subset of those features, making it very easy to substitute similar technologies. But, event when this is not the case, Liquid helps to isolate those specifics, allowing the creation of portable code with control and without big surprises;
+- **Multi platform based on workbench components replacement:** Liquid puts itself between application (business) components and underlying platform (technical) components to avoid (or, at least, minimize) vendor and/or technology lock-in of the application, during both building and execution time. Hence there ought to be a way of [simply replacing Liquid "cartridges"](./Key-Concepts.md/#Leveling-up-Platform-Providers) of each type (_e.g._ database repository) from one specific technology to another (_e.g._ CosmosDB and DynamoDB) to seamlessly moving application (business) logic from one platform to another. This, obviously, will depend a lot on how the application development team will deal with specific features provided by the underlying technology being used. Most of the time, we only use a small subset of those features, making it very easy to substitute similar technologies. But, even when this is not the case, Liquid helps to isolate those specifics, allowing the creation of portable code with high control, avoiding spreaded infrastructure code that makes maintenance harder;
 
-- **Built-in lightweight patterns for technology domain:** There are many [design patterns](/About-Liquid/About-Lightweight-Architectures) that must be applied when it comes time to develop a modern digital application. Many of them can be given to the (upper) application layer as an out-of-the box capability of Liquid;
+- **Built-in lightweight patterns for technology domain:** There are many [design patterns](./About-Liquid.md/#About-Lightweight-Architectures) that must be applied to develop a modern digital application. Many of them can be given to the (upper) application layer as an out-of-the box capability of Liquid;
 
-- **Abstract technical complexity from business software developer:** The true hard work of enterprise architects is (or should be) the structuring of millions of lines of code a large company has. Legacy code has probably grown over decades in an unsupervised manner. That should not be the case with the brand-new code of modern digital application. While dealing with technology (delta) innovation/rennovation is a task architects deal every new year, dealing with applications' structuring and refactoring is (or should be) their daily job. The same is valid for business software developers. Liquid helps engineers [to focus on their useful (business) code](/Key-Concepts/Business-Logic-Separation).
+- **Abstract technical complexity from business software developer:** The true hard work of enterprise architects is (or should be) the structuring of millions of lines of code a large company has. Legacy code has probably grown over decades in an unsupervised manner. That should not be the case with the brand-new code of modern digital application. While dealing with technology (delta) innovation/rennovation is a task architects deal every new year, dealing with applications' structuring and refactoring is (or should be) their daily job. The same is valid for business software developers. Liquid helps engineers [to focus on their useful (business) code](./Key-Concepts.md/#Business-Logic-Separation).
+
+### Useful Links
+| Liquid Application Framework Binaries | 
+| :-- | 
+| [Liquid.Core](https://www.nuget.org/packages/Liquid.Core) <br> [Liquid.Domain](https://www.nuget.org/packages/Liquid.Domain) <br> [Liquid.Data](https://www.nuget.org/packages/Liquid.Data) <br> [Liquid.Cache](https://www.nuget.org/packages/Liquid.Cache) <br> [Liquid.Messaging](https://www.nuget.org/packages/Liquid.Messaging) <br> [Liquid.Services](https://www.nuget.org/packages/Liquid.Services) <br> [Liquid.WebApi](https://www.nuget.org/packages/Liquid.WebApi) <br> [Liquid.Serverless](https://www.nuget.org/packages/Liquid.Serverless) <br> [Liquid.Tests](https://www.nuget.org/packages/Liquid.Tests) | 
+
+| Liquid Application Framework Sources | 
+| :-- | 
+| [Liquid.Core](https://github.com/Avanade/Liquid.Core) <br> [Liquid.Domain](https://github.com/Avanade/Liquid.Domain) <br> [Liquid.Data](https://github.com/Avanade/Liquid.Data) <br> [Liquid.Cache](https://github.com/Avanade/Liquid.Cache) <br> [Liquid.Messaging](https://github.com/Avanade/Liquid.Messaging) <br> [Liquid.Services](https://github.com/Avanade/Liquid.Services) <br> [Liquid.WebApi](https://github.com/Avanade/Liquid.WebApi) <br> [Liquid.Serverless](https://github.com/Avanade/Liquid.Serverless) <br> [Liquid.Tests](https://github.com/Avanade/Liquid.Tests) | 
 

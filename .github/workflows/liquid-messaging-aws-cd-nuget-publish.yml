@@ -41,16 +41,7 @@ jobs:
         secret-value: ${{ secrets.LIQUID_MESSAGING_AWS_TEST_CONNECTIONS }}
 
     - name: Run Tests
-      uses: b3b00/coverlet-action@1.1.0
-      with:
-        testProject: 'src/Liquid.Messaging.Aws.Tests/*Tests.csproj'
-        output: 'lcov.info'
-        outputFormat: 'lcov'
-        excludes: '[program]*,[test]test.*'
-
-
-
-#      run: dotnet test src/Liquid.Messaging.Aws.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
+      run: dotnet test src/Liquid.Messaging.Aws.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
       
 #    - name: Install Test Report Tool
 #      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .

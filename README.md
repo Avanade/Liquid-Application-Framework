@@ -20,8 +20,8 @@ When writing Liquid applications, you stop worrying about the technology and foc
 # Getting Started
 To use Liquid, you create a new base ASP.Net Core application and then download and install the following nuget packages:
 
-| Liquid Application Framework Binaries | 
-| :-- | 
+| Liquid Application Framework Binaries | |
+| :-- | :--: |
 | [`Liquid.Core`](https://www.nuget.org/packages/Liquid.Core) | **_mandatory_** <br> [`Liquid.Domain`](https://www.nuget.org/packages/Liquid.Domain) | **_desirable_** <br> [`Liquid.Data`](https://www.nuget.org/packages/Liquid.Data) | **_optional_** <br> [`Liquid.Cache`](https://www.nuget.org/packages/Liquid.Cache) | **_optional_** <br> [`Liquid.Messaging`](https://www.nuget.org/packages/Liquid.Messaging) | **_optional_** <br> [`Liquid.Services`](https://www.nuget.org/packages/Liquid.Services) | **_optional_** <br> [`Liquid.WebApi`](https://www.nuget.org/packages/Liquid.WebApi) | **_optional_** <br> [`Liquid.Serverless`](https://www.nuget.org/packages/Liquid.Serverless) | **_optional_** <br> [`Liquid.Tests`](https://www.nuget.org/packages/Liquid.Tests) | **_desirable_** | 
 
 And then choose the implementation cartridges you need to your project, for sample:

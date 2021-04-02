@@ -14,11 +14,18 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repo Pull Request
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v2
+      with:
+        ref: ${{github.event.pull_request.head.ref}}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    
+    - name: Checkout repo Push
+      if: github.event_name == 'push'
       uses: actions/checkout@v2
     
     - name: Setup .NET Core SDK
@@ -41,7 +48,7 @@ jobs:
         secret-value: ${{ secrets.LIQUID_MESSAGING_GCP_TEST_CONNECTIONS }}
 
     - name: Run Tests
-      run: dotnet test src/Liquid.Messaging.Gcp.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
+      run: dotnet test src/Liquid.Messaging.Gcp.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
       
 #    - name: Install Test Report Tool
 #      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .

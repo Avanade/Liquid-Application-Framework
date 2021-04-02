@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>Liquid.Messaging.Kafka</PackageId>
@@ -36,5 +35,4 @@
       <PackagePath></PackagePath>
     </None>
   </ItemGroup>
-
 </Project>

@@ -14,11 +14,18 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
+    - name: Checkout repo Pull Request
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v2
+      with:
+        ref: ${{github.event.pull_request.head.ref}}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    
+    - name: Checkout repo Push
+      if: github.event_name == 'push'
       uses: actions/checkout@v2
     
     - name: Setup .NET Core SDK
@@ -34,7 +41,7 @@ jobs:
       run: dotnet build src/Liquid.Messaging.Kafka/Liquid.Messaging.Kafka.csproj --configuration Release --no-restore
       
     - name: Run Tests
-      run: dotnet test src/Liquid.Messaging.Kafka/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
+      run: dotnet test src/Liquid.Messaging.Kafka/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettingss
       
 #    - name: Install Test Report Tool
 #      run: dotnet tool install dotnet-reportgenerator-globaltool --tool-path .

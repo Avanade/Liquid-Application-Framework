@@ -27,7 +27,7 @@ To use Liquid, you create a new base ASP.Net Core application and then download 
 | :-- | :--: |
 | [`Liquid.Core`](https://www.nuget.org/packages/Liquid.Core) | **_mandatory_** |
 | [`Liquid.Domain`](https://www.nuget.org/packages/Liquid.Domain) | **_desirable_** | 
-| [`Liquid.Data`](https://www.nuget.org/packages/Liquid.Data) | **_optional_** | 
+| [`Liquid.Repository`](https://www.nuget.org/packages/Liquid.Repository) | **_optional_** | 
 | [`Liquid.Cache`](https://www.nuget.org/packages/Liquid.Cache) | **_optional_** | 
 | [`Liquid.Messaging`](https://www.nuget.org/packages/Liquid.Messaging) | **_optional_** | 
 | [`Liquid.Services`](https://www.nuget.org/packages/Liquid.Services) | **_optional_** | 
@@ -37,7 +37,7 @@ To use Liquid, you create a new base ASP.Net Core application and then download 
 
 And then choose the implementation cartridges you need to your project, for sample:
 - You can choose to expose an API using an HTTP endpoint (then install [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi)) or using a Grpc ([`Liquid.WebApi.Grpc`](https://www.nuget.org/packages/Liquid.Grpc))
-- You can choose to use MongoDB as your data repository (then install [`Liquid.Data.MongoDB`](https://www.nuget.org/packages/Liquid.Data.MongoDB)) or to use the Entity Framework ([`Liquid.Data.EntityFramework`](https://www.nuget.org/packages/Liquid.Data.EntityFramework))
+- You can choose to use MongoDB as your data repository (then install [`Liquid.Repository.MongoDB`](https://www.nuget.org/packages/Liquid.Repository.MongoDB)) or to use the Entity Framework ([`Liquid.Repository.EntityFramework`](https://www.nuget.org/packages/Liquid.Repository.EntityFramework))
 - You can choose to use Azure ServiceBus as your messaging platform (then install [`Liquid.Messaging.Azure`](https://www.nuget.org/packages/Liquid.Messaging.Azure)) or to use AWS SQS ([`Liquid.Messaging.Aws`](https://www.nuget.org/packages/Liquid.Messaging.Aws))
 
 
@@ -55,7 +55,7 @@ In any case, be sure to take a look at [the contributing guide](CONTRIBUTING.md)
 | :-- | 
 | [Liquid.Core](https://github.com/Avanade/Liquid.Core) |
 | [Liquid.Domain](https://github.com/Avanade/Liquid.Domain) |
-| [Liquid.Data](https://github.com/Avanade/Liquid.Data) |
+| [Liquid.Repository](https://github.com/Avanade/Liquid.Repository) |
 | [Liquid.Cache](https://github.com/Avanade/Liquid.Cache) |
 | [Liquid.Messaging](https://github.com/Avanade/Liquid.Messaging) |
 | [Liquid.Services](https://github.com/Avanade/Liquid.Services) |

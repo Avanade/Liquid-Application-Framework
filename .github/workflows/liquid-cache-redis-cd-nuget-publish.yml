@@ -16,14 +16,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      redis:
-        image: redis
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+    strategy:
+      matrix:
+        redis-version: [4, 5, 6]
 
     steps:
     - name: Checkout repo Pull Request
@@ -48,7 +43,12 @@ jobs:
 
     - name: Build Project
       run: dotnet build src/Liquid.Cache.Redis/Liquid.Cache.Redis.csproj --configuration Release --no-restore
-      
+
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.2.0
+      with:
+        redis-version: ${{ matrix.redis-version }}  
+
     - name: Run Tests
       run: dotnet test src/Liquid.Cache.Redis.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
       

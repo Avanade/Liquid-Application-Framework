@@ -1,5 +1,5 @@
 # CD workflow to publish a new version of the library on Nuget.org
-name: .NET library pack and push to Nuget.org
+name: Liquid.Cache library pack and push to Nuget.org
 
 on:
   push:

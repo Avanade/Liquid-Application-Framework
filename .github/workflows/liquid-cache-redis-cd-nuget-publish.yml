@@ -16,10 +16,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        redis-version: [4, 5, 6]
-
     steps:
     - name: Checkout repo Pull Request
       if: github.event_name == 'pull_request'
@@ -47,7 +43,7 @@ jobs:
     - name: Start Redis
       uses: supercharge/redis-github-action@1.2.0
       with:
-        redis-version: ${{ matrix.redis-version }}  
+        redis-version: 6 
 
     - name: Run Tests
       run: dotnet test src/Liquid.Cache.Redis.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings

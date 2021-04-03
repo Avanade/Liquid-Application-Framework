@@ -1,0 +1,20 @@
+﻿// Protos/credit-rating-service.proto
+
+syntax = "proto3";
+
+option csharp_namespace = "Liquid.Services.Grpc.Tests.Server.Services";
+
+package CreditRating;
+
+service CreditRatingCheck {
+	rpc CheckCreditRequest (CreditRequest) returns (CreditReply);
+}
+
+message CreditRequest {
+	string customerId = 1;
+	int32 credit = 2;
+}
+
+message CreditReply {
+	bool isAccepted = 1;
+}

@@ -1,0 +1,48 @@
+# CD workflow to publish a new version of the library on Nuget.org
+name: Liquid.Services library pack and push to Nuget.org
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'src/Liquid.Services/**'
+    
+  pull_request:
+    branches: [ main ]
+    paths:
+    - 'src/Liquid.Services/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repo Pull Request
+      if: github.event_name == 'pull_request'
+      uses: actions/checkout@v2
+      with:
+        ref: ${{github.event.pull_request.head.ref}}
+        repository: ${{github.event.pull_request.head.repo.full_name}}
+    
+    - name: Checkout repo Push
+      if: github.event_name == 'push'
+      uses: actions/checkout@v2
+    
+    - name: Setup .NET Core SDK
+      uses: actions/setup-dotnet@v1.7.2
+      with:
+        # SDK version to use. Examples: 2.2.104, 3.1, 3.1.x
+        dotnet-version: 3.1.x
+
+    - name: Restore dependencies
+      run: dotnet restore src/Liquid.Services/Liquid.Services.csproj
+
+    - name: Build Project
+      run: dotnet build src/Liquid.Services/Liquid.Services.csproj --configuration Release --no-restore
+      
+    - name: Nuget Pack
+      run: dotnet pack --no-build --configuration Release src/Liquid.Services/Liquid.Services.csproj --output .
+      
+    - name: PushNuget
+      if: github.event_name == 'push' 
+      run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate

@@ -1,0 +1,56 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http", "Liquid.WebApi.Http\Liquid.WebApi.Http.csproj", "{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11DE553F-8B6F-44D1-83D6-56277DBD4ED2}"
+	ProjectSection(SolutionItems) = preProject
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+		logo.png = logo.png
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8989B81D-BA59-4B40-90F8-9538B4D67759}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http.Tests", "Liquid.WebApi.Http.Tests\Liquid.WebApi.Http.Tests.csproj", "{C89DCC79-6859-4D02-B08E-F3238B458902}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.WebApi.Grpc", "Liquid.WebApi.Grpc\Liquid.WebApi.Grpc.csproj", "{DD23183A-6D44-41BD-B523-743AF47A50D2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.WebApi.Grpc.Tests", "Liquid.WebApi.Grpc.Tests\Liquid.WebApi.Grpc.Tests.csproj", "{38ACE7C9-1F67-4104-BCCF-ACB5EE7D8974}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89DCC79-6859-4D02-B08E-F3238B458902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89DCC79-6859-4D02-B08E-F3238B458902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89DCC79-6859-4D02-B08E-F3238B458902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89DCC79-6859-4D02-B08E-F3238B458902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD23183A-6D44-41BD-B523-743AF47A50D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD23183A-6D44-41BD-B523-743AF47A50D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD23183A-6D44-41BD-B523-743AF47A50D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD23183A-6D44-41BD-B523-743AF47A50D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38ACE7C9-1F67-4104-BCCF-ACB5EE7D8974}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38ACE7C9-1F67-4104-BCCF-ACB5EE7D8974}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38ACE7C9-1F67-4104-BCCF-ACB5EE7D8974}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38ACE7C9-1F67-4104-BCCF-ACB5EE7D8974}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C89DCC79-6859-4D02-B08E-F3238B458902} = {8989B81D-BA59-4B40-90F8-9538B4D67759}
+		{38ACE7C9-1F67-4104-BCCF-ACB5EE7D8974} = {8989B81D-BA59-4B40-90F8-9538B4D67759}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {83C46B4F-18D0-45CB-B7EC-9A5B8840F6A0}
+	EndGlobalSection
+EndGlobal

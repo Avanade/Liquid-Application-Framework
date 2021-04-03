@@ -1,16 +1,16 @@
 # CD workflow to publish a new version of the library on Nuget.org
-name: Liquid.WebApi.Grpc library pack and push to Nuget.org
+name: Liquid.WebApi.Http library pack and push to Nuget.org
 
 on:
   push:
     branches: [ main ]
     paths:
-    - 'src/Liquid.WebApi.Grpc/**'
+    - 'src/Liquid.WebApi.Http/**'
     
   pull_request:
     branches: [ main ]
     paths:
-    - 'src/Liquid.WebApi.Grpc/**'
+    - 'src/Liquid.WebApi.Http/**'
 
 jobs:
   build:
@@ -35,16 +35,16 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Restore dependencies
-      run: dotnet restore src/Liquid.WebApi.Grpc/Liquid.WebApi.Grpc.csproj
+      run: dotnet restore src/Liquid.WebApi.Http/Liquid.WebApi.Http.csproj
 
     - name: Build Project
-      run: dotnet build src/Liquid.WebApi.Grpc/Liquid.WebApi.Grpc.csproj --configuration Release --no-restore
+      run: dotnet build src/Liquid.WebApi.Http/Liquid.WebApi.Http.csproj --configuration Release --no-restore
       
     - name: Run Tests
-      run: dotnet test src/Liquid.WebApi.Grpc.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
+      run: dotnet test src/Liquid.WebApi.Http.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
       
     - name: Nuget Pack
-      run: dotnet pack --no-build --configuration Release src/Liquid.WebApi.Grpc/Liquid.WebApi.Grpc.csproj --output .
+      run: dotnet pack --no-build --configuration Release src/Liquid.WebApi.Http/Liquid.WebApi.Http.csproj --output .
       
     - name: PushNuget
       if: github.event_name == 'push' 

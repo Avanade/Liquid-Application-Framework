@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- File name extension must be .runsettings -->
+<RunSettings>
+  <DataCollectionRunSettings>
+    <DataCollectors>
+      <DataCollector friendlyName="Code Coverage" uri="datacollector://Microsoft/CodeCoverage/2.0" assemblyQualifiedName="Microsoft.VisualStudio.Coverage.DynamicCoverageDataCollector, Microsoft.VisualStudio.TraceCollector, Version=11.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+        <Configuration>
+          <CodeCoverage>
+            <CompanyNames>
+              <Exclude>
+                <CompanyName>.*nunit.*</CompanyName>
+                <CompanyName>.*microsoft.*</CompanyName>
+              </Exclude>
+            </CompanyNames>
+
+            <!-- Exclude modules that aren't to be processed, by their name / path -->
+            <ModulePaths>
+              <Exclude>
+                <ModulePath>.*Polly.*</ModulePath>
+              </Exclude>
+            </ModulePaths>
+
+            <!-- Match attributes on any code element: -->
+            <Attributes>
+              <Exclude>
+                <Attribute>^System\.Diagnostics\.DebuggerHiddenAttribute$</Attribute>
+                <Attribute>^System\.Diagnostics\.DebuggerNonUserCodeAttribute$</Attribute>
+                <!--<Attribute>^System\.Runtime\.CompilerServices.CompilerGeneratedAttribute$</Attribute>-->
+                <Attribute>^System\.CodeDom\.Compiler.GeneratedCodeAttribute$</Attribute>
+                <Attribute>^System\.Diagnostics\.CodeAnalysis.ExcludeFromCodeCoverageAttribute$</Attribute>
+              </Exclude>
+            </Attributes>
+
+            <!-- Match the path of the source files in which each method is defined: -->
+            <Sources>
+              <Exclude>
+                <Source>.*\\atlmfc\\.*</Source>
+                <Source>.*\\vctools\\.*</Source>
+                <Source>.*\\public\\sdk\\.*</Source>
+                <Source>.*\\microsoft sdks\\.*</Source>
+                <Source>.*\\vc\\include\\.*</Source>
+              </Exclude>
+            </Sources>
+
+            <!-- We recommend you do not change the following values: -->
+            <UseVerifiableInstrumentation>True</UseVerifiableInstrumentation>
+            <AllowLowIntegrityProcesses>True</AllowLowIntegrityProcesses>
+            <CollectFromChildProcesses>True</CollectFromChildProcesses>
+            <CollectAspDotNet>False</CollectAspDotNet>
+
+          </CodeCoverage>
+        </Configuration>
+      </DataCollector>
+    </DataCollectors>
+  </DataCollectionRunSettings>
+</RunSettings>

@@ -7,13 +7,13 @@ A small group of core concepts balances the many aspects dealt by Liquid and det
 ## Architectural Strategies
 - [**Platform abstraction layer:**](Platform-Abstraction-Layer.md) using the best from PaaS offerings while avoiding lock-in;
 
-- [**Business logic separation:**](Business-Logic-Separation.md) avoiding mixing domain (business) logic along with underlying platform (technical) logic;
+- [**Business logic seggregation:**](Business-logic-seggregation.md) avoid mixing domain (business) logic along with underlying platform (technical) logic;
 
 - [**DevOps for microservices:**](DevOps-for-Microservices.md) giving this fine-grained unit of software an easier way of being built, deployed and tested in a continuous fashion.
 
 
 ## Prescriptive Programming Model
-- [**REST APIs as (formal) object models:**](REST-API-as-formal-Object-Model.md) leveraging the abstraction and formality of a well-formed REST API as a way to avoid code redundancy and error propensity;
+- [**APIs as (formal) object models:**](API-as-formal-Object-Model.md) leveraging the abstraction and formality of a well-formed API as a way to avoid code redundancy and error propensity;
 
 - [**Encapsulated domain (business) logic:**](Encapsulated-Domain-Logic.md) putting domain logic in a format (of classes) independent of the protocols used to access it;
 

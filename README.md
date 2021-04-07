@@ -58,7 +58,7 @@ In any case, be sure to take a look at [the contributing guide](CONTRIBUTING.md)
 | :-- |
 | [Liquid.Core](https://github.com/Avanade/Liquid.Core) |
 | [Liquid.Domain](https://github.com/Avanade/Liquid.Domain) |
-| [Liquid.Repository](https://github.com/Avanade/Liquid.Repository) |
+| Liquid.Repository - In Progress |
 | [Liquid.Cache](https://github.com/Avanade/Liquid.Cache) |
 | [Liquid.Messaging](https://github.com/Avanade/Liquid.Messaging) |
 | [Liquid.Services](https://github.com/Avanade/Liquid.Services) |

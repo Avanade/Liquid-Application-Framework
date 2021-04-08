@@ -32,14 +32,14 @@ To use Liquid, you create a new base ASP.Net Core application and then download 
 | [`Liquid.Cache`](https://www.nuget.org/packages/Liquid.Cache) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Cache) |
 | [`Liquid.Messaging`](https://www.nuget.org/packages/Liquid.Messaging) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging) |
 | [`Liquid.Services`](https://www.nuget.org/packages/Liquid.Services) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Services) |
-| [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Http) |
-| [`Liquid.WebApi.Grpc`](https://www.nuget.org/packages/Liquid.WebApi) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Grpc) |
+| [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi.Http) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Http) |
+| [`Liquid.WebApi.Grpc`](https://www.nuget.org/packages/Liquid.WebApi.Grpc) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Grpc) |
 | [`Liquid.Serverless`](https://www.nuget.org/packages/Liquid.Serverless.AzureFunctions) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Serverless.AzureFunctions) |
 | [`Liquid.Tests`](https://www.nuget.org/packages/Liquid.Tests) | **_desirable_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Tests) |
 
 And then choose the implementation cartridges you need to your project, for example:
 
-- You can choose to expose an API using an HTTP endpoint (then install [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi)) or using the Grpc protocol ([`Liquid.WebApi.Grpc`](https://www.nuget.org/packages/Liquid.Grpc))
+- You can choose to expose an API using an HTTP endpoint (then install [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi.Http)) or using the Grpc protocol ([`Liquid.WebApi.Grpc`](https://www.nuget.org/packages/Liquid.WebApi.Grpc))
 - You can choose to use MongoDB as your data repository (then install [`Liquid.Repository.MongoDB`](https://www.nuget.org/packages/Liquid.Repository.MongoDB)) or to use  Entity Framework ([`Liquid.Repository.EntityFramework`](https://www.nuget.org/packages/Liquid.Repository.EntityFramework))
 - You can choose to use Azure ServiceBus as your messaging platform (then install [`Liquid.Messaging.Azure`](https://www.nuget.org/packages/Liquid.Messaging.Azure)) or to use AWS SQS ([`Liquid.Messaging.Aws`](https://www.nuget.org/packages/Liquid.Messaging.Aws))
 

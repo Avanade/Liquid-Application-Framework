@@ -80,7 +80,7 @@ jobs:
       uses: actions/upload-artifact@v1.0.0
       with:
         name: CoverageReport # Artifact name        
-        path: $GITHUB_WORKSPACE/coverlet/reports/Cobertura.xml
+        path: coverlet/reports/Cobertura.xml
        
     - name: Nuget Pack & Push to Nuget.org
       if: ${{ github.event_name == 'push' }}

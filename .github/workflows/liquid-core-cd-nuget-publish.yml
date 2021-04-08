@@ -71,10 +71,11 @@ jobs:
       run: |
         dotnet sonarscanner begin /k:"Avanade_Liquid.Core" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
         dotnet build src/Liquid.Core.sln --configuration Release --no-restore
-        dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
-        reportgenerator -reports:$GITHUB_WORKSPACE/testresults/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura,SonarQube"
+        dotnet test src/**/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
+        reportgenerator -reports:$GITHUB_WORKSPACE/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura;SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
 
+#        dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
     - name: Publish Cobertura Test Report on Workflow
       uses: actions/upload-artifact@v1.0.0
       with:

@@ -1,5 +1,5 @@
-# CD workflow to publish a new version of the library on Nuget.org
-name: .NET library pack and push to Nuget.org
+# CI & CD workflow
+name: CI and CD Liquid Application Framework
 
 on:
   push:
@@ -22,6 +22,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Starting CD - Build, Test, Analyze, Pack and Publish to Nuget.org
+      if: github.event_name == 'push'
+      run: echo "Publishing a new library version..."
+      
+    - name: Starting CI - Build, Test and Analyze
+      if: github.event_name != 'push'
+      run: echo "Building, testing and analyzing..."
+
     - name: Checkout repo on Pull Request
       if: github.event_name == 'pull_request'
       uses: actions/checkout@v2

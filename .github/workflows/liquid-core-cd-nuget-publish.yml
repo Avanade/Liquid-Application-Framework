@@ -61,10 +61,10 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: |
-        dotnet sonarscanner begin /k:"Avanade_Liquid.Core" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io"
+        dotnet sonarscanner begin /k:"Avanade_Liquid.Core" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/testresults/reports/SonarQube.xml
         dotnet build src/Liquid.Core.sln --configuration Release --no-restore
-        dotnet test src/**/*Tests.csproj --no-restore --no-build --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --logger trx --collect:"XPlat Code Coverage"
-        dotnet reportgenerator -reports:${{runner.temp}}/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura,SonarQube"
+        dotnet test src/**/*Tests.csproj --no-restore --no-build --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --logger trx --collect:"XPlat Code Coverage" --results-directory $GITHUB_WORKSPACE/testresults
+        dotnet reportgenerator -reports:$GITHUB_WORKSPACE/testresults/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/testresults/reports -reporttypes:"Cobertura,SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
 
 #    - name: Run Tests
@@ -73,11 +73,11 @@ jobs:
 #    - name: Create Test Report
 #      run: ./reportgenerator -reports:${{runner.temp}}/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura"
       
-#    - name: Publish Test Report on Workflow
-#      uses: actions/upload-artifact@v1.0.0
-#      with:
-#        name: CoverageReport # Artifact name        
-#        path: $GITHUB_WORKSPACE/coverlet/reports/Cobertura.xml
+    - name: Publish Cobertura Test Report on Workflow
+      uses: actions/upload-artifact@v1.0.0
+      with:
+        name: CoverageReport # Artifact name        
+        path: $GITHUB_WORKSPACE/testresults/reports/Cobertura.xml
        
     - name: Nuget Pack
       if: github.event_name == 'push' 

@@ -68,6 +68,12 @@ jobs:
     - name: (CI/CD) Restore dependencies
       run: dotnet restore src/Liquid.Cache.Redis/Liquid.Cache.Redis.csproj
 
+    # required to run tests that depends on a Redis instance
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.2.0
+      with:
+        redis-version: 6 
+
     - name: (CI/CD) Build and Analyze Project
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
@@ -78,6 +84,7 @@ jobs:
         dotnet test src/Liquid.Cache.Redis.Tests/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
         reportgenerator -reports:$GITHUB_WORKSPACE/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
+
     - name: (CD) Nuget Pack & Push to Nuget.org
       if: ${{ github.event_name == 'push' }}
       run: |

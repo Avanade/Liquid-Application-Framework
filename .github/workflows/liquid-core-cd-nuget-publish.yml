@@ -22,23 +22,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Starting CD - Build, Test, Analyze, Pack and Publish to Nuget.org
-      if: github.event_name == 'push'
-      run: echo "Publishing a new library version..."
-      
-    - name: Starting CI - Build, Test and Analyze
-      if: github.event_name != 'push'
-      run: echo "Building, testing and analyzing..."
+    - name: Job Type CD
+      if: ${{ github.event_name == 'push' }}
+      run: echo "Running CD Job - Build, Test, Analyze, Pack and Publish to Nuget.org..."
+
+    - name: Job Type CI
+      if: ${{ github.event_name != 'push' }}
+      run: echo "Running CI Job - Build, Test and Analyze..."
 
     - name: Checkout repo on Pull Request
-      if: github.event_name == 'pull_request'
+      if: ${{ github.event_name == 'pull_request' }}
       uses: actions/checkout@v2
       with:
         ref: ${{github.event.pull_request.head.ref}}
         repository: ${{github.event.pull_request.head.repo.full_name}}
     
     - name: Checkout repo
-      if: github.event_name != 'pull_request'
+      if: ${{ github.event_name != 'pull_request' }}
       uses: actions/checkout@v2
 
     # required by sonarcloud scanner
@@ -72,25 +72,18 @@ jobs:
         dotnet sonarscanner begin /k:"Avanade_Liquid.Core" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
         dotnet build src/Liquid.Core.sln --configuration Release --no-restore
         dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
-        dotnet reportgenerator -reports:$GITHUB_WORKSPACE/testresults/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura,SonarQube"
+        reportgenerator -reports:$GITHUB_WORKSPACE/testresults/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura,SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
 
-#    - name: Run Tests
-#      run: dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
-      
-#    - name: Create Test Report
-#      run: ./reportgenerator -reports:${{runner.temp}}/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"Cobertura"
-      
     - name: Publish Cobertura Test Report on Workflow
       uses: actions/upload-artifact@v1.0.0
       with:
         name: CoverageReport # Artifact name        
         path: $GITHUB_WORKSPACE/coverlet/reports/Cobertura.xml
        
-    - name: Nuget Pack
-      if: github.event_name == 'push' 
-      run: dotnet pack --no-build --configuration Release src/Liquid.Core/Liquid.Core.csproj --output .
+    - name: Nuget Pack & Push to Nuget.org
+      if: ${{ github.event_name == 'push' }}
+      run: |
+        dotnet pack --no-build --configuration Release src/Liquid.Core/Liquid.Core.csproj --output .
+        dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate
       
-    - name: PushNuget
-      if: github.event_name == 'push' 
-      run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate

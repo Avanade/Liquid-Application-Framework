@@ -23,10 +23,8 @@ jobs:
 
     steps:
     - name: Job Type
-      env:
-        EVENT_NAME: ${{ github.event_name }}
       run: |
-        if [$EVENT_NAME == 'push']
+        if [$GITHUB_EVENT_NAME == 'push']
         then
           echo "Starting CD Job: Build, Test, Analyze, Pack and Publish library to Nuget.org..."
         else

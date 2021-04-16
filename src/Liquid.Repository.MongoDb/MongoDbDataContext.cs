@@ -1,9 +1,9 @@
-﻿using Liquid.Core.Telemetry;
+﻿using Liguid.Repository.Configuration;
+using Liquid.Core.Telemetry;
 using Liquid.Repository.Extensions;
-using Liquid.Repository.MongoDb.Exceptions;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.MongoDb
@@ -15,7 +15,6 @@ namespace Liquid.Repository.MongoDb
     public class MongoDbDataContext : IMongoDbDataContext, IDisposable
     {
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly string _connectionString;
         private readonly string _databaseName;
         private IMongoClient _mongoClient;
         private IMongoDatabase _database;
@@ -49,9 +48,8 @@ namespace Liquid.Repository.MongoDb
         /// Initializes a new instance of the <see cref="MongoDbDataContext" /> class.
         /// </summary>
         /// <param name="telemetryFactory">The telemetry factory.</param>
-        /// <param name="dataContextId">The data context identifier.</param>
-        /// <param name="connectionString">The connection string.</param>
-        /// <param name="databaseName">Name of the database.</param>
+        /// <param name="options">Database connection configuration.</param>
+        /// <param name="clientProvider">MongoDb client generator.</param>
         /// <exception cref="ArgumentNullException">
         /// telemetryFactory
         /// or
@@ -62,36 +60,16 @@ namespace Liquid.Repository.MongoDb
         /// <exception cref="System.ArgumentNullException">connectionString
         /// or
         /// databaseName</exception>
-        public MongoDbDataContext(ILightTelemetryFactory telemetryFactory,
-                                  string dataContextId,
-                                  string connectionString,
-                                  string databaseName)
+        public MongoDbDataContext(ILightTelemetryFactory telemetryFactory, IOptions<LightConnectionSettings> options, IMongoDbClientFactory clientProvider)
         {
+
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
-            if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentNullException(nameof(connectionString));
-            if (string.IsNullOrWhiteSpace(databaseName)) throw new ArgumentNullException(nameof(databaseName));
+            if (options is null) throw new ArgumentNullException(nameof(options));
+            if (clientProvider is null) throw new ArgumentNullException(nameof(clientProvider));
 
-            _connectionString = connectionString;
-            _databaseName = databaseName;
-            Id = dataContextId;
-            InitializeMongoDbConnection();
-        }
+            _databaseName = options.Value.DatabaseName;
 
-        /// <summary>
-        /// Initializes the mongo database connection.
-        /// </summary>
-        /// <exception cref="Liquid.Repository.MongoDb.Exceptions.MongoDatabaseDoesNotExistException"></exception>
-        private void InitializeMongoDbConnection()
-        {
-            if (_mongoClient != null) return;
-
-            _mongoClient = new MongoClient(_connectionString);
-
-            var databaseNames = _mongoClient.ListDatabaseNames().ToList();
-            if (!databaseNames.Any(db => db.Equals(_databaseName, StringComparison.InvariantCultureIgnoreCase)))
-            {
-                throw new MongoDatabaseDoesNotExistException(_databaseName);
-            }
+            _mongoClient = clientProvider.GetClient(options);
 
             _database = _mongoClient.GetDatabase(_databaseName);
         }
@@ -131,7 +109,7 @@ namespace Liquid.Repository.MongoDb
                 await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_RollbackTransactionAsync", async () =>
                 {
                     await _clientSessionHandle.AbortTransactionAsync();
-                });                
+                });
             }
         }
 

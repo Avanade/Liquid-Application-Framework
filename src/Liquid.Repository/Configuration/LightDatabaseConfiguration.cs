@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using Liquid.Core.Configuration;
+﻿using Liquid.Core.Configuration;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liguid.Repository.Configuration
 {
@@ -25,7 +25,7 @@ namespace Liguid.Repository.Configuration
         /// </summary>
         /// <param name="configuration">The configuration.</param>
         public LightDatabaseConfiguration(IConfiguration configuration) : base(configuration)
-        { 
+        {
         }
     }
 }

@@ -12,13 +12,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{089E852E-3C25-4411-8A60-4516EA5EAF46}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.MongoDb", "Liquid.Repository.MongoDb\Liquid.Repository.MongoDb.csproj", "{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{E8308EA1-6398-4B1D-81EC-7F3EA910F885}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoDb", "MongoDb", "{423393C9-BDA6-493D-BC28-E98B241C7BCD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Repository.MongoDb.Tests", "Liquid.Repository.MongoDb.Tests\Liquid.Repository.MongoDb.Tests.csproj", "{99455019-5078-4E9A-BB98-068766FFC84B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Repository.MongoDb.UnitTest", "..\tests\Liquid.Repository.MongoDb.UnitTest\Liquid.Repository.MongoDb.UnitTest.csproj", "{A4C30747-510F-4693-97B6-2784A3C4DE58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,17 +32,17 @@ Global
 		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{99455019-5078-4E9A-BB98-068766FFC84B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{99455019-5078-4E9A-BB98-068766FFC84B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{99455019-5078-4E9A-BB98-068766FFC84B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{99455019-5078-4E9A-BB98-068766FFC84B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A} = {089E852E-3C25-4411-8A60-4516EA5EAF46}
-		{99455019-5078-4E9A-BB98-068766FFC84B} = {E8308EA1-6398-4B1D-81EC-7F3EA910F885}
+		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A} = {423393C9-BDA6-493D-BC28-E98B241C7BCD}
+		{A4C30747-510F-4693-97B6-2784A3C4DE58} = {423393C9-BDA6-493D-BC28-E98B241C7BCD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FEB4D7E-0239-49E7-85DC-C54DA7746EE6}

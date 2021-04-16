@@ -8,13 +8,13 @@ namespace Liguid.Repository.Configuration
     /// </summary>
     /// <seealso cref="Liquid.Core.Exceptions.LightException" />
     [ExcludeFromCodeCoverage]
-    public class LightDatabaseConfigurationDoesNotExistException: LightException
+    public class LightDatabaseConfigurationDoesNotExistException : LightException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightDatabaseConfigurationDoesNotExistException"/> class.
         /// </summary>
         /// <param name="connectionId">The connection identifier.</param>
-        public LightDatabaseConfigurationDoesNotExistException(string connectionId) 
+        public LightDatabaseConfigurationDoesNotExistException(string connectionId)
             : base($"Database connection string '{connectionId}' does not exist.")
         {
         }

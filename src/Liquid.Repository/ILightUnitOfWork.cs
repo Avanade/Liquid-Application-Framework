@@ -15,7 +15,7 @@ namespace Liquid.Repository
         /// <typeparam name="TEntity">The type of the entity.</typeparam>
         /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
         /// <returns></returns>
-        TRepository GetRepository<TRepository, TEntity, TIdentifier>() 
+        TRepository GetRepository<TRepository, TEntity, TIdentifier>()
             where TRepository : ILightRepository<TEntity, TIdentifier>
             where TEntity : RepositoryEntity<TIdentifier>;
 

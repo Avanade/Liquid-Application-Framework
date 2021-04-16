@@ -15,9 +15,9 @@ namespace Liquid.Repository.Exceptions
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitofWorkTransactionWithoutRepositoryException"/> class.
         /// </summary>
-        public UnitofWorkTransactionWithoutRepositoryException() : 
+        public UnitofWorkTransactionWithoutRepositoryException() :
             base("You need to get a repository first to start an transaction. Use 'GetRepository' method.")
-        { 
+        {
         }
     }
 }

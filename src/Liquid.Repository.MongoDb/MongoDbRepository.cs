@@ -25,8 +25,10 @@ namespace Liquid.Repository.MongoDb
         private readonly ILightTelemetryFactory _telemetryFactory;
         private readonly MongoDbAttribute _mongoDbAttribute;
 
+        ///<inheritdoc/>
         public IMongoDbDataContext MongoDataContext { get; }
 
+        ///<inheritdoc/>
         public ILightDataContext DataContext => MongoDataContext;
 
         /// <summary>
@@ -91,7 +93,7 @@ namespace Liquid.Repository.MongoDb
             await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_GetAllAsync", async () =>
                 {
                     var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
-                    returnValue = (await collection.FindAsync(new BsonDocument())).ToList();
+                    returnValue = (await collection.FindAsync(new BsonDocument())).Current.AsEnumerable();
                 });
 
             return returnValue;
@@ -164,7 +166,7 @@ namespace Liquid.Repository.MongoDb
             await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_GetAllAsync", async () =>
             {
                 var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
-                returnValue = (await collection.FindAsync(whereClause)).ToList();
+                returnValue = (await collection.FindAsync(whereClause)).Current.AsEnumerable();
             });
 
             return returnValue;
@@ -177,13 +179,13 @@ namespace Liquid.Repository.MongoDb
         /// <exception cref="MongoCollectionDoesNotExistException">Collection, _databaseName</exception>
         private void ValidateCollection()
         {
-            
-                var collectionNames = MongoDataContext.Database.ListCollectionNames().ToList();
-                if (!collectionNames.Any(col => col.Equals(_mongoDbAttribute.CollectionName, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    throw new MongoCollectionDoesNotExistException(_mongoDbAttribute.CollectionName, MongoDataContext.Database.DatabaseNamespace.DatabaseName);
-                }
-            
+
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+            if (collection is null)
+            {
+                throw new MongoCollectionDoesNotExistException(_mongoDbAttribute.CollectionName, MongoDataContext.Database.DatabaseNamespace.DatabaseName);
+            }
+
         }
     }
 }

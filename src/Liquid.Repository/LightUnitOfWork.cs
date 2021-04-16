@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Liquid.Repository.Exceptions;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Liquid.Repository.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Liquid.Repository
 {
@@ -100,7 +100,7 @@ namespace Liquid.Repository
         /// </summary>
         public void Dispose()
         {
-            
+
         }
     }
 }

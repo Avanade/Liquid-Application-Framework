@@ -14,6 +14,6 @@ namespace Liquid.Repository.MongoDb
         /// </summary>
         /// <param name="options">database configurations.</param>
         /// <returns></returns>
-        IMongoClient GetClient(IOptions<LightConnectionSettings> options);
+        IMongoClient GetClient(LightConnectionSettings connectionSettings);
     }
 }

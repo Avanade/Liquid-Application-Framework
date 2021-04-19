@@ -1,5 +1,4 @@
 ﻿using Liguid.Repository.Configuration;
-using Microsoft.Extensions.Options;
 using Mongo2Go;
 using MongoDB.Driver;
 using NUnit.Framework;
@@ -26,13 +25,13 @@ namespace Liquid.Repository.MongoDb.UnitTest
         [Test]
         public async Task GetClient_WhenDatabaseNameExists_ClientCreated()
         {
-            var options = Options.Create(new LightConnectionSettings()
+            var connectionSettings = new LightConnectionSettings()
             {
                 ConnectionString = _runner.ConnectionString,
                 DatabaseName = _databaseName
-            });
+            };
 
-            var result = _sut.GetClient(options);
+            var result = _sut.GetClient(connectionSettings);
 
             Assert.IsFalse(result.GetDatabase(_databaseName) is null);
         }

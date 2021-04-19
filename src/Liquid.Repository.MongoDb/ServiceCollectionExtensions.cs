@@ -1,5 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Liguid.Repository.Configuration;
+using Liquid.Core.Configuration;
+using Liquid.Core.Telemetry;
+using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -18,7 +22,7 @@ namespace Liquid.Repository.MongoDb
         /// <param name="assemblies">The assemblies.</param>
         public static void AddMongoDb(this IServiceCollection services, string connectionId, params Assembly[] assemblies)
         {
-            //AddMongoDbContext(services, connectionId);
+            AddMongoDbContext(services, connectionId);
             AddMongoDbRepositories(services, assemblies);
         }
 
@@ -51,22 +55,21 @@ namespace Liquid.Repository.MongoDb
         /// <param name="services">The services.</param>
         /// <param name="connectionId">The connection identifier.</param>
         /// <returns></returns>
-        //private static void AddMongoDbContext(IServiceCollection services, string connectionId)
-        //{
-        //    services.AddScoped<IMongoDbDataContext>(sp =>
-        //    {
-        //        var databasesConfiguration = sp.GetService<ILightConfiguration<List<LightConnectionSettings>>>();
-        //        var databaseSettings = databasesConfiguration?.Settings?.GetConnectionSetting(connectionId);
-        //        if (databaseSettings == null) throw new LightDatabaseConfigurationDoesNotExistException(connectionId);
+        private static void AddMongoDbContext(IServiceCollection services, string connectionId)
+        {
+            services.AddScoped<IMongoDbClientFactory, MongoDbClientFactory>();
 
-        //        var mongoClient = new MongoClient(databaseSettings.ConnectionString);
+            services.AddScoped<IMongoDbDataContext>(sp =>
+            {
+                var databasesConfiguration = sp.GetService<ILightConfiguration<List<LightConnectionSettings>>>();
+                
+                var databaseSettings = databasesConfiguration?.Settings?.GetConnectionSetting(connectionId);
+                if (databaseSettings == null) throw new LightDatabaseConfigurationDoesNotExistException(connectionId);
 
-        //        return new MongoDbDataContext(
-        //            sp.GetService<ILightTelemetryFactory>(),
-        //            connectionId,
-        //            databaseSettings.ConnectionString,
-        //            databaseSettings.DatabaseName);
-        //    });
-        //}
+                return new MongoDbDataContext(
+                    sp.GetService<ILightTelemetryFactory>(),
+                    databaseSettings,sp.GetService<IMongoDbClientFactory>());
+            });
+        }
     }
 }

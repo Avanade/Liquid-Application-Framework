@@ -27,13 +27,13 @@ namespace Liquid.Repository.MongoDb.UnitTest
             _telemetryFactory.GetTelemetry().Returns(_lightTelemetry);
 
             var provider = Substitute.For<IMongoDbClientFactory>();
-            provider.GetClient(Arg.Any<IOptions<LightConnectionSettings>>()).Returns(_client);
+            provider.GetClient(Arg.Any<LightConnectionSettings>()).Returns(_client);
 
-            var options = Options.Create(new LightConnectionSettings()
+            var options = new LightConnectionSettings()
             {
                 ConnectionString = "test",
                 DatabaseName = "test"
-            });
+            };
 
             _sut = new MongoDbDataContext(_telemetryFactory
                 , options, provider);

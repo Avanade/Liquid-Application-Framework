@@ -9,15 +9,15 @@ namespace Liquid.Repository.MongoDb
     public class MongoDbClientFactory : IMongoDbClientFactory
     {
         ///<inheritdoc/>
-        public IMongoClient GetClient(IOptions<LightConnectionSettings> options)
+        public IMongoClient GetClient(LightConnectionSettings connectionSettings)
         {
-            var mongoClient = new MongoClient(options.Value.ConnectionString);
+            var mongoClient = new MongoClient(connectionSettings.ConnectionString);
 
-            var database = mongoClient.GetDatabase(options.Value.DatabaseName);
+            var database = mongoClient.GetDatabase(connectionSettings.DatabaseName);
 
             if (database is null)
             {
-                throw new MongoDatabaseDoesNotExistException(options.Value.DatabaseName);
+                throw new MongoDatabaseDoesNotExistException(connectionSettings.DatabaseName);
             }
 
             return mongoClient;

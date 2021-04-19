@@ -48,7 +48,7 @@ namespace Liquid.Repository.MongoDb
         /// Initializes a new instance of the <see cref="MongoDbDataContext" /> class.
         /// </summary>
         /// <param name="telemetryFactory">The telemetry factory.</param>
-        /// <param name="options">Database connection configuration.</param>
+        /// <param name="connectionSettings">Database connection configuration.</param>
         /// <param name="clientProvider">MongoDb client generator.</param>
         /// <exception cref="ArgumentNullException">
         /// telemetryFactory
@@ -60,16 +60,16 @@ namespace Liquid.Repository.MongoDb
         /// <exception cref="System.ArgumentNullException">connectionString
         /// or
         /// databaseName</exception>
-        public MongoDbDataContext(ILightTelemetryFactory telemetryFactory, IOptions<LightConnectionSettings> options, IMongoDbClientFactory clientProvider)
+        public MongoDbDataContext(ILightTelemetryFactory telemetryFactory, LightConnectionSettings connectionSettings, IMongoDbClientFactory clientProvider)
         {
 
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
-            if (options is null) throw new ArgumentNullException(nameof(options));
+            if (connectionSettings is null) throw new ArgumentNullException(nameof(connectionSettings));
             if (clientProvider is null) throw new ArgumentNullException(nameof(clientProvider));
 
-            _databaseName = options.Value.DatabaseName;
+            _databaseName = connectionSettings.DatabaseName;
 
-            _mongoClient = clientProvider.GetClient(options);
+            _mongoClient = clientProvider.GetClient(connectionSettings);
 
             _database = _mongoClient.GetDatabase(_databaseName);
         }

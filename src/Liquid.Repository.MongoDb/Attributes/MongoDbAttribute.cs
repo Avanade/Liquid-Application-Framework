@@ -28,17 +28,27 @@ namespace Liquid.Repository.MongoDb.Attributes
         public string ShardKey { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of database.
+        /// </summary>
+        /// <value>
+        /// The name of database.
+        /// </value>
+        public string DatabaseName { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MongoDbAttribute" /> class.
         /// </summary>
         /// <param name="collectionName">Name of the collection.</param>
         /// <param name="shardKey">The shard key.</param>
+        /// <param name="databaseName">Name of the collection.</param>
         /// <exception cref="System.ArgumentNullException">collectionName
         /// or
         /// partitionKey</exception>
-        public MongoDbAttribute(string collectionName, string shardKey)
+        public MongoDbAttribute(string collectionName, string shardKey, string databaseName)
         {
             CollectionName = collectionName ?? throw new ArgumentNullException(nameof(collectionName));
             ShardKey = shardKey ?? throw new ArgumentNullException(nameof(shardKey));
+            DatabaseName = databaseName ?? throw new ArgumentNullException(nameof(databaseName));
         }
     }
 }

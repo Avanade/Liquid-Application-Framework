@@ -1,7 +1,5 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Telemetry;
+﻿using Liquid.Core.Telemetry;
 using Liquid.Repository.Extensions;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
@@ -114,6 +112,12 @@ namespace Liquid.Repository.MongoDb
         {
             if (_clientSessionHandle?.IsInTransaction == true) _clientSessionHandle.AbortTransaction();
             _clientSessionHandle?.Dispose();
+        }
+
+        ///<inheritdoc/>
+        public void SetDatabase(string databaseName)
+        {
+            _database = _mongoClient.GetDatabase(databaseName);
         }
     }
 }

@@ -61,6 +61,8 @@ namespace Liquid.Repository.MongoDb
                 });
             }
 
+            MongoDataContext.SetDatabase(_mongoDbAttribute.DatabaseName);
+
             ValidateCollection();
         }
 

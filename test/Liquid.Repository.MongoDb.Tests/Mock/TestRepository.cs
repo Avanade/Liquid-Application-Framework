@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Liquid.Repository.MongoDb.Tests.Mock
 {
     [ExcludeFromCodeCoverage]
-    [MongoDb("TestEntities", "id")]
+    [MongoDb("TestEntities", "id", "TestDatabase")]
     public class TestRepository : MongoDbRepository<TestEntity, int>, ITestRepository
     {
         public TestRepository(ILightTelemetryFactory telemetryFactory, IMongoDbDataContext dataContext)

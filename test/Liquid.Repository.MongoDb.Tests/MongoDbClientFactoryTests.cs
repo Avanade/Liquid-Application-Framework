@@ -37,12 +37,6 @@ namespace Liquid.Repository.MongoDb.Tests
         [Test]
         public void GetClient_WhenDatabaseNameExists_ClientCreated()
         {
-            var connectionSettings = new LightConnectionSettings()
-            {
-                ConnectionString = _runner.ConnectionString,
-                DatabaseName = _databaseName
-            };
-
             var result = _sut.GetClient("test");
 
             Assert.IsFalse(result.GetDatabase(_databaseName) is null);

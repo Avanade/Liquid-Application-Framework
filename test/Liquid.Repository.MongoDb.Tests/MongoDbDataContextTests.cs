@@ -1,5 +1,4 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Telemetry;
+﻿using Liquid.Core.Telemetry;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;

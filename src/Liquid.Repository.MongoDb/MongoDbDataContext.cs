@@ -15,7 +15,6 @@ namespace Liquid.Repository.MongoDb
     public class MongoDbDataContext : IMongoDbDataContext, IDisposable
     {
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly string _databaseName;
         private IMongoClient _mongoClient;
         private IMongoDatabase _database;
         private IClientSessionHandle _clientSessionHandle;
@@ -62,7 +61,6 @@ namespace Liquid.Repository.MongoDb
         /// databaseName</exception>
         public MongoDbDataContext(ILightTelemetryFactory telemetryFactory, string connectionId, IMongoDbClientFactory clientProvider)
         {
-
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
             if (connectionId is null) throw new ArgumentNullException(nameof(connectionId));
             if (clientProvider is null) throw new ArgumentNullException(nameof(clientProvider));

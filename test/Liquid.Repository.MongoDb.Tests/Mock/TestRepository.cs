@@ -2,7 +2,7 @@
 using Liquid.Repository.MongoDb.Attributes;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.MongoDb.UnitTest.Mocks
+namespace Liquid.Repository.MongoDb.Tests.Mock
 {
     [ExcludeFromCodeCoverage]
     [MongoDb("TestEntities", "id")]

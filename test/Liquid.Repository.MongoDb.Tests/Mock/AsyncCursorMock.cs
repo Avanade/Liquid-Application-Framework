@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.MongoDb.UnitTest.Mocks
+namespace Liquid.Repository.MongoDb.Tests.Mock
 {
     [ExcludeFromCodeCoverage]
     class AsyncCursorMock<TDocument> : IAsyncCursor<TDocument>

@@ -1,18 +1,15 @@
 ﻿using Liguid.Repository.Configuration;
 using Mongo2Go;
-using MongoDB.Driver;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.MongoDb.UnitTest
+namespace Liquid.Repository.MongoDb.Tests
 {
     public class MongoDbClientFactoryTests
     {
         private IMongoDbClientFactory _sut;
         internal static MongoDbRunner _runner;
         internal static string _databaseName = "IntegrationTest";
-        internal static IMongoDatabase _database;
-
         [SetUp]
         protected void SetContext()
         {

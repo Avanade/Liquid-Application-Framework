@@ -1,8 +1,5 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Telemetry;
-using Liquid.Repository.MongoDb.UnitTest.Mocks;
-using Microsoft.Extensions.Options;
-using Mongo2Go;
+﻿using Liquid.Core.Telemetry;
+using Liquid.Repository.MongoDb.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
@@ -11,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.MongoDb.UnitTest
+namespace Liquid.Repository.MongoDb.Tests
 {
     class MongoDbRepositoryTests
     {
@@ -19,13 +16,10 @@ namespace Liquid.Repository.MongoDb.UnitTest
         private ILightTelemetry _lightTelemetry;
         private IMongoDbDataContext _dbDataContext;
         private ILightRepository<TestEntity, int> _sut;
-        private IMongoClient _client;
-        private IMongoDbClientFactory _provider;
         private TestEntity _entity;
-        internal static MongoDbRunner _runner;
         internal static string _databaseName = "IntegrationTest";
-        internal static IMongoDatabase _database;
         private IMongoCollection<TestEntity> _collection;
+
         [SetUp]
         protected void SetContext()
         {
@@ -41,11 +35,6 @@ namespace Liquid.Repository.MongoDb.UnitTest
                 MockTitle = "test"
             };
 
-            var options = Substitute.For<IOptions<LightConnectionSettings>>();
-
-            _provider = Substitute.For<IMongoDbClientFactory>();
-
-            //_provider.GetClient(options).Returns()
 
             _dbDataContext = Substitute.For<IMongoDbDataContext>();
 
@@ -60,8 +49,6 @@ namespace Liquid.Repository.MongoDb.UnitTest
         private IMongoCollection<TestEntity> GetCollection()
         {
             var listEntities = new List<TestEntity>() { _entity };
-
-            var enumerabe = listEntities.AsEnumerable();
 
             var result = Substitute.For<IMongoCollection<TestEntity>>();
 

@@ -1,12 +1,11 @@
 ﻿using Liguid.Repository.Configuration;
 using Liquid.Core.Telemetry;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.MongoDb.UnitTest
+namespace Liquid.Repository.MongoDb.Tests
 {
     class MongoDbDataContextTests
     {

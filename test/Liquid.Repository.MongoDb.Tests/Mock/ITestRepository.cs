@@ -1,5 +1,4 @@
-﻿
-namespace Liquid.Repository.MongoDb.UnitTest.Mocks
+﻿namespace Liquid.Repository.MongoDb.Tests.Mock
 {
     public interface ITestRepository : ILightRepository<TestEntity, int>
     {

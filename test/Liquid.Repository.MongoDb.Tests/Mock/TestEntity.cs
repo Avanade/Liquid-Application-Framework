@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.MongoDb.UnitTest.Mocks
+namespace Liquid.Repository.MongoDb.Tests.Mock
 {
     /// <summary>
     /// Mock test entity class.

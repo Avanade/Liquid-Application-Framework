@@ -1,9 +1,6 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Configuration;
-using Liquid.Core.Telemetry;
+﻿using Liquid.Core.Telemetry;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -57,18 +54,13 @@ namespace Liquid.Repository.MongoDb
         /// <returns></returns>
         private static void AddMongoDbContext(IServiceCollection services, string connectionId)
         {
-            services.AddScoped<IMongoDbClientFactory, MongoDbClientFactory>();
+            services.AddSingleton<IMongoDbClientFactory, MongoDbClientFactory>();
 
             services.AddScoped<IMongoDbDataContext>(sp =>
             {
-                var databasesConfiguration = sp.GetService<ILightConfiguration<List<LightConnectionSettings>>>();
-                
-                var databaseSettings = databasesConfiguration?.Settings?.GetConnectionSetting(connectionId);
-                if (databaseSettings == null) throw new LightDatabaseConfigurationDoesNotExistException(connectionId);
-
                 return new MongoDbDataContext(
                     sp.GetService<ILightTelemetryFactory>(),
-                    databaseSettings,sp.GetService<IMongoDbClientFactory>());
+                    connectionId, sp.GetService<IMongoDbClientFactory>());
             });
         }
     }

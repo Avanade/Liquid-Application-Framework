@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository", "Liquid.Repository\Liquid.Repository.csproj", "{35EC4C0D-9308-499C-A679-1D1FDDF6286B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository", "src\Liquid.Repository\Liquid.Repository.csproj", "{35EC4C0D-9308-499C-A679-1D1FDDF6286B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87C5D7BD-5550-4790-BEE7-B9646E16CF14}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "src\Solution Items", "{87C5D7BD-5550-4790-BEE7-B9646E16CF14}"
 	ProjectSection(SolutionItems) = preProject
 		CodeCoverage.runsettings = CodeCoverage.runsettings
 		logo.png = logo.png
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.MongoDb", "Liquid.Repository.MongoDb\Liquid.Repository.MongoDb.csproj", "{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.MongoDb", "src\Liquid.Repository.MongoDb\Liquid.Repository.MongoDb.csproj", "{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoDb", "MongoDb", "{423393C9-BDA6-493D-BC28-E98B241C7BCD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.MongoDb.Tests", "..\test\Liquid.Repository.MongoDb.Tests\Liquid.Repository.MongoDb.Tests.csproj", "{A4C30747-510F-4693-97B6-2784A3C4DE58}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.MongoDb.Tests", "test\Liquid.Repository.MongoDb.Tests\Liquid.Repository.MongoDb.Tests.csproj", "{A4C30747-510F-4693-97B6-2784A3C4DE58}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

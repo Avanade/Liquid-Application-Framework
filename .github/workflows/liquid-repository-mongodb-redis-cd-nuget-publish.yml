@@ -46,7 +46,7 @@ jobs:
         redis-version: 6 
 
     - name: Run Tests
-      run: dotnet test tests/*.UnitTest/*UnitTest.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
+      run: dotnet test tests/*.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings
       
     - name: Nuget Pack
       run: dotnet pack --no-build --configuration Release src/Liquid.Repository.MongoDb/Liquid.Repository.MongoDb.csproj --output .

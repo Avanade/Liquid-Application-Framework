@@ -17,6 +17,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MongoDb", "MongoDb", "{4233
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.MongoDb.Tests", "test\Liquid.Repository.MongoDb.Tests\Liquid.Repository.MongoDb.Tests.csproj", "{A4C30747-510F-4693-97B6-2784A3C4DE58}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EntityFramework", "EntityFramework", "{3C3165A8-56D5-49AD-88D5-9DADCFB8B79A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.EntityFramework", "src\Liquid.Repository.EntityFramework\Liquid.Repository.EntityFramework.csproj", "{43772FB9-7321-446E-B727-80401AE61E0F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.EntityFramework.Tests", "test\Liquid.Repository.EntityFramework.Tests\Liquid.Repository.EntityFramework.Tests.csproj", "{857D686E-B7BC-4BC4-A24D-357A75BB9259}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +41,14 @@ Global
 		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{43772FB9-7321-446E-B727-80401AE61E0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43772FB9-7321-446E-B727-80401AE61E0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43772FB9-7321-446E-B727-80401AE61E0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43772FB9-7321-446E-B727-80401AE61E0F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{857D686E-B7BC-4BC4-A24D-357A75BB9259}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{857D686E-B7BC-4BC4-A24D-357A75BB9259}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{857D686E-B7BC-4BC4-A24D-357A75BB9259}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{857D686E-B7BC-4BC4-A24D-357A75BB9259}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,6 +56,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A} = {423393C9-BDA6-493D-BC28-E98B241C7BCD}
 		{A4C30747-510F-4693-97B6-2784A3C4DE58} = {423393C9-BDA6-493D-BC28-E98B241C7BCD}
+		{43772FB9-7321-446E-B727-80401AE61E0F} = {3C3165A8-56D5-49AD-88D5-9DADCFB8B79A}
+		{857D686E-B7BC-4BC4-A24D-357A75BB9259} = {3C3165A8-56D5-49AD-88D5-9DADCFB8B79A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0FEB4D7E-0239-49E7-85DC-C54DA7746EE6}

@@ -1,7 +1,8 @@
 ﻿using Liquid.Core.Telemetry;
 using Liquid.Data.EntityFramework.Exceptions;
-using Liquid.Data.EntityFramework.Tests.Entities;
-using Liquid.Data.EntityFramework.Tests.Repositories;
+using Liquid.Data.EntityFramework.Tests;
+using Liquid.Repository.EntityFramework.Tests.Entities;
+using Liquid.Repository.EntityFramework.Tests.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -10,7 +11,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Liquid.Data.EntityFramework.Tests.TestCases
+namespace Liquid.Repository.EntityFramework.Tests
 {
     [TestFixture()]
     public class EntityFrameworkRepositoryTest
@@ -25,7 +26,7 @@ namespace Liquid.Data.EntityFramework.Tests.TestCases
 
             services.AddDbContext<MockDbContext>(options => options.UseInMemoryDatabase(databaseName: databaseName));
             services.AddScoped<IMockRepository, MockRepository>();
-            services.AddTransient<ILightTelemetryFactory>((s) => Substitute.For<ILightTelemetryFactory>());
+            services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());
 
             _serviceProvider = services.BuildServiceProvider();
 
@@ -130,79 +131,7 @@ namespace Liquid.Data.EntityFramework.Tests.TestCases
             Assert.ThrowsAsync<EntityFrameworkException>(() => task);
         }
 
-        [Category("WhereByPageAsync")]
-        [Test]
-        public async Task Verify_WhereByPageAsync()
-        {
-            //Arrange
-            IMockRepository mockRepository = GenerateMockRepository();
-            var lastMockId = 10;
-            var pageSize = 10;
-
-            //Act
-            var result = await mockRepository.WhereByPageAsync(o => o.Active, 0, pageSize, o => o.MockId);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(pageSize, result.Count());
-            Assert.AreEqual(lastMockId, result.LastOrDefault().MockId);
-        }
-
-        [Category("WhereByPageAsync")]
-        [Test]
-        public async Task Verify_WhereByPageAsync_NoOrderBy()
-        {
-            //Arrange
-            IMockRepository mockRepository = GenerateMockRepository();
-            var lastMockId = 10;
-            var pageSize = 10;
-
-            //Act
-            var result = await mockRepository.WhereByPageAsync(o => o.Active, 0, pageSize);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(pageSize, result.Count());
-            Assert.AreEqual(lastMockId, result.LastOrDefault().MockId);
-        }
-        
-        [Category("WhereByPageAsync")]
-        [Test]
-        public async Task Verify_WhereByPageAsync_OrderByDesc()
-        {
-            //Arrange
-            IMockRepository mockRepository = GenerateMockRepository();
-            var lastMockId = 91;
-            var pageSize = 10;
-
-            //Act
-            var result = await mockRepository.WhereByPageAsync(o => o.Active, 0, pageSize, o => o.MockId, false);
-
-            //Assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(pageSize, result.Count());
-            Assert.AreEqual(lastMockId, result.LastOrDefault().MockId);
-        }
-        
-        [Category("WhereByPageAsync")]
-        [Test]
-        public async Task Verify_WhereByPageAsync_Except()
-        {
-            //Arrange
-            var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
-            IMockRepository mockRepository = GenerateMockRepository(dbSet);
-
-            //Act
-            var task = mockRepository.WhereByPageAsync(o => o.Active, 0, 10);
-
-            //Assert
-            Assert.ThrowsAsync<EntityFrameworkException>(() => task);
-        }
-
-        [Category("FindAllAsync")]
+        [Category("GetAllAsync")]
         [Test]
         public async Task Verify_find_all()
         {
@@ -210,7 +139,7 @@ namespace Liquid.Data.EntityFramework.Tests.TestCases
             IMockRepository mockRepository = GenerateMockRepository();
 
             //Act
-            var result = await mockRepository.FindAllAsync();
+            var result = await mockRepository.GetAllAsync();
 
             //Assert
             Assert.NotNull(result);
@@ -226,12 +155,12 @@ namespace Liquid.Data.EntityFramework.Tests.TestCases
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
             var telemetryFactory = Substitute.For<ILightTelemetryFactory>();
             var telemetryClient = Substitute.For<ILightTelemetry>();
-            telemetryClient.When(o => o.EnqueueContext(Arg.Any<string>())).Do((call) => throw new Exception());
+            //telemetryClient.When(o => o.EnqueueContext(Arg.Any<string>())).Do((call) => throw new Exception());
             telemetryFactory.GetTelemetry().Returns(telemetryClient);
             IMockRepository mockRepository = GenerateMockRepository(dbSet, telemetryFactory);
 
             //Act
-            var task = mockRepository.FindAllAsync();
+            var task = mockRepository.GetAllAsync();
 
             //Assert
             Assert.ThrowsAsync<EntityFrameworkException>(() => task);
@@ -344,7 +273,7 @@ namespace Liquid.Data.EntityFramework.Tests.TestCases
             dbContext.Set<MockEntity>().Returns(dbSet);
 
             telemetryFactory = telemetryFactory ?? _serviceProvider.GetService<ILightTelemetryFactory>();
-            
+
             return new MockRepository(dbContext, telemetryFactory);
         }
     }

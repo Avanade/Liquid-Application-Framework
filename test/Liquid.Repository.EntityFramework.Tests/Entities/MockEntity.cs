@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Liquid.Data.Entities;
 
-namespace Liquid.Data.EntityFramework.Tests.Entities
+namespace Liquid.Repository.EntityFramework.Tests.Entities
 {
     /// <summary>
     /// Mock test entity class.
@@ -11,7 +10,7 @@ namespace Liquid.Data.EntityFramework.Tests.Entities
     ///     <cref>Liquid.Data.Entities.DataMappingBase{System.Int32}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    public class MockEntity : DataMappingBase<int>
+    public class MockEntity : RepositoryEntity<int>
     {
         /// <summary>
         /// Gets or sets the mock identifier.

@@ -1,7 +1,9 @@
 ﻿using Liquid.Core.Telemetry;
-using Liquid.Data.EntityFramework.Tests.Entities;
+using Liquid.Data.EntityFramework;
+using Liquid.Data.EntityFramework.Tests;
+using Liquid.Repository.EntityFramework.Tests.Entities;
 
-namespace Liquid.Data.EntityFramework.Tests.Repositories
+namespace Liquid.Repository.EntityFramework.Tests.Repositories
 {
     public class MockRepository : EntityFrameworkRepository<MockEntity, int>, IMockRepository
     {

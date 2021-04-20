@@ -1,4 +1,4 @@
-﻿using Liquid.Data.EntityFramework.Tests.Entities;
+﻿using Liquid.Repository.EntityFramework.Tests.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

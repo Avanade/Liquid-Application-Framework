@@ -1,9 +1,8 @@
-﻿using Liquid.Data.EntityFramework.Tests.Entities;
-using Liquid.Data.Interfaces;
+﻿using Liquid.Repository.EntityFramework.Tests.Entities;
 
-namespace Liquid.Data.EntityFramework.Tests.Repositories
+namespace Liquid.Repository.EntityFramework.Tests.Repositories
 {
-    public interface IMockRepository : IRepository<MockEntity, int>
+    public interface IMockRepository : ILightRepository<MockEntity, int>
     {
     }
 }

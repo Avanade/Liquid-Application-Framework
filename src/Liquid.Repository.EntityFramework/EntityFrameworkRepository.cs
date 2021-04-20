@@ -1,7 +1,6 @@
 ﻿using Liquid.Core.Telemetry;
-using Liquid.Data.Entities;
-using Liquid.Data.EntityFramework.Exceptions;
-using Liquid.Data.Interfaces;
+using Liquid.Repository;
+using Liquid.Repository.Extensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,10 +10,12 @@ using System.Threading.Tasks;
 
 namespace Liquid.Data.EntityFramework
 {
-    public abstract class EntityFrameworkRepository<TEntity, TIdentifier> : IRepository<TEntity, TIdentifier> where TEntity : DataMappingBase<TIdentifier>, new()
+    public abstract class EntityFrameworkRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : RepositoryEntity<TIdentifier>, new()
     {
-        private readonly DbContext _dbContext;
+        public IEntityFrameworkDataContext EntityFrameworkDataContext { get; }
+        public ILightDataContext DataContext => EntityFrameworkDataContext;
 
+        private readonly DbContext _dbContext;
         protected readonly DbSet<TEntity> _dbSet;
         protected readonly IQueryable<TEntity> _queryableReadOnly;
         protected readonly ILightTelemetryFactory _telemetryFactory;
@@ -27,188 +28,84 @@ namespace Liquid.Data.EntityFramework
             _telemetryFactory = telemetryFactory;
         }
 
+        ///<inheritdoc/>
         public async Task AddAsync(TEntity item)
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
-
-            try
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_AddAsync", async () =>
             {
-                telemetry.EnqueueContext("Database_EntityFramework");
-                telemetry.StartTelemetryStopWatchMetric($"AddAsync");
-
                 await _dbSet.AddAsync(item);
                 await _dbContext.SaveChangesAsync();
+            });
 
-                telemetry.CollectTelemetryStopWatchMetric($"AddAsync");
-            }
-            catch (Exception e)
-            {
-                throw new EntityFrameworkException(e);
-            }
-            finally
-            {
-                telemetry.DequeueContext("Database_EntityFramework");
-            }
         }
 
-        public async Task<IEnumerable<TEntity>> FindAllAsync()
+        ///<inheritdoc/>
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
+            IEnumerable<TEntity> returnValue = null;
 
-            try
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_GetAllAsync", async () =>
             {
-                telemetry.EnqueueContext("Database_EntityFramework");
-                telemetry.StartTelemetryStopWatchMetric($"FindAllAsync");
+                //TODO - verificar se não haverá problema de thread safe
+                returnValue = _queryableReadOnly;
+            });
 
-                var result = _queryableReadOnly;
-
-                telemetry.CollectTelemetryStopWatchMetric($"FindAllAsync");
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new EntityFrameworkException(e);
-            }
-            finally
-            {
-                telemetry.DequeueContext("Database_EntityFramework");
-            }
+            return returnValue;
         }
 
+        ///<inheritdoc/>
         public async Task<TEntity> FindByIdAsync(TIdentifier id)
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
+            TEntity returnValue = null;
 
-            try
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_FindByIdAsync", async () =>
             {
-                telemetry.EnqueueContext("Database_EntityFramework");
-                telemetry.StartTelemetryStopWatchMetric($"FindByIdAsync");
+                //TODO - verificar se não haverá problema de thread safe
+                var result = _queryableReadOnly.Where(o => o.Id.Equals(id));
+                returnValue = result.SingleOrDefault();
+            });
 
-                var result = await _queryableReadOnly.FirstOrDefaultAsync(o => o.Id.Equals(id));
-
-                telemetry.CollectTelemetryStopWatchMetric($"FindByIdAsync");
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new EntityFrameworkException(e);
-            }
-            finally
-            {
-                telemetry.DequeueContext("Database_EntityFramework");
-            }
+            return returnValue;
         }
 
+        ///<inheritdoc/>
         public async Task RemoveAsync(TEntity item)
         {
-
-            var telemetry = _telemetryFactory.GetTelemetry();
-
-            try
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_RemoveAsync", async () =>
             {
-                telemetry.EnqueueContext("Database_EntityFramework");
-                telemetry.StartTelemetryStopWatchMetric($"RemoveAsync");
-
                 var obj = await _dbSet.FirstOrDefaultAsync(o => o.Id.Equals(item.Id));
 
                 if (obj == null) return;
 
                 _dbSet.Remove(obj);
                 await _dbContext.SaveChangesAsync();
-
-                telemetry.CollectTelemetryStopWatchMetric($"RemoveAsync");
-            }
-            catch (Exception e)
-            {
-                throw new EntityFrameworkException(e);
-            }
-            finally
-            {
-                telemetry.DequeueContext("Database_EntityFramework");
-            }
+            });
         }
 
+        ///<inheritdoc/>
         public async Task UpdateAsync(TEntity item)
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
-
-            try
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_UpdateAsync", async () =>
             {
-                telemetry.EnqueueContext("Database_EntityFramework");
-                telemetry.StartTelemetryStopWatchMetric($"UpdateAsync");
-
                 _dbContext.Detach<TEntity>(o => o.Id.Equals(item.Id));
                 _dbContext.Update(item);
                 await _dbContext.SaveChangesAsync();
-
-                telemetry.CollectTelemetryStopWatchMetric($"UpdateAsync");
-            }
-            catch (Exception e)
-            {
-                throw new EntityFrameworkException(e);
-            }
-            finally
-            {
-                telemetry.DequeueContext("Database_EntityFramework");
-            }
+            });
         }
 
+        ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> whereClause)
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
+            IEnumerable<TEntity> returnValue = null;
 
-            try
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_WhereAsync", async () =>
             {
-                telemetry.EnqueueContext("Database_EntityFramework");
-                telemetry.StartTelemetryStopWatchMetric($"UpdateAsync");
+                var result = _queryableReadOnly.Where(whereClause);
+                returnValue = result.AsEnumerable();
+            });
 
-               var result = _queryableReadOnly.Where(whereClause);
-
-                telemetry.CollectTelemetryStopWatchMetric($"UpdateAsync");
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new EntityFrameworkException(e);
-            }
-            finally
-            {
-                telemetry.DequeueContext("Database_EntityFramework");
-            }
+            return returnValue;
         }
 
-        public async Task<IEnumerable<TEntity>> WhereByPageAsync(Expression<Func<TEntity, bool>> whereClause, int page, int itemsPerPage, Expression<Func<TEntity, object>> orderByClause = null, bool sortAscending = true)
-        {
-            var telemetry = _telemetryFactory.GetTelemetry();
-
-            try
-            {
-                telemetry.EnqueueContext("Database_EntityFramework");
-                telemetry.StartTelemetryStopWatchMetric($"UpdateAsync");
-
-                var query = _queryableReadOnly.Where(whereClause);
-
-                if (orderByClause != null)
-                    if (sortAscending) query = query.OrderBy(orderByClause);
-                    else query = query.OrderByDescending(orderByClause);
-
-                var result =  query.Skip(page * itemsPerPage).Take(itemsPerPage);
-
-                telemetry.CollectTelemetryStopWatchMetric($"UpdateAsync");
-
-                return result;
-            }
-            catch (Exception e)
-            {
-                throw new EntityFrameworkException(e);
-            }
-            finally
-            {
-                telemetry.DequeueContext("Database_EntityFramework");
-            }
-        }
     }
 }

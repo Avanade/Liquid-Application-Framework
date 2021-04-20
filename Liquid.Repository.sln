@@ -5,10 +5,9 @@ VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository", "src\Liquid.Repository\Liquid.Repository.csproj", "{35EC4C0D-9308-499C-A679-1D1FDDF6286B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "src\Solution Items", "{87C5D7BD-5550-4790-BEE7-B9646E16CF14}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87C5D7BD-5550-4790-BEE7-B9646E16CF14}"
 	ProjectSection(SolutionItems) = preProject
-		CodeCoverage.runsettings = CodeCoverage.runsettings
-		logo.png = logo.png
+		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
@@ -36,10 +35,6 @@ Global
 		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4C30747-510F-4693-97B6-2784A3C4DE58}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52DA5FBC-0445-49F7-B92F-BB95DC6D7BDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52DA5FBC-0445-49F7-B92F-BB95DC6D7BDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52DA5FBC-0445-49F7-B92F-BB95DC6D7BDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52DA5FBC-0445-49F7-B92F-BB95DC6D7BDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

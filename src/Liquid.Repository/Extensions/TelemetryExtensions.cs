@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Telemetry;
+using Liquid.Repository.Exceptions;
 using System;
 using System.Threading.Tasks;
 
@@ -23,6 +24,10 @@ namespace Liquid.Repository.Extensions
             {
                 telemetry.AddContext(contextName);
                 await action();
+            }
+            catch(Exception e)
+            {
+                throw new RepositoryDatabaseContextException($"The database context {contextName} action throws an error.", e);
             }
             finally
             {

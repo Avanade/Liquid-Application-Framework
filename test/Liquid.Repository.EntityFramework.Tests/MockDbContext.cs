@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Liquid.Data.EntityFramework.Tests
+namespace Liquid.Repository.EntityFramework.Tests
 {
     public class MockDbContext : DbContext
     {

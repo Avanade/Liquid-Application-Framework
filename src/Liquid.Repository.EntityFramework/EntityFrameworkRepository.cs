@@ -46,7 +46,6 @@ namespace Liquid.Data.EntityFramework
 
             await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_GetAllAsync", async () =>
             {
-                //TODO - verificar se não haverá problema de thread safe
                 returnValue = _queryableReadOnly;
             });
 
@@ -59,10 +58,8 @@ namespace Liquid.Data.EntityFramework
             TEntity returnValue = null;
 
             await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_FindByIdAsync", async () =>
-            {
-                //TODO - verificar se não haverá problema de thread safe
-                var result = _queryableReadOnly.Where(o => o.Id.Equals(id));
-                returnValue = result.SingleOrDefault();
+            {   
+                returnValue = _queryableReadOnly.FirstOrDefault(o => o.Id.Equals(id));
             });
 
             return returnValue;
@@ -76,7 +73,7 @@ namespace Liquid.Data.EntityFramework
                 var obj = await _dbSet.FirstOrDefaultAsync(o => o.Id.Equals(item.Id));
 
                 if (obj == null) return;
-
+                    
                 _dbSet.Remove(obj);
                 await _dbContext.SaveChangesAsync();
             });

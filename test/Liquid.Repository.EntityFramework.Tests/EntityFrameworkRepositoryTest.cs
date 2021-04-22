@@ -1,8 +1,7 @@
 ﻿using Liquid.Core.Telemetry;
-using Liquid.Data.EntityFramework.Exceptions;
-using Liquid.Data.EntityFramework.Tests;
 using Liquid.Repository.EntityFramework.Tests.Entities;
 using Liquid.Repository.EntityFramework.Tests.Repositories;
+using Liquid.Repository.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -63,7 +62,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.AddAsync(entity);
 
             //Assert
-            Assert.ThrowsAsync<EntityFrameworkException>(() => task);
+            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
         }
 
         [Category("FindByIdAsync")]
@@ -94,7 +93,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.ThrowsAsync<EntityFrameworkException>(() => task);
+            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
         }
 
         [Category("WhereAsync")]
@@ -128,7 +127,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.WhereAsync(o => o.MockTitle.Equals(mockTitle));
 
             //Assert
-            Assert.ThrowsAsync<EntityFrameworkException>(() => task);
+            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
         }
 
         [Category("GetAllAsync")]
@@ -155,7 +154,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
             var telemetryFactory = Substitute.For<ILightTelemetryFactory>();
             var telemetryClient = Substitute.For<ILightTelemetry>();
-            //telemetryClient.When(o => o.EnqueueContext(Arg.Any<string>())).Do((call) => throw new Exception());
+            telemetryClient.When(o => o.AddContext(Arg.Any<string>())).Do((call) => throw new Exception());
             telemetryFactory.GetTelemetry().Returns(telemetryClient);
             IMockRepository mockRepository = GenerateMockRepository(dbSet, telemetryFactory);
 
@@ -163,7 +162,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.GetAllAsync();
 
             //Assert
-            Assert.ThrowsAsync<EntityFrameworkException>(() => task);
+            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
         }
 
         [Category("RemoveAsync")]
@@ -213,7 +212,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.RemoveAsync(new MockEntity() { MockId = mockId });
 
             //Assert
-            Assert.ThrowsAsync<EntityFrameworkException>(() => task);
+            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
         }
 
         [Category("UpdateAsync")]
@@ -248,7 +247,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.UpdateAsync(new MockEntity() { MockId = mockId });
 
             //Assert
-            Assert.ThrowsAsync<EntityFrameworkException>(() => task);
+            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
         }
 
         private async Task SeedDataAsync(IServiceProvider serviceProvider)

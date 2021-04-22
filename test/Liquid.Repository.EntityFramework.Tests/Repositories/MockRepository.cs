@@ -1,6 +1,5 @@
 ﻿using Liquid.Core.Telemetry;
 using Liquid.Data.EntityFramework;
-using Liquid.Data.EntityFramework.Tests;
 using Liquid.Repository.EntityFramework.Tests.Entities;
 
 namespace Liquid.Repository.EntityFramework.Tests.Repositories

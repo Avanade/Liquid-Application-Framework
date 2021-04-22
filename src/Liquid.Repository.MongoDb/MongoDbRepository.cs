@@ -15,7 +15,8 @@ using System.Threading.Tasks;
 namespace Liquid.Repository.MongoDb
 {
     /// <summary>
-    /// Implements the EntityFramework repository.
+    /// Mongo database repository class. Implements the <seealso cref="ILightRepository{TEntity, TIdentifier}"/> interface to provide 
+    /// the repository pattern access to a Mongo Db document. Also provides a Mongo data context to extend Mongo client resources.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
@@ -66,12 +67,7 @@ namespace Liquid.Repository.MongoDb
             ValidateCollection();
         }
 
-        /// <summary>
-        /// Adds the specified entity item in repository.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        ///<inheritdoc/>
         public async Task AddAsync(TEntity entity)
         {
             await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_AddAsync", async () =>
@@ -81,13 +77,7 @@ namespace Liquid.Repository.MongoDb
                 });
         }
 
-        /// <summary>
-        /// Retrieve all entities.
-        /// </summary>
-        /// <returns>
-        /// List of all entities.
-        /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             IEnumerable<TEntity> returnValue = null;
@@ -101,14 +91,7 @@ namespace Liquid.Repository.MongoDb
             return returnValue;
         }
 
-        /// <summary>
-        /// Finds the entity by identifier.
-        /// </summary>
-        /// <param name="id">The entity identifier.</param>
-        /// <returns>
-        /// The entity
-        /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        ///<inheritdoc/>
         public async Task<TEntity> FindByIdAsync(TIdentifier id)
         {
             TEntity returnValue = null;
@@ -123,12 +106,7 @@ namespace Liquid.Repository.MongoDb
             return returnValue;
         }
 
-        /// <summary>
-        /// Removes the specified entity item from repository.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        ///<inheritdoc/>
         public async Task RemoveAsync(TEntity entity)
         {
             await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_RemoveAsync", async () =>
@@ -138,12 +116,7 @@ namespace Liquid.Repository.MongoDb
             });
         }
 
-        /// <summary>
-        /// Updates the specified entity item in repository.
-        /// </summary>
-        /// <param name="entity">The entity.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        ///<inheritdoc/>
         public async Task UpdateAsync(TEntity entity)
         {
             await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_RemoveAsync", async () =>
@@ -153,14 +126,7 @@ namespace Liquid.Repository.MongoDb
             });
         }
 
-        /// <summary>
-        /// Finds the specified entity by the search predicate.
-        /// </summary>
-        /// <param name="whereClause">The search predicate.</param>
-        /// <returns>
-        /// List of entities.
-        /// </returns>
-        /// <exception cref="System.NotImplementedException"></exception>
+        ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> whereClause)
         {
             IEnumerable<TEntity> returnValue = null;

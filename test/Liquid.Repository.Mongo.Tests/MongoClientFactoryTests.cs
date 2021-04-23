@@ -4,12 +4,14 @@ using Mongo2Go;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.MongoDb.Tests
+namespace Liquid.Repository.Mongo.Tests
 {
-    public class MongoDbClientFactoryTests
+    [ExcludeFromCodeCoverage]
+    public class MongoClientFactoryTests
     {
-        private IMongoDbClientFactory _sut;
+        private IMongoClientFactory _sut;
         internal static MongoDbRunner _runner;
         internal static string _databaseName = "IntegrationTest";
         private ILightConfiguration<List<LightConnectionSettings>> _configuration;
@@ -30,7 +32,7 @@ namespace Liquid.Repository.MongoDb.Tests
             _configuration.Settings
                 .Returns(new List<LightConnectionSettings>() { connectionSettings }, new List<LightConnectionSettings>() { connectionSettings });
 
-            _sut = new MongoDbClientFactory(_configuration);
+            _sut = new MongoClientFactory(_configuration);
 
         }
 

@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.MongoDb.Exceptions
+namespace Liquid.Repository.Mongo.Exceptions
 {
     /// <summary>
     /// Occurs when the database is not found in Mongo Db server.

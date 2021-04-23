@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.Exceptions
 {
@@ -6,6 +7,7 @@ namespace Liquid.Repository.Exceptions
     /// Occurs when the transaction is not started.
     /// </summary>
     /// <seealso cref="Liquid.Core.Exceptions.LightException" />
+    [ExcludeFromCodeCoverage]
     public class UnitOfWorkTransactionNotStartedException : LightException
     {
         /// <summary>

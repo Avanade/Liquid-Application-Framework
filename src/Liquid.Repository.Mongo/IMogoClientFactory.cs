@@ -2,12 +2,12 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Liquid.Repository.MongoDb
+namespace Liquid.Repository.Mongo
 {
     /// <summary>
     /// Provide client generator methods.
     /// </summary>
-    public interface IMongoDbClientFactory
+    public interface IMongoClientFactory
     {
         /// <summary>
         /// Provide a new instance of <see cref="MongoClient"/> with db conection started.

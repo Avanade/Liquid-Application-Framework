@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.MongoDb.Exceptions
+namespace Liquid.Repository.Mongo.Exceptions
 {
     /// <summary>
     /// Occurs when an exception has occurred in Mongo Db.
@@ -10,22 +10,22 @@ namespace Liquid.Repository.MongoDb.Exceptions
     /// <seealso cref="LightException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class MongoDbException : LightException
+    public class MongoException : LightException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbException"/> class.
+        /// Initializes a new instance of the <see cref="MongoException"/> class.
         /// </summary>
         /// <param name="innerException">The inner exception.</param>
-        public MongoDbException(Exception innerException) : base("An error has occurred in database command. Please see inner exception", innerException)
+        public MongoException(Exception innerException) : base("An error has occurred in database command. Please see inner exception", innerException)
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbException" /> class.
+        /// Initializes a new instance of the <see cref="MongoException" /> class.
         /// </summary>
         /// <param name="message">The message.</param>
         /// <param name="innerException">The inner exception.</param>
-        public MongoDbException(string message, Exception innerException) : base(message, innerException)
+        public MongoException(string message, Exception innerException) : base(message, innerException)
         {
         }
     }

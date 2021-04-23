@@ -1,12 +1,12 @@
 ﻿using MongoDB.Driver;
 
-namespace Liquid.Repository.MongoDb
+namespace Liquid.Repository.Mongo
 {
     /// <summary>
     /// Mongo database context interface.
     /// </summary>
     /// <seealso cref="Liquid.Repository.ILightDataContext" />
-    public interface IMongoDbDataContext : ILightDataContext
+    public interface IMongoDataContext : ILightDataContext
     {
         /// <summary>
         /// Gets the Mongo Database.

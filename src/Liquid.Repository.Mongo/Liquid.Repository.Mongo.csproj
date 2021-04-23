@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-    <PackageId>Liquid.Repository.MongoDb</PackageId>
+    <PackageId>Liquid.Repository.Mongo</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Avanade Brazil</Authors>
     <Company>Avanade Inc.</Company>

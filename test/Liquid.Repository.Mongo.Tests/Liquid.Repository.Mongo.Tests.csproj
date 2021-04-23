@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Liquid.Repository.MongoDb\Liquid.Repository.MongoDb.csproj" />
+    <ProjectReference Include="..\..\src\Liquid.Repository.Mongo\Liquid.Repository.Mongo.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,21 +1,22 @@
 ﻿using Liquid.Core.Telemetry;
-using Liquid.Repository.Exceptions;
-using Liquid.Repository.MongoDb.Tests.Mock;
+using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.MongoDb.Tests
+namespace Liquid.Repository.Mongo.Tests
 {
-    class MongoDbRepositoryTests
+    [ExcludeFromCodeCoverage]
+    class MongoRepositoryTests
     {
         private ILightTelemetryFactory _telemetryFactory;
         private ILightTelemetry _lightTelemetry;
-        private IMongoDbDataContext _dbDataContext;
+        private IMongoDataContext _dbDataContext;
         private ILightRepository<TestEntity, int> _sut;
         private TestEntity _entity;
         internal static string _databaseName = "IntegrationTest";
@@ -37,7 +38,7 @@ namespace Liquid.Repository.MongoDb.Tests
             };
 
 
-            _dbDataContext = Substitute.For<IMongoDbDataContext>();
+            _dbDataContext = Substitute.For<IMongoDataContext>();
 
             _collection = GetCollection();
 

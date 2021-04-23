@@ -1,7 +1,7 @@
 ﻿using Liquid.Core.Telemetry;
 using Liquid.Repository.Extensions;
-using Liquid.Repository.MongoDb.Attributes;
-using Liquid.Repository.MongoDb.Exceptions;
+using Liquid.Repository.Mongo.Attributes;
+using Liquid.Repository.Mongo.Exceptions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -12,7 +12,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.MongoDb
+namespace Liquid.Repository.Mongo
 {
     /// <summary>
     /// Mongo database repository class. Implements the <seealso cref="ILightRepository{TEntity, TIdentifier}"/> interface to provide 
@@ -21,19 +21,19 @@ namespace Liquid.Repository.MongoDb
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
     /// <seealso cref="Liquid.Repository.ILightRepository{TEntity, TIdentifier}" />
-    public abstract class MongoDbRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : RepositoryEntity<TIdentifier>, new()
+    public abstract class MongoRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : RepositoryEntity<TIdentifier>, new()
     {
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly MongoDbAttribute _mongoDbAttribute;
+        private readonly MongoAttribute _MongoAttribute;
 
         ///<inheritdoc/>
-        public IMongoDbDataContext MongoDataContext { get; }
+        public IMongoDataContext MongoDataContext { get; }
 
         ///<inheritdoc/>
         public ILightDataContext DataContext => MongoDataContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbRepository{TEntity, TIdentifier}" /> class.
+        /// Initializes a new instance of the <see cref="MongoRepository{TEntity, TIdentifier}" /> class.
         /// </summary>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="dataContext">The data context.</param>
@@ -42,16 +42,16 @@ namespace Liquid.Repository.MongoDb
         /// or
         /// dataContext
         /// </exception>
-        protected MongoDbRepository(ILightTelemetryFactory telemetryFactory,
-                                    IMongoDbDataContext dataContext)
+        protected MongoRepository(ILightTelemetryFactory telemetryFactory,
+                                  IMongoDataContext dataContext)
         {
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
             MongoDataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
-            if (!GetType().GetCustomAttributes(typeof(MongoDbAttribute), true).Any())
+            if (!GetType().GetCustomAttributes(typeof(MongoAttribute), true).Any())
             {
-                throw new NotImplementedException($"The {nameof(MongoDbAttribute)} attribute decorator must be added to class.");
+                throw new NotImplementedException($"The {nameof(MongoAttribute)} attribute decorator must be added to class.");
             }
-            _mongoDbAttribute = GetType().GetCustomAttribute<MongoDbAttribute>(true);
+            _MongoAttribute = GetType().GetCustomAttribute<MongoAttribute>(true);
 
             if (!BsonClassMap.IsClassMapRegistered(typeof(TEntity)))
             {
@@ -62,7 +62,7 @@ namespace Liquid.Repository.MongoDb
                 });
             }
 
-            MongoDataContext.SetDatabase(_mongoDbAttribute.DatabaseName);
+            MongoDataContext.SetDatabase(_MongoAttribute.DatabaseName);
 
             ValidateCollection();
         }
@@ -70,9 +70,9 @@ namespace Liquid.Repository.MongoDb
         ///<inheritdoc/>
         public async Task AddAsync(TEntity entity)
         {
-            await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_AddAsync", async () =>
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_AddAsync", async () =>
                 {
-                    var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+                    var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
                     await collection.InsertOneAsync(entity);
                 });
         }
@@ -82,9 +82,9 @@ namespace Liquid.Repository.MongoDb
         {
             IEnumerable<TEntity> returnValue = null;
 
-            await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_GetAllAsync", async () =>
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_GetAllAsync", async () =>
                 {
-                    var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+                    var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
                     returnValue = (await collection.FindAsync(new BsonDocument())).Current.AsEnumerable();
                 });
 
@@ -96,9 +96,9 @@ namespace Liquid.Repository.MongoDb
         {
             TEntity returnValue = null;
 
-            await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_FindByIdAsync", async () =>
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_FindByIdAsync", async () =>
             {
-                var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+                var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
                 var result = await collection.FindAsync(e => e.Id.Equals(id));
                 returnValue = result.SingleOrDefault();
             });
@@ -109,9 +109,9 @@ namespace Liquid.Repository.MongoDb
         ///<inheritdoc/>
         public async Task RemoveAsync(TEntity entity)
         {
-            await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_RemoveAsync", async () =>
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_RemoveAsync", async () =>
             {
-                var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+                var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
                 await collection.DeleteOneAsync(e => e.Id.Equals(entity.Id));
             });
         }
@@ -119,9 +119,9 @@ namespace Liquid.Repository.MongoDb
         ///<inheritdoc/>
         public async Task UpdateAsync(TEntity entity)
         {
-            await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_RemoveAsync", async () =>
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_RemoveAsync", async () =>
             {
-                var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+                var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
                 await collection.ReplaceOneAsync(x => x.Id.Equals(entity.Id), entity, new ReplaceOptions { IsUpsert = true });
             });
         }
@@ -131,9 +131,9 @@ namespace Liquid.Repository.MongoDb
         {
             IEnumerable<TEntity> returnValue = null;
 
-            await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_GetAllAsync", async () =>
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_GetAllAsync", async () =>
             {
-                var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+                var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
                 returnValue = (await collection.FindAsync(whereClause)).Current.AsEnumerable();
             });
 
@@ -148,10 +148,10 @@ namespace Liquid.Repository.MongoDb
         private void ValidateCollection()
         {
 
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_mongoDbAttribute.CollectionName);
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
             if (collection is null)
             {
-                throw new MongoCollectionDoesNotExistException(_mongoDbAttribute.CollectionName, MongoDataContext.Database.DatabaseNamespace.DatabaseName);
+                throw new MongoCollectionDoesNotExistException(_MongoAttribute.CollectionName, MongoDataContext.Database.DatabaseNamespace.DatabaseName);
             }
 
         }

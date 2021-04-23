@@ -4,13 +4,13 @@ using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.MongoDb
+namespace Liquid.Repository.Mongo
 {
     /// <summary>
-    /// Implements the MongoDb data context for repositories.
+    /// Implements the Mongo data context for repositories.
     /// </summary>
-    /// <seealso cref="Liquid.Repository.MongoDb.IMongoDbDataContext" />
-    public class MongoDbDataContext : IMongoDbDataContext, IDisposable
+    /// <seealso cref="Liquid.Repository.Mongo.IMongoDataContext" />
+    public class MongoDataContext : IMongoDataContext, IDisposable
     {
         private readonly ILightTelemetryFactory _telemetryFactory;
         private IMongoClient _mongoClient;
@@ -42,11 +42,11 @@ namespace Liquid.Repository.MongoDb
         public string Id { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbDataContext" /> class.
+        /// Initializes a new instance of the <see cref="MongoDataContext" /> class.
         /// </summary>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="connectionId">Database connection configuration Id.</param>
-        /// <param name="clientProvider">MongoDb client generator.</param>
+        /// <param name="clientProvider">Mongo client generator.</param>
         /// <exception cref="ArgumentNullException">
         /// telemetryFactory
         /// or
@@ -57,7 +57,7 @@ namespace Liquid.Repository.MongoDb
         /// <exception cref="System.ArgumentNullException">connectionString
         /// or
         /// databaseName</exception>
-        public MongoDbDataContext(ILightTelemetryFactory telemetryFactory, string connectionId, IMongoDbClientFactory clientProvider)
+        public MongoDataContext(ILightTelemetryFactory telemetryFactory, string connectionId, IMongoClientFactory clientProvider)
         {
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
             if (connectionId is null) throw new ArgumentNullException(nameof(connectionId));
@@ -71,7 +71,7 @@ namespace Liquid.Repository.MongoDb
         /// </summary>
         public async Task StartTransactionAsync()
         {
-            await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_StartTransactionAsync", async () =>
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_StartTransactionAsync", async () =>
             {
                 _clientSessionHandle = await _mongoClient.StartSessionAsync();
             });
@@ -84,7 +84,7 @@ namespace Liquid.Repository.MongoDb
         {
             if (_clientSessionHandle.IsInTransaction)
             {
-                await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_CommitAsync", async () =>
+                await _telemetryFactory.ExecuteActionAsync("MongoRepository_CommitAsync", async () =>
                 {
                     await _clientSessionHandle.CommitTransactionAsync();
                 });
@@ -98,7 +98,7 @@ namespace Liquid.Repository.MongoDb
         {
             if (_clientSessionHandle.IsInTransaction)
             {
-                await _telemetryFactory.ExecuteActionAsync("MongoDbRepository_RollbackTransactionAsync", async () =>
+                await _telemetryFactory.ExecuteActionAsync("MongoRepository_RollbackTransactionAsync", async () =>
                 {
                     await _clientSessionHandle.AbortTransactionAsync();
                 });

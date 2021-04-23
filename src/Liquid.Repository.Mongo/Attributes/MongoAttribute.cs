@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.MongoDb.Attributes
+namespace Liquid.Repository.Mongo.Attributes
 {
     /// <summary>
     /// Mongo Db data Attributes for repository.
@@ -9,7 +9,7 @@ namespace Liquid.Repository.MongoDb.Attributes
     /// <seealso cref="System.Attribute" />
     [AttributeUsage(AttributeTargets.Class)]
     [ExcludeFromCodeCoverage]
-    public class MongoDbAttribute : Attribute
+    public class MongoAttribute : Attribute
     {
         /// <summary>
         /// Gets or sets the name of the collection.
@@ -36,7 +36,7 @@ namespace Liquid.Repository.MongoDb.Attributes
         public string DatabaseName { get; set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbAttribute" /> class.
+        /// Initializes a new instance of the <see cref="MongoAttribute" /> class.
         /// </summary>
         /// <param name="collectionName">Name of the collection.</param>
         /// <param name="shardKey">The shard key.</param>
@@ -44,7 +44,7 @@ namespace Liquid.Repository.MongoDb.Attributes
         /// <exception cref="System.ArgumentNullException">collectionName
         /// or
         /// partitionKey</exception>
-        public MongoDbAttribute(string collectionName, string shardKey, string databaseName)
+        public MongoAttribute(string collectionName, string shardKey, string databaseName)
         {
             CollectionName = collectionName ?? throw new ArgumentNullException(nameof(collectionName));
             ShardKey = shardKey ?? throw new ArgumentNullException(nameof(shardKey));

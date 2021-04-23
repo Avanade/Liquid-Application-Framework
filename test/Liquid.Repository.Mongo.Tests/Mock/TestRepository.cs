@@ -1,14 +1,14 @@
 ﻿using Liquid.Core.Telemetry;
-using Liquid.Repository.MongoDb.Attributes;
+using Liquid.Repository.Mongo.Attributes;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.MongoDb.Tests.Mock
+namespace Liquid.Repository.Mongo.Tests.Mock
 {
     [ExcludeFromCodeCoverage]
-    [MongoDb("TestEntities", "id", "TestDatabase")]
-    public class TestRepository : MongoDbRepository<TestEntity, int>, ITestRepository
+    [Mongo("TestEntities", "id", "TestDatabase")]
+    public class TestRepository : MongoRepository<TestEntity, int>, ITestRepository
     {
-        public TestRepository(ILightTelemetryFactory telemetryFactory, IMongoDbDataContext dataContext)
+        public TestRepository(ILightTelemetryFactory telemetryFactory, IMongoDataContext dataContext)
             : base(telemetryFactory, dataContext)
         {
         }

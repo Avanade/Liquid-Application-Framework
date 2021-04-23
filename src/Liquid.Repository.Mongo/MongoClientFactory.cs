@@ -1,22 +1,22 @@
 ﻿using Liguid.Repository.Configuration;
 using Liquid.Core.Configuration;
-using Liquid.Repository.MongoDb.Exceptions;
+using Liquid.Repository.Mongo.Exceptions;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 
-namespace Liquid.Repository.MongoDb
+namespace Liquid.Repository.Mongo
 {
     ///<inheritdoc/>
-    public class MongoDbClientFactory : IMongoDbClientFactory
+    public class MongoClientFactory : IMongoClientFactory
     {
         private readonly ILightConfiguration<List<LightConnectionSettings>> _configuration;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDbClientFactory" /> class.
+        /// Initializes a new instance of the <see cref="MongoClientFactory" /> class.
         /// </summary>
         /// <param name="configuration">Database configuration settings.</param>
-        public MongoDbClientFactory(ILightConfiguration<List<LightConnectionSettings>> configuration)
+        public MongoClientFactory(ILightConfiguration<List<LightConnectionSettings>> configuration)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }

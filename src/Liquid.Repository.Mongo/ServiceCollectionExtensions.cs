@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Liquid.Repository.MongoDb
+namespace Liquid.Repository.Mongo
 {
     /// <summary>
     /// Mongo Db Service Collection Extensions Class.
@@ -18,10 +18,10 @@ namespace Liquid.Repository.MongoDb
         /// <param name="services">The services.</param>
         /// <param name="connectionId">The connection identifier.</param>
         /// <param name="assemblies">The assemblies.</param>
-        public static void AddMongoDb(this IServiceCollection services, string connectionId, params Assembly[] assemblies)
+        public static void AddMongo(this IServiceCollection services, string connectionId, params Assembly[] assemblies)
         {
-            AddMongoDbContext(services, connectionId);
-            AddMongoDbRepositories(services, assemblies);
+            AddMongoContext(services, connectionId);
+            AddMongoRepositories(services, assemblies);
         }
 
         /// <summary>
@@ -29,12 +29,12 @@ namespace Liquid.Repository.MongoDb
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="assemblies">The assemblies.</param>
-        private static void AddMongoDbRepositories(IServiceCollection services, Assembly[] assemblies)
+        private static void AddMongoRepositories(IServiceCollection services, Assembly[] assemblies)
         {
             var repositoryTypes = assemblies.SelectMany(a => a.ExportedTypes)
                             .Where(t => t.BaseType != null &&
-                                        t.BaseType.Assembly.FullName == Assembly.GetAssembly(typeof(MongoDbDataContext)).FullName &&
-                                        t.BaseType.Name.StartsWith("MongoDbRepository"));
+                                        t.BaseType.Assembly.FullName == Assembly.GetAssembly(typeof(MongoDataContext)).FullName &&
+                                        t.BaseType.Name.StartsWith("MongoRepository"));
 
             foreach (var repositoryType in repositoryTypes)
             {
@@ -53,15 +53,15 @@ namespace Liquid.Repository.MongoDb
         /// <param name="services">The services.</param>
         /// <param name="connectionId">The connection identifier.</param>
         /// <returns></returns>
-        private static void AddMongoDbContext(IServiceCollection services, string connectionId)
+        private static void AddMongoContext(IServiceCollection services, string connectionId)
         {
-            services.AddSingleton<IMongoDbClientFactory, MongoDbClientFactory>();
+            services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
 
-            services.AddScoped<IMongoDbDataContext>(sp =>
+            services.AddScoped<IMongoDataContext>(sp =>
             {
-                return new MongoDbDataContext(
+                return new MongoDataContext(
                     sp.GetService<ILightTelemetryFactory>(),
-                    connectionId, sp.GetService<IMongoDbClientFactory>());
+                    connectionId, sp.GetService<IMongoClientFactory>());
             });
         }
     }

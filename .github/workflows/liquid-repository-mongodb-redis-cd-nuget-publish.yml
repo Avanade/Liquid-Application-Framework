@@ -1,16 +1,16 @@
 # CD workflow to publish a new version of the library on Nuget.org
-name: Liquid.Repository.MongoDb library pack and push to Nuget.org
+name: Liquid.Repository.Mongo library pack and push to Nuget.org
 
 on:
   push:
     branches: [ main ]
     paths:
-    - 'src/Liquid.Repository.MongoDb/**'
+    - 'src/Liquid.Repository.Mongo/**'
     
   pull_request:
     branches: [ main ]
     paths:
-    - 'src/Liquid.Repository.MongoDb/**'
+    - 'src/Liquid.Repository.Mongo/**'
 
 jobs:
   build:
@@ -35,10 +35,10 @@ jobs:
         dotnet-version: 3.1.x
 
     - name: Restore dependencies
-      run: dotnet restore src/Liquid.Repository.MongoDb/Liquid.Repository.MongoDb.csproj
+      run: dotnet restore src/Liquid.Repository.Mongo/Liquid.Repository.Mongo.csproj
 
     - name: Build Project
-      run: dotnet build src/Liquid.Repository.MongoDb/Liquid.Repository.MongoDb.csproj --configuration Release --no-restore
+      run: dotnet build src/Liquid.Repository.Mongo/Liquid.Repository.Mongo.csproj --configuration Release --no-restore
 
     - name: Start Redis
       uses: supercharge/redis-github-action@1.2.0
@@ -46,10 +46,10 @@ jobs:
         redis-version: 6 
 
     - name: Run Tests
-      run: dotnet test test/Liquid.Repository.MongoDb.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/test/CodeCoverage.runsettings
+      run: dotnet test test/Liquid.Repository.Mongo.Tests/*Tests.csproj --settings $GITHUB_WORKSPACE/test/CodeCoverage.runsettings
       
     - name: Nuget Pack
-      run: dotnet pack --no-build --configuration Release src/Liquid.Repository.MongoDb/Liquid.Repository.MongoDb.csproj --output .
+      run: dotnet pack --no-build --configuration Release src/Liquid.Repository.Mongo/Liquid.Repository.Mongo.csproj --output .
       
     - name: PushNuget
       if: github.event_name == 'push' 

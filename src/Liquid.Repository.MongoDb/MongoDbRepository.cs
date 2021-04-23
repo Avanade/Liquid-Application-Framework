@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace Liquid.Repository.MongoDb
 {
     /// <summary>
-    /// 
+    /// Implements the EntityFramework repository.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>

@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Telemetry;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
+using System;
 using System.Linq;
 using System.Reflection;
 

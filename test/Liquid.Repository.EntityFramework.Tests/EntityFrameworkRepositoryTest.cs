@@ -24,8 +24,28 @@ namespace Liquid.Repository.EntityFramework.Tests
             var databaseName = $"TEMP_{Guid.NewGuid()}";
 
             services.AddDbContext<MockDbContext>(options => options.UseInMemoryDatabase(databaseName: databaseName));
-            services.AddScoped<IMockRepository, MockRepository>();
+
+            services.AddSingleton(sp => 
+            {
+                var factory = Substitute.For<IEntityFrameworkClientFactory>();
+                factory.GetClient(Arg.Any<string>()).Returns(sp.GetService<MockDbContext>());
+                return factory;
+            });
+
             services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());
+
+            services.AddScoped<IEntityFrameworkDataContext>(sp =>
+            {
+                return new EntityFrameworkDataContext(
+                    sp.GetService<ILightTelemetryFactory>(),
+                    sp.GetService<IEntityFrameworkClientFactory>(), "test");
+            });
+
+            services.AddScoped<IMockRepository>(sp => 
+            {
+                return new MockRepository(sp.GetService<IEntityFrameworkDataContext>(), sp.GetService<ILightTelemetryFactory>());
+            });
+            
 
             _serviceProvider = services.BuildServiceProvider();
 
@@ -50,11 +70,12 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         [Category("AddAsync")]
         [Test]
-        public async Task Verify_insert_Except()
+        public void Verify_insert_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
             dbSet.When(o => o.AddAsync(Arg.Any<MockEntity>())).Do((call) => throw new Exception());
+            
             IMockRepository mockRepository = GenerateMockRepository(dbSet);
             var entity = new MockEntity { MockTitle = "TITLE", Active = true, CreatedDate = DateTime.Now };
 
@@ -62,7 +83,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.AddAsync(entity);
 
             //Assert
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
 
         [Category("FindByIdAsync")]
@@ -82,7 +103,7 @@ namespace Liquid.Repository.EntityFramework.Tests
         }
         [Category("FindByIdAsync")]
         [Test]
-        public async Task Verify_find_by_id_Except()
+        public void Verify_find_by_id_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -93,7 +114,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
 
         [Category("WhereAsync")]
@@ -115,7 +136,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         [Category("WhereAsync")]
         [Test]
-        public async Task Verify_where_Except()
+        public void Verify_where_Except()
         {
             //Arrange
             //Arrange
@@ -127,7 +148,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.WhereAsync(o => o.MockTitle.Equals(mockTitle));
 
             //Assert
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
 
         [Category("GetAllAsync")]
@@ -148,7 +169,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         [Category("FindAllAsync")]
         [Test]
-        public async Task Verify_find_all_Except()
+        public void Verify_find_all_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -162,7 +183,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.GetAllAsync();
 
             //Assert
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
 
         [Category("RemoveAsync")]
@@ -201,7 +222,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         [Category("RemoveAsync")]
         [Test]
-        public async Task Verify_delete_Except()
+        public void Verify_delete_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -212,7 +233,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.RemoveAsync(new MockEntity() { MockId = mockId });
 
             //Assert
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
 
         [Category("UpdateAsync")]
@@ -236,7 +257,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         [Category("UpdateAsync")]
         [Test]
-        public async Task Verify_updates_Except()
+        public void Verify_updates_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -247,7 +268,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.UpdateAsync(new MockEntity() { MockId = mockId });
 
             //Assert
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => task);
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
 
         private async Task SeedDataAsync(IServiceProvider serviceProvider)
@@ -268,12 +289,17 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         private IMockRepository GenerateMockRepository(DbSet<MockEntity> dbSet, ILightTelemetryFactory telemetryFactory = null)
         {
+            
             var dbContext = Substitute.For<MockDbContext>();
             dbContext.Set<MockEntity>().Returns(dbSet);
 
+            var dataContext = Substitute.For<IEntityFrameworkDataContext>();
+
+            dataContext.DbClient.Returns(dbContext);
+
             telemetryFactory = telemetryFactory ?? _serviceProvider.GetService<ILightTelemetryFactory>();
 
-            return new MockRepository(dbContext, telemetryFactory);
+            return new MockRepository(dataContext, telemetryFactory);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Liquid.Repository.Extensions
             }
             catch(Exception e)
             {
-                throw new RepositoryDatabaseContextException($"The database context {contextName} action throws an error.", e);
+                throw new DatabaseContextException($"The database context {contextName} action throws an error.", e);
             }
             finally
             {

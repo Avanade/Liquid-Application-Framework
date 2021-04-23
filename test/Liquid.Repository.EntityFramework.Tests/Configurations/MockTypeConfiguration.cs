@@ -1,9 +1,11 @@
 ﻿using Liquid.Repository.EntityFramework.Tests.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Data.EntityFramework.Tests.Configurations
 {
+    [ExcludeFromCodeCoverage]
     public class MockTypeConfiguration : IEntityTypeConfiguration<MockEntity>
     {
         public void Configure(EntityTypeBuilder<MockEntity> builder)

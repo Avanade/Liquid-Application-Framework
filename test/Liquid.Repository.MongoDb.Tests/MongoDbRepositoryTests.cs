@@ -83,13 +83,13 @@ namespace Liquid.Repository.MongoDb.Tests
             _lightTelemetry.Received().RemoveContext(Arg.Any<string>());
         }
         [Test]
-        public async Task AddAsync_WhenClientThrowsError_ThrowException()
+        public void AddAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.InsertOneAsync(Arg.Any<TestEntity>())).Do((call) => throw new Exception());
 
             var test = _sut.AddAsync(_entity);
 
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => test);
+            Assert.ThrowsAsync<DatabaseContextException>(() => test);
         }
 
         [Test]
@@ -108,13 +108,13 @@ namespace Liquid.Repository.MongoDb.Tests
         }
 
         [Test]
-        public async Task GetAllAsync_WhenClientThrowsError_ThrowException()
+        public void GetAllAsync_WhenClientThrowsError_ThrowException()
         {
             _dbDataContext.Database.When(o => o.GetCollection<TestEntity>(Arg.Any<string>())).Do((call) => throw new Exception());
 
             var test = _sut.GetAllAsync();
 
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => test);
+            Assert.ThrowsAsync<DatabaseContextException>(() => test);
         }
 
         [Test]
@@ -133,13 +133,13 @@ namespace Liquid.Repository.MongoDb.Tests
         }
 
         [Test]
-        public async Task FindByIdAsync_WhenClientThrowsError_ThrowException()
+        public void FindByIdAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.FindAsync<TestEntity>(Arg.Any<FilterDefinition<TestEntity>>())).Do((call) => throw new Exception());
 
             var test = _sut.FindByIdAsync(1234);
 
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => test);
+            Assert.ThrowsAsync<DatabaseContextException>(() => test);
 
         }
 
@@ -158,13 +158,13 @@ namespace Liquid.Repository.MongoDb.Tests
         }
 
         [Test]
-        public async Task RemoveAsync_WhenClientThrowsError_ThrowException()
+        public void RemoveAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.DeleteOneAsync(Arg.Any<FilterDefinition<TestEntity>>())).Do((call) => throw new Exception());
 
             var test = _sut.RemoveAsync(_entity);
 
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => test);
+            Assert.ThrowsAsync<DatabaseContextException>(() => test);
         }
 
         [Test]
@@ -183,13 +183,13 @@ namespace Liquid.Repository.MongoDb.Tests
         }
 
         [Test]
-        public async Task UpdateAsync_WhenClientThrowsError_ThrowException()
+        public void UpdateAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.ReplaceOneAsync(Arg.Any<FilterDefinition<TestEntity>>(), _entity, Arg.Any<ReplaceOptions>())).Do((call) => throw new Exception());
 
             var test = _sut.UpdateAsync(_entity);
 
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => test);
+            Assert.ThrowsAsync<DatabaseContextException>(() => test);
         }
 
         [Test]
@@ -207,13 +207,13 @@ namespace Liquid.Repository.MongoDb.Tests
         }
 
         [Test]
-        public async Task WhereAsync_WhenClientThrowsError_ThrowException()
+        public void WhereAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.FindAsync<TestEntity>(Arg.Any<FilterDefinition<TestEntity>>())).Do((call) => throw new Exception());
 
             var test = _sut.WhereAsync(e => e.Id.Equals(_entity.Id));
 
-            Assert.ThrowsAsync<RepositoryDatabaseContextException>(() => test);
+            Assert.ThrowsAsync<DatabaseContextException>(() => test);
         }
     }
 }

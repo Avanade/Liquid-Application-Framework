@@ -8,6 +8,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         public MockDbContext(DbContextOptions<MockDbContext> options) : base(options) { }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);

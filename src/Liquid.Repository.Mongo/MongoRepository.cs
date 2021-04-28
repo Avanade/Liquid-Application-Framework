@@ -11,6 +11,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
+using Liquid.Repository.Mongo.Extensions;
 
 namespace Liquid.Repository.Mongo
 {
@@ -73,7 +74,7 @@ namespace Liquid.Repository.Mongo
             await _telemetryFactory.ExecuteActionAsync("MongoRepository_AddAsync", async () =>
                 {
                     var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-                    await collection.InsertOneAsync(entity);
+                    await collection.InsertOneAsync(entity, MongoDataContext?.ClientSessionHandle);
                 });
         }
 
@@ -85,7 +86,7 @@ namespace Liquid.Repository.Mongo
             await _telemetryFactory.ExecuteActionAsync("MongoRepository_GetAllAsync", async () =>
                 {
                     var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-                    returnValue = (await collection.FindAsync(new BsonDocument())).Current.AsEnumerable();
+                    returnValue = (await collection.FindAsync(new BsonDocument(), MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
                 });
 
             return returnValue;
@@ -99,7 +100,7 @@ namespace Liquid.Repository.Mongo
             await _telemetryFactory.ExecuteActionAsync("MongoRepository_FindByIdAsync", async () =>
             {
                 var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-                var result = await collection.FindAsync(e => e.Id.Equals(id));
+                var result = await collection.FindAsync(e => e.Id.Equals(id), MongoDataContext?.ClientSessionHandle);
                 returnValue = result.SingleOrDefault();
             });
 
@@ -112,7 +113,7 @@ namespace Liquid.Repository.Mongo
             await _telemetryFactory.ExecuteActionAsync("MongoRepository_RemoveAsync", async () =>
             {
                 var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-                await collection.DeleteOneAsync(e => e.Id.Equals(entity.Id));
+                await collection.DeleteOneAsync(e => e.Id.Equals(entity.Id), MongoDataContext?.ClientSessionHandle);
             });
         }
 
@@ -122,7 +123,7 @@ namespace Liquid.Repository.Mongo
             await _telemetryFactory.ExecuteActionAsync("MongoRepository_RemoveAsync", async () =>
             {
                 var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-                await collection.ReplaceOneAsync(x => x.Id.Equals(entity.Id), entity, new ReplaceOptions { IsUpsert = true });
+                await collection.ReplaceOneAsync(x => x.Id.Equals(entity.Id), entity, new ReplaceOptions { IsUpsert = true }, MongoDataContext?.ClientSessionHandle);
             });
         }
 
@@ -134,7 +135,7 @@ namespace Liquid.Repository.Mongo
             await _telemetryFactory.ExecuteActionAsync("MongoRepository_GetAllAsync", async () =>
             {
                 var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-                returnValue = (await collection.FindAsync(whereClause)).Current.AsEnumerable();
+                returnValue = (await collection.FindAsync(whereClause, MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
             });
 
             return returnValue;

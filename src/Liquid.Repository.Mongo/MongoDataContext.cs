@@ -34,6 +34,11 @@ namespace Liquid.Repository.Mongo
         public IMongoClient MongoClient => _mongoClient;
 
         /// <summary>
+        /// 
+        /// </summary>
+        public IClientSessionHandle ClientSessionHandle => _clientSessionHandle;
+
+        /// <summary>
         /// Gets the identifier of data context.
         /// </summary>
         /// <value>
@@ -74,6 +79,7 @@ namespace Liquid.Repository.Mongo
             await _telemetryFactory.ExecuteActionAsync("MongoRepository_StartTransactionAsync", async () =>
             {
                 _clientSessionHandle = await _mongoClient.StartSessionAsync();
+                _clientSessionHandle.StartTransaction();
             });
         }
 
@@ -82,13 +88,10 @@ namespace Liquid.Repository.Mongo
         /// </summary>
         public async Task CommitAsync()
         {
-            if (_clientSessionHandle.IsInTransaction)
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_CommitAsync", async () =>
             {
-                await _telemetryFactory.ExecuteActionAsync("MongoRepository_CommitAsync", async () =>
-                {
-                    await _clientSessionHandle.CommitTransactionAsync();
-                });
-            }
+                await _clientSessionHandle.CommitTransactionAsync();
+            });
         }
 
         /// <summary>
@@ -96,13 +99,10 @@ namespace Liquid.Repository.Mongo
         /// </summary>
         public async Task RollbackTransactionAsync()
         {
-            if (_clientSessionHandle.IsInTransaction)
+            await _telemetryFactory.ExecuteActionAsync("MongoRepository_RollbackTransactionAsync", async () =>
             {
-                await _telemetryFactory.ExecuteActionAsync("MongoRepository_RollbackTransactionAsync", async () =>
-                {
-                    await _clientSessionHandle.AbortTransactionAsync();
-                });
-            }
+                await _clientSessionHandle.AbortTransactionAsync();
+            });
         }
 
         /// <summary>

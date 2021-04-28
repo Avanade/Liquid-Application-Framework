@@ -37,11 +37,16 @@ namespace Liquid.Repository.Mongo.Tests
         }
 
         [Test]
-        public void GetClient_WhenDatabaseNameExists_ClientCreated()
+        public void GetClient_WhenDatabaseIdExists_ClientCreated()
         {
             var result = _sut.GetClient("test");
 
             Assert.IsFalse(result.GetDatabase(_databaseName) is null);
+        }
+        [Test]
+        public void GetClient_WhenDatabaseIdDoesntExists_ThrowException()
+        {
+            Assert.Throws<LightDatabaseConfigurationDoesNotExistException>(() => _sut.GetClient("test1"));
         }
     }
 }

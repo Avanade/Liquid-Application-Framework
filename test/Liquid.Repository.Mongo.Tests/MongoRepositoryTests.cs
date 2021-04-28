@@ -22,6 +22,7 @@ namespace Liquid.Repository.Mongo.Tests
         private TestEntity _entity;
         internal static string _databaseName = "IntegrationTest";
         private IMongoCollection<TestEntity> _collection;
+        private IClientSessionHandle handle;
 
         [SetUp]
         protected void SetContext()
@@ -40,6 +41,8 @@ namespace Liquid.Repository.Mongo.Tests
 
 
             _dbDataContext = Substitute.For<IMongoDataContext>();
+
+            _dbDataContext.ClientSessionHandle.Returns(handle, handle);
 
             _collection = GetCollection();
 

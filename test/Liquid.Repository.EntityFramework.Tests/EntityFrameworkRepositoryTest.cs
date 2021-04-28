@@ -9,6 +9,7 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Liquid.Repository.EntityFramework.Extensions;
 
 namespace Liquid.Repository.EntityFramework.Tests
 {
@@ -34,18 +35,8 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());
 
-            services.AddScoped<IEntityFrameworkDataContext>(sp =>
-            {
-                return new EntityFrameworkDataContext(
-                    sp.GetService<ILightTelemetryFactory>(),
-                    sp.GetService<IEntityFrameworkClientFactory>(), "test");
-            });
+            services.AddEntityFramework("test", GetType().Assembly);
 
-            services.AddScoped<IMockRepository>(sp => 
-            {
-                return new MockRepository(sp.GetService<IEntityFrameworkDataContext>(), sp.GetService<ILightTelemetryFactory>());
-            });
-            
 
             _serviceProvider = services.BuildServiceProvider();
 

@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Liquid.Repository.Mongo
+namespace Liquid.Repository.Mongo.Extensions
 {
     /// <summary>
     /// Mongo Db Service Collection Extensions Class.

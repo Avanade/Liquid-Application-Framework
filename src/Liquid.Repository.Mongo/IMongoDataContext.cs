@@ -24,6 +24,8 @@ namespace Liquid.Repository.Mongo
         /// </value>
         IMongoClient MongoClient { get; }
 
+        IClientSessionHandle ClientSessionHandle { get; }
+
         /// <summary>
         /// Sets an instance of <see cref="MongoDatabaseBase"/> into de property Database, 
         /// which is obtained from MongoClient by database name.<see cref="MongoClient.GetDatabase(string, MongoDatabaseSettings)"/>.

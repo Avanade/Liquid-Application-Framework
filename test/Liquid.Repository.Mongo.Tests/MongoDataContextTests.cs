@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Telemetry;
+using Liquid.Repository.Exceptions;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
@@ -48,46 +49,33 @@ namespace Liquid.Repository.Mongo.Tests
         [Test]
         public async Task CommitAsync_WhenTansactionIsStarted_Sucess()
         {
-            IClientSessionHandle sessionHandler = GetSessionhandler(true);
-
             await _sut.StartTransactionAsync();
+
             await _sut.CommitAsync();
 
-            await sessionHandler.Received().CommitTransactionAsync();
+            await _sut.ClientSessionHandle.Received().CommitTransactionAsync();
 
             _lightTelemetry.Received().AddContext(Arg.Any<string>());
             _lightTelemetry.Received().RemoveContext(Arg.Any<string>());
 
         }
 
-        private IClientSessionHandle GetSessionhandler(bool isInTtransaction)
-        {
-            var sessionHandler = Substitute.For<IClientSessionHandle>();
-            _client.StartSessionAsync().Returns(sessionHandler);
-            sessionHandler.IsInTransaction.Returns(isInTtransaction);
-            return sessionHandler;
-        }
-
         [Test]
-        public async Task CommitAsync_WhenTansactionIsntStarted_ClientNotExecuted()
-        {
-            IClientSessionHandle sessionHandler = GetSessionhandler(false);
+        public void CommitAsync_WhenTansactionIsntStarted_ThrowException()
+        {            
+            var task =  _sut.CommitAsync();
 
-            await _sut.StartTransactionAsync();
-            await _sut.CommitAsync();
-
-            await sessionHandler.DidNotReceive().CommitTransactionAsync();
-
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
+
         [Test]
         public async Task RollbackAsync_WhenTansactionIsStarted_Sucess()
         {
-            IClientSessionHandle sessionHandler = GetSessionhandler(true);
 
             await _sut.StartTransactionAsync();
             await _sut.RollbackTransactionAsync();
 
-            await sessionHandler.Received().AbortTransactionAsync();
+            await _sut.ClientSessionHandle.Received().AbortTransactionAsync();
 
             _lightTelemetry.Received().AddContext(Arg.Any<string>());
             _lightTelemetry.Received().RemoveContext(Arg.Any<string>());
@@ -95,39 +83,36 @@ namespace Liquid.Repository.Mongo.Tests
         }
 
         [Test]
-        public async Task RollbackAsync_WhenTansactionIsntStarted_ClientNotExecuted()
+        public void RollbackAsync_WhenTansactionIsntStarted_ThrowException()
         {
-            IClientSessionHandle sessionHandler = GetSessionhandler(false);
+            var task = _sut.RollbackTransactionAsync();
 
-            await _sut.StartTransactionAsync();
-            await _sut.RollbackTransactionAsync();
-
-            await sessionHandler.DidNotReceive().AbortTransactionAsync();
+            Assert.ThrowsAsync<DatabaseContextException>(() => task);
 
         }
         [Test]
         public async Task Dispose_WhenTansactionIsStarted_Sucess()
-        {
-            IClientSessionHandle sessionHandler = GetSessionhandler(true);
-
+        {            
             await _sut.StartTransactionAsync();
+            _sut.ClientSessionHandle.IsInTransaction.Returns(true);
+
             _sut.Dispose();
 
-            sessionHandler.Received().AbortTransaction();
-            sessionHandler.Received().Dispose();
+            _sut.ClientSessionHandle.Received().AbortTransaction();
+            _sut.ClientSessionHandle.Received().Dispose();
 
         }
 
         [Test]
         public async Task Dispose_WhenTansactionIsntStarted_HandlerDisposed()
         {
-            IClientSessionHandle sessionHandler = GetSessionhandler(false);
-
             await _sut.StartTransactionAsync();
+            _sut.ClientSessionHandle.IsInTransaction.Returns(false);
+
             _sut.Dispose();
 
-            sessionHandler.DidNotReceive().AbortTransaction();
-            sessionHandler.Received().Dispose();
+            _sut.ClientSessionHandle.DidNotReceive().AbortTransaction();
+            _sut.ClientSessionHandle.Received().Dispose();
 
         }
 

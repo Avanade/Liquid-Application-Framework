@@ -39,9 +39,18 @@ jobs:
 
     - name: Build Project
       run: dotnet build src/Liquid.Repository/Liquid.Repository.csproj --configuration Release --no-restore
-      
+
     - name: Nuget Pack
       run: dotnet pack --no-build --configuration Release src/Liquid.Repository/Liquid.Repository.csproj --output .
+
+    - name: (CI/CD) Build and Analyze Project
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      run: |
+        dotnet sonarscanner begin /k:"Avanade_Liquid.Repository" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io"
+        dotnet build src/Liquid.Repository/Liquid.Repository.csproj --configuration Release --no-restore
+        dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
       
     - name: PushNuget
       if: github.event_name == 'push' 

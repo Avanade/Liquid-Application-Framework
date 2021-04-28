@@ -76,6 +76,7 @@ namespace Liquid.Messaging.Azure
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
             var telemetry = _telemetryFactory.GetTelemetry();
+            if (customHeaders == null) customHeaders = new Dictionary<string, object>();
 
             try
             {

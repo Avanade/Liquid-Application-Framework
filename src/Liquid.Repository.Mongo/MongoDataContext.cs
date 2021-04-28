@@ -34,7 +34,7 @@ namespace Liquid.Repository.Mongo
         public IMongoClient MongoClient => _mongoClient;
 
         /// <summary>
-        /// 
+        /// Gets the mongo session handle.
         /// </summary>
         public IClientSessionHandle ClientSessionHandle => _clientSessionHandle;
 

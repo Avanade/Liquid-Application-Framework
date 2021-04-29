@@ -28,7 +28,7 @@ To use Liquid, you create a new base ASP.Net Core application and then download 
 | :-- | :--: | :--: |
 | [`Liquid.Core`](https://www.nuget.org/packages/Liquid.Core) | **_mandatory_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Core) |
 | [`Liquid.Domain`](https://www.nuget.org/packages/Liquid.Domain) | **_desirable_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Domain) |
-| [`Liquid.Repository`](https://www.nuget.org/packages/Liquid.Repository) | **_optional_** | Not released |
+| [`Liquid.Repository`](https://www.nuget.org/packages/Liquid.Repository) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Repository) |
 | [`Liquid.Cache`](https://www.nuget.org/packages/Liquid.Cache) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Cache) |
 | [`Liquid.Messaging`](https://www.nuget.org/packages/Liquid.Messaging) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging) |
 | [`Liquid.Services`](https://www.nuget.org/packages/Liquid.Services) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Services) |

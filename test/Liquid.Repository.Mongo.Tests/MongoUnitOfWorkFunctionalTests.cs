@@ -65,8 +65,6 @@ namespace Liquid.Repository.Mongo.Tests
 
             _unitOfWork = _serviceProvider.GetService<ILightUnitOfWork>();
 
-            var teste = _serviceProvider.GetService<ITestRepository>();
-
             _sut = _unitOfWork.GetRepository<ITestRepository, TestEntity, int>();
         }
 

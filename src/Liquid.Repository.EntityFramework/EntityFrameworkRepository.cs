@@ -19,13 +19,16 @@ namespace Liquid.Data.EntityFramework
     /// <seealso cref="Liquid.Repository.ILightRepository{TEntity, TIdentifier}" />
     public abstract class EntityFrameworkRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : RepositoryEntity<TIdentifier>, new()
     {
+        ///<inheritdoc/>
         public IEntityFrameworkDataContext EntityDataContext { get; }
+
+        ///<inheritdoc/>
         public ILightDataContext DataContext => EntityDataContext;
 
         private readonly DbContext _dbClient;
-        protected readonly DbSet<TEntity> _dbSet;
-        protected readonly IQueryable<TEntity> _queryableReadOnly;
-        protected readonly ILightTelemetryFactory _telemetryFactory;
+        private readonly DbSet<TEntity> _dbSet;
+        private readonly IQueryable<TEntity> _queryableReadOnly;
+        private readonly ILightTelemetryFactory _telemetryFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EntityFrameworkRepository{TEntity, TIdentifier}" /> class.

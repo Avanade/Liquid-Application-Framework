@@ -52,11 +52,11 @@ namespace Liquid.Data.EntityFramework
         }
 
         ///<inheritdoc/>
-        public async Task AddAsync(TEntity item)
+        public async Task AddAsync(TEntity entity)
         {
             await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_AddAsync", async () =>
             {
-                await _dbSet.AddAsync(item);
+                await _dbSet.AddAsync(entity);
                 await _dbClient.SaveChangesAsync();
             });
         }
@@ -88,11 +88,11 @@ namespace Liquid.Data.EntityFramework
         }
 
         ///<inheritdoc/>
-        public async Task RemoveAsync(TEntity item)
+        public async Task RemoveAsync(TEntity entity)
         {
             await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_RemoveAsync", async () =>
             {
-                var obj = await _dbSet.FirstOrDefaultAsync(o => o.Id.Equals(item.Id));
+                var obj = await _dbSet.FirstOrDefaultAsync(o => o.Id.Equals(entity.Id));
 
                 if (obj == null) return;
                     
@@ -102,12 +102,12 @@ namespace Liquid.Data.EntityFramework
         }
 
         ///<inheritdoc/>
-        public async Task UpdateAsync(TEntity item)
+        public async Task UpdateAsync(TEntity entity)
         {
             await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_UpdateAsync", async () =>
             {
-                _dbClient.Detach<TEntity>(o => o.Id.Equals(item.Id));
-                _dbClient.Update(item);
+                _dbClient.Detach<TEntity>(o => o.Id.Equals(entity.Id));
+                _dbClient.Update(entity);
                 await _dbClient.SaveChangesAsync();
             });
         }

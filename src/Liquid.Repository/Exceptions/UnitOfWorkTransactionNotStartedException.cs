@@ -1,5 +1,7 @@
 ﻿using Liquid.Core.Exceptions;
+using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Liquid.Repository.Exceptions
 {
@@ -8,7 +10,8 @@ namespace Liquid.Repository.Exceptions
     /// </summary>
     /// <seealso cref="Liquid.Core.Exceptions.LightException" />
     [ExcludeFromCodeCoverage]
-    public class UnitOfWorkTransactionNotStartedException : LightException
+    [Serializable]
+    public class UnitOfWorkTransactionNotStartedException : LightException, ISerializable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitOfWorkTransactionNotStartedException"/> class.

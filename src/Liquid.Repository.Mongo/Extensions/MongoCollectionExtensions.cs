@@ -8,7 +8,7 @@ namespace Liquid.Repository.Mongo.Extensions
     /// <summary>
     /// Extends <see cref="IMongoCollection{TDocument}"/> methods.
     /// </summary>
-    public static class MongoCollectionExtension
+    public static class MongoCollectionExtensions
     {
         /// <summary>
         ///   Inserts a single document.
@@ -17,7 +17,6 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="collection">The collection.</param>
         /// <param name="document">The document.</param>
         /// <param name="session">The transaction session.</param>
-        /// <returns></returns>
         public static async Task InsertOneAsync<TDocument>(this IMongoCollection<TDocument> collection, TDocument document, IClientSessionHandle session = null)
         {
             if(session is null)
@@ -36,7 +35,6 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="collection"> The collection.</param>
         /// <param name="filter"> The filter.</param>
         /// <param name="session">The transaction session.</param>
-        /// <returns></returns>
         public static async Task<IAsyncCursor<TDocument>> FindAsync<TDocument>(this IMongoCollection<TDocument> collection, FilterDefinition<TDocument> filter, IClientSessionHandle session = null)
         {
             if (session is null)
@@ -53,7 +51,6 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="collection"> The collection.</param>
         /// <param name="filter"> The filter.</param>
         /// <param name="session">The transaction session.</param>
-        /// <returns></returns>
         public static async Task<IAsyncCursor<TDocument>> FindAsync<TDocument>(this IMongoCollection<TDocument> collection, Expression<Func<TDocument, bool>> filter, IClientSessionHandle session = null)
         {
             if (session is null)
@@ -70,7 +67,6 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="collection">The collection.</param>
         /// <param name="filter">The filter</param>
         /// <param name="session">The transaction session</param>
-        /// <returns></returns>
         public static async Task<DeleteResult> DeleteOneAsync<TDocument>(this IMongoCollection<TDocument> collection, Expression<Func<TDocument, bool>> filter, IClientSessionHandle session = null)
         {
             if (session is null)
@@ -88,8 +84,7 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="filter"> The filter.</param>
         /// <param name="replacement">The replacement.</param>
         /// <param name="options">The options.</param>
-        /// <param name="session">The transaction session.</param></param>
-        /// <returns></returns>
+        /// <param name="session">The transaction session.</param>
         public static async Task<ReplaceOneResult> ReplaceOneAsync<TDocument>(this IMongoCollection<TDocument> collection, Expression<Func<TDocument, bool>> filter, TDocument replacement, ReplaceOptions options = null, IClientSessionHandle session = null)
         {
             if (session is null)

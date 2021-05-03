@@ -14,14 +14,24 @@ namespace Liquid.Repository.EntityFramework
     {
         private readonly DbContext _databaseContext;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        public string Id { get; }
 
         /// <summary>
-        /// Gets the EntityFramework database.
+        /// Gets the identifier of data context.
         /// </summary>
+        /// <value>
+        /// The identifier.
+        /// </value>
+        public string Id { get; }
+
+        ///<inheritdoc/>
         public DbContext DbClient => _databaseContext;
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityFrameworkDataContext" /> class.
+        /// </summary>
+        /// <param name="telemetryFactory">The telemetry factory.</param>
+        /// <param name="clientFactory">EntityFramework Client generator.</param>
+        /// <param name="connectionId">Database connection configuration Id.</param>
         public EntityFrameworkDataContext(ILightTelemetryFactory telemetryFactory
             , IEntityFrameworkClientFactory clientFactory, string connectionId)
         {
@@ -50,14 +60,16 @@ namespace Liquid.Repository.EntityFramework
             });
         }
 
+        ///<inheritdoc/>
         public async Task RollbackTransactionAsync()
         {
             await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_RollbackTransactionAsync", async () =>
             {
                 await _databaseContext.Database.RollbackTransactionAsync();
             });
-        }       
-
+        }
+        
+        ///<inheritdoc/>
         public void Dispose()
         {
             _databaseContext.Dispose();

@@ -1,5 +1,6 @@
 ﻿using Liguid.Repository.Configuration;
 using Liquid.Core.Configuration;
+using Liquid.Repository.EntityFramework.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

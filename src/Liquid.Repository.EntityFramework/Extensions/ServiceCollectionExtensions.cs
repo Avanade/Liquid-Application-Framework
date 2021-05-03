@@ -50,7 +50,6 @@ namespace Liquid.Repository.EntityFramework.Extensions
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="connectionId">The connection identifier.</param>
-        /// <returns></returns>
         private static void AddEntityContext(IServiceCollection services, string connectionId)
         {
             if (services.First(x => x.ServiceType.Name == nameof(IEntityFrameworkClientFactory)) is null)

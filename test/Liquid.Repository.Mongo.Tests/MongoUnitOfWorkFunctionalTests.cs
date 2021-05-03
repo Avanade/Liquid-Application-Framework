@@ -20,14 +20,14 @@ namespace Liquid.Repository.Mongo.Tests
         private ILightUnitOfWork _unitOfWork;
         private ITestRepository _sut;
         private MongoDbRunner _runner;
-        private TestEntity _entity = new TestEntity()
+        private readonly TestEntity _entity = new TestEntity()
         {
             CreatedDate = DateTime.Now,
             Active = true,
             Id = 1242,
             MockTitle = "test"
         };
-        private TestEntity _updateEntity = new TestEntity()
+        private readonly TestEntity _updateEntity = new TestEntity()
         {
             CreatedDate = DateTime.Now,
             Active = false,

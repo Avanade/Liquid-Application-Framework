@@ -1,8 +1,9 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
-namespace Liquid.Repository.EntityFramework
+namespace Liquid.Repository.EntityFramework.Exceptions
 {
     /// <summary>
     /// Occurs when the database is not found in Sql Server.
@@ -10,7 +11,7 @@ namespace Liquid.Repository.EntityFramework
     /// <seealso cref="LightException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class DatabaseDoesNotExistException : LightException
+    public class DatabaseDoesNotExistException : LightException, ISerializable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseDoesNotExistException"/> class.

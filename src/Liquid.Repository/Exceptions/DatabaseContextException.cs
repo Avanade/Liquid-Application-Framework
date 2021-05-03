@@ -1,6 +1,5 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
-using System.Runtime.Serialization;
 
 namespace Liquid.Repository.Exceptions
 {
@@ -8,7 +7,7 @@ namespace Liquid.Repository.Exceptions
     /// Occurs when a Repository database throw an error.
     /// </summary>
     [Serializable]
-    public class DatabaseContextException : LightException, ISerializable
+    public class DatabaseContextException : LightException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseContextException"/> class.

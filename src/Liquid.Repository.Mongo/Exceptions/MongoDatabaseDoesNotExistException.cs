@@ -1,7 +1,6 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 
 namespace Liquid.Repository.Mongo.Exceptions
 {
@@ -11,7 +10,7 @@ namespace Liquid.Repository.Mongo.Exceptions
     /// <seealso cref="LightException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class MongoDatabaseDoesNotExistException : LightException, ISerializable
+    public class MongoDatabaseDoesNotExistException : LightException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoDatabaseDoesNotExistException"/> class.

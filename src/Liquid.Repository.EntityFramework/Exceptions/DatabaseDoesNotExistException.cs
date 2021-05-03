@@ -1,7 +1,6 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 
 namespace Liquid.Repository.EntityFramework.Exceptions
 {
@@ -11,7 +10,7 @@ namespace Liquid.Repository.EntityFramework.Exceptions
     /// <seealso cref="LightException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class DatabaseDoesNotExistException : LightException, ISerializable
+    public class DatabaseDoesNotExistException : LightException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseDoesNotExistException"/> class.

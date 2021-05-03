@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Liquid.Repository.Exceptions
 {
@@ -17,6 +18,21 @@ namespace Liquid.Repository.Exceptions
         /// </summary>
         public UnitOfWorkTransactionNotStartedException() :
             base("The transaction has been not started. Please start the transaction")
+        {
+        }
+
+        ///<inheritdoc/>
+        public UnitOfWorkTransactionNotStartedException(string message) : base(message)
+        {
+        }
+
+        ///<inheritdoc/>
+        public UnitOfWorkTransactionNotStartedException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        ///<inheritdoc/>
+        protected UnitOfWorkTransactionNotStartedException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

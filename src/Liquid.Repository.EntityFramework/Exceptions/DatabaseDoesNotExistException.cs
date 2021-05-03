@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Liquid.Repository.EntityFramework.Exceptions
 {
@@ -12,11 +13,26 @@ namespace Liquid.Repository.EntityFramework.Exceptions
     [ExcludeFromCodeCoverage]
     public class DatabaseDoesNotExistException : LightException
     {
+        ///<inheritdoc/>
+        public DatabaseDoesNotExistException()
+        {
+        }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseDoesNotExistException"/> class.
         /// </summary>
         /// <param name="databaseName">Name of the database.</param>
         public DatabaseDoesNotExistException(string databaseName) : base($"Database {databaseName} does not exist. Please check name or create a new database")
+        {
+        }
+
+        ///<inheritdoc/>
+        public DatabaseDoesNotExistException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        ///<inheritdoc/>
+        protected DatabaseDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

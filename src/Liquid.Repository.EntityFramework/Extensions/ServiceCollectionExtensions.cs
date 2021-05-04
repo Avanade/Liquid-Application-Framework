@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Telemetry;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Reflection;
@@ -14,11 +15,11 @@ namespace Liquid.Repository.EntityFramework.Extensions
         /// Adds the entity framework database repositories and Context.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <param name="connectionId">The connection identifier.</param>
         /// <param name="assemblies">The assemblies.</param>
-        public static void AddEntityFramework(this IServiceCollection services, string connectionId, params Assembly[] assemblies)
+        public static void AddEntityFramework<TContext>(this IServiceCollection services, params Assembly[] assemblies) where TContext : DbContext
         {
-            AddEntityContext(services, connectionId);
+            services.AddTransient<DbContext, TContext>();
+            services.AddScoped<IEntityFrameworkDataContext, EntityFrameworkDataContext>();
             AddEntityRepositories(services, assemblies);
         }
 
@@ -43,25 +44,6 @@ namespace Liquid.Repository.EntityFramework.Extensions
 
                 if (interfaceType != null) services.AddScoped(interfaceType, repositoryType);
             }
-        }
-
-        /// <summary>
-        /// Adds the entity framework database context and Unit of Work.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        /// <param name="connectionId">The connection identifier.</param>
-        private static void AddEntityContext(IServiceCollection services, string connectionId)
-        {
-            if (services.First(x => x.ServiceType.Name == nameof(IEntityFrameworkClientFactory)) is null)
-                services.AddSingleton<IEntityFrameworkClientFactory, EntityFrameworkClientFactory>();
-
-            services.AddScoped<IEntityFrameworkDataContext>(sp =>
-            {
-                return new EntityFrameworkDataContext(
-                    sp.GetService<ILightTelemetryFactory>(),
-                    sp.GetService<IEntityFrameworkClientFactory>(),
-                    connectionId);
-            });
         }
     }
 }

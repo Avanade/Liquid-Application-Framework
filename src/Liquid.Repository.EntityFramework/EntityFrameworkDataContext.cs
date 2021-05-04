@@ -30,16 +30,12 @@ namespace Liquid.Repository.EntityFramework
         /// Initializes a new instance of the <see cref="EntityFrameworkDataContext" /> class.
         /// </summary>
         /// <param name="telemetryFactory">The telemetry factory.</param>
-        /// <param name="clientFactory">EntityFramework Client generator.</param>
-        /// <param name="connectionId">Database connection configuration Id.</param>
+        /// <param name="dbContext">Entity framework data context.</param>
         public EntityFrameworkDataContext(ILightTelemetryFactory telemetryFactory
-            , IEntityFrameworkClientFactory clientFactory, string connectionId)
+            , DbContext dbContext)
         {
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
-            if (clientFactory is null) throw new ArgumentNullException(nameof(clientFactory));
-            if (connectionId is null) throw new ArgumentNullException(nameof(connectionId));
-
-            _databaseContext = clientFactory.GetClient(connectionId);
+            _databaseContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
         ///<inheritdoc/>

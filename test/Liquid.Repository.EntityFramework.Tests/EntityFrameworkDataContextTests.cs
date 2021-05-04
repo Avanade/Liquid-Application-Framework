@@ -14,7 +14,6 @@ namespace Liquid.Repository.EntityFramework.Tests
         private EntityFrameworkDataContext _sut;
         private ILightTelemetryFactory _telemetryFactory;
         private ILightTelemetry _telemetry;
-        private IEntityFrameworkClientFactory _clientFactory;
         private DbContext _client;
         private DatabaseFacade _database;
 
@@ -29,14 +28,9 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             _database = Substitute.For<DatabaseFacade>(_client);
 
-
             _client.Database.Returns(_database);
-            
-            _clientFactory = Substitute.For<IEntityFrameworkClientFactory>();
 
-            _clientFactory.GetClient(Arg.Any<string>()).Returns(_client);
-
-            _sut = new EntityFrameworkDataContext(_telemetryFactory, _clientFactory, "test");
+            _sut = new EntityFrameworkDataContext(_telemetryFactory, _client);
         }
 
         [Test]

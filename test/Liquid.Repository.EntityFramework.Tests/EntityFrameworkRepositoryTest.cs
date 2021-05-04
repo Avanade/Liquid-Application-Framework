@@ -26,17 +26,9 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             services.AddDbContext<MockDbContext>(options => options.UseInMemoryDatabase(databaseName: databaseName));
 
-            services.AddSingleton(sp => 
-            {
-                var factory = Substitute.For<IEntityFrameworkClientFactory>();
-                factory.GetClient(Arg.Any<string>()).Returns(sp.GetService<MockDbContext>());
-                return factory;
-            });
+            services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());            
 
-            services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());
-
-            services.AddEntityFramework("test", GetType().Assembly);
-
+            services.AddEntityFramework<MockDbContext>(GetType().Assembly);
 
             _serviceProvider = services.BuildServiceProvider();
 

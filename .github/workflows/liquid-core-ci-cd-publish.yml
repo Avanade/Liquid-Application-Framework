@@ -77,12 +77,6 @@ jobs:
         reportgenerator -reports:$GITHUB_WORKSPACE/test/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/test/coverlet/reports -reporttypes:"SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
 
-    - name: Build Project
-      run: dotnet build src/Liquid.Core.sln --configuration Release --no-restore
-
-    - name: Run Tests
-      run: dotnet test src/**/*Tests.csproj --settings $GITHUB_WORKSPACE/src/CodeCoverage.runsettings --collect:"XPlat Code Coverage"
-
     - name: (CD) Nuget Pack & Push to Nuget.org
       if: ${{ github.event_name == 'push' }}
       run: |

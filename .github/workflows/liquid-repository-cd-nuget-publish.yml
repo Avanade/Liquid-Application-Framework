@@ -83,5 +83,5 @@ jobs:
     - name: (CD) Nuget Pack & Push to Nuget.org
       if: ${{ github.event_name == 'push' }}
       run: |
-        dotnet pack --no-build --configuration Release src/Liquid.Messaging.Azure/Liquid.Messaging.Azure.csproj --output .
+        dotnet pack --no-build --configuration Release src/Liquid.Repository/Liquid.Repository.csproj --output .
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate

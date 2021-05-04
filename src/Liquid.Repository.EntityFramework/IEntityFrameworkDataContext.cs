@@ -7,7 +7,7 @@ namespace Liquid.Repository.EntityFramework
     /// </summary>
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
     /// <seealso cref="Liquid.Repository.ILightDataContext" />
-    public interface IEntityFrameworkDataContext<TContext> : ILightDataContext where TContext : DbContext
+    public interface IEntityFrameworkDataContext<out TContext> : ILightDataContext where TContext : DbContext
     {
         /// <summary>
         /// Gets the Entity Framework client.

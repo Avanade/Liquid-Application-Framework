@@ -1,5 +1,7 @@
 ﻿using Liquid.Core.Exceptions;
+using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Liguid.Repository.Configuration
 {
@@ -8,6 +10,7 @@ namespace Liguid.Repository.Configuration
     /// </summary>
     /// <seealso cref="Liquid.Core.Exceptions.LightException" />
     [ExcludeFromCodeCoverage]
+    [Serializable]
     public class LightDatabaseConfigurationDoesNotExistException : LightException
     {
         /// <summary>
@@ -16,6 +19,15 @@ namespace Liguid.Repository.Configuration
         /// <param name="connectionId">The connection identifier.</param>
         public LightDatabaseConfigurationDoesNotExistException(string connectionId)
             : base($"Database connection string '{connectionId}' does not exist.")
+        {
+        }
+        ///<inheritdoc/>
+        public LightDatabaseConfigurationDoesNotExistException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        ///<inheritdoc/>
+        protected LightDatabaseConfigurationDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

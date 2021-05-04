@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using Liquid.Core.Exceptions;
 
 namespace Liquid.Core.Localization
@@ -17,6 +18,11 @@ namespace Liquid.Core.Localization
         /// </summary>
         /// <param name="innerException">The inner exception.</param>
         public LocalizationReaderException(Exception innerException): base("An error occurred while reading the resource collection from datasource.", innerException)
+        {
+        }
+
+        ///<inheritdoc/>
+        protected LocalizationReaderException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

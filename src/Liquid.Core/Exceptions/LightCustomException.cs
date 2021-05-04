@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Liquid.Core.Exceptions
 {
@@ -38,6 +39,11 @@ namespace Liquid.Core.Exceptions
         public LightCustomException(string message, ExceptionCustomCodes responseCode, Exception innerException) : base(message, innerException)
         {
             ResponseCode = responseCode;
+        }
+
+        ///<inheritdoc/>
+        protected LightCustomException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
         }
     }
 }

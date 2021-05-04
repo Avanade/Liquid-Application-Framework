@@ -5,13 +5,13 @@ on:
   push:
     branches: [ main ]
     paths:
-    - 'src/**'
+    - 'src/Liquid.Domain/**'
     
   pull_request:
     branches: [ main ]
     types: [opened, synchronize, reopened]
     paths:
-    - 'src/**'
+    - 'src/Liquid.Domain/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -66,7 +66,7 @@ jobs:
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
     - name: (CI/CD) Restore dependencies
-      run: dotnet restore src/Liquid.Domain.sln
+      run: dotnet restore src\Liquid.Domain\Liquid.Domain.csproj
 
     - name: (CI/CD) Build and Analyze Project
       env:
@@ -74,8 +74,8 @@ jobs:
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: |
         dotnet sonarscanner begin /k:"Avanade_Liquid.Domain" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
-        dotnet build src/Liquid.Domain.sln --configuration Release --no-restore
-        dotnet test src/**/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
+        dotnet build src\Liquid.Domain\Liquid.Domain.csproj --configuration Release --no-restore
+        dotnet test test/**/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
         reportgenerator -reports:$GITHUB_WORKSPACE/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN}}"
     - name: (CD) Nuget Pack & Push to Nuget.org

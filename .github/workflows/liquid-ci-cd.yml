@@ -1,5 +1,5 @@
 # CI & CD workflow
-name: CI/CD - Liquid Application Framework
+name: CI/CD - Liquid.Domain Component for Liquid Application Framework
 
 on:
   push:

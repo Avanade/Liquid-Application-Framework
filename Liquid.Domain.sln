@@ -3,11 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Domain", "src\Liquid.Domain\Liquid.Domain.csproj", "{2AF28F68-471B-4734-A71A-4622E3C2752A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Domain", "src\Liquid.Domain\Liquid.Domain.csproj", "{CE75EB47-68D9-46F5-BF91-60D39E52CC54}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DDF65239-02CF-486D-9AC5-F869148E9084}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Domain.Tests", "test\Liquid.Domain.Tests\Liquid.Domain.Tests.csproj", "{C1BA440C-1019-429B-B26E-77495E645B12}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77065B3E-8299-4B74-8F6A-A063D93F21DC}"
+	ProjectSection(SolutionItems) = preProject
+		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
+		.github\workflows\liquid-ci-cd.yml = .github\workflows\liquid-ci-cd.yml
+		logo.png = logo.png
+		nuget.config = nuget.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +23,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2AF28F68-471B-4734-A71A-4622E3C2752A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2AF28F68-471B-4734-A71A-4622E3C2752A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2AF28F68-471B-4734-A71A-4622E3C2752A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2AF28F68-471B-4734-A71A-4622E3C2752A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE75EB47-68D9-46F5-BF91-60D39E52CC54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE75EB47-68D9-46F5-BF91-60D39E52CC54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE75EB47-68D9-46F5-BF91-60D39E52CC54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE75EB47-68D9-46F5-BF91-60D39E52CC54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C1BA440C-1019-429B-B26E-77495E645B12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C1BA440C-1019-429B-B26E-77495E645B12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1BA440C-1019-429B-B26E-77495E645B12}.Release|Any CPU.ActiveCfg = Release|Any CPU

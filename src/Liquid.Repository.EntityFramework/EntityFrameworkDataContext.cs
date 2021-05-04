@@ -9,10 +9,11 @@ namespace Liquid.Repository.EntityFramework
     /// <summary>
     /// Implements the EntityFramework data context for repositories.
     /// </summary>
-    /// <seealso cref="Liquid.Repository.EntityFramework.IEntityFrameworkDataContext" />
-    public class EntityFrameworkDataContext : IEntityFrameworkDataContext, IDisposable
+    /// <seealso cref="Liquid.Repository.EntityFramework.EntityFrameworkDataContext{TContext}" />
+    /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
+    public class EntityFrameworkDataContext<TContext> : IEntityFrameworkDataContext<TContext>, IDisposable where TContext : DbContext
     {
-        private readonly DbContext _databaseContext;
+        private readonly TContext _databaseContext;
         private readonly ILightTelemetryFactory _telemetryFactory;
 
         /// <summary>
@@ -24,15 +25,15 @@ namespace Liquid.Repository.EntityFramework
         public string Id { get; }
 
         ///<inheritdoc/>
-        public DbContext DbClient => _databaseContext;
+        public TContext DbClient => _databaseContext;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EntityFrameworkDataContext" /> class.
+        /// Initializes a new instance of the <see cref="EntityFrameworkDataContext{TContext}" /> class.
         /// </summary>
         /// <param name="telemetryFactory">The telemetry factory.</param>
-        /// <param name="dbContext">Entity framework data context.</param>
+        /// <param name="dbContext">Data base context object <see cref="DbContext"/>.</param>
         public EntityFrameworkDataContext(ILightTelemetryFactory telemetryFactory
-            , DbContext dbContext)
+            , TContext dbContext)
         {
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
             _databaseContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
@@ -64,7 +65,7 @@ namespace Liquid.Repository.EntityFramework
                 await _databaseContext.Database.RollbackTransactionAsync();
             });
         }
-        
+
         ///<inheritdoc/>
         public void Dispose()
         {

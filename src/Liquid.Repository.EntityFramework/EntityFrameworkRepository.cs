@@ -16,22 +16,23 @@ namespace Liquid.Data.EntityFramework
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
+    /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
     /// <seealso cref="Liquid.Repository.ILightRepository{TEntity, TIdentifier}" />
-    public abstract class EntityFrameworkRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : RepositoryEntity<TIdentifier>, new()
+    public abstract class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILightRepository<TEntity, TIdentifier> where TEntity : RepositoryEntity<TIdentifier>, new() where TContext : DbContext
     {
         ///<inheritdoc/>
-        public IEntityFrameworkDataContext EntityDataContext { get; }
+        public IEntityFrameworkDataContext<TContext> EntityDataContext { get; }
 
         ///<inheritdoc/>
         public ILightDataContext DataContext => EntityDataContext;
 
-        private readonly DbContext _dbClient;
+        private readonly TContext _dbClient;
         private readonly DbSet<TEntity> _dbSet;
         private readonly IQueryable<TEntity> _queryableReadOnly;
         private readonly ILightTelemetryFactory _telemetryFactory;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="EntityFrameworkRepository{TEntity, TIdentifier}" /> class.
+        /// Initializes a new instance of the <see cref="EntityFrameworkRepository{TEntity, TIdentifier, TContext}" /> class.
         /// </summary>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="dataContext">The data context.</param>
@@ -40,7 +41,7 @@ namespace Liquid.Data.EntityFramework
         /// or
         /// dataContext
         /// </exception>
-        protected EntityFrameworkRepository(IEntityFrameworkDataContext dataContext, ILightTelemetryFactory telemetryFactory)
+        protected EntityFrameworkRepository(IEntityFrameworkDataContext<TContext> dataContext, ILightTelemetryFactory telemetryFactory)
         {
             EntityDataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
             _telemetryFactory = telemetryFactory ?? throw new ArgumentNullException(nameof(telemetryFactory));
@@ -48,7 +49,7 @@ namespace Liquid.Data.EntityFramework
             _dbClient = dataContext.DbClient;
             _dbSet = _dbClient.Set<TEntity>();
             _queryableReadOnly = _dbSet.AsNoTracking();
-            
+
         }
 
         ///<inheritdoc/>
@@ -66,7 +67,8 @@ namespace Liquid.Data.EntityFramework
         {
             IEnumerable<TEntity> returnValue = null;
 
-            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_GetAllAsync", () => {
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_GetAllAsync", () =>
+            {
                 returnValue = _queryableReadOnly;
                 return Task.CompletedTask;
             });
@@ -79,7 +81,8 @@ namespace Liquid.Data.EntityFramework
         {
             TEntity returnValue = null;
 
-            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_FindByIdAsync", () => {
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_FindByIdAsync", () =>
+            {
                 returnValue = _queryableReadOnly.FirstOrDefault(o => o.Id.Equals(id));
                 return Task.CompletedTask;
             });
@@ -95,7 +98,7 @@ namespace Liquid.Data.EntityFramework
                 var obj = await _dbSet.FirstOrDefaultAsync(o => o.Id.Equals(entity.Id));
 
                 if (obj == null) return;
-                    
+
                 _dbSet.Remove(obj);
                 await _dbClient.SaveChangesAsync();
             });
@@ -117,7 +120,8 @@ namespace Liquid.Data.EntityFramework
         {
             IEnumerable<TEntity> returnValue = null;
 
-            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_WhereAsync", () => {
+            await _telemetryFactory.ExecuteActionAsync("EntityFrameworkRepository_WhereAsync", () =>
+            {
                 var result = _queryableReadOnly.Where(whereClause);
                 returnValue = result.AsEnumerable();
                 return Task.CompletedTask;

@@ -11,7 +11,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 {
     public class EntityFrameworkDataContextTests
     {
-        private EntityFrameworkDataContext _sut;
+        private EntityFrameworkDataContext<DbContext> _sut;
         private ILightTelemetryFactory _telemetryFactory;
         private ILightTelemetry _telemetry;
         private DbContext _client;
@@ -21,7 +21,7 @@ namespace Liquid.Repository.EntityFramework.Tests
         protected void SetContext()
         {
             _telemetry = Substitute.For<ILightTelemetry>();
-            _telemetryFactory = Substitute.For<ILightTelemetryFactory>();  
+            _telemetryFactory = Substitute.For<ILightTelemetryFactory>();
             _telemetryFactory.GetTelemetry().Returns(_telemetry);
 
             _client = Substitute.For<DbContext>();
@@ -30,7 +30,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             _client.Database.Returns(_database);
 
-            _sut = new EntityFrameworkDataContext(_telemetryFactory, _client);
+            _sut = new EntityFrameworkDataContext<DbContext>(_telemetryFactory, _client);
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Liquid.Repository.EntityFramework.Tests
         {
             _client.When(o => o.Dispose()).Do((call) => throw new Exception());
 
-            Assert.Throws<Exception>(() => _sut.Dispose());            
+            Assert.Throws<Exception>(() => _sut.Dispose());
         }
     }
 }

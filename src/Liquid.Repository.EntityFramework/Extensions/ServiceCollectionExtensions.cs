@@ -1,5 +1,4 @@
-﻿using Liquid.Core.Telemetry;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Reflection;
@@ -18,9 +17,8 @@ namespace Liquid.Repository.EntityFramework.Extensions
         /// <param name="assemblies">The assemblies.</param>
         public static void AddEntityFramework<TContext>(this IServiceCollection services, params Assembly[] assemblies) where TContext : DbContext
         {
-            services.AddTransient<DbContext, TContext>();
-            services.AddScoped<IEntityFrameworkDataContext, EntityFrameworkDataContext>();
-            AddEntityRepositories(services, assemblies);
+            services.AddScoped<IEntityFrameworkDataContext<TContext>, EntityFrameworkDataContext<TContext>>();
+            AddEntityRepositories<TContext>(services, assemblies);
         }
 
         /// <summary>
@@ -28,11 +26,11 @@ namespace Liquid.Repository.EntityFramework.Extensions
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="assemblies">The assemblies.</param>
-        private static void AddEntityRepositories(IServiceCollection services, Assembly[] assemblies)
+        private static void AddEntityRepositories<TContext>(IServiceCollection services, Assembly[] assemblies) where TContext : DbContext
         {
             var repositoryTypes = assemblies.SelectMany(a => a.ExportedTypes)
                             .Where(t => t.BaseType != null &&
-                                        t.BaseType.Assembly.FullName == Assembly.GetAssembly(typeof(EntityFrameworkDataContext)).FullName &&
+                                        t.BaseType.Assembly.FullName == Assembly.GetAssembly(typeof(EntityFrameworkDataContext<TContext>)).FullName &&
                                         t.BaseType.Name.StartsWith("EntityFrameworkRepository"));
 
             foreach (var repositoryType in repositoryTypes)

@@ -1,6 +1,4 @@
-﻿using Liguid.Repository.Configuration;
-using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 
 namespace Liquid.Repository.Mongo
 {

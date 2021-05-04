@@ -2,6 +2,7 @@
 using Liquid.Repository.Extensions;
 using Liquid.Repository.Mongo.Attributes;
 using Liquid.Repository.Mongo.Exceptions;
+using Liquid.Repository.Mongo.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
@@ -11,7 +12,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Liquid.Repository.Mongo.Extensions;
 
 namespace Liquid.Repository.Mongo
 {

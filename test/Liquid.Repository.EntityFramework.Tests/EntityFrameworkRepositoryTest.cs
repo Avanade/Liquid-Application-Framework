@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Telemetry;
+using Liquid.Repository.EntityFramework.Extensions;
 using Liquid.Repository.EntityFramework.Tests.Entities;
 using Liquid.Repository.EntityFramework.Tests.Repositories;
 using Liquid.Repository.Exceptions;
@@ -9,7 +10,6 @@ using NUnit.Framework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Liquid.Repository.EntityFramework.Extensions;
 
 namespace Liquid.Repository.EntityFramework.Tests
 {
@@ -26,7 +26,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             services.AddDbContext<MockDbContext>(options => options.UseInMemoryDatabase(databaseName: databaseName));
 
-            services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());            
+            services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());
 
             services.AddEntityFramework<MockDbContext>(GetType().Assembly);
 
@@ -58,7 +58,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
             dbSet.When(o => o.AddAsync(Arg.Any<MockEntity>())).Do((call) => throw new Exception());
-            
+
             IMockRepository mockRepository = GenerateMockRepository(dbSet);
             var entity = new MockEntity { MockTitle = "TITLE", Active = true, CreatedDate = DateTime.Now };
 
@@ -272,11 +272,10 @@ namespace Liquid.Repository.EntityFramework.Tests
 
         private IMockRepository GenerateMockRepository(DbSet<MockEntity> dbSet, ILightTelemetryFactory telemetryFactory = null)
         {
-            
             var dbContext = Substitute.For<MockDbContext>();
             dbContext.Set<MockEntity>().Returns(dbSet);
 
-            var dataContext = Substitute.For<IEntityFrameworkDataContext>();
+            var dataContext = Substitute.For<IEntityFrameworkDataContext<MockDbContext>>();
 
             dataContext.DbClient.Returns(dbContext);
 

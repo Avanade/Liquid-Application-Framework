@@ -25,7 +25,7 @@ namespace Liquid.Repository.Extensions
                 telemetry.AddContext(contextName);
                 await action();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw new DatabaseContextException($"The database context {contextName} action throws an error.", e);
             }

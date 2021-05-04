@@ -1,6 +1,6 @@
 ﻿using Liquid.Core.Telemetry;
-using Liquid.Repository.Mongo.Tests.Mock;
 using Liquid.Repository.Exceptions;
+using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
@@ -100,7 +100,7 @@ namespace Liquid.Repository.Mongo.Tests
 
         [Test]
         public async Task GetAllAsync_WhenCollectionExists_ReturnItens()
-        {       
+        {
             var result = await _sut.GetAllAsync();
 
             _dbDataContext.Database.Received(2).GetCollection<TestEntity>("TestEntities");

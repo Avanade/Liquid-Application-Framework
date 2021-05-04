@@ -62,8 +62,8 @@ namespace Liquid.Repository.Mongo.Tests
 
         [Test]
         public void CommitAsync_WhenTansactionIsntStarted_ThrowException()
-        {            
-            var task =  _sut.CommitAsync();
+        {
+            var task = _sut.CommitAsync();
 
             Assert.ThrowsAsync<DatabaseContextException>(() => task);
         }
@@ -92,7 +92,7 @@ namespace Liquid.Repository.Mongo.Tests
         }
         [Test]
         public async Task Dispose_WhenTansactionIsStarted_Sucess()
-        {            
+        {
             await _sut.StartTransactionAsync();
             _sut.ClientSessionHandle.IsInTransaction.Returns(true);
 

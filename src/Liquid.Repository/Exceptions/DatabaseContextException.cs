@@ -13,7 +13,7 @@ namespace Liquid.Repository.Exceptions
         ///<inheritdoc/>
         public DatabaseContextException(string message) : base(message)
         {
-        }       
+        }
 
         ///<inheritdoc/>
         protected DatabaseContextException(SerializationInfo info, StreamingContext context) : base(info, context)

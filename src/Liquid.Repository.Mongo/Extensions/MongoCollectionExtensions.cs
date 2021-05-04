@@ -19,7 +19,7 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="session">The transaction session.</param>
         public static async Task InsertOneAsync<TDocument>(this IMongoCollection<TDocument> collection, TDocument document, IClientSessionHandle session = null)
         {
-            if(session is null)
+            if (session is null)
             {
                 await collection.InsertOneAsync(document);
             }

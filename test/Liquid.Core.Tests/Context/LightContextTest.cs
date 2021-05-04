@@ -173,6 +173,8 @@ namespace Liquid.Core.Tests.Context
             {
                 sut.AddOrReplaceContextValue("key", i);
             });
+
+            Assert.GreaterOrEqual(sut.GetContextDataValue<int>("key"), 0);
         }
     }
 }

@@ -21,7 +21,9 @@ namespace Liquid.Core.Tests.Configuration.TestCases
         [SetUp]
         public void Setup()
         {
-            _configurationRoot = new ConfigurationBuilder().AddLightConfigurationFile().Build();
+            _configurationRoot = new ConfigurationBuilder()
+               .AddLightConfigurationFile()
+               .Build();
         }
 
         /// <summary>
@@ -51,6 +53,28 @@ namespace Liquid.Core.Tests.Configuration.TestCases
             //Test environment variables
             Assert.AreNotEqual("${TEMP}", settings.Prop5);
             Assert.AreEqual(string.Empty, settings.Prop6);
+        }
+
+        [Test]
+        public void Verify_if_can_read_from_environment_variables()
+        {
+            Environment.SetEnvironmentVariable("liquid__customSettings__prop1", "false");
+            Environment.SetEnvironmentVariable("liquid__customSettings__prop2", "env");
+            Environment.SetEnvironmentVariable("liquid__customSettings__prop3", "2");
+
+            _configurationRoot = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .Build();
+
+            _sut = new CustomSettingConfiguration(_configurationRoot);
+            var settings = _sut.Settings;
+            Assert.IsNotNull(settings);
+            Assert.AreEqual(false, settings.Prop1);
+            Assert.AreEqual("env", settings.Prop2);
+            Assert.AreEqual(2, settings.Prop3);
+            
+            //Clear environment variable
+            Environment.SetEnvironmentVariable("liquid:customSettings", null);
         }
 
         /// <summary>

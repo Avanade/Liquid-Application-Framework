@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Liquid.Core.Utils;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Liquid.Core.Configuration
 {
@@ -38,9 +39,7 @@ namespace Liquid.Core.Configuration
         public TConfiguration GetConfigurationSection<TConfiguration>()
         {
             var sectionAttribute = GetType().GetCustomAttribute<ConfigurationSectionAttribute>(true);
-            var result = _configuration.GetSection(sectionAttribute.SectionName);
-
-            return result.Value.ParseJson<TConfiguration>();
+            return _configuration.GetSection(sectionAttribute.SectionName).Get<TConfiguration>();
         }
     }
 }

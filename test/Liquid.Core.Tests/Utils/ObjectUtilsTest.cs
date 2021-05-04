@@ -328,18 +328,25 @@ namespace Liquid.Core.Tests.Utils
     /// </summary>
     public class TestObject
     {
-#pragma warning disable CS0414
-        private string _firstName = "Will";
-#pragma warning disable CS0414
+        private readonly string _firstName;
+        private string LastName { get; }
 
         /// <summary>
-        /// Gets the last name.
+        /// Gets the first name.
         /// </summary>
         /// <value>
-        /// The last name.
+        /// The first name.
         /// </value>
-        private string LastName => "Doe";
+        public string FirstName => _firstName;
 
+        /// <summary>
+        /// Gets the last.
+        /// </summary>
+        /// <value>
+        /// The last.
+        /// </value>
+        public string Last => LastName;
+        
         /// <summary>
         /// Gets the age.
         /// </summary>
@@ -348,9 +355,14 @@ namespace Liquid.Core.Tests.Utils
         /// </value>
         public int Age { get; private set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TestObject"/> class.
+        /// </summary>
         public TestObject()
         {
             Age = 18;
+            _firstName = "Will";
+            LastName = "Doe";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Liquid.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -157,17 +158,17 @@ namespace Liquid.Core.Base
 
             if (matchingItem != null) return matchingItem;
             var message = $"'{value}' is not a valid {description} in {typeof(TEnumerable)}";
-            throw new ApplicationException(message);
+            throw new LightException(message);
         }
 
         /// <summary>
         /// Compares to.
         /// </summary>
-        /// <param name="other">The other.</param>
+        /// <param name="obj">The other object to be compared.</param>
         /// <returns></returns>
-        public int CompareTo(object other)
+        public int CompareTo(object obj)
         {
-            return Value.CompareTo(((Enumeration)other).Value);
+            return Value.CompareTo(((Enumeration)obj).Value);
         }
     }
 }

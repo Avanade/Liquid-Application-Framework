@@ -24,16 +24,6 @@ namespace Liquid.Core.Utils
         }
 
         /// <summary>
-        /// Decompress a compressed string using Gzip format and UTF8 encoding.
-        /// </summary>
-        /// <param name="inputBytes">The compressed bytes.</param>
-        /// <returns>The decompressed string.</returns>
-        public static string GzipDecompress(this byte[] inputBytes)
-        {
-            return inputBytes.GzipDecompress(Encoding.UTF8);
-        }
-
-        /// <summary>
         /// Compress a string using Gzip format.
         /// </summary>
         /// <param name="inputString">The input string.</param>
@@ -56,6 +46,16 @@ namespace Liquid.Core.Utils
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Decompress a compressed string using Gzip format and UTF8 encoding.
+        /// </summary>
+        /// <param name="inputBytes">The compressed bytes.</param>
+        /// <returns>The decompressed string.</returns>
+        public static string GzipDecompress(this byte[] inputBytes)
+        {
+            return inputBytes.GzipDecompress(Encoding.UTF8);
         }
 
         /// <summary>
@@ -97,16 +97,6 @@ namespace Liquid.Core.Utils
         }
 
         /// <summary>
-        /// Decompress a compressed string using Deflate format.
-        /// </summary>
-        /// <param name="inputBytes">The compressed bytes.</param>
-        /// <returns>The decompressed string.</returns>
-        public static string DeflateDecompress(this byte[] inputBytes)
-        {
-            return inputBytes.DeflateDecompress(Encoding.UTF8);
-        }
-
-        /// <summary>
         /// Compress a string using Deflate format.
         /// </summary>
         /// <param name="inputString">The input string.</param>
@@ -129,6 +119,16 @@ namespace Liquid.Core.Utils
             }
 
             return output;
+        }
+
+        /// <summary>
+        /// Decompress a compressed string using Deflate format.
+        /// </summary>
+        /// <param name="inputBytes">The compressed bytes.</param>
+        /// <returns>The decompressed string.</returns>
+        public static string DeflateDecompress(this byte[] inputBytes)
+        {
+            return inputBytes.DeflateDecompress(Encoding.UTF8);
         }
 
         /// <summary>

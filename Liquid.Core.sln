@@ -3,19 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Core", "Liquid.Core\Liquid.Core.csproj", "{6F1E7FB8-9B00-4B6A-8C70-A3259810CF28}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Core", "src\Liquid.Core\Liquid.Core.csproj", "{C33A89FC-4F4D-4274-8D0F-29456BA8F76B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EE1C8DCF-EBC3-43B8-9E9C-433CDD57FB30}"
 	ProjectSection(SolutionItems) = preProject
-		azure-pipelines.yml = azure-pipelines.yml
-		CodeCoverage.runsettings = CodeCoverage.runsettings
+		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
+		.github\workflows\liquid-core-cd-nuget-publish.yml = .github\workflows\liquid-core-cd-nuget-publish.yml
 		logo.png = logo.png
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9F103FE8-A5C5-4F56-B286-6ED0BED0F25E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Core.Tests", "Liquid.Core.Tests\Liquid.Core.Tests.csproj", "{221DB361-6C2B-462C-9BC5-C676CBD047F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Core.Tests", "test\Liquid.Core.Tests\Liquid.Core.Tests.csproj", "{221DB361-6C2B-462C-9BC5-C676CBD047F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6F1E7FB8-9B00-4B6A-8C70-A3259810CF28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F1E7FB8-9B00-4B6A-8C70-A3259810CF28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F1E7FB8-9B00-4B6A-8C70-A3259810CF28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F1E7FB8-9B00-4B6A-8C70-A3259810CF28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C33A89FC-4F4D-4274-8D0F-29456BA8F76B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C33A89FC-4F4D-4274-8D0F-29456BA8F76B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C33A89FC-4F4D-4274-8D0F-29456BA8F76B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C33A89FC-4F4D-4274-8D0F-29456BA8F76B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{221DB361-6C2B-462C-9BC5-C676CBD047F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{221DB361-6C2B-462C-9BC5-C676CBD047F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{221DB361-6C2B-462C-9BC5-C676CBD047F7}.Release|Any CPU.ActiveCfg = Release|Any CPU

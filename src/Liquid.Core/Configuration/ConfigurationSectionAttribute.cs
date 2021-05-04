@@ -26,4 +26,21 @@ namespace Liquid.Core.Configuration
             SectionName = sectionName;
         }
     }
+
+
+    /// <summary>
+    /// Defines which liquid base configuration section, the custom configuration will read from json file.
+    /// </summary>
+    /// <seealso cref="Liquid.Core.Configuration.ConfigurationSectionAttribute" />
+    [AttributeUsage(AttributeTargets.Class)]
+    public class LiquidConfigurationSectionAttribute : ConfigurationSectionAttribute
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LiquidConfigurationSectionAttribute"/> class.
+        /// </summary>
+        /// <param name="sectionName">Name of the section.</param>
+        public LiquidConfigurationSectionAttribute(string sectionName) : base($"liquid:{sectionName}")
+        {            
+        }
+    }
 }

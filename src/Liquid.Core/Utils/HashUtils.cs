@@ -14,14 +14,6 @@ namespace Liquid.Core.Utils
         public enum HashType
         {
             /// <summary>
-            /// The HMACMD5 Hash type.
-            /// </summary>
-            HMacMd5,
-            /// <summary>
-            /// The HMACSHA1 Hash type.
-            /// </summary>
-            HMacSha1,
-            /// <summary>
             /// The HMACSHA256 Hash type.
             /// </summary>
             HMacSha256,
@@ -33,14 +25,6 @@ namespace Liquid.Core.Utils
             /// The HMACSHA512 Hash type.
             /// </summary>
             HMacSha512,
-            /// <summary>
-            /// The MD5 Hash type.
-            /// </summary>
-            Md5,
-            /// <summary>
-            /// The SHA1 Hash type.
-            /// </summary>
-            Sha1,
             /// <summary>
             /// The SHA256 Hash type.
             /// </summary>
@@ -67,31 +51,16 @@ namespace Liquid.Core.Utils
             var inputBytes = Encoding.UTF8.GetBytes(input);
             var inputKey = Encoding.UTF8.GetBytes(key);
 
-            switch (hash)
+            return hash switch
             {
-                case HashType.HMacMd5:
-                    return new HMACMD5(inputKey).ComputeHash(inputBytes);
-                case HashType.HMacSha1:
-                    return new HMACSHA1(inputKey).ComputeHash(inputBytes);
-                case HashType.HMacSha256:
-                    return new HMACSHA256(inputKey).ComputeHash(inputBytes);
-                case HashType.HMacSha384:
-                    return new HMACSHA384(inputKey).ComputeHash(inputBytes);
-                case HashType.HMacSha512:
-                    return new HMACSHA512(inputKey).ComputeHash(inputBytes);
-                case HashType.Md5:
-                    return MD5.Create().ComputeHash(inputBytes);
-                case HashType.Sha1:
-                    return SHA1.Create().ComputeHash(inputBytes);
-                case HashType.Sha256:
-                    return SHA256.Create().ComputeHash(inputBytes);
-                case HashType.Sha384:
-                    return SHA384.Create().ComputeHash(inputBytes);
-                case HashType.Sha512:
-                    return SHA512.Create().ComputeHash(inputBytes);
-                default:
-                    return inputBytes;
-            }
+                HashType.HMacSha256 => new HMACSHA256(inputKey).ComputeHash(inputBytes),
+                HashType.HMacSha384 => new HMACSHA384(inputKey).ComputeHash(inputBytes),
+                HashType.HMacSha512 => new HMACSHA512(inputKey).ComputeHash(inputBytes),
+                HashType.Sha256 => SHA256.Create().ComputeHash(inputBytes),
+                HashType.Sha384 => SHA384.Create().ComputeHash(inputBytes),
+                HashType.Sha512 => SHA512.Create().ComputeHash(inputBytes),
+                _ => inputBytes,
+            };
         }
 
         /// <summary>

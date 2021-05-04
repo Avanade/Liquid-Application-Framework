@@ -30,7 +30,9 @@ namespace Liquid.Core.Tests.Telemetry
             IServiceCollection services = new ServiceCollection();
             services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, ConsoleLoggerProvider>());
             LoggerProviderOptions.RegisterProviderOptions<ConsoleLoggerOptions, ConsoleLoggerProvider>(services);
+#pragma warning disable CS0618
             services.Configure(new Action<ConsoleLoggerOptions>(options => options.DisableColors = false));
+#pragma warning restore CS0618
 
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             services.AddTransient<ILightTelemetryFactory, LightTelemetryFactory>();

@@ -8,6 +8,7 @@ namespace Liquid.Core.Localization
     /// Occurs when it's not possible to read the resources collection from data source.
     /// </summary>
     /// <seealso cref="System.Exception" />
+    [Serializable]
     [ExcludeFromCodeCoverage]
     public class LocalizationReaderException : LightException
     {

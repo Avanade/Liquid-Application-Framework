@@ -8,7 +8,7 @@ namespace Liquid.Core.Tests.Utils
     [ExcludeFromCodeCoverage]
     public class EnumUtilsTest
     {
-        public enum TestTypeEnum
+        public enum TestType
         {
             [System.ComponentModel.Description("DescriptionValue")]
             ValueType
@@ -20,7 +20,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_GetDescription()
         {
-            var sut = TestTypeEnum.ValueType;
+            var sut = TestType.ValueType;
             var result = sut.GetDescription();
             Assert.AreEqual("DescriptionValue", result);
         }
@@ -31,7 +31,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_GetAttribute()
         {
-            var sut = TestTypeEnum.ValueType;
+            var sut = TestType.ValueType;
             var result = sut.GetAttribute<System.ComponentModel.DescriptionAttribute>();
             Assert.AreEqual("DescriptionValue", result.Description);
         }
@@ -43,8 +43,8 @@ namespace Liquid.Core.Tests.Utils
         public void Verify_ToEnum()
         {
             var sut = "valueType";
-            var result = sut.ToEnum<TestTypeEnum>();
-            Assert.AreEqual(TestTypeEnum.ValueType, result);
+            var result = sut.ToEnum<TestType>();
+            Assert.AreEqual(TestType.ValueType, result);
         }
     }
 }

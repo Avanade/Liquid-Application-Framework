@@ -7,6 +7,7 @@ namespace Liquid.Core.Exceptions
     /// Class responsible for custom exception codes handling.
     /// </summary>
     /// <seealso cref="LightException" />
+    [Serializable]
     [ExcludeFromCodeCoverage]
     public class LightCustomException : LightException
     {

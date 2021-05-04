@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Liquid.Core.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,7 +108,7 @@ namespace Liquid.Core.Utils
 
                 if (prop == null)
                 {
-                    throw new Exception("No property '" + property + "' in + " + typeof(T).Name + "'");
+                    throw new LightException("No property '" + property + "' in + " + typeof(T).Name + "'");
                 }
 
                 return descending ? list.OrderByDescending(x => prop.GetValue(x, null)) : list.OrderBy(x => prop.GetValue(x, null));

@@ -8,6 +8,7 @@ namespace Liquid.Core.Exceptions
     /// Liquid Base Custom Exception Class. Derived from <see cref="T:System.Exception"></see> class.
     /// </summary>
     /// <seealso cref="System.Exception" />
+    [Serializable]
     [ExcludeFromCodeCoverage]
     public class LightException : Exception
     {

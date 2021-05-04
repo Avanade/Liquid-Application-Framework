@@ -11,22 +11,22 @@ namespace Liquid.Core.Telemetry
         /// <summary>
         /// The information telemetry type.
         /// </summary>
-        public static TelemetryType Information = new TelemetryType(0, "Information");
+        public static readonly TelemetryType Information = new TelemetryType(0, "Information");
 
         /// <summary>
         /// The warning telemetry type.
         /// </summary>
-        public static TelemetryType Warning = new TelemetryType(1, "Warning");
+        public static readonly TelemetryType Warning = new TelemetryType(1, "Warning");
 
         /// <summary>
         /// The error telemetry type.
         /// </summary>
-        public static TelemetryType Error = new TelemetryType(2, "Error");
+        public static readonly TelemetryType Error = new TelemetryType(2, "Error");
 
         /// <summary>
         /// The metric telemetry type.
         /// </summary>
-        public static TelemetryType Metric = new TelemetryType(3, "Metric");
+        public static readonly TelemetryType Metric = new TelemetryType(3, "Metric");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TelemetryType"/> class.

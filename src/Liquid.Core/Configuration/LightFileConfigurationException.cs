@@ -8,6 +8,7 @@ namespace Liquid.Core.Configuration
     /// Occurs when it is not possible to read the appsettings file.
     /// </summary>
     /// <seealso cref="Liquid.Core.Exceptions.LightException" />
+    [Serializable]
     [ExcludeFromCodeCoverage]
     public class LightFileConfigurationException : LightException
     {

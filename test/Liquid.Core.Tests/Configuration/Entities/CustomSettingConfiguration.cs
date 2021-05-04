@@ -9,7 +9,7 @@ namespace Liquid.Core.Tests.Configuration.Entities
     /// <summary>
     /// Test configuration root class.
     /// </summary>
-    [ConfigurationSection("customSettings")]
+    [LiquidConfigurationSection("customSettings")]
     [ExcludeFromCodeCoverage]
     public class CustomSettingConfiguration : LightConfiguration, ILightConfiguration<CustomSetting>
     {

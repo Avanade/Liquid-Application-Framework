@@ -33,7 +33,7 @@ namespace Liquid.Core.Utils
         public static byte[] ToJsonBytes(this object source)
         {
             if (source == null)
-                return null;
+                return new byte[0];
             var instring = JsonConvert.SerializeObject(source, Formatting.Indented, JsonSettings);
             return Utf8NoBom.GetBytes(instring);
         }

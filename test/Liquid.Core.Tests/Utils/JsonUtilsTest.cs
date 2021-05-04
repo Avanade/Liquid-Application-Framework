@@ -34,7 +34,7 @@ namespace Liquid.Core.Tests.Utils
 
             sut = null;
             json = sut.ToJsonBytes();
-            Assert.IsNull(json);
+            Assert.AreEqual(0, json.Length);
         }
 
         /// <summary>

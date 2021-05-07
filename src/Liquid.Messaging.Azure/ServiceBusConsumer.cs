@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Azure.Attributes;
 using Liquid.Messaging.Azure.Configuration;
+using Liquid.Messaging.Azure.Parameters;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
@@ -26,15 +23,15 @@ namespace Liquid.Messaging.Azure
     /// Azure Service Bus Consumer Class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the message object.</typeparam>
-    /// <seealso cref="Liquid.Messaging.ILightConsumer{TMessage}" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="ILightConsumer{TMessage}" />
+    /// <seealso cref="IDisposable" />
     public abstract class ServiceBusConsumer<TMessage> : ILightConsumer<TMessage>
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly List<MessagingSettings> _messagingSettings;
+        private readonly ServiceBusSettings _messagingSettings;
         private readonly ILightContextFactory _contextFactory;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly ServiceBusConsumerAttribute _attribute;
+        private readonly ServiceBusConsumerParameter _serviceBusConsumerParameter;
         private SubscriptionClient _client;
         private bool _autoComplete;
         private Func<TMessage, IDictionary<string, object>, CancellationToken, Task<bool>> _messageHandler;
@@ -67,14 +64,6 @@ namespace Liquid.Messaging.Azure
         public IMediator MediatorService { get; }
 
         /// <summary>
-        /// Gets the azure service bus settings.
-        /// </summary>
-        /// <value>
-        /// The azure service bus settings.
-        /// </value>
-        public abstract ServiceBusSettings AzureServiceBusSettings { get; }
-
-        /// <summary>
         /// Consumes the message from  subscription asynchronous.
         /// </summary>
         /// <param name="message">The message to be consumed.</param>
@@ -92,36 +81,35 @@ namespace Liquid.Messaging.Azure
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="NotImplementedException">The {nameof(ServiceBusConsumerAttribute)} attribute decorator must be added to configuration class.</exception>
+        /// <param name="messagingConfiguration">The service bus messaging configuration.</param>
+        /// <param name="serviceBusConsumerParameter">The service bus consumer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException"></exception>
         protected ServiceBusConsumer(IServiceProvider serviceProvider,
                                      IMediator mediator,
                                      IMapper mapper,
                                      ILightContextFactory contextFactory,
                                      ILightTelemetryFactory telemetryFactory,
                                      ILoggerFactory loggerFactory,
-                                     ILightConfiguration<List<MessagingSettings>> messagingSettings)
+                                     ILightMessagingConfiguration<ServiceBusSettings> messagingConfiguration,
+                                     ServiceBusConsumerParameter serviceBusConsumerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(ServiceBusConsumerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(ServiceBusConsumerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<ServiceBusConsumerAttribute>(true);
+            _serviceBusConsumerParameter = serviceBusConsumerParameter;
             _telemetryFactory = telemetryFactory;
             _serviceProvider = serviceProvider;
             _contextFactory = contextFactory;
-            _messagingSettings = messagingSettings?.Settings ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_serviceBusConsumerParameter.ConnectionId) ??
+                    throw new MessagingMissingConfigurationException(_serviceBusConsumerParameter.ConnectionId);
 
             MediatorService = mediator;
             MapperService = mapper;
             LogService = loggerFactory.CreateLogger(typeof(ServiceBusConsumer<TMessage>).FullName);
             InitializeClient();
         }
+
         private void InitializeClient()
         {
-            var messagingSettings = _messagingSettings.GetMessagingSettings(_attribute.ConnectionId);
-            _client = new SubscriptionClient(messagingSettings.ConnectionString, _attribute.Topic, _attribute.Subscription);
-            _autoComplete = AzureServiceBusSettings?.AutoComplete ?? false;
+            _client = new SubscriptionClient(_messagingSettings.ConnectionString, _serviceBusConsumerParameter.Topic, _serviceBusConsumerParameter.Subscription);
+            _autoComplete = _serviceBusConsumerParameter?.AutoComplete ?? false;
             RegisterMessageHandler(ConsumeAsync);
         }
 
@@ -135,7 +123,7 @@ namespace Liquid.Messaging.Azure
             _messageHandler = handler;
             var messageHandlerOptions = new MessageHandlerOptions(ExceptionReceivedHandler)
             {
-                MaxConcurrentCalls = AzureServiceBusSettings?.MaxConcurrentCalls ?? 1,
+                MaxConcurrentCalls = _serviceBusConsumerParameter?.MaxConcurrentCalls ?? 1,
                 AutoComplete = _autoComplete
             };
             _client.RegisterMessageHandler(ProcessMessageAsync, messageHandlerOptions);
@@ -152,7 +140,7 @@ namespace Liquid.Messaging.Azure
             var telemetry = _telemetryFactory.GetTelemetry();
             try
             {
-                var telemetryKey = $"ServiceBusConsumer_{_attribute.Topic}_{_attribute.Subscription}";
+                var telemetryKey = $"ServiceBusConsumer_{_serviceBusConsumerParameter.Topic}_{_serviceBusConsumerParameter.Subscription}";
 
                 telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);

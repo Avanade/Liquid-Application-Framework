@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Azure.Attributes;
+using Liquid.Messaging.Azure.Configuration;
+using Liquid.Messaging.Azure.Parameters;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
@@ -20,15 +18,15 @@ namespace Liquid.Messaging.Azure
     /// Azure Service Bus Producer Class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the object.</typeparam>
-    /// <seealso cref="Liquid.Messaging.ILightProducer{TMessage}" />
-    /// <seealso cref="System.IDisposable" />
-    public abstract class ServiceBusProducer<TMessage> : ILightProducer<TMessage>
+    /// <seealso cref="ILightProducer{TMessage}" />
+    /// <seealso cref="IDisposable" />
+    public class ServiceBusProducer<TMessage> : ILightProducer<TMessage>
     {
         private readonly ILogger _logger;
         private readonly ILightContextFactory _contextFactory;
-        private readonly List<MessagingSettings> _messagingSettings;
+        private readonly ServiceBusSettings _messagingSettings;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly ServiceBusProducerAttribute _attribute;
+        private readonly ServiceBusProducerParameter _serviceBusProducerParameter;
         private TopicClient _client;
 
         /// <summary>
@@ -37,21 +35,20 @@ namespace Liquid.Messaging.Azure
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="NotImplementedException">The {nameof(ServiceBusProducerAttribute)} attribute decorator must be added to configuration class.</exception>
-        protected ServiceBusProducer(ILightContextFactory contextFactory,
-                                      ILightTelemetryFactory telemetryFactory,
-                                      ILoggerFactory loggerFactory,
-                                      ILightConfiguration<List<MessagingSettings>> messagingSettings)
+        /// <param name="messagingConfiguration">The service bus configuration.</param>
+        /// <param name="serviceBusProducerParameter">The service bus producer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException"></exception>
+        public ServiceBusProducer(ILightContextFactory contextFactory,
+                                     ILightTelemetryFactory telemetryFactory,
+                                     ILoggerFactory loggerFactory,
+                                     ILightMessagingConfiguration<ServiceBusSettings> messagingConfiguration,
+                                     ServiceBusProducerParameter serviceBusProducerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(ServiceBusProducerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(ServiceBusProducerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<ServiceBusProducerAttribute>(true);
+            _serviceBusProducerParameter = serviceBusProducerParameter;
             _contextFactory = contextFactory;
             _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingSettings?.Settings ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_serviceBusProducerParameter.ConnectionId) ?? 
+                     throw new MessagingMissingConfigurationException(_serviceBusProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(ServiceBusProducer<TMessage>).FullName);
             InitializeClient();
         }
@@ -61,8 +58,7 @@ namespace Liquid.Messaging.Azure
         /// </summary>
         private void InitializeClient()
         {
-            var messagingSettings = _messagingSettings.GetMessagingSettings(_attribute.ConnectionId);
-            _client = new TopicClient(messagingSettings.ConnectionString, _attribute.Topic);
+            _client = new TopicClient(_messagingSettings.ConnectionString, _serviceBusProducerParameter.Topic);
         }
 
         /// <summary>
@@ -70,7 +66,7 @@ namespace Liquid.Messaging.Azure
         /// </summary>
         /// <param name="message">The message object.</param>
         /// <param name="customHeaders">The message custom headers.</param>
-        /// <exception cref="System.ArgumentNullException">message</exception>
+        /// <exception cref="ArgumentNullException">message</exception>
         /// <exception cref="MessagingProducerException"></exception>
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
@@ -81,7 +77,7 @@ namespace Liquid.Messaging.Azure
             try
             {
                 var context = _contextFactory.GetContext();
-                var telemetryKey = $"ServiceBusProducer_{_attribute.Topic}";
+                var telemetryKey = $"ServiceBusProducer_{_serviceBusProducerParameter.Topic}";
                 
                 telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);
@@ -93,10 +89,10 @@ namespace Liquid.Messaging.Azure
                 customHeaders.TryAdd("liquidCorrelationId", context.ContextId.ToString());
                 customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
 
-                var messageBytes = !_attribute.CompressMessage ? message.ToJsonBytes() : message.ToJson().GzipCompress();
+                var messageBytes = !_serviceBusProducerParameter.CompressMessage ? message.ToJsonBytes() : message.ToJson().GzipCompress();
                 var messageRequest = new Message(messageBytes) { CorrelationId = aggregationId, MessageId = messageId };
 
-                if (_attribute.CompressMessage)
+                if (_serviceBusProducerParameter.CompressMessage)
                 {
                     messageRequest.ContentType = CommonExtensions.GZipContentType;
                 }
@@ -113,7 +109,7 @@ namespace Liquid.Messaging.Azure
                     messageId,
                     message,
                     headers = customHeaders,
-                    compressed = _attribute.CompressMessage
+                    compressed = _serviceBusProducerParameter.CompressMessage
                 });
 
             }

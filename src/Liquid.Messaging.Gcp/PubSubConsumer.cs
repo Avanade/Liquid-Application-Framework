@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Linq;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Google.Api.Gax.Grpc;
-using Google.Apis.Auth.OAuth2;
 using Google.Cloud.PubSub.V1;
-using Grpc.Auth;
 using Grpc.Core;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
-using Liquid.Messaging.Gcp.Attributes;
+using Liquid.Messaging.Gcp.Configuration;
 using Liquid.Messaging.Gcp.Extensions;
+using Liquid.Messaging.Gcp.Factories;
+using Liquid.Messaging.Gcp.Parameters;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,15 +26,16 @@ namespace Liquid.Messaging.Gcp
     /// Google Cloud Pub/Sub Consumer Class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the message object.</typeparam>
-    /// <seealso cref="Liquid.Messaging.ILightConsumer{TMessage}" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="ILightConsumer{TMessage}" />
+    /// <seealso cref="IDisposable" />
     public abstract class PubSubConsumer<TMessage> : ILightConsumer<TMessage>
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly MessagingSettings _messagingSettings;
+        private readonly PubSubSettings _messagingSettings;
         private readonly ILightContextFactory _contextFactory;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly PubSubConsumerAttribute _attribute;
+        private readonly PubSubConsumerParameter _pubSubConsumerParameter;
+        private readonly IPubSubClientFactory _pubSubClientFactory;
         private SubscriberClient _client;
 
         /// <summary>
@@ -87,26 +83,27 @@ namespace Liquid.Messaging.Gcp
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="NotImplementedException">The {nameof(PubSubConsumerAttribute)} attribute decorator must be added to configuration class.</exception>
+        /// <param name="pubSubClientFactory">The pub sub client factory.</param>
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="pubSubConsumerParameter">The pub sub consumer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException">messaging</exception>
         protected PubSubConsumer(IServiceProvider serviceProvider,
                                  IMediator mediator,
                                  IMapper mapper,
                                  ILightContextFactory contextFactory,
                                  ILightTelemetryFactory telemetryFactory,
                                  ILoggerFactory loggerFactory,
-                                 ILightConfiguration<List<MessagingSettings>> messagingSettings)
+                                 IPubSubClientFactory pubSubClientFactory,
+                                 ILightMessagingConfiguration<PubSubSettings> messagingConfiguration,
+                                 PubSubConsumerParameter pubSubConsumerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(PubSubConsumerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(PubSubConsumerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<PubSubConsumerAttribute>(true);
+            _pubSubConsumerParameter = pubSubConsumerParameter;
             _telemetryFactory = telemetryFactory;
             _serviceProvider = serviceProvider;
             _contextFactory = contextFactory;
-            _messagingSettings = messagingSettings?.Settings?.GetMessagingSettings(_attribute.ConnectionId) ?? throw new MessagingMissingConfigurationException("messaging");
-
+            _pubSubClientFactory = pubSubClientFactory;
+            _messagingSettings = messagingConfiguration?.GetSettings(_pubSubConsumerParameter.ConnectionId) ??
+                    throw new MessagingMissingConfigurationException(_pubSubConsumerParameter.ConnectionId);
             MediatorService = mediator;
             MapperService = mapper;
             LogService = loggerFactory.CreateLogger(typeof(PubSubConsumer<TMessage>).FullName);
@@ -118,21 +115,10 @@ namespace Liquid.Messaging.Gcp
         /// </summary>
         private void InitializeClient()
         {
-            var topicName = new TopicName(_messagingSettings.GetProjectId(), _attribute.Topic);
-            var subscriptionName = new SubscriptionName(_messagingSettings.GetProjectId(), _attribute.Subscription);
-            var credentialPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, _messagingSettings.ConnectionString);
-            var credentials = CallCredentials.FromInterceptor(GoogleAuthInterceptors.FromCredential(GoogleCredential.FromFile(credentialPath)));
-            var serviceClientApiBuilder =
-                new SubscriberServiceApiClientBuilder
-                {
-                    Settings = new SubscriberServiceApiSettings
-                    {
-#pragma warning disable CS0618
-                        CallSettings = CallSettings.FromCallCredentials(credentials)
-#pragma warning restore CS0618
-                    }
-                };
-            var subscriberService = serviceClientApiBuilder.Build();
+            var topicName = new TopicName(_messagingSettings.ProjectId, _pubSubConsumerParameter.Topic);
+            var subscriptionName = new SubscriptionName(_messagingSettings.ProjectId, _pubSubConsumerParameter.Subscription);
+
+            var subscriberService = _pubSubClientFactory.GetSubscriberServiceApiClient(_messagingSettings);
 
             try
             {
@@ -140,20 +126,13 @@ namespace Liquid.Messaging.Gcp
             }
             catch (RpcException ex) when (ex.StatusCode == StatusCode.AlreadyExists)
             {
-                LogService.LogWarning($"Subscription {_attribute.Topic}, from topic {_attribute.Topic} already exists.");
+                LogService.LogWarning($"Subscription {_pubSubConsumerParameter.Topic}, from topic {_pubSubConsumerParameter.Topic} already exists.");
             }
 
 
             Task.Run(async () =>
             {
-                _client = await SubscriberClient.CreateAsync(subscriptionName,
-                new SubscriberClient.ClientCreationSettings(subscriberServiceApiSettings:
-                new SubscriberServiceApiSettings
-                {
-#pragma warning disable CS0618
-                    CallSettings = CallSettings.FromCallCredentials(credentials)
-#pragma warning restore CS0618
-                }));
+                _client = _pubSubClientFactory.GetSubscriberClient(_messagingSettings, subscriptionName);
                 await ProcessMessagesAsync(ConsumeAsync);
             });
 
@@ -170,7 +149,7 @@ namespace Liquid.Messaging.Gcp
                 var telemetry = _telemetryFactory.GetTelemetry();
                 try
                 {
-                    var telemetryKey = $"PubSubConsumer_{_attribute.Topic}_{_attribute.Subscription}";
+                    var telemetryKey = $"PubSubConsumer_{_pubSubConsumerParameter.Topic}_{_pubSubConsumerParameter.Subscription}";
 
                     telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
                     telemetry.StartTelemetryStopWatchMetric(telemetryKey);
@@ -197,12 +176,12 @@ namespace Liquid.Messaging.Gcp
                             aggregationId = context.GetAggregationId(),
                             messageId = message.MessageId,
                             message = eventMessage,
-                            processed = _attribute.AutoComplete || messageProcessed,
-                            autoComplete = _attribute.AutoComplete,
+                            processed = _pubSubConsumerParameter.AutoComplete || messageProcessed,
+                            autoComplete = _pubSubConsumerParameter.AutoComplete,
                             headers
                         });
 
-                        return messageProcessed || _attribute.AutoComplete ?
+                        return messageProcessed || _pubSubConsumerParameter.AutoComplete ?
                             await Task.FromResult(SubscriberClient.Reply.Ack) :
                             await Task.FromResult(SubscriberClient.Reply.Nack);
                     }

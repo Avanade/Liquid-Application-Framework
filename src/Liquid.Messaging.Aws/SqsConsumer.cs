@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using AutoMapper;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Aws.Attributes;
+using Liquid.Messaging.Aws.Configuration;
 using Liquid.Messaging.Aws.Extensions;
+using Liquid.Messaging.Aws.Parameters;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
@@ -33,10 +30,10 @@ namespace Liquid.Messaging.Aws
     public abstract class SqsConsumer<TMessage> : ILightConsumer<TMessage>, IDisposable
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly MessagingSettings _messagingSettings;
+        private readonly AwsMessagingSettings _messagingSettings;
         private readonly ILightContextFactory _contextFactory;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly SqsConsumerAttribute _attribute;
+        private readonly SqsConsumerParameter _sqsConsumerParameter;
         private readonly CancellationTokenSource _cancellationToken;
         private IAmazonSQS _client;
         private string _queueUrl;
@@ -81,7 +78,7 @@ namespace Liquid.Messaging.Aws
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SqsConsumer{TMessage}"/> class.
+        /// Initializes a new instance of the <see cref="SqsConsumer{TMessage}" /> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="mediator">The mediator.</param>
@@ -89,24 +86,23 @@ namespace Liquid.Messaging.Aws
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="System.NotImplementedException">The {nameof(SqsConsumerAttribute)} attribute decorator must be added to configuration class.</exception>
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="sqsConsumerParameter">The SQS consumer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException">messaging</exception>
         protected SqsConsumer(IServiceProvider serviceProvider,
                               IMediator mediator,
                               IMapper mapper,
                               ILightContextFactory contextFactory,
                               ILightTelemetryFactory telemetryFactory,
                               ILoggerFactory loggerFactory,
-                              ILightConfiguration<List<MessagingSettings>> messagingSettings)
+                              ILightMessagingConfiguration<AwsMessagingSettings> messagingConfiguration,
+                              SqsConsumerParameter sqsConsumerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(SqsConsumerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(SqsConsumerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<SqsConsumerAttribute>(true);
+            _sqsConsumerParameter = sqsConsumerParameter;
             _serviceProvider = serviceProvider;
             _contextFactory = contextFactory;
-            _messagingSettings = messagingSettings?.Settings?.GetMessagingSettings(_attribute.ConnectionId) ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_sqsConsumerParameter.ConnectionId) ??
+                    throw new MessagingMissingConfigurationException(_sqsConsumerParameter.ConnectionId); 
             _telemetryFactory = telemetryFactory;
 
             MediatorService = mediator;
@@ -120,11 +116,11 @@ namespace Liquid.Messaging.Aws
         private void InitializeClient()
         {
             _messageHandler = ConsumeAsync;
-            var awsCredentials = new BasicAWSCredentials(_messagingSettings.GetAwsAccessKey(), _messagingSettings.GetAwsSecretKey());
+            var awsCredentials = new BasicAWSCredentials(_messagingSettings.AccessKey, _messagingSettings.SecretKey);
             var awsSqsConfig = new AmazonSQSConfig
             {
                 ServiceURL = _messagingSettings.ConnectionString,
-                RegionEndpoint = _messagingSettings.GetAwsRegion()
+                RegionEndpoint = _messagingSettings.GetRegion()
             };
 
             _client = new AmazonSQSClient(awsCredentials, awsSqsConfig);
@@ -136,7 +132,7 @@ namespace Liquid.Messaging.Aws
         {
             try
             {
-                _queueUrl = await _client.GetAwsQueueUrlAsync(_attribute.Queue);
+                _queueUrl = await _client.GetAwsQueueUrlAsync(_sqsConsumerParameter.Queue);
                 var receiveMessageRequest = new ReceiveMessageRequest
                 {
                     QueueUrl = _queueUrl, 
@@ -163,7 +159,7 @@ namespace Liquid.Messaging.Aws
             var telemetry = _telemetryFactory.GetTelemetry();
             try
             {
-                var telemetryKey = $"SqsConsumer_{_attribute.Queue}";
+                var telemetryKey = $"SqsConsumer_{_sqsConsumerParameter.Queue}";
 
                 telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);
@@ -184,7 +180,7 @@ namespace Liquid.Messaging.Aws
                     if (message.MessageAttributes != null) { AddContextHeaders(message.MessageAttributes, context); }
 
                     var messageProcessed = await _messageHandler.Invoke(eventMessage, headers, _cancellationToken.Token);
-                    if (messageProcessed || _attribute.AutoComplete)
+                    if (messageProcessed || _sqsConsumerParameter.AutoComplete)
                     {
                         var deleteMessageRequest = new DeleteMessageRequest(_queueUrl, message.ReceiptHandle);
                         await _client.DeleteMessageAsync(deleteMessageRequest);
@@ -198,7 +194,7 @@ namespace Liquid.Messaging.Aws
                         messageId = message.MessageId,
                         message = eventMessage,
                         processed = messageProcessed,
-                        autoComplete = _attribute.AutoComplete,
+                        autoComplete = _sqsConsumerParameter.AutoComplete,
                         headers
                     });
                 }

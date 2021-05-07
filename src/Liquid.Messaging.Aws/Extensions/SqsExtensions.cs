@@ -22,7 +22,7 @@ namespace Liquid.Messaging.Aws.Extensions
             {
                 if (value != null)
                 {
-                    messageAttributes.TryAdd(key, new MessageAttributeValue {DataType = "String", StringValue = value.ToString()});
+                    messageAttributes.TryAdd(key, new MessageAttributeValue { DataType = "String", StringValue = value.ToString() });
                 }
             }
 

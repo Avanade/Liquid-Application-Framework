@@ -1,3 +1,0 @@
-{
-  ${{ secrets.LIQUID_MESSAGING_GCP_TEST_CONNECTIONS }}
-}

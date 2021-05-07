@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Aws.Attributes;
+using Liquid.Messaging.Aws.Configuration;
 using Liquid.Messaging.Aws.Extensions;
+using Liquid.Messaging.Aws.Parameters;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
@@ -26,13 +23,13 @@ namespace Liquid.Messaging.Aws
     /// </summary>
     /// <typeparam name="TMessage">The type of the message.</typeparam>
     /// <seealso cref="ILightProducer{TMessage}" />
-    public abstract class SnsProducer<TMessage> : ILightProducer<TMessage>
+    public class SnsProducer<TMessage> : ILightProducer<TMessage>
     {
         private readonly ILogger _logger;
         private readonly ILightContextFactory _contextFactory;
-        private readonly MessagingSettings _messagingSettings;
+        private readonly AwsMessagingSettings _messagingSettings;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly SnsProducerAttribute _attribute;
+        private readonly SnsProducerParameter _snsProducerParameter;
         private AmazonSimpleNotificationServiceClient _client;
 
         /// <summary>
@@ -41,21 +38,20 @@ namespace Liquid.Messaging.Aws
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="System.NotImplementedException">The {nameof(SnsProducerAttribute)} attribute decorator must be added to configuration class.</exception>
-        protected SnsProducer(ILightContextFactory contextFactory,
-                              ILightTelemetryFactory telemetryFactory,
-                              ILoggerFactory loggerFactory,
-                              ILightConfiguration<List<MessagingSettings>> messagingSettings)
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="snsProducerParameter">The SNS producer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException">messaging</exception>
+        public SnsProducer(ILightContextFactory contextFactory,
+                           ILightTelemetryFactory telemetryFactory,
+                           ILoggerFactory loggerFactory,
+                           ILightMessagingConfiguration<AwsMessagingSettings> messagingConfiguration,
+                           SnsProducerParameter snsProducerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(SnsProducerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(SnsProducerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<SnsProducerAttribute>(true);
+            _snsProducerParameter = snsProducerParameter;
             _contextFactory = contextFactory;
             _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingSettings?.Settings?.GetMessagingSettings(_attribute.ConnectionId) ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_snsProducerParameter.ConnectionId) ?? 
+                    throw new MessagingMissingConfigurationException(_snsProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(SqsProducer<TMessage>).FullName);
             InitializeClient();
         }
@@ -65,23 +61,22 @@ namespace Liquid.Messaging.Aws
         /// </summary>
         private void InitializeClient()
         {
-            var credentials = new BasicAWSCredentials(_messagingSettings.GetAwsAccessKey(), _messagingSettings.GetAwsSecretKey());
+            var credentials = new BasicAWSCredentials(_messagingSettings.AccessKey, _messagingSettings.SecretKey);
             var config = new AmazonSimpleNotificationServiceConfig()
             {
                 ServiceURL = _messagingSettings.ConnectionString,
-                RegionEndpoint = _messagingSettings.GetAwsRegion()
+                RegionEndpoint = _messagingSettings.GetRegion()
             };
 
             _client = new AmazonSimpleNotificationServiceClient(credentials, config);
-
         }
-        
+
         /// <summary>
         /// Sends the message asynchronous.
         /// </summary>
         /// <param name="message">The message object.</param>
         /// <param name="customHeaders">The message custom headers.</param>
-        /// <exception cref="System.ArgumentNullException">message</exception>
+        /// <exception cref="ArgumentNullException">message</exception>
         /// <exception cref="MessagingProducerException"></exception>
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
@@ -92,7 +87,7 @@ namespace Liquid.Messaging.Aws
             try
             {
                 var context = _contextFactory.GetContext();
-                var telemetryKey = $"SnsProducer_{_attribute.Topic}";
+                var telemetryKey = $"SnsProducer_{_snsProducerParameter.Topic}";
 
                 telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);
@@ -105,14 +100,14 @@ namespace Liquid.Messaging.Aws
                 customHeaders.TryAdd("liquidAggregationId", aggregationId);
 
                 var messageBody = message.ToString();
-                if (_attribute.MessageStructure.Equals("json", StringComparison.InvariantCultureIgnoreCase))
+                if (_snsProducerParameter.MessageStructure.Equals("json", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    messageBody = !_attribute.CompressMessage ? message.ToJson() : Convert.ToBase64String(message.ToJson().GzipCompress());
+                    messageBody = !_snsProducerParameter.CompressMessage ? message.ToJson() : Convert.ToBase64String(message.ToJson().GzipCompress());
                 }
 
-                if (_attribute.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
+                if (_snsProducerParameter.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
 
-                var topicResponse = await _client.CreateTopicAsync(new CreateTopicRequest(_attribute.Topic));
+                var topicResponse = await _client.CreateTopicAsync(new CreateTopicRequest(_snsProducerParameter.Topic));
 
                 var request = new PublishRequest
                 {
@@ -123,7 +118,7 @@ namespace Liquid.Messaging.Aws
 
                 if (customHeaders.ContainsKey("PhoneNumber")) { request.PhoneNumber = customHeaders["PhoneNumber"].ToString(); }
                 if (customHeaders.ContainsKey("Subject")) { request.Subject = customHeaders["Subject"].ToString(); }
-                
+
                 await _client.PublishAsync(request);
 
                 telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
@@ -133,7 +128,7 @@ namespace Liquid.Messaging.Aws
                     aggregationId,
                     message,
                     headers = customHeaders,
-                    compressed = _attribute.CompressMessage
+                    compressed = _snsProducerParameter.CompressMessage
                 });
             }
             catch (Exception ex)

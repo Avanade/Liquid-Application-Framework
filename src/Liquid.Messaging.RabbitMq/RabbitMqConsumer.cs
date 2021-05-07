@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Liquid.Core.Configuration;
 using Liquid.Core.Utils;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
-using Liquid.Messaging.RabbitMq.Attributes;
+using Liquid.Messaging.RabbitMq.Parameters;
 using Liquid.Messaging.RabbitMq.Configuration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,15 +26,15 @@ namespace Liquid.Messaging.RabbitMq
     /// RabbitMq Consumer Adapter Class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the message object.</typeparam>
-    /// <seealso cref="Liquid.Messaging.ILightConsumer{TMessage}" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="ILightConsumer{TMessage}" />
+    /// <seealso cref="IDisposable" />
     public abstract class RabbitMqConsumer<TMessage> : ILightConsumer<TMessage>
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILightContextFactory _contextFactory;
-        private readonly List<MessagingSettings> _messagingSettings;
+        private readonly RabbitMqSettings _messagingSettings;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly RabbitMqConsumerAttribute _attribute;
+        private readonly RabbitMqConsumerParameter _rabbitMqConsumerParameter;
         private ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channelModel;
@@ -70,14 +68,6 @@ namespace Liquid.Messaging.RabbitMq
         public IMediator MediatorService { get; }
 
         /// <summary>
-        /// Gets the rabbit mq settings.
-        /// </summary>
-        /// <value>
-        /// The rabbit mq settings.
-        /// </value>
-        public abstract RabbitMqSettings RabbitMqSettings { get; }
-
-        /// <summary>
         /// Consumes the message from  subscription asynchronous.
         /// </summary>
         /// <param name="message">The message to be consumed.</param>
@@ -95,29 +85,26 @@ namespace Liquid.Messaging.RabbitMq
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="NotImplementedException">The {nameof(RabbitMqConsumerAttribute)} attribute decorator must be added to configuration class.</exception>
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="rabbitMqConsumerParameter">The rabbit mq consumer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException"></exception>
         protected RabbitMqConsumer(IServiceProvider serviceProvider,
-                                     IMediator mediator,
-                                     IMapper mapper,
-                                     ILightContextFactory contextFactory,
-                                     ILightTelemetryFactory telemetryFactory,
-                                     ILoggerFactory loggerFactory,
-                                     ILightConfiguration<List<MessagingSettings>> messagingSettings)
+                                   IMediator mediator,
+                                   IMapper mapper,
+                                   ILightContextFactory contextFactory,
+                                   ILightTelemetryFactory telemetryFactory,
+                                   ILoggerFactory loggerFactory,
+                                   ILightMessagingConfiguration<RabbitMqSettings> messagingConfiguration,
+                                   RabbitMqConsumerParameter rabbitMqConsumerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(RabbitMqConsumerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(RabbitMqConsumerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<RabbitMqConsumerAttribute>(true);
+            _rabbitMqConsumerParameter = rabbitMqConsumerParameter;
             _serviceProvider = serviceProvider;
             _contextFactory = contextFactory;
-            _messagingSettings = messagingSettings?.Settings ?? throw new MessagingMissingConfigurationException("messaging"); ;
+            _messagingSettings = messagingConfiguration?.GetSettings(_rabbitMqConsumerParameter.ConnectionId) ??
+                    throw new MessagingMissingConfigurationException(_rabbitMqConsumerParameter.ConnectionId);
             _telemetryFactory = telemetryFactory;
-
             MediatorService = mediator;
             MapperService = mapper;
-
             LogService = loggerFactory.CreateLogger(typeof(RabbitMqConsumer<TMessage>).FullName);
 
             InitializeClient();
@@ -128,20 +115,21 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         private void InitializeClient()
         {
-            _autoAck = RabbitMqSettings?.AutoAck ?? false;
-            var messagingSettings = _messagingSettings.GetMessagingSettings(_attribute.ConnectionId);
+            _autoAck = _rabbitMqConsumerParameter.AdvancedSettings?.AutoAck ?? false;
             _connectionFactory = new ConnectionFactory
             {
-                Uri = new Uri(messagingSettings.ConnectionString),
-                RequestedHeartbeat = TimeSpan.FromSeconds(RabbitMqSettings?.RequestHeartBeatInSeconds ?? 60),
-                AutomaticRecoveryEnabled = RabbitMqSettings?.AutoRecovery ?? true
+                Uri = new Uri(_messagingSettings.ConnectionString),
+                RequestedHeartbeat = TimeSpan.FromSeconds(_messagingSettings?.RequestHeartBeatInSeconds ?? 60),
+                AutomaticRecoveryEnabled = _messagingSettings?.AutoRecovery ?? true
             };
 
             _connection = _connectionFactory.CreateConnection();
             _channelModel = _connection.CreateModel();
-            if (RabbitMqSettings != null)
+            if (_messagingSettings.Prefetch.HasValue &&
+                _messagingSettings.PrefetchCount.HasValue &&
+                _messagingSettings.Global.HasValue)
             {
-                _channelModel.BasicQos(RabbitMqSettings.Prefetch, RabbitMqSettings.PrefetchCount, RabbitMqSettings.Global);
+                _channelModel.BasicQos(_messagingSettings.Prefetch.Value, _messagingSettings.PrefetchCount.Value, _messagingSettings.Global.Value);
             }
 
             RegisterMessageHandler(ConsumeAsync);
@@ -154,18 +142,18 @@ namespace Liquid.Messaging.RabbitMq
         /// <returns></returns>
         public void RegisterMessageHandler(Func<TMessage, IDictionary<string, object>, CancellationToken, Task<bool>> handler)
         {
-            _channelModel.QueueDeclare(_attribute.Queue,
-                RabbitMqSettings?.Durable ?? false,
-                RabbitMqSettings?.Exclusive ?? true,
-                RabbitMqSettings?.AutoDelete ?? false,
-                RabbitMqSettings?.QueueArguments);
-            _channelModel.QueueBind(_attribute.Queue, _attribute.Exchange, string.Empty);
+            _channelModel.QueueDeclare(_rabbitMqConsumerParameter.Queue,
+               _rabbitMqConsumerParameter.AdvancedSettings?.Durable ?? false,
+               _rabbitMqConsumerParameter.AdvancedSettings?.Exclusive ?? true,
+               _rabbitMqConsumerParameter.AdvancedSettings?.AutoDelete ?? false,
+               _rabbitMqConsumerParameter.AdvancedSettings?.QueueArguments);
+            _channelModel.QueueBind(_rabbitMqConsumerParameter.Queue, _rabbitMqConsumerParameter.Exchange, string.Empty);
 
             var consumer = new EventingBasicConsumer(_channelModel);
 
             consumer.Received += async (model, deliverEvent) => { await ProcessMessageAsync(handler, deliverEvent); };
 
-            _channelModel.BasicConsume(_attribute.Queue, _autoAck, consumer);
+            _channelModel.BasicConsume(_rabbitMqConsumerParameter.Queue, _autoAck, consumer);
         }
 
         /// <summary>
@@ -180,7 +168,7 @@ namespace Liquid.Messaging.RabbitMq
             var telemetry = _telemetryFactory.GetTelemetry();
             try
             {
-                var telemetryKey = $"RabbitMqConsumer_{_attribute.Exchange}_{_attribute.Queue}";
+                var telemetryKey = $"RabbitMqConsumer_{_rabbitMqConsumerParameter.Exchange}_{_rabbitMqConsumerParameter.Queue}";
 
                 telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);

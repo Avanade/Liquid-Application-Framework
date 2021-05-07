@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using Liquid.Core.Exceptions;
 
 namespace Liquid.Messaging.Exceptions
@@ -6,7 +8,8 @@ namespace Liquid.Messaging.Exceptions
     /// <summary>
     /// Occurs when a Configuration in settings configuration does not exist.
     /// </summary>
-    /// <seealso cref="Liquid.Core.Exceptions.LightException" />
+    /// <seealso cref="LightException" />
+    [Serializable]
     [ExcludeFromCodeCoverage]
     public class MessagingMissingConfigurationException : LightException
     {
@@ -15,6 +18,11 @@ namespace Liquid.Messaging.Exceptions
         /// </summary>
         /// <param name="connectionId">The connection identifier.</param>
         public MessagingMissingConfigurationException(string connectionId) : base($"The messaging configuration id {connectionId} does not exist. Please check your configuration file.")
+        {
+        }
+
+        /// <inheritdoc/>
+        protected MessagingMissingConfigurationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

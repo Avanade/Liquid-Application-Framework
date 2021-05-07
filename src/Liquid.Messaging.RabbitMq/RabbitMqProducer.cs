@@ -1,20 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using Liquid.Core.Configuration;
 using Liquid.Core.Utils;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
-using Liquid.Messaging.RabbitMq.Attributes;
+using Liquid.Messaging.RabbitMq.Parameters;
 using Liquid.Messaging.RabbitMq.Configuration;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
-using RabbitMQ.Client.Framing;
 
 namespace Liquid.Messaging.RabbitMq
 {
@@ -22,47 +18,38 @@ namespace Liquid.Messaging.RabbitMq
     /// RabbitMq Producer Class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the message object.</typeparam>
-    /// <seealso cref="Liquid.Messaging.ILightProducer{TMessage}" />
-    public abstract class RabbitMqProducer<TMessage> : ILightProducer<TMessage>
+    /// <seealso cref="ILightProducer{TMessage}" />
+    public class RabbitMqProducer<TMessage> : ILightProducer<TMessage>
     {
-
         private readonly ILogger _logger;
         private readonly ILightContextFactory _contextFactory;
-        private readonly List<MessagingSettings> _messagingSettings;
-        private readonly RabbitMqProducerAttribute _attribute;
+        private readonly RabbitMqSettings _messagingSettings;
+        private readonly RabbitMqProducerParameter _rabbitMqProducerParameter;
         private readonly ILightTelemetryFactory _telemetryFactory;
         private ConnectionFactory _connectionFactory;
         private IConnection _connection;
         private IModel _channelModel;
 
-        /// <summary>
-        /// Gets the rabbit mq settings.
-        /// </summary>
-        /// <value>
-        /// The rabbit mq settings.
-        /// </value>
-        public abstract RabbitMqSettings RabbitMqSettings { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RabbitMqProducer{TMessage}" /> class.
+        /// Initializes a new instance of the <see cref="RabbitMqProducer{TMessage}"/> class.
         /// </summary>
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="NotImplementedException">The {nameof(RabbitMqProducerAttribute)} attribute decorator must be added to configuration class.</exception>
-        protected RabbitMqProducer(ILightContextFactory contextFactory,
-                                    ILightTelemetryFactory telemetryFactory,
-                                    ILoggerFactory loggerFactory,
-                                    ILightConfiguration<List<MessagingSettings>> messagingSettings)
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="rabbitMqProducerParameter">The rabbit mq producer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException"></exception>
+        public RabbitMqProducer(ILightContextFactory contextFactory,
+                                ILightTelemetryFactory telemetryFactory,
+                                ILoggerFactory loggerFactory,
+                                ILightMessagingConfiguration<RabbitMqSettings> messagingConfiguration,
+                                RabbitMqProducerParameter rabbitMqProducerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(RabbitMqProducerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(RabbitMqProducerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<RabbitMqProducerAttribute>(true);
+            _rabbitMqProducerParameter = rabbitMqProducerParameter;
             _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingSettings?.Settings ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_rabbitMqProducerParameter.ConnectionId) ??
+                    throw new MessagingMissingConfigurationException(_rabbitMqProducerParameter.ConnectionId);
             _contextFactory = contextFactory;
             _logger = loggerFactory.CreateLogger(typeof(RabbitMqProducer<TMessage>).FullName);
             InitializeClient();
@@ -73,21 +60,20 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         private void InitializeClient()
         {
-            var messagingSettings = _messagingSettings.GetMessagingSettings(_attribute.ConnectionId);
             _connectionFactory = new ConnectionFactory
             {
-                Uri = new Uri(messagingSettings.ConnectionString),
-                RequestedHeartbeat = TimeSpan.FromSeconds(RabbitMqSettings?.RequestHeartBeatInSeconds ?? 60),
-                AutomaticRecoveryEnabled = RabbitMqSettings?.AutoRecovery ?? true
+                Uri = new Uri(_messagingSettings.ConnectionString),
+                RequestedHeartbeat = TimeSpan.FromSeconds(_messagingSettings?.RequestHeartBeatInSeconds ?? 60),
+                AutomaticRecoveryEnabled = _messagingSettings?.AutoRecovery ?? true
             };
 
             _connection = _connectionFactory.CreateConnection();
             _channelModel = _connection.CreateModel();
-            _channelModel.ExchangeDeclare(_attribute.Exchange,
-                RabbitMqSettings?.ExchangeType ?? "direct",
-                RabbitMqSettings?.Durable ?? false,
-                RabbitMqSettings?.AutoDelete ?? false,
-                RabbitMqSettings?.ExchangeArguments);
+            _channelModel.ExchangeDeclare(_rabbitMqProducerParameter.Exchange,
+                _rabbitMqProducerParameter.AdvancedSettings?.ExchangeType ?? "direct",
+                _rabbitMqProducerParameter.AdvancedSettings?.Durable ?? false,
+                _rabbitMqProducerParameter.AdvancedSettings?.AutoDelete ?? false,
+                _rabbitMqProducerParameter.AdvancedSettings?.ExchangeArguments);
         }
 
         /// <summary>
@@ -95,7 +81,7 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         /// <param name="message">The message object.</param>
         /// <param name="customHeaders">The message custom headers.</param>
-        /// <exception cref="System.ArgumentNullException">message</exception>
+        /// <exception cref="ArgumentNullException">message</exception>
         /// <exception cref="MessagingProducerException"></exception>
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
@@ -106,7 +92,7 @@ namespace Liquid.Messaging.RabbitMq
             try
             {
                 var context = _contextFactory.GetContext();
-                var telemetryKey = $"RabbitMqProducer_{_attribute.Exchange}";
+                var telemetryKey = $"RabbitMqProducer_{_rabbitMqProducerParameter.Exchange}";
                 
                 telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
                 
@@ -123,20 +109,20 @@ namespace Liquid.Messaging.RabbitMq
 
                     var messageProperties = _channelModel.CreateBasicProperties();
 
-                    messageProperties.Persistent = RabbitMqSettings?.Persistent ?? false;
-                    messageProperties.Expiration = RabbitMqSettings?.Expiration ?? "30000";
+                    messageProperties.Persistent = _rabbitMqProducerParameter.AdvancedSettings?.Persistent ?? false;
+                    messageProperties.Expiration = _rabbitMqProducerParameter.AdvancedSettings?.Expiration ?? "30000";
                     messageProperties.Headers = customHeaders;
                     messageProperties.CorrelationId = aggregationId;
                     messageProperties.MessageId = messageId;                    
 
-                    var messageBytes = !_attribute.CompressMessage ? message.ToJsonBytes() : message.ToJson().GzipCompress();
+                    var messageBytes = !_rabbitMqProducerParameter.CompressMessage ? message.ToJsonBytes() : message.ToJson().GzipCompress();
 
-                    if (_attribute.CompressMessage)
+                    if (_rabbitMqProducerParameter.CompressMessage)
                     {
                         messageProperties.ContentType = CommonExtensions.GZipContentType;
                     }
 
-                    _channelModel.BasicPublish(_attribute.Exchange, string.Empty, messageProperties, messageBytes);
+                    _channelModel.BasicPublish(_rabbitMqProducerParameter.Exchange, string.Empty, messageProperties, messageBytes);
 
                     telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
                     {

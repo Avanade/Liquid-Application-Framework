@@ -21,6 +21,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    # required for tests that depends on a GcpPubSub emulator instance
+    services:
+      pubsub:
+        image: storytel/gcp-pubsub-emulator
+        ports:
+          - 8262:8262
+
     steps:
     - name: Job Type
       run: |
@@ -67,14 +74,6 @@ jobs:
 
     - name: (CI/CD) Restore dependencies
       run: dotnet restore src/Liquid.Messaging.Gcp/Liquid.Messaging.Gcp.csproj
-
-    # required to run tests that depends on GCP Services
-    - name: Parse Secrets
-      uses: jwsi/secret-parser@v1
-      with:
-        filename: src/Liquid.Messaging.Gcp.Tests/astute-anchor-275919-9485a35443b4.json
-        secret-name: LIQUID_MESSAGING_GCP_TEST_CONNECTIONS
-        secret-value: ${{ secrets.LIQUID_MESSAGING_GCP_TEST_CONNECTIONS }}
 
     - name: (CI/CD) Build and Analyze Project
       env:

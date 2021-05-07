@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Confluent.Kafka;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
-using Liquid.Messaging.Kafka.Attributes;
+using Liquid.Messaging.Kafka.Parameters;
 using Liquid.Messaging.Kafka.Extensions;
 using Microsoft.Extensions.Logging;
+using Liquid.Messaging.Kafka.Configuration;
 
 namespace Liquid.Messaging.Kafka
 {
@@ -22,15 +20,15 @@ namespace Liquid.Messaging.Kafka
     /// Google Cloud Pub/Sub Producer Class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the object.</typeparam>
-    /// <seealso cref="Liquid.Messaging.ILightProducer{TMessage}" />
-    /// <seealso cref="System.IDisposable" />
-    public abstract class KafkaProducer<TMessage> : ILightProducer<TMessage>
+    /// <seealso cref="ILightProducer{TMessage}" />
+    /// <seealso cref="IDisposable" />
+    public class KafkaProducer<TMessage> : ILightProducer<TMessage>
     {
         private readonly ILogger _logger;
         private readonly ILightContextFactory _contextFactory;
-        private readonly MessagingSettings _messagingSettings;
+        private readonly KafkaSettings _messagingSettings;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly KafkaProducerAttribute _attribute;
+        private readonly KafkaProducerParameter _kafkaProducerParameter;
         private IProducer<Null, string> _client;
 
         /// <summary>
@@ -39,21 +37,20 @@ namespace Liquid.Messaging.Kafka
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="NotImplementedException">The {nameof(PubSubProducerAttribute)} attribute decorator must be added to configuration class.</exception>
-        protected KafkaProducer(ILightContextFactory contextFactory,
-                                 ILightTelemetryFactory telemetryFactory,
-                                 ILoggerFactory loggerFactory,
-                                 ILightConfiguration<List<MessagingSettings>> messagingSettings)
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="kafkaProducerParameter">The kafka producer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException"></exception>
+        public KafkaProducer(ILightContextFactory contextFactory,
+                                ILightTelemetryFactory telemetryFactory,
+                                ILoggerFactory loggerFactory,
+                                ILightMessagingConfiguration<KafkaSettings> messagingConfiguration,
+                                KafkaProducerParameter kafkaProducerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(KafkaProducerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(KafkaProducerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<KafkaProducerAttribute>(true);
+            _kafkaProducerParameter = kafkaProducerParameter;
             _contextFactory = contextFactory;
             _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingSettings?.Settings?.GetMessagingSettings(_attribute.ConnectionId) ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_kafkaProducerParameter.ConnectionId) ??
+                    throw new MessagingMissingConfigurationException(_kafkaProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(KafkaProducer<TMessage>).FullName);
             InitializeClient();
         }
@@ -63,13 +60,13 @@ namespace Liquid.Messaging.Kafka
         /// </summary>
         private void InitializeClient()
         {
-            //TODO: Rever forma de conexão e testar conectividade com o Kafka.
+            //TODO: Review connection parameters with kafka.
             var config = new ProducerConfig
             {
-                SocketKeepaliveEnable = _messagingSettings.GetSocketKeepAlive(),
-                SocketTimeoutMs = _messagingSettings.GetTimeout(),
+                SocketKeepaliveEnable = _messagingSettings.SocketKeepAlive,
+                SocketTimeoutMs = _messagingSettings.Timeout,
                 BootstrapServers = _messagingSettings.ConnectionString,
-                ClientId = _messagingSettings.Id
+                ClientId = _kafkaProducerParameter.ConnectionId
             };
 
             _client = new ProducerBuilder<Null, string>(config).Build();
@@ -80,7 +77,7 @@ namespace Liquid.Messaging.Kafka
         /// </summary>
         /// <param name="message">The message object.</param>
         /// <param name="customHeaders">The message custom headers.</param>
-        /// <exception cref="System.ArgumentNullException">message</exception>
+        /// <exception cref="ArgumentNullException">message</exception>
         /// <exception cref="MessagingProducerException"></exception>
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
@@ -91,7 +88,7 @@ namespace Liquid.Messaging.Kafka
             try
             {
                 var context = _contextFactory.GetContext();
-                var telemetryKey = $"PubSubProducer_{_attribute.Topic}";
+                var telemetryKey = $"PubSubProducer_{_kafkaProducerParameter.Topic}";
 
                 telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);
@@ -104,14 +101,14 @@ namespace Liquid.Messaging.Kafka
                 customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
                 customHeaders.TryAdd("liquidAggregationId", aggregationId);
                 customHeaders.TryAdd("liquidMessageId", messageId);
-                if (_attribute.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
+                if (_kafkaProducerParameter.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
 
 
-                var messageBody = !_attribute.CompressMessage ? message.ToJson() : Encoding.UTF8.GetString(message.ToJson().GzipCompress());
+                var messageBody = !_kafkaProducerParameter.CompressMessage ? message.ToJson() : Encoding.UTF8.GetString(message.ToJson().GzipCompress());
 
                 var request = new Message<Null, string> { Value = messageBody, Headers = new Headers().AddCustomHeaders(customHeaders) };
 
-                await _client.ProduceAsync(_attribute.Topic, request);
+                await _client.ProduceAsync(_kafkaProducerParameter.Topic, request);
                 
                 telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
                 {
@@ -121,7 +118,7 @@ namespace Liquid.Messaging.Kafka
                     messageId,
                     message,
                     headers = customHeaders,
-                    compressed = _attribute.CompressMessage
+                    compressed = _kafkaProducerParameter.CompressMessage
                 });
             }
             catch (Exception ex)

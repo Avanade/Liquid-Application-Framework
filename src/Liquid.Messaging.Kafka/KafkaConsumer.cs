@@ -1,25 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Confluent.Kafka;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
-using Liquid.Messaging.Kafka.Attributes;
+using Liquid.Messaging.Kafka.Parameters;
 using Liquid.Messaging.Kafka.Extensions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Liquid.Messaging.Kafka.Configuration;
 
 namespace Liquid.Messaging.Kafka
 {
@@ -27,15 +25,15 @@ namespace Liquid.Messaging.Kafka
     /// Azure Service Bus Consumer Class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the message object.</typeparam>
-    /// <seealso cref="Liquid.Messaging.ILightConsumer{TMessage}" />
-    /// <seealso cref="System.IDisposable" />
+    /// <seealso cref="ILightConsumer{TMessage}" />
+    /// <seealso cref="IDisposable" />
     public abstract class KafkaConsumer<TMessage> : ILightConsumer<TMessage>
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly MessagingSettings _messagingSettings;
+        private readonly KafkaSettings _messagingSettings;
         private readonly ILightContextFactory _contextFactory;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly KafkaConsumerAttribute _attribute;
+        private readonly KafkaConsumerParameter _kafkaConsumerParameter;
         private readonly CancellationTokenSource _cancellationToken;
         private readonly Func<TMessage, IDictionary<string, object>, CancellationToken, Task<bool>> _messageHandler;
         private IConsumer<Ignore, string> _client;
@@ -85,25 +83,24 @@ namespace Liquid.Messaging.Kafka
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        /// <exception cref="NotImplementedException">The {nameof(PubSubConsumerAttribute)} attribute decorator must be added to configuration class.</exception>
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="kafkaConsumerParameter">The kafka consumer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException"></exception>
         protected KafkaConsumer(IServiceProvider serviceProvider,
-                                 IMediator mediator,
-                                 IMapper mapper,
-                                 ILightContextFactory contextFactory,
-                                 ILightTelemetryFactory telemetryFactory,
-                                 ILoggerFactory loggerFactory,
-                                 ILightConfiguration<List<MessagingSettings>> messagingSettings)
+                                IMediator mediator,
+                                IMapper mapper,
+                                ILightContextFactory contextFactory,
+                                ILightTelemetryFactory telemetryFactory,
+                                ILoggerFactory loggerFactory,
+                                ILightMessagingConfiguration<KafkaSettings> messagingConfiguration,
+                                KafkaConsumerParameter kafkaConsumerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(KafkaConsumerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(KafkaConsumerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<KafkaConsumerAttribute>(true);
+            _kafkaConsumerParameter = kafkaConsumerParameter;
             _telemetryFactory = telemetryFactory;
             _serviceProvider = serviceProvider;
             _contextFactory = contextFactory;
-            _messagingSettings = messagingSettings?.Settings?.GetMessagingSettings(_attribute.ConnectionId) ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_kafkaConsumerParameter.ConnectionId) ??
+                    throw new MessagingMissingConfigurationException(_kafkaConsumerParameter.ConnectionId);
             _cancellationToken = new CancellationTokenSource();
             MediatorService = mediator;
             MapperService = mapper;
@@ -120,18 +117,18 @@ namespace Liquid.Messaging.Kafka
         {
             try
             {
-                //TODO: Rever forma de conexão e testar conectividade com o Kafka.
+                //TODO: Review connection parameters with kafka.
                 var config = new ConsumerConfig
                 {
-                    SocketKeepaliveEnable = _messagingSettings.GetSocketKeepAlive(),
-                    SocketTimeoutMs = _messagingSettings.GetTimeout(),
+                    SocketKeepaliveEnable = _messagingSettings.SocketKeepAlive,
+                    SocketTimeoutMs = _messagingSettings.Timeout,
                     BootstrapServers = _messagingSettings.ConnectionString,
-                    ClientId = _messagingSettings.Id,
+                    ClientId = _kafkaConsumerParameter.ConnectionId,
                     EnableAutoCommit = false //this is done for fine tuning below
                 };
 
                 _client = new ConsumerBuilder<Ignore, string>(config).Build();
-                _client.Subscribe(_attribute.Topic);
+                _client.Subscribe(_kafkaConsumerParameter.Topic);
 
                 //Polling messages from Kafka
                 while (!_cancellationToken.Token.IsCancellationRequested)
@@ -157,7 +154,7 @@ namespace Liquid.Messaging.Kafka
             var telemetry = _telemetryFactory.GetTelemetry();
             try
             {
-                var telemetryKey = $"KafkaConsumer_{_attribute.Topic}";
+                var telemetryKey = $"KafkaConsumer_{_kafkaConsumerParameter.Topic}";
 
                 telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);
@@ -177,7 +174,7 @@ namespace Liquid.Messaging.Kafka
                     AddContextHeaders(headers, context);
 
                     var messageProcessed = await _messageHandler.Invoke(eventMessage, headers, _cancellationToken.Token);
-                    if (messageProcessed || _attribute.AutoComplete)
+                    if (messageProcessed || _kafkaConsumerParameter.AutoComplete)
                     {
                         try
                         {
@@ -197,7 +194,7 @@ namespace Liquid.Messaging.Kafka
                         messageId = headers.ContainsKey("liquidMessageId") ? headers["liquidMessageId"].ToString() : string.Empty,
                         message = eventMessage,
                         processed = messageProcessed,
-                        autoComplete = _attribute.AutoComplete,
+                        autoComplete = _kafkaConsumerParameter.AutoComplete,
                         headers
                     });
                 }

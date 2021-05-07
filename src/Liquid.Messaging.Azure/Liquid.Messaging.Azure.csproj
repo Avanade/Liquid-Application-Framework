@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.1-alpha</Version>
+    <Version>2.0.2-alpha</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>
       The Liquid.Messaging.Azure provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
@@ -21,9 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Domain" Version="2.0.0-alpha" />
-    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.1.2" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0-preview.2.21154.6" />
+    <PackageReference Include="Liquid.Domain" Version="2.0.2-alpha" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\logo.png">
+    <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

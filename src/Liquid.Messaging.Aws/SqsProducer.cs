@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading.Tasks;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Aws.Attributes;
+using Liquid.Messaging.Aws.Configuration;
 using Liquid.Messaging.Aws.Extensions;
+using Liquid.Messaging.Aws.Parameters;
 using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
@@ -24,36 +21,37 @@ namespace Liquid.Messaging.Aws
     /// AWS SQS Queue Producer class.
     /// </summary>
     /// <typeparam name="TMessage">The type of the message object.</typeparam>
-    public abstract class SqsProducer<TMessage> : ILightProducer<TMessage>
+    public class SqsProducer<TMessage> : ILightProducer<TMessage>
     {
         private readonly ILogger _logger;
         private readonly ILightContextFactory _contextFactory;
-        private readonly MessagingSettings _messagingSettings;
+        private readonly AwsMessagingSettings _messagingSettings;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private readonly SqsProducerAttribute _attribute;
+        private readonly SqsProducerParameter _sqsProducerParameter;
         private IAmazonSQS _client;
         private string _queueUrl;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SqsProducer{TMessage}"/> class.
+        /// Initializes a new instance of the <see cref="SqsProducer{TMessage}" /> class.
         /// </summary>
         /// <param name="contextFactory">The context factory.</param>
         /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingSettings">The messaging settings.</param>
-        protected SqsProducer(ILightContextFactory contextFactory,
-                               ILightTelemetryFactory telemetryFactory,
-                               ILoggerFactory loggerFactory,
-                               ILightConfiguration<List<MessagingSettings>> messagingSettings)
+        /// <param name="messagingConfiguration">The messaging configuration.</param>
+        /// <param name="sqsProducerParameter">The SQS producer parameter.</param>
+        /// <exception cref="MessagingMissingConfigurationException">messaging</exception>
+        public SqsProducer(ILightContextFactory contextFactory,
+                              ILightTelemetryFactory telemetryFactory,
+                              ILoggerFactory loggerFactory,
+                              ILightMessagingConfiguration<AwsMessagingSettings> messagingConfiguration,
+                              SqsProducerParameter sqsProducerParameter)
         {
-            if (!GetType().GetCustomAttributes(typeof(SqsProducerAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(SqsProducerAttribute)} attribute decorator must be added to configuration class.");
-            }
-            _attribute = GetType().GetCustomAttribute<SqsProducerAttribute>(true);
+
+            _sqsProducerParameter = sqsProducerParameter;
             _contextFactory = contextFactory;
             _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingSettings?.Settings?.GetMessagingSettings(_attribute.ConnectionId) ?? throw new MessagingMissingConfigurationException("messaging");
+            _messagingSettings = messagingConfiguration?.GetSettings(_sqsProducerParameter.ConnectionId) ?? 
+                    throw new MessagingMissingConfigurationException(_sqsProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(SqsProducer<TMessage>).FullName);
             InitializeClient();
         }
@@ -63,11 +61,11 @@ namespace Liquid.Messaging.Aws
         /// </summary>
         private void InitializeClient()
         {
-            var awsCredentials = new BasicAWSCredentials(_messagingSettings.GetAwsAccessKey(), _messagingSettings.GetAwsSecretKey());
+            var awsCredentials = new BasicAWSCredentials(_messagingSettings.AccessKey, _messagingSettings.SecretKey);
             var awsSqsConfig = new AmazonSQSConfig
             {
                 ServiceURL = _messagingSettings.ConnectionString,
-                RegionEndpoint = _messagingSettings.GetAwsRegion()
+                RegionEndpoint = _messagingSettings.GetRegion()
             };
 
             _client = new AmazonSQSClient(awsCredentials, awsSqsConfig);
@@ -79,7 +77,7 @@ namespace Liquid.Messaging.Aws
         /// </summary>
         /// <param name="message">The message object.</param>
         /// <param name="customHeaders">The message custom headers.</param>
-        /// <exception cref="System.ArgumentNullException">message</exception>
+        /// <exception cref="ArgumentNullException">message</exception>
         /// <exception cref="MessagingProducerException"></exception>
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
@@ -90,21 +88,21 @@ namespace Liquid.Messaging.Aws
             try
             {
                 var context = _contextFactory.GetContext();
-                var telemetryKey = $"SqsProducer_{_attribute.Queue}";
+                var telemetryKey = $"SqsProducer_{_sqsProducerParameter.Queue}";
 
                 telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
                 telemetry.StartTelemetryStopWatchMetric(telemetryKey);
                 var aggregationId = context.GetAggregationId();
-                _queueUrl = await _client.GetAwsQueueUrlAsync(_attribute.Queue);
+                _queueUrl = await _client.GetAwsQueueUrlAsync(_sqsProducerParameter.Queue);
 
                 if (!string.IsNullOrEmpty(context.ContextCulture)) customHeaders.TryAdd("liquidCulture", context.ContextCulture);
                 if (!string.IsNullOrEmpty(context.ContextChannel)) customHeaders.TryAdd("liquidChannel", context.ContextChannel);
                 customHeaders.TryAdd("liquidCorrelationId", context.ContextId.ToString());
                 customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
                 customHeaders.TryAdd("liquidAggregationId", aggregationId);
-                if (_attribute.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
+                if (_sqsProducerParameter.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
                 
-                var messageBody = !_attribute.CompressMessage ? message.ToJson() : Convert.ToBase64String(message.ToJson().GzipCompress());
+                var messageBody = !_sqsProducerParameter.CompressMessage ? message.ToJson() : Convert.ToBase64String(message.ToJson().GzipCompress());
 
                 var request = new SendMessageRequest
                 {
@@ -122,7 +120,7 @@ namespace Liquid.Messaging.Aws
                     aggregationId,
                     message,
                     headers = customHeaders,
-                    compressed = _attribute.CompressMessage
+                    compressed = _sqsProducerParameter.CompressMessage
                 });
             }
             catch (Exception ex)

@@ -26,8 +26,6 @@ namespace Liquid.Messaging.RabbitMq
         private readonly RabbitMqSettings _messagingSettings;
         private readonly RabbitMqProducerParameter _rabbitMqProducerParameter;
         private readonly ILightTelemetryFactory _telemetryFactory;
-        private ConnectionFactory _connectionFactory;
-        private IConnection _connection;
         private IModel _channelModel;
 
 
@@ -60,15 +58,15 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         private void InitializeClient()
         {
-            _connectionFactory = new ConnectionFactory
+            var connectionFactory = new ConnectionFactory
             {
                 Uri = new Uri(_messagingSettings.ConnectionString),
                 RequestedHeartbeat = TimeSpan.FromSeconds(_messagingSettings?.RequestHeartBeatInSeconds ?? 60),
                 AutomaticRecoveryEnabled = _messagingSettings?.AutoRecovery ?? true
             };
 
-            _connection = _connectionFactory.CreateConnection();
-            _channelModel = _connection.CreateModel();
+            var connection = connectionFactory.CreateConnection();
+            _channelModel = connection.CreateModel();
             _channelModel.ExchangeDeclare(_rabbitMqProducerParameter.Exchange,
                 _rabbitMqProducerParameter.AdvancedSettings?.ExchangeType ?? "direct",
                 _rabbitMqProducerParameter.AdvancedSettings?.Durable ?? false,

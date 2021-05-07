@@ -35,8 +35,6 @@ namespace Liquid.Messaging.RabbitMq
         private readonly RabbitMqSettings _messagingSettings;
         private readonly ILightTelemetryFactory _telemetryFactory;
         private readonly RabbitMqConsumerParameter _rabbitMqConsumerParameter;
-        private ConnectionFactory _connectionFactory;
-        private IConnection _connection;
         private IModel _channelModel;
         private bool _autoAck;
 
@@ -116,15 +114,15 @@ namespace Liquid.Messaging.RabbitMq
         private void InitializeClient()
         {
             _autoAck = _rabbitMqConsumerParameter.AdvancedSettings?.AutoAck ?? false;
-            _connectionFactory = new ConnectionFactory
+            var connectionFactory = new ConnectionFactory
             {
                 Uri = new Uri(_messagingSettings.ConnectionString),
                 RequestedHeartbeat = TimeSpan.FromSeconds(_messagingSettings?.RequestHeartBeatInSeconds ?? 60),
                 AutomaticRecoveryEnabled = _messagingSettings?.AutoRecovery ?? true
             };
 
-            _connection = _connectionFactory.CreateConnection();
-            _channelModel = _connection.CreateModel();
+            var connection = connectionFactory.CreateConnection();
+            _channelModel = connection.CreateModel();
             if (_messagingSettings.Prefetch.HasValue &&
                 _messagingSettings.PrefetchCount.HasValue &&
                 _messagingSettings.Global.HasValue)

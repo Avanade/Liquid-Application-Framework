@@ -5,7 +5,7 @@ namespace Liquid.Messaging.Parameters
     /// <summary>
     /// Light Messaging Parameter base class.
     /// </summary>
-    public abstract class LightMessagingParameter : Attribute
+    public abstract class LightMessagingParameter
     {
         /// <summary>
         /// Gets the connection identifier.

@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Domain</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.1-alpha</Version>
+    <Version>2.0.2-alpha</Version>
     <ProjectGuid>{CE75EB47-68D9-46F5-BF91-60D39E52CC54}</ProjectGuid>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.1.0" />
-    <PackageReference Include="Liquid.Core" Version="2.0.1-alpha" />
+    <PackageReference Include="Liquid.Core" Version="2.0.2-alpha" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="9.0.0" />
   </ItemGroup>
 

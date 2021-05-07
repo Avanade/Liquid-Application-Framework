@@ -24,9 +24,9 @@ jobs:
     # required for tests that depends on a GcpPubSub emulator instance
     services:
       pubsub:
-        image: storytel/gcp-pubsub-emulator
+        image: brut/pubsub-emulator
         ports:
-          - 8262:8262
+          - 8085:8085
 
     steps:
     - name: Job Type

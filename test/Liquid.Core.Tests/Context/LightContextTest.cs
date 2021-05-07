@@ -23,8 +23,7 @@ namespace Liquid.Core.Tests.Context
         public void SetUp()
         {
             IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddTransient<ILightContextFactory, LightContextFactory>();
-            serviceCollection.AddTransient<ILightContext, LightContext>();
+            serviceCollection.AddDefaultContext();
             _serviceProvider = serviceCollection.BuildServiceProvider();
         }
 
@@ -151,6 +150,9 @@ namespace Liquid.Core.Tests.Context
 
             var data = sut.GetNotification("key");
             Assert.AreEqual("message", data);
+
+            data = sut.GetNotification("nullkey");
+            Assert.IsNull(data);
         }
 
         [Test]

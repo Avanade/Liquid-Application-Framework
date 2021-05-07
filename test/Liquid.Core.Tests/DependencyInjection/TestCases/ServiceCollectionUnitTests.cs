@@ -87,5 +87,16 @@ namespace Liquid.Core.Tests.DependencyInjection.TestCases
 
             Assert.AreEqual("Success", response);
         }
+
+        [Test]
+        public void TestServiceProviderGetAllServiceDescriptors()
+        {
+            IServiceCollection services = new ServiceCollection();
+            services.AddSingletonAssemblies(typeof(ITestInterface<>), new[] { typeof(TestInterfaceClass) });
+            var serviceProvider = services.BuildServiceProvider();
+
+            var result = serviceProvider.GetAllServiceDescriptors();
+            Assert.Greater(result.Count, 0);
+        }
     }
 }

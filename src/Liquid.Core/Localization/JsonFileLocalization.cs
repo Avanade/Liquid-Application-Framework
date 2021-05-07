@@ -24,7 +24,7 @@ namespace Liquid.Core.Localization
         /// <param name="configuration">The configuration.</param>
         public JsonFileLocalization(ILightConfiguration<CultureSettings> configuration)
         {
-            _localizationItems = JsonFileLocalization.ReadLocalizationFiles(configuration);
+            _localizationItems = ReadLocalizationFiles(configuration);
         }
         
         /// <summary>
@@ -37,7 +37,6 @@ namespace Liquid.Core.Localization
         /// <exception cref="ArgumentNullException">key</exception>
         public string Get(string key)
         {
-            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
             return Get(key, Thread.CurrentThread.CurrentCulture);
         }
 
@@ -52,7 +51,6 @@ namespace Liquid.Core.Localization
         /// <exception cref="ArgumentNullException">key</exception>
         public string Get(string key, string channel)
         {
-            if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
             return Get(key, Thread.CurrentThread.CurrentCulture, channel);
         }
         
@@ -70,7 +68,7 @@ namespace Liquid.Core.Localization
         /// or
         /// culture
         /// </exception>
-        /// <exception cref="LocalizationException"></exception>
+        /// <exception cref="LightLocalizationException"></exception>
         public string Get(string key, CultureInfo culture, string channel = null)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
@@ -88,7 +86,7 @@ namespace Liquid.Core.Localization
             }
             catch (Exception ex)
             {
-                throw new LocalizationException(key, ex);
+                throw new LightLocalizationException(key, ex);
             }
         }
 

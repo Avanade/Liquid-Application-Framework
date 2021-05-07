@@ -7,7 +7,7 @@ namespace Liquid.Core.Localization
     /// <summary>
     /// Represents the Culture Configuration inside appsettings.json.
     /// </summary>
-    [ConfigurationSection("culture")]
+    [LiquidConfigurationSection("culture")]
     public class CultureConfiguration : LightConfiguration, ILightConfiguration<CultureSettings>
     {
         /// <summary>

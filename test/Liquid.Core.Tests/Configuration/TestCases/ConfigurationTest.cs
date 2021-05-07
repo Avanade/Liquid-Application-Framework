@@ -2,8 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Liquid.Core.Configuration;
+using Liquid.Core.Exceptions;
 using Liquid.Core.Tests.Configuration.Entities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 
 namespace Liquid.Core.Tests.Configuration.TestCases
@@ -22,7 +24,7 @@ namespace Liquid.Core.Tests.Configuration.TestCases
         public void Setup()
         {
             _configurationRoot = new ConfigurationBuilder()
-               .AddLightConfigurationFile()
+               .AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json")
                .Build();
         }
 
@@ -49,12 +51,29 @@ namespace Liquid.Core.Tests.Configuration.TestCases
             Assert.AreEqual(true, settings.Prop1);
             Assert.AreEqual("prop", settings.Prop2);
             Assert.AreEqual(1, settings.Prop3);
-            Assert.AreEqual(new DateTime(2020, 10, 10).ToString(CultureInfo.InvariantCulture), settings.Prop4.ToString(CultureInfo.InvariantCulture));
-            //Test environment variables
-            Assert.AreNotEqual("${TEMP}", settings.Prop5);
-            Assert.AreEqual(string.Empty, settings.Prop6);
+            Assert.AreEqual(new DateTime(2020, 10, 10).ToString(CultureInfo.InvariantCulture),
+                            settings.Prop4.ToUniversalTime().ToString(CultureInfo.InvariantCulture));
         }
 
+        /// <summary>
+        /// Verifies if settings properties types with configuration section parameter.
+        /// </summary>
+        [Test]
+        public void Verify_if_settings_properties_types_configuration_section()
+        {
+            _sut = new CustomSettingConfigurationWithParameter(_configurationRoot);
+            var settings = _sut.Settings;
+            Assert.IsNotNull(settings);
+            Assert.AreEqual(true, settings.Prop1);
+            Assert.AreEqual("prop", settings.Prop2);
+            Assert.AreEqual(1, settings.Prop3);
+            Assert.AreEqual(new DateTime(2020, 10, 10).ToString(CultureInfo.InvariantCulture),
+                            settings.Prop4.ToUniversalTime().ToString(CultureInfo.InvariantCulture));
+        }
+
+        /// <summary>
+        /// Verifies if can read from environment variables.
+        /// </summary>
         [Test]
         public void Verify_if_can_read_from_environment_variables()
         {
@@ -72,9 +91,26 @@ namespace Liquid.Core.Tests.Configuration.TestCases
             Assert.AreEqual(false, settings.Prop1);
             Assert.AreEqual("env", settings.Prop2);
             Assert.AreEqual(2, settings.Prop3);
-            
+
             //Clear environment variable
             Environment.SetEnvironmentVariable("liquid:customSettings", null);
+        }
+
+
+        /// <summary>
+        /// Verifies the service collection dependendy injection.
+        /// </summary>
+        [Test]
+        public void Verify_Service_Collection_Dependendy_Injection()
+        {
+            IServiceCollection services = new ServiceCollection();
+
+            services.AddSingleton(typeof(IConfiguration), (sp) => new ConfigurationBuilder()
+               .AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json")
+               .Build());
+            services.AddConfigurations(typeof(CustomSettingConfiguration).Assembly);
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            Assert.IsNotNull(serviceProvider.GetService<ILightConfiguration<CustomSetting>>());
         }
 
         /// <summary>
@@ -83,8 +119,16 @@ namespace Liquid.Core.Tests.Configuration.TestCases
         [Test]
         public void Verify_settings_errors()
         {
-            Assert.Catch<LightFileConfigurationException>(() => { new ConfigurationBuilder().AddLightConfigurationFile("xxx.txt").Build(); });
-            Assert.Catch<NotImplementedException>(() => new WrongCustomSettingConfiguration(null));
+            Assert.Catch<LightException>(() =>
+            {
+                _sut = new WrongCustomSettingConfiguration(null);
+                var settings = _sut.Settings;
+            });
+            Assert.Catch<ArgumentNullException>(() =>
+            {
+                _sut = new CustomSettingConfigurationNoParameter(null);
+                var settings = _sut.Settings;
+            });
         }
     }
 }

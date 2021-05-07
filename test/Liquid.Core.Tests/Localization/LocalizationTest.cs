@@ -29,7 +29,8 @@ namespace Liquid.Core.Tests.Localization
         protected void EstablishContext()
         {
             IServiceCollection services = new ServiceCollection();
-            IConfiguration configurationRoot = new ConfigurationBuilder().AddLightConfigurationFile().Build();
+            IConfiguration configurationRoot = new ConfigurationBuilder()
+                .AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
             services.AddSingleton<ILightConfiguration<CultureSettings>, CultureConfiguration>();
             services.AddLocalizationService();
@@ -50,6 +51,8 @@ namespace Liquid.Core.Tests.Localization
         {
             var stringValue = _subjectUnderTest.Get(StringValueKey);
             Assert.AreEqual("Texto em português", stringValue);
+            stringValue = _subjectUnderTest.Get(StringValueKey, "android");
+            Assert.AreEqual("Texto em português", stringValue);
             stringValue = _subjectUnderTest.Get(StringValueKey, new CultureInfo("en-US"));
             Assert.AreEqual("English text", stringValue);
             stringValue = _subjectUnderTest.Get(StringValueKey, new CultureInfo("es-ES"), "iphone");
@@ -66,6 +69,7 @@ namespace Liquid.Core.Tests.Localization
         public void Verify_Exceptions()
         {
             Assert.Catch<ArgumentNullException>(() => { _serviceProvider.GetService<ILocalization>().Get(StringValueKey, (CultureInfo)null); });
+            Assert.Catch<ArgumentNullException>(() => { _serviceProvider.GetService<ILocalization>().Get(null); });
         }
     }
 }

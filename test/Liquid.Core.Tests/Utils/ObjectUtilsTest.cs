@@ -326,6 +326,7 @@ namespace Liquid.Core.Tests.Utils
     /// <summary>
     /// Example class to use in tests.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class TestObject
     {
         private readonly string _firstName;

@@ -35,8 +35,7 @@ namespace Liquid.Core.Tests.Telemetry
 #pragma warning restore CS0618
 
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
-            services.AddTransient<ILightTelemetryFactory, LightTelemetryFactory>();
-            services.AddTransient<ILightTelemetry, LightTelemetry>();
+            services.AddDefaultTelemetry();
             services.AddTransient<ILightContextFactory, LightContextFactory>();
             services.AddTransient<ILightContext, LightContext>();
             _serviceProvider = services.BuildServiceProvider();
@@ -83,6 +82,21 @@ namespace Liquid.Core.Tests.Telemetry
             telemetry.RemoveContext("test");
             telemetry.Flush();
             Assert.IsNotNull(telemetry);
+        }
+
+        /// <summary>
+        /// Verifies the exceptions.
+        /// </summary>
+        [Test]
+        public void Verify_Exceptions()
+        {
+            var sut = _serviceProvider.GetRequiredService<ILightTelemetryFactory>();
+            var telemetry = sut.GetTelemetry();
+            Assert.Catch<ArgumentNullException>(() => new LightTelemetryFactory(null));
+            Assert.Catch<ArgumentNullException>(() => telemetry.AddContext(null));
+            Assert.Catch<ArgumentNullException>(() => telemetry.RemoveContext(null));
+            Assert.Catch<ArgumentNullException>(() => telemetry.StartTelemetryStopWatchMetric(null));
+            Assert.Catch<ArgumentNullException>(() => telemetry.CollectTelemetryStopWatchMetric(null));
         }
     }
 }

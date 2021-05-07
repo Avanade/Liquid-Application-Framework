@@ -31,6 +31,75 @@ namespace Liquid.Core.Tests.Configuration.Entities
     }
 
     /// <summary>
+    /// Test configuration root class.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    public class CustomSettingConfigurationWithParameter : LightConfiguration, ILightConfiguration<CustomSetting>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        public CustomSettingConfigurationWithParameter(IConfiguration configuration) : base(configuration)
+        {
+        }
+
+        /// <summary>
+        /// Gets the settings.
+        /// </summary>
+        /// <value>
+        /// The settings.
+        /// </value>
+        public CustomSetting Settings => GetConfigurationSection<CustomSetting>("liquid:customSettings");
+    }
+
+    /// <summary>
+    /// Test configuration root class.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    public class CustomSettingConfigurationNoParameter : LightConfiguration, ILightConfiguration<CustomSetting>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        public CustomSettingConfigurationNoParameter(IConfiguration configuration) : base(configuration)
+        {
+        }
+
+        /// <summary>
+        /// Gets the settings.
+        /// </summary>
+        /// <value>
+        /// The settings.
+        /// </value>
+        public CustomSetting Settings => GetConfigurationSection<CustomSetting>(null);
+    }
+
+    /// <summary>
+    /// Wrong Test configuration root class, without Attribute.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    public class WrongCustomSettingConfiguration : LightConfiguration, ILightConfiguration<CustomSetting>
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.
+        /// </summary>
+        /// <param name="configuration">The configuration.</param>
+        public WrongCustomSettingConfiguration(IConfiguration configuration) : base(configuration)
+        {
+        }
+
+        /// <summary>
+        /// Gets the settings.
+        /// </summary>
+        /// <value>
+        /// The settings.
+        /// </value>
+        public CustomSetting Settings => GetConfigurationSection<CustomSetting>();
+    }
+
+    /// <summary>
     /// Custom setting class.
     /// </summary>
     [ExcludeFromCodeCoverage]
@@ -89,28 +158,5 @@ namespace Liquid.Core.Tests.Configuration.Entities
         /// </value>
         [JsonProperty("prop6")]
         public string Prop6 { get; set; }
-    }
-
-    /// <summary>
-    /// Wrong Test configuration root class, without Attribute.
-    /// </summary>
-    [ExcludeFromCodeCoverage]
-    public class WrongCustomSettingConfiguration : LightConfiguration, ILightConfiguration<CustomSetting>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public WrongCustomSettingConfiguration(IConfiguration configuration) : base(configuration)
-        {
-        }
-
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <value>
-        /// The settings.
-        /// </value>
-        public CustomSetting Settings => GetConfigurationSection<CustomSetting>();
     }
 }

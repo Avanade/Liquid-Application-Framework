@@ -11,15 +11,6 @@ namespace Liquid.Core.Configuration
     public static class LightConfigurationExtensions
     {
         /// <summary>
-        /// Adds the light configuration file.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="filepath">The filepath.</param>
-        /// <returns></returns>
-        public static IConfigurationBuilder AddLightConfigurationFile(this IConfigurationBuilder builder, string filepath = null)
-            => builder.Add(new LightConfigurationSource(filepath));
-        
-        /// <summary>
         /// Adds All Configurations from a specific assembly.
         /// </summary>
         /// <param name="services">The services.</param>

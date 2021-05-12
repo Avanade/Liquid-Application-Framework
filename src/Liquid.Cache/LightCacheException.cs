@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 using Liquid.Core.Exceptions;
 
 namespace Liquid.Cache
@@ -8,6 +9,7 @@ namespace Liquid.Cache
     /// Occurs when an error has occurred during cache manipulation.
     /// </summary>
     /// <seealso cref="System.Exception" />
+    [Serializable]
     [ExcludeFromCodeCoverage]
     public class LightCacheException : LightException
     {
@@ -33,6 +35,11 @@ namespace Liquid.Cache
         /// </summary>
         /// <param name="innerException">The exception that is the cause of the current exception, or a null reference (Nothing in Visual Basic) if no inner exception is specified.</param>
         public LightCacheException(Exception innerException) : base("An error has occurred accessing cache. See inner exception for more detail.", innerException)
+        {
+        }
+
+        /// <inheritdoc/> 
+        protected LightCacheException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

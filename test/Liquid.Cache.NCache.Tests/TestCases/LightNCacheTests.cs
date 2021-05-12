@@ -166,7 +166,7 @@ namespace Liquid.Cache.NCache.Tests.TestCases
             Assert.IsNotNull(obj);
             Assert.AreEqual("value", obj);
 
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
 
             obj = await sut.RetrieveAsync<string>("keyrert");
             Assert.IsNull(obj);
@@ -185,7 +185,7 @@ namespace Liquid.Cache.NCache.Tests.TestCases
             Assert.IsNotNull(obj);
             Assert.AreEqual("Test", obj.TestProp);
 
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
 
             obj = await sut.RetrieveAsync<TestEntity>("keyrert");
             Assert.IsNull(obj);
@@ -204,7 +204,7 @@ namespace Liquid.Cache.NCache.Tests.TestCases
             Assert.IsNotNull(obj);
             Assert.AreEqual("Test", obj.TestProp);
 
-            Thread.Sleep(5000);
+            Thread.Sleep(10000);
 
             obj = await sut.RetrieveAsync<TestEntity>("keyrert");
             Assert.IsNull(obj);

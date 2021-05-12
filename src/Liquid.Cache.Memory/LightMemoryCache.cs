@@ -93,18 +93,13 @@ namespace Liquid.Cache.Memory
             var telemetry = _telemetryFactory.GetTelemetry();
             try
             {
-                await Task.Run(() =>
-                {
-                    telemetry.AddContext("Cache_Memory");
-                    telemetry.StartTelemetryStopWatchMetric($"{nameof(RemoveAllAsync)}");
-                    if (_resetCacheToken != null && !_resetCacheToken.IsCancellationRequested && _resetCacheToken.Token.CanBeCanceled)
-                    {
-                        _resetCacheToken.Cancel();
-                        _resetCacheToken.Dispose();
-                    }
-                    _resetCacheToken = new CancellationTokenSource();
-                    telemetry.CollectTelemetryStopWatchMetric($"{nameof(RemoveAllAsync)}");
-                });
+
+                telemetry.AddContext("Cache_Memory");
+                telemetry.StartTelemetryStopWatchMetric($"{nameof(RemoveAllAsync)}");
+                var keys = await GetAllKeysAsync();
+                keys.Each((key) => _cache.Remove(key));
+                telemetry.CollectTelemetryStopWatchMetric($"{nameof(RemoveAllAsync)}");
+
             }
             catch (Exception ex)
             {
@@ -129,9 +124,9 @@ namespace Liquid.Cache.Memory
                 {
                     telemetry.AddContext("Cache_Memory");
                     telemetry.StartTelemetryStopWatchMetric($"{nameof(GetAllKeysAsync)}_{pattern}");
-                    
+
                     if (!(entriesCollectionPropertyInfo?.GetValue(_cache) is ICollection collection)) return;
-                    
+
                     var keysCollection = (ReadOnlyCollection<object>)collection.ToDictionary()["Keys"];
                     var keys = pattern == null ? keysCollection.Cast<string>() : keysCollection.Cast<string>().Where(k => k.Contains(pattern));
 

@@ -49,14 +49,7 @@ namespace Liquid.Cache.Redis
             _connection = ConnectToRedis();
         }
 
-        /// <summary>
-        /// Adds the specified object to cache.
-        /// </summary>
-        /// <typeparam name="TObject">The type of the object.</typeparam>
-        /// <param name="key">The cache entry key.</param>
-        /// <param name="obj">The object.</param>
-        /// <param name="expirationDuration">Duration of the expiration.</param>
-        /// <exception cref="LightCacheException"></exception>
+        /// <inheritdoc/>
         public async Task AddAsync<TObject>(string key, TObject obj, TimeSpan expirationDuration)
         {
             var telemetry = _telemetryFactory.GetTelemetry();
@@ -79,11 +72,7 @@ namespace Liquid.Cache.Redis
             }
         }
 
-        /// <summary>
-        /// Removes the specified cache entry.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <exception cref="LightCacheException"></exception>
+        /// <inheritdoc/>
         public async Task RemoveAsync(string key)
         {
             var telemetry = _telemetryFactory.GetTelemetry();
@@ -104,10 +93,7 @@ namespace Liquid.Cache.Redis
             }
         }
 
-        /// <summary>
-        /// Removes all cache entries.
-        /// </summary>
-        /// <exception cref="LightCacheException"></exception>
+        /// <inheritdoc/>
         public async Task RemoveAllAsync()
         {
             var telemetry = _telemetryFactory.GetTelemetry();
@@ -132,12 +118,7 @@ namespace Liquid.Cache.Redis
             }
         }
 
-        /// <summary>
-        /// Returns all keys from cache.
-        /// </summary>
-        /// <param name="pattern">the search pattern to return only keys that satisfies the condition.</param>
-        /// <returns></returns>
-        /// <exception cref="LightCacheException"></exception>
+        /// <inheritdoc/>
         public async Task<IEnumerable<string>> GetAllKeysAsync(string pattern = null)
         {
             if (_connection == null || !_connection.IsConnected) { _connection = ConnectToRedis(); }
@@ -172,11 +153,7 @@ namespace Liquid.Cache.Redis
             return returnKeys;
         }
 
-        /// <summary>
-        /// Check if cache entry key exists.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public async Task<bool> ExistsAsync(string key)
         {
             var telemetry = _telemetryFactory.GetTelemetry();
@@ -198,15 +175,7 @@ namespace Liquid.Cache.Redis
             }
         }
 
-        /// <summary>
-        /// Retrieves the specified object from cache.
-        /// </summary>
-        /// <typeparam name="TObject">The type of the object.</typeparam>
-        /// <param name="key">The cache entry key.</param>
-        /// <returns>
-        /// the object in cache.
-        /// </returns>
-        /// <exception cref="LightCacheException"></exception>
+        /// <inheritdoc/>
         public async Task<TObject> RetrieveAsync<TObject>(string key)
         {
             var telemetry = _telemetryFactory.GetTelemetry();
@@ -217,44 +186,6 @@ namespace Liquid.Cache.Redis
                 var jsonBytes = await Database.StringGetAsync(key);
                 telemetry.CollectTelemetryStopWatchMetric($"{nameof(RetrieveAsync)}_{key}");
                 return jsonBytes.HasValue ? ((byte[])jsonBytes).ParseJson<TObject>() : default;
-            }
-            catch (Exception ex)
-            {
-                throw new LightCacheException(ex);
-            }
-            finally
-            {
-                telemetry.RemoveContext("Cache_Redis");
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the specified object from cache, if the object does not exist, adds the result.
-        /// </summary>
-        /// <typeparam name="TObject">The type of the object.</typeparam>
-        /// <param name="key">The cache entry key.</param>
-        /// <param name="action">The action to be executed to add the object to cache.</param>
-        /// <param name="expirationDuration">Duration of the expiration.</param>
-        /// <returns>
-        /// the object in cache.
-        /// </returns>
-        /// <exception cref="LightCacheException"></exception>
-        public async Task<TObject> RetrieveOrAddAsync<TObject>(string key, Func<TObject> action, TimeSpan expirationDuration)
-        {
-            var telemetry = _telemetryFactory.GetTelemetry();
-            try
-            {
-                telemetry.AddContext("Cache_Redis");
-                telemetry.StartTelemetryStopWatchMetric($"{nameof(RetrieveOrAddAsync)}_{key}");
-                var jsonBytes = await Database.StringGetAsync(key);
-                telemetry.CollectTelemetryStopWatchMetric($"{nameof(RetrieveOrAddAsync)}_{key}");
-                if (jsonBytes.HasValue)
-                {
-                    return ((byte[])jsonBytes).ParseJson<TObject>();
-                }
-                var obj = action.Invoke();
-                await AddAsync(key, obj, expirationDuration);
-                return obj;
             }
             catch (Exception ex)
             {

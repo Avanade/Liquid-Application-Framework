@@ -171,6 +171,27 @@ namespace Liquid.Cache.Memory.Tests.TestCases
             var sut = _serviceProvider.GetService<ILightCache>();
             var obj = await sut.RetrieveOrAddAsync("keyrert", () => new TestEntity(), new TimeSpan(0, 0, 0, 2));
             Assert.IsNotNull(obj);
+            obj = await sut.RetrieveOrAddAsync("keyrert", () => new TestEntity(), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
+            Assert.AreEqual("Test", obj.TestProp);
+
+            Thread.Sleep(3000);
+
+            obj = await sut.RetrieveAsync<TestEntity>("keyrert");
+            Assert.IsNull(obj);
+        }
+
+        /// <summary>
+        /// Verifies the retrieve or add with timespan.
+        /// </summary>
+        [Test]
+        public async Task Verify_RetrieveOrAddAsync_Task_Object()
+        {
+            var sut = _serviceProvider.GetService<ILightCache>();
+            var obj = await sut.RetrieveOrAddAsync("keyrert", () => Task.Run(() => new TestEntity()), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
+            obj = await sut.RetrieveOrAddAsync("keyrert", () => Task.Run(() => new TestEntity()), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
             Assert.AreEqual("Test", obj.TestProp);
 
             Thread.Sleep(3000);

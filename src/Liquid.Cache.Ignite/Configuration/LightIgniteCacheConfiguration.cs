@@ -14,7 +14,7 @@ namespace Liquid.Cache.Ignite.Configuration
     ///     <cref>Liquid.Configuration.AppSetting</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    [ConfigurationSection("igniteCache")]
+    [LiquidConfigurationSection("cache:ignite")]
     public class LightIgniteCacheConfiguration : LightConfiguration, ILightConfiguration<IgniteCacheSettings>
     {
         /// <summary>

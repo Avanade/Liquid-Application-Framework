@@ -50,15 +50,5 @@ namespace Liquid.Cache
         /// <param name="key">The cache entry key.</param>
         /// <returns>the object in cache.</returns>
         Task<TObject> RetrieveAsync<TObject>(string key);
-
-        /// <summary>
-        /// Retrieves the specified object from cache, if the object does not exist, adds the result.
-        /// </summary>
-        /// <typeparam name="TObject">The type of the object.</typeparam>
-        /// <param name="key">The cache entry key.</param>
-        /// <param name="action">The action to be executed to add the object to cache.</param>
-        /// <param name="expirationDuration">Duration of the expiration.</param>
-        /// <returns>the object in cache.</returns>
-        Task<TObject> RetrieveOrAddAsync<TObject>(string key, Func<TObject> action, TimeSpan expirationDuration);
     }
 }

@@ -14,7 +14,7 @@ namespace Liquid.Cache.Redis.Configuration
     ///     <cref>Liquid.Configuration.AppSetting</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    [ConfigurationSection("redis")]
+    [LiquidConfigurationSection("cache:redis")]
     public class LightRedisCacheConfiguration : LightConfiguration, ILightConfiguration<RedisCacheSettings>
     {
         /// <summary>

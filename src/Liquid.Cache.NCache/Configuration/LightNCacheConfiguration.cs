@@ -14,7 +14,7 @@ namespace Liquid.Cache.NCache.Configuration
     ///     <cref>Liquid.Configuration.AppSetting</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    [ConfigurationSection("nCache")]
+    [LiquidConfigurationSection("cache:nCache")]
     public class LightNCacheConfiguration : LightConfiguration, ILightConfiguration<NCacheSettings>
     {
         /// <summary>

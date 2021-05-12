@@ -14,11 +14,11 @@ using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.Console;
 using NUnit.Framework;
 
-namespace Liquid.Cache.Redis.Tests.TestCases
+namespace Liquid.Cache.NCache.Tests.TestCases
 {
     [TestFixture]
     [ExcludeFromCodeCoverage]
-    public class LightRedisCacheTests
+    public class LightNCacheTests
     {
         private IServiceProvider _serviceProvider;
         private ILightCache _sut;
@@ -38,12 +38,12 @@ namespace Liquid.Cache.Redis.Tests.TestCases
 #pragma warning restore CS0618
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
 
-            IConfiguration configurationRoot = new ConfigurationBuilder().AddLightConfigurationFile().Build();
+            IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
 
             services.AddDefaultTelemetry();
             services.AddDefaultContext();
-            services.AddLightRedisCache();
+            services.AddLightNCache();
             _serviceProvider = services.BuildServiceProvider();
             _sut = _serviceProvider.GetService<ILightCache>();
         }
@@ -55,13 +55,13 @@ namespace Liquid.Cache.Redis.Tests.TestCases
         public async Task Verify_AddAsync_With_Timespan()
         {
             var sut = _sut;
-            await sut.AddAsync("keyt", "value", new TimeSpan(0, 0, 0, 2));
+            await sut.AddAsync("keyt", "value", TimeSpan.FromSeconds(2));
 
             var obj = await sut.RetrieveAsync<string>("keyt");
             Assert.IsNotNull(obj);
             Assert.AreEqual("value", obj);
 
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
 
             obj = await sut.RetrieveAsync<string>("keyt");
             Assert.IsNull(obj);
@@ -124,7 +124,7 @@ namespace Liquid.Cache.Redis.Tests.TestCases
             var keys = await sut.GetAllKeysAsync();
             Assert.AreEqual(6, keys.Count());
 
-            var patternKeys = await sut.GetAllKeysAsync("*ra1*");
+            var patternKeys = await sut.GetAllKeysAsync("ra1");
             Assert.AreEqual(1, patternKeys.Count());
         }
 
@@ -166,7 +166,7 @@ namespace Liquid.Cache.Redis.Tests.TestCases
             Assert.IsNotNull(obj);
             Assert.AreEqual("value", obj);
 
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
 
             obj = await sut.RetrieveAsync<string>("keyrert");
             Assert.IsNull(obj);
@@ -181,9 +181,30 @@ namespace Liquid.Cache.Redis.Tests.TestCases
             var sut = _sut;
             var obj = await sut.RetrieveOrAddAsync("keyrert", () => new TestEntity(), new TimeSpan(0, 0, 0, 2));
             Assert.IsNotNull(obj);
+            obj = await sut.RetrieveOrAddAsync("keyrert", () => new TestEntity(), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
             Assert.AreEqual("Test", obj.TestProp);
 
-            Thread.Sleep(3000);
+            Thread.Sleep(5000);
+
+            obj = await sut.RetrieveAsync<TestEntity>("keyrert");
+            Assert.IsNull(obj);
+        }
+
+        /// <summary>
+        /// Verifies the retrieve or add with timespan.
+        /// </summary>
+        [Test]
+        public async Task Verify_RetrieveOrAddAsync_Task_Object()
+        {
+            var sut = _sut;
+            var obj = await sut.RetrieveOrAddAsync("keyrert", () => Task.Run(() => new TestEntity()), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
+            obj = await sut.RetrieveOrAddAsync("keyrert", () => Task.Run(() => new TestEntity()), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
+            Assert.AreEqual("Test", obj.TestProp);
+
+            Thread.Sleep(5000);
 
             obj = await sut.RetrieveAsync<TestEntity>("keyrert");
             Assert.IsNull(obj);
@@ -191,25 +212,7 @@ namespace Liquid.Cache.Redis.Tests.TestCases
     }
 
     [ExcludeFromCodeCoverage]
-    [SetUpFixture]
-    public class GlobalFixture
-    {
-        //private RedisInside.Redis _redisServer;
-        //[OneTimeSetUp]
-        //public void GlobalSetup()
-        //{
-        //    _redisServer = new RedisInside.Redis(config => { config.Port(6379); });
-        //}
-
-        //[OneTimeTearDown]
-        //public void GlobalTearDown()
-        //{
-        //    _redisServer.Dispose();
-        //    _redisServer = null;
-        //}
-    }
-
-    [ExcludeFromCodeCoverage]
+    [Serializable]
     public class TestEntity
     {
         /// <summary>

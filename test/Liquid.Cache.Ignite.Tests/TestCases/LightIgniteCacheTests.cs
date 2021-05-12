@@ -39,7 +39,7 @@ namespace Liquid.Cache.Ignite.Tests.TestCases
 #pragma warning restore CS0618
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
 
-            IConfiguration configurationRoot = new ConfigurationBuilder().AddLightConfigurationFile().Build();
+            IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
 
             services.AddDefaultTelemetry();
@@ -182,13 +182,29 @@ namespace Liquid.Cache.Ignite.Tests.TestCases
             var sut = _sut;
             var obj = await sut.RetrieveOrAddAsync("keyrert", () => new TestEntity(), new TimeSpan(0, 0, 0, 2));
             Assert.IsNotNull(obj);
+            obj = await sut.RetrieveOrAddAsync("keyrert", () => new TestEntity(), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
             Assert.AreEqual("Test", obj.TestProp);
-
             Thread.Sleep(5000);
+            obj = await sut.RetrieveAsync<TestEntity>("keyrert");
+            Assert.IsNull(obj);            
+        }
 
+        /// <summary>
+        /// Verifies the retrieve or add with timespan.
+        /// </summary>
+        [Test]
+        public async Task Verify_RetrieveOrAddAsync_Task_Object()
+        {
+            var sut = _sut;
+            var obj = await sut.RetrieveOrAddAsync("keyrert", () => Task.Run (() => new TestEntity()), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
+            obj = await sut.RetrieveOrAddAsync("keyrert", () => Task.Run(() => new TestEntity()), new TimeSpan(0, 0, 0, 2));
+            Assert.IsNotNull(obj);
+            Assert.AreEqual("Test", obj.TestProp);
+            Thread.Sleep(5000);
             obj = await sut.RetrieveAsync<TestEntity>("keyrert");
             Assert.IsNull(obj);
-            
         }
     }
 
@@ -196,7 +212,9 @@ namespace Liquid.Cache.Ignite.Tests.TestCases
     [SetUpFixture]
     public class GlobalFixture
     {
+#pragma warning disable IDE0052
         private IIgnite _ignite;
+#pragma warning restore IDE0052
 
         [OneTimeSetUp]
         public void GlobalSetup()

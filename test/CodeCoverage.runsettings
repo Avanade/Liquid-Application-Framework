@@ -13,6 +13,13 @@
               </Exclude>
             </CompanyNames>
 
+            <!-- Exclude modules that aren't to be processed, by their name / path -->
+            <ModulePaths>
+              <Exclude>
+                <ModulePath>.*Polly.*</ModulePath>
+              </Exclude>
+            </ModulePaths>
+
             <!-- Match attributes on any code element: -->
             <Attributes>
               <Exclude>

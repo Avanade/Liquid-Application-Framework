@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.DependencyInjection;
 using Liquid.Core.Telemetry;
-using Liquid.Services.Configuration;
 using Liquid.Services.Grpc.Tests.Server;
 using Liquid.Services.Grpc.Tests.Server.Services;
 using Liquid.Services.Grpc.Tests.Services;
@@ -40,7 +37,7 @@ namespace Liquid.Services.Grpc.Tests.TestCases
             LoggerProviderOptions.RegisterProviderOptions<ConsoleLoggerOptions, ConsoleLoggerProvider>(services);
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
 
-            IConfiguration configurationRoot = new ConfigurationBuilder().AddLightConfigurationFile().Build();
+            IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
 
 

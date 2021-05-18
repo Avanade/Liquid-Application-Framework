@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Liquid.Services.Exceptions;
 
 namespace Liquid.Services.Configuration
 {
@@ -216,20 +215,6 @@ namespace Liquid.Services.Configuration
     [ExcludeFromCodeCoverage]
     public static class ServiceConfigurationExtensions
     {
-        /// <summary>
-        /// Gets the service client setting.
-        /// </summary>
-        /// <param name="settings">The list of service client settings.</param>
-        /// <param name="id">The service client identifier.</param>
-        /// <returns>The service client setting.</returns>
-        public static LightServiceSetting GetServiceSetting(this List<LightServiceSetting> settings, string id)
-        {
-            if (settings == null) throw new LightServiceException("Configuration 'services' not found in application settings file.");
-            var setting = settings.FirstOrDefault(cs => string.Equals(cs.Id, id, StringComparison.CurrentCultureIgnoreCase));
-            if (setting == null) throw new LightServiceException($"Configuration id {id} not found in application settings file.");
-            return setting;
-        }
-
         /// <summary>
         /// Gets the service parameter value.
         /// </summary>

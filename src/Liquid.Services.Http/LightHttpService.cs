@@ -7,7 +7,6 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
@@ -43,7 +42,7 @@ namespace Liquid.Services.Http
                                 ILoggerFactory loggerFactory,
                                 ILightContextFactory contextFactory,
                                 ILightTelemetryFactory telemetryFactory,
-                                ILightConfiguration<List<LightServiceSetting>> servicesSettings,
+                                ILightServiceConfiguration<LightServiceSetting> servicesSettings,
                                 IMapper mapperService) : base(loggerFactory, contextFactory, telemetryFactory, servicesSettings, mapperService)
         {
             _httpClientFactory = httpClientFactory;

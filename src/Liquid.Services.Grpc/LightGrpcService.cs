@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Net.Http;
 using AutoMapper;
 using Grpc.Net.Client;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Services.Configuration;
@@ -40,7 +38,7 @@ namespace Liquid.Services.Grpc
                                 ILoggerFactory loggerFactory,
                                 ILightContextFactory contextFactory,
                                 ILightTelemetryFactory telemetryFactory,
-                                ILightConfiguration<List<LightServiceSetting>> servicesSettings,
+                                ILightServiceConfiguration<LightServiceSetting> servicesSettings,
                                 IMapper mapperService) : base(loggerFactory, contextFactory, telemetryFactory, servicesSettings, mapperService)
         {
             _httpClientFactory = httpClientFactory;

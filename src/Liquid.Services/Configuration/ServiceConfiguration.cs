@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Liquid.Core.Configuration;
 using Microsoft.Extensions.Configuration;
 
@@ -10,7 +9,7 @@ namespace Liquid.Services.Configuration
     /// </summary>
     [ExcludeFromCodeCoverage]
     [ConfigurationSection("services")]
-    public class ServiceConfiguration : LightConfiguration, ILightConfiguration<List<LightServiceSetting>>
+    public class ServiceConfiguration : LightConfiguration, ILightServiceConfiguration<LightServiceSetting>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="ServiceConfiguration"/> class.
@@ -20,12 +19,13 @@ namespace Liquid.Services.Configuration
         {
         }
 
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <value>
-        /// The settings.
-        /// </value>
-        public List<LightServiceSetting> Settings => GetConfigurationSection<List<LightServiceSetting>>();
+        /// <inheritdoc/>
+        public LightServiceSetting Settings => throw new System.NotImplementedException();
+
+        /// <inheritdoc/>
+        public LightServiceSetting GetSettings(string configurationSection)
+        {
+            return GetConfigurationSection<LightServiceSetting>($"liquid:services:{configurationSection}");
+        }
     }
 }

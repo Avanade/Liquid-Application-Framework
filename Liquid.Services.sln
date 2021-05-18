@@ -3,29 +3,26 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services", "Liquid.Services\Liquid.Services.csproj", "{F13DBC71-FE6C-4982-BC11-329A190615E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services", "src\Liquid.Services\Liquid.Services.csproj", "{F13DBC71-FE6C-4982-BC11-329A190615E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Http", "Liquid.Services.Http\Liquid.Services.Http.csproj", "{1195C83E-028A-42C6-872D-386C84F12EC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Http", "src\Liquid.Services.Http\Liquid.Services.Http.csproj", "{1195C83E-028A-42C6-872D-386C84F12EC7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{C05FB33A-C3A8-4D12-A070-DFF5076F82D0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Http.Tests", "Liquid.Services.Http.Tests\Liquid.Services.Http.Tests.csproj", "{19BE7AF2-8245-498F-9A59-3C19E3562922}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Http.Tests", "test\Liquid.Services.Http.Tests\Liquid.Services.Http.Tests.csproj", "{19BE7AF2-8245-498F-9A59-3C19E3562922}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B236104-1E1F-46A3-9539-40D05AFB445D}"
 	ProjectSection(SolutionItems) = preProject
-		CodeCoverage.runsettings = CodeCoverage.runsettings
-		..\.github\workflows\liquid-ci-cd-grpc-cartridge.yml = ..\.github\workflows\liquid-ci-cd-grpc-cartridge.yml
-		..\.github\workflows\liquid-ci-cd-http-cartridge.yml = ..\.github\workflows\liquid-ci-cd-http-cartridge.yml
-		..\.github\workflows\liquid-ci-cd.yml = ..\.github\workflows\liquid-ci-cd.yml
+		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
 		logo.png = logo.png
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{1BAB949E-1AEB-4060-A3A0-F2C13FC2D02D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc", "Liquid.Services.Grpc\Liquid.Services.Grpc.csproj", "{A95D8BC2-B1C6-4ED9-A600-2B9322195E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc", "src\Liquid.Services.Grpc\Liquid.Services.Grpc.csproj", "{A95D8BC2-B1C6-4ED9-A600-2B9322195E22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc.Tests", "Liquid.Services.Grpc.Tests\Liquid.Services.Grpc.Tests.csproj", "{0CD40082-AE0C-4EA8-81D0-D63749F62800}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc.Tests", "test\Liquid.Services.Grpc.Tests\Liquid.Services.Grpc.Tests.csproj", "{0CD40082-AE0C-4EA8-81D0-D63749F62800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

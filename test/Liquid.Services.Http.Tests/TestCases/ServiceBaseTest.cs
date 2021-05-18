@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.DependencyInjection;
 using Liquid.Core.Telemetry;
-using Liquid.Services.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -41,7 +37,7 @@ namespace Liquid.Services.Http.Tests.TestCases
             LoggerProviderOptions.RegisterProviderOptions<ConsoleLoggerOptions, ConsoleLoggerProvider>(services);
             
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
-            IConfiguration configurationRoot = new ConfigurationBuilder().AddLightConfigurationFile().Build();
+            IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
 
             services.AddDefaultTelemetry();

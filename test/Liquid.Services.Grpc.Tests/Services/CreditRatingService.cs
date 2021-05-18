@@ -1,9 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Services.Attributes;
@@ -39,7 +37,7 @@ namespace Liquid.Services.Grpc.Tests.Services
                                    ILoggerFactory loggerFactory, 
                                    ILightContextFactory contextFactory, 
                                    ILightTelemetryFactory telemetryFactory, 
-                                   ILightConfiguration<List<LightServiceSetting>> servicesSettings, 
+                                   ILightServiceConfiguration<LightServiceSetting> servicesSettings, 
                                    IMapper mapperService) : base(httpClientFactory, loggerFactory, contextFactory, telemetryFactory, servicesSettings, mapperService)
         {
         }

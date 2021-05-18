@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using Liquid.Services.Configuration;
+﻿using Liquid.Services.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Reflection;
 using AutoMapper;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Core.Utils;
@@ -87,7 +85,7 @@ namespace Liquid.Services
         protected LightService(ILoggerFactory loggerFactory,
                                ILightContextFactory contextFactory,
                                ILightTelemetryFactory telemetryFactory,
-                               ILightConfiguration<List<LightServiceSetting>> servicesSettings,
+                               ILightServiceConfiguration<LightServiceSetting> servicesSettings,
                                IMapper mapperService)
         {
             ContextFactory = contextFactory;
@@ -102,7 +100,7 @@ namespace Liquid.Services
         /// </summary>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="servicesSettings">The services settings.</param>
-        private void InitiateService(ILoggerFactory loggerFactory, ILightConfiguration<List<LightServiceSetting>> servicesSettings)
+        private void InitiateService(ILoggerFactory loggerFactory, ILightServiceConfiguration<LightServiceSetting> servicesSettings)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
                                                    SecurityProtocolType.Tls11 |
@@ -111,7 +109,7 @@ namespace Liquid.Services
 
             ServiceId = attribute?.ServiceId?.IsNotNullOrEmpty() == true ? attribute.ServiceId : GetType().Name; 
             Logger = loggerFactory.CreateLogger(ServiceId);
-            ServiceSettings = servicesSettings.Settings.GetServiceSetting(ServiceId);
+            ServiceSettings = servicesSettings.GetSettings(ServiceId);
             Resilience ??= new ResilienceHandler(ServiceSettings, Logger);
         }
     }

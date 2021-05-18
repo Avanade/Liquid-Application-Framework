@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-
-namespace Liquid.Services.Grpc
+﻿namespace Liquid.Services.Grpc
 {
     /// <summary>
     /// Grpc client interface.

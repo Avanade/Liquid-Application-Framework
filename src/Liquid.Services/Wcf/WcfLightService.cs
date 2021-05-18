@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.ServiceModel;
 using AutoMapper;
-using Liquid.Core.Configuration;
 using Liquid.Core.Context;
 using Liquid.Core.Telemetry;
 using Liquid.Services.Configuration;
@@ -28,7 +26,7 @@ namespace Liquid.Services.Wcf
         protected WcfLightService(ILoggerFactory loggerFactory, 
                                   ILightContextFactory contextFactory, 
                                   ILightTelemetryFactory telemetryFactory, 
-                                  ILightConfiguration<List<LightServiceSetting>> servicesSettings, 
+                                  ILightServiceConfiguration<LightServiceSetting> servicesSettings, 
                                   IMapper mapperService) : base(loggerFactory, contextFactory, telemetryFactory, servicesSettings, mapperService)
         {
         }

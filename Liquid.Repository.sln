@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{87C5D7BD-5550-4790-BEE7-B9646E16CF14}"
 	ProjectSection(SolutionItems) = preProject
 		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
+		logo.png = logo.png
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject

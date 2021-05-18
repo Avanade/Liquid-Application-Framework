@@ -102,9 +102,7 @@ namespace Liquid.Services
         /// <param name="servicesSettings">The services settings.</param>
         private void InitiateService(ILoggerFactory loggerFactory, ILightServiceConfiguration<LightServiceSetting> servicesSettings)
         {
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
-                                                   SecurityProtocolType.Tls11 |
-                                                   SecurityProtocolType.Tls12;
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var attribute = GetType().GetCustomAttribute<ServiceIdAttribute>(true);
 
             ServiceId = attribute?.ServiceId?.IsNotNullOrEmpty() == true ? attribute.ServiceId : GetType().Name; 

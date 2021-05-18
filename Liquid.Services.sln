@@ -24,6 +24,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc", "src
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc.Tests", "test\Liquid.Services.Grpc.Tests\Liquid.Services.Grpc.Tests.csproj", "{0CD40082-AE0C-4EA8-81D0-D63749F62800}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{76773067-D2B5-4EEB-9BAA-CCDE042FF584}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\liquid-ci-cd-grpc-cartridge.yml = .github\workflows\liquid-ci-cd-grpc-cartridge.yml
+		.github\workflows\liquid-ci-cd-http-cartridge.yml = .github\workflows\liquid-ci-cd-http-cartridge.yml
+		.github\workflows\liquid-ci-cd.yml = .github\workflows\liquid-ci-cd.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

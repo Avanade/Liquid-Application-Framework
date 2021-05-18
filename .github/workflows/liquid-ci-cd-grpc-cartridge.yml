@@ -75,7 +75,7 @@ jobs:
       run: |
         dotnet sonarscanner begin /k:"Avanade_Liquid.WebApi.Grpc" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN_GRPC}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
         dotnet build src/Liquid.WebApi.Grpc/Liquid.WebApi.Grpc.csproj --configuration Release --no-restore
-        dotnet test src/Liquid.WebApi.Grpc.Tests/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
+        dotnet test test/Liquid.WebApi.Grpc.Tests/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
         reportgenerator -reports:$GITHUB_WORKSPACE/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN_GRPC}}"
 

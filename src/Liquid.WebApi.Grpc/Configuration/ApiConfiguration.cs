@@ -14,7 +14,7 @@ namespace Liquid.WebApi.Grpc.Configuration
     ///     <cref>Liquid.Core.Configuration.ILightConfiguration{Liquid.WebApi.Http.Configuration.ApiRootSettings}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    [ConfigurationSection("api")]
+    [LiquidConfigurationSection("api")]
     public class ApiConfiguration : LightConfiguration, ILightConfiguration<ApiSettings>
     {
         /// <summary>

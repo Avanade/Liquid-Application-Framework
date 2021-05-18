@@ -14,7 +14,7 @@ namespace Liquid.WebApi.Http.Configuration
     ///     <cref>Liquid.Core.Configuration.ILightConfiguration{Liquid.WebApi.Http.Configuration.ApiRootSettings}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    [ConfigurationSection("api")]
+    [LiquidConfigurationSection("api")]
     public class ApiConfiguration : LightConfiguration, ILightConfiguration<ApiSettings>
     {
         /// <summary>
@@ -44,7 +44,7 @@ namespace Liquid.WebApi.Http.Configuration
     ///     <cref>Liquid.Core.Configuration.ILightConfiguration{Liquid.WebApi.Http.Configuration.SwaggerSettings}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    [ConfigurationSection("swagger")]
+    [LiquidConfigurationSection("swagger")]
     public class SwaggerConfiguration : LightConfiguration, ILightConfiguration<SwaggerSettings>
     {
         /// <summary>

@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.WebApi</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.0-alpha</Version>
+    <Version>2.0.1-alpha</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <DebugType>Full</DebugType>
@@ -23,15 +23,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Core" Version="2.0.0-alpha" />
-    <PackageReference Include="Liquid.Domain" Version="2.0.0-alpha" />
-    <PackageReference Include="FluentValidation.AspNetCore" Version="9.5.3" />
+    <PackageReference Include="Liquid.Core" Version="2.0.2-alpha" />
+    <PackageReference Include="Liquid.Domain" Version="2.0.2-alpha" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="..\logo.png">
+    <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>

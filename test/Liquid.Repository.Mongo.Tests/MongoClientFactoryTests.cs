@@ -1,5 +1,7 @@
 ﻿using Liguid.Repository.Configuration;
 using Liquid.Core.Configuration;
+using Liquid.Repository.Configuration;
+using Liquid.Repository.Mongo.Configuration;
 using Mongo2Go;
 using NSubstitute;
 using NUnit.Framework;
@@ -14,23 +16,21 @@ namespace Liquid.Repository.Mongo.Tests
         private IMongoClientFactory _sut;
         internal static MongoDbRunner _runner;
         internal static string _databaseName = "IntegrationTest";
-        private ILightConfiguration<List<LightConnectionSettings>> _configuration;
+        private ILightDatabaseConfiguration<MongoSettings> _configuration;
 
         [SetUp]
         protected void SetContext()
         {
             _runner = MongoDbRunner.StartForDebugging(singleNodeReplSet: false);
 
-            var connectionSettings = new LightConnectionSettings()
+            var connectionSettings = new MongoSettings()
             {
-                Id = "test",
                 ConnectionString = _runner.ConnectionString,
                 DatabaseName = _databaseName
             };
-            _configuration = Substitute.For<ILightConfiguration<List<LightConnectionSettings>>>();
+            _configuration = Substitute.For<ILightDatabaseConfiguration<MongoSettings>>();
 
-            _configuration.Settings
-                .Returns(new List<LightConnectionSettings>() { connectionSettings }, new List<LightConnectionSettings>() { connectionSettings });
+            _configuration.GetSettings("test").Returns(connectionSettings);
 
             _sut = new MongoClientFactory(_configuration);
 

@@ -1,6 +1,8 @@
 ﻿using Liguid.Repository.Configuration;
 using Liquid.Core.Configuration;
 using Liquid.Core.Telemetry;
+using Liquid.Repository.Configuration;
+using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Extensions;
 using Liquid.Repository.Mongo.Tests.Mock;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,16 +41,14 @@ namespace Liquid.Repository.Mongo.Tests
         {
             _runner = MongoDbRunner.Start(singleNodeReplSet: true);
 
-            var connectionSettings = new LightConnectionSettings()
+            var connectionSettings = new MongoSettings()
             {
-                Id = "test",
                 ConnectionString = _runner.ConnectionString,
                 DatabaseName = "functionalTest"
             };
-            var configuration = Substitute.For<ILightConfiguration<List<LightConnectionSettings>>>();
+            var configuration = Substitute.For<ILightDatabaseConfiguration<MongoSettings>>();
 
-            configuration.Settings
-                .Returns(new List<LightConnectionSettings>() { connectionSettings }, new List<LightConnectionSettings>() { connectionSettings });
+            configuration.GetSettings(Arg.Any<string>()).Returns(connectionSettings);
 
             var services = new ServiceCollection();
 

@@ -8,10 +8,10 @@ namespace Liquid.Core.Localization
     /// <summary>
     /// Occurs when it's not possible to read the resources collection from data source.
     /// </summary>
-    /// <seealso cref="System.Exception" />
+    /// <seealso cref="Exception" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class LocalizationReaderException : LightException
+    public class LocalizationReaderException : LiquidException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LocalizationReaderException"/> class.

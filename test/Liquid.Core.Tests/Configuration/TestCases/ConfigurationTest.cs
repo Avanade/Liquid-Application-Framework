@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Liquid.Core.Configuration;
 using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Tests.Configuration.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +18,7 @@ namespace Liquid.Core.Tests.Configuration.TestCases
     public class ConfigurationTest
     {
         private IConfiguration _configurationRoot;
-        private ILightConfiguration<CustomSetting> _sut;
+        private ILiquidConfiguration<CustomSetting> _sut;
 
         [SetUp]
         public void Setup()
@@ -110,7 +110,7 @@ namespace Liquid.Core.Tests.Configuration.TestCases
                .Build());
             services.AddConfigurations(typeof(CustomSettingConfiguration).Assembly);
             IServiceProvider serviceProvider = services.BuildServiceProvider();
-            Assert.IsNotNull(serviceProvider.GetService<ILightConfiguration<CustomSetting>>());
+            Assert.IsNotNull(serviceProvider.GetService<ILiquidConfiguration<CustomSetting>>());
         }
 
         /// <summary>

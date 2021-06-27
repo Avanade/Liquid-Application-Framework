@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Threading;
-using Liquid.Core.Configuration;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Localization.Entities;
 using Liquid.Core.Utils;
 
@@ -14,6 +15,8 @@ namespace Liquid.Core.Localization
     /// Resource file catalog class.
     /// </summary>
     /// <seealso cref="ILocalization" />
+    [Obsolete("This class will be removed or refactored in the next release.")]
+    [ExcludeFromCodeCoverage]
     public class JsonFileLocalization : ILocalization
     {
         private readonly IDictionary<CultureInfo, LocalizationCollection> _localizationItems;
@@ -22,11 +25,11 @@ namespace Liquid.Core.Localization
         /// Initializes a new instance of the <see cref="JsonFileLocalization" /> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public JsonFileLocalization(ILightConfiguration<CultureSettings> configuration)
+        public JsonFileLocalization(ILiquidConfiguration<CultureSettings> configuration)
         {
             _localizationItems = ReadLocalizationFiles(configuration);
         }
-        
+
         /// <summary>
         /// Gets the specified string according to culture.
         /// </summary>
@@ -35,6 +38,7 @@ namespace Liquid.Core.Localization
         /// The string associated with resource key.
         /// </returns>
         /// <exception cref="ArgumentNullException">key</exception>
+        [Obsolete("This method will be removed or refactored in the next release.")]
         public string Get(string key)
         {
             return Get(key, Thread.CurrentThread.CurrentCulture);
@@ -49,11 +53,12 @@ namespace Liquid.Core.Localization
         /// The string associated with resource key.
         /// </returns>
         /// <exception cref="ArgumentNullException">key</exception>
+        [Obsolete("This method will be removed or refactored in the next release.")]
         public string Get(string key, string channel)
         {
             return Get(key, Thread.CurrentThread.CurrentCulture, channel);
         }
-        
+
         /// <summary>
         /// Gets the specified string according to culture.
         /// </summary>
@@ -68,7 +73,8 @@ namespace Liquid.Core.Localization
         /// or
         /// culture
         /// </exception>
-        /// <exception cref="LightLocalizationException"></exception>
+        /// <exception cref="LocalizationException"></exception>
+        [Obsolete("This method will be removed or refactored in the next release.")]
         public string Get(string key, CultureInfo culture, string channel = null)
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
@@ -86,7 +92,7 @@ namespace Liquid.Core.Localization
             }
             catch (Exception ex)
             {
-                throw new LightLocalizationException(key, ex);
+                throw new LocalizationException(key, ex);
             }
         }
 
@@ -96,7 +102,7 @@ namespace Liquid.Core.Localization
         /// <param name="configuration">The configuration.</param>
         /// <returns></returns>
         /// <exception cref="LocalizationReaderException"></exception>
-        private static IDictionary<CultureInfo, LocalizationCollection> ReadLocalizationFiles(ILightConfiguration<CultureSettings> configuration)
+        private static IDictionary<CultureInfo, LocalizationCollection> ReadLocalizationFiles(ILiquidConfiguration<CultureSettings> configuration)
         {
             var items = new ConcurrentDictionary<CultureInfo, LocalizationCollection>();
             try

@@ -11,19 +11,19 @@ namespace Liquid.Core.Localization
     /// <seealso cref="System.Exception" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class LightLocalizationException : LightException
+    public class LocalizationException : LiquidException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LightLocalizationException"/> class.
+        /// Initializes a new instance of the <see cref="LocalizationException"/> class.
         /// </summary>
         /// <param name="key">The key.</param>
         /// <param name="innerException">The inner exception.</param>
-        public LightLocalizationException(string key, Exception innerException) : base($"Unable to read resource from key: {key}, please see inner exception.", innerException)
+        public LocalizationException(string key, Exception innerException) : base($"Unable to read resource from key: {key}, please see inner exception.", innerException)
         {
         }
 
         ///<inheritdoc/>
-        protected LightLocalizationException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected LocalizationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

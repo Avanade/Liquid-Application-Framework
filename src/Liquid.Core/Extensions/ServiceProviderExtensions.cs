@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Liquid.Core.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Liquid.Core.DependencyInjection
+namespace Liquid.Core.Extensions
 {
     /// <summary>
     /// Service Provider Extensions Class.

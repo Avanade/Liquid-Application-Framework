@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Liquid.Core.Configuration;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -11,7 +11,7 @@ namespace Liquid.Core.Tests.Configuration.Entities
     /// </summary>
     [LiquidConfigurationSection("customSettings")]
     [ExcludeFromCodeCoverage]
-    public class CustomSettingConfiguration : LightConfiguration, ILightConfiguration<CustomSetting>
+    public class CustomSettingConfiguration : LiquidConfiguration, ILiquidConfiguration<CustomSetting>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.
@@ -34,7 +34,7 @@ namespace Liquid.Core.Tests.Configuration.Entities
     /// Test configuration root class.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class CustomSettingConfigurationWithParameter : LightConfiguration, ILightConfiguration<CustomSetting>
+    public class CustomSettingConfigurationWithParameter : LiquidConfiguration, ILiquidConfiguration<CustomSetting>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.
@@ -57,7 +57,7 @@ namespace Liquid.Core.Tests.Configuration.Entities
     /// Test configuration root class.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class CustomSettingConfigurationNoParameter : LightConfiguration, ILightConfiguration<CustomSetting>
+    public class CustomSettingConfigurationNoParameter : LiquidConfiguration, ILiquidConfiguration<CustomSetting>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.
@@ -80,7 +80,7 @@ namespace Liquid.Core.Tests.Configuration.Entities
     /// Wrong Test configuration root class, without Attribute.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class WrongCustomSettingConfiguration : LightConfiguration, ILightConfiguration<CustomSetting>
+    public class WrongCustomSettingConfiguration : LiquidConfiguration, ILiquidConfiguration<CustomSetting>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomSettingConfiguration"/> class.

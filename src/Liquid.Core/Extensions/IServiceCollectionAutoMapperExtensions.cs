@@ -1,12 +1,13 @@
-﻿using System;
+﻿using AutoMapper;
+using Liquid.Core.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Liquid.Core.DependencyInjection
+namespace Liquid.Core.Extensions
 {
     /// <summary>
     /// Extensions to scan for AutoMapper classes and register the configuration, mapping, and extensions with the service collection:
@@ -26,7 +27,7 @@ namespace Liquid.Core.DependencyInjection
     /// you can resolve the <see cref="IConfigurationProvider"/> instance directly for from an <see cref="IMapper" /> instance.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public static class AutoMapperExtensions
+    public static class IServiceCollectionAutoMapperExtensions
     {
         /// <summary>
         /// Adds the automatic mapper.
@@ -196,24 +197,5 @@ namespace Liquid.Core.DependencyInjection
             return services;
         }
 
-        /// <summary>
-        /// Implements the generic interface.
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="interfaceType">Type of the interface.</param>
-        /// <returns></returns>
-        private static bool ImplementGenericInterface(this Type type, Type interfaceType)
-            => type.IsGenericType(interfaceType) || type.GetTypeInfo().ImplementedInterfaces.Any(@interface => @interface.IsGenericType(interfaceType));
-
-        /// <summary>
-        /// Determines whether [is generic type] [the specified generic type].
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <param name="genericType">Type of the generic.</param>
-        /// <returns>
-        ///   <c>true</c> if [is generic type] [the specified generic type]; otherwise, <c>false</c>.
-        /// </returns>
-        private static bool IsGenericType(this Type type, Type genericType)
-            => type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
     }
 }

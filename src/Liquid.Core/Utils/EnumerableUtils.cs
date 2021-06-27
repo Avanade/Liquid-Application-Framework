@@ -108,7 +108,7 @@ namespace Liquid.Core.Utils
 
                 if (prop == null)
                 {
-                    throw new LightException("No property '" + property + "' in + " + typeof(T).Name + "'");
+                    throw new LiquidException("No property '" + property + "' in + " + typeof(T).Name + "'");
                 }
 
                 return descending ? list.OrderByDescending(x => prop.GetValue(x, null)) : list.OrderBy(x => prop.GetValue(x, null));

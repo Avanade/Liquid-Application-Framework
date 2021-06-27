@@ -158,7 +158,7 @@ namespace Liquid.Core.Base
 
             if (matchingItem != null) return matchingItem;
             var message = $"'{value}' is not a valid {description} in {typeof(TEnumerable)}";
-            throw new LightException(message);
+            throw new LiquidException(message);
         }
 
         /// <summary>

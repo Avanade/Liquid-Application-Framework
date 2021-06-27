@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Liquid.Core.Utils;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using Liquid.Core.Utils;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Liquid.Core.DependencyInjection
 {
     /// <summary>
     /// Service Collection Extensions Class.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    [ExcludeFromCodeCoverage]
+    public static class IServiceCollectionTypeExtensions
     {
         /// <summary>
         /// Adds a scoped service of the type specified in <paramref name="serviceType" /> with an

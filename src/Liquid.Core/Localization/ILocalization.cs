@@ -1,10 +1,12 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace Liquid.Core.Localization
 {
     /// <summary>
     /// Resource catalog interface.
     /// </summary>
+    [Obsolete("This class will be removed or refactored in the next release.")]
     public interface ILocalization 
     {
         /// <summary>
@@ -14,6 +16,7 @@ namespace Liquid.Core.Localization
         /// <returns>
         /// The string associated with resource key.
         /// </returns>
+        [Obsolete("This method will be removed or refactored in the next release.")]
         string Get(string key);
 
         /// <summary>
@@ -24,6 +27,7 @@ namespace Liquid.Core.Localization
         /// <returns>
         /// The string associated with resource key.
         /// </returns>
+        [Obsolete("This method will be removed or refactored in the next release.")]
         string Get(string key, string channel);
 
         /// <summary>
@@ -35,6 +39,7 @@ namespace Liquid.Core.Localization
         /// <returns>
         /// The string associated with resource key.
         /// </returns>
+        [Obsolete("This method will be removed or refactored in the next release.")]
         string Get(string key, CultureInfo culture, string channel = null);
     }
 }

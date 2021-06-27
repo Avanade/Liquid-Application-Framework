@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
-using Liquid.Core.Configuration;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +32,7 @@ namespace Liquid.Core.Tests.Localization
             IConfiguration configurationRoot = new ConfigurationBuilder()
                 .AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
-            services.AddSingleton<ILightConfiguration<CultureSettings>, CultureConfiguration>();
+            services.AddSingleton<ILiquidConfiguration<CultureSettings>, CultureConfiguration>();
             services.AddLocalizationService();
             _serviceProvider = services.BuildServiceProvider();
 

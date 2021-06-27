@@ -17,6 +17,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9F103FE8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Core.Tests", "test\Liquid.Core.Tests\Liquid.Core.Tests.csproj", "{221DB361-6C2B-462C-9BC5-C676CBD047F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Core.UnitTests", "test\Liquid.Core.UnitTests\Liquid.Core.UnitTests.csproj", "{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{221DB361-6C2B-462C-9BC5-C676CBD047F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{221DB361-6C2B-462C-9BC5-C676CBD047F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{221DB361-6C2B-462C-9BC5-C676CBD047F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

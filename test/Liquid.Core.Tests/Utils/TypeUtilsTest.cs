@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Liquid.Core.Configuration;
 using Liquid.Core.Tests.Configuration.Entities;
 using NUnit.Framework;
 using Liquid.Core.Utils;
+using Liquid.Core.Interfaces;
 
 namespace Liquid.Core.Tests.Utils
 {
@@ -19,7 +19,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_GetTypesToRegister()
         {
-            var types = TypeUtils.GetTypesToRegister(typeof(ILightConfiguration<>), new[] { GetType().Assembly });
+            var types = TypeUtils.GetTypesToRegister(typeof(ILiquidConfiguration<>), new[] { GetType().Assembly });
             Assert.Greater(types.Length, 0);
         }
 
@@ -49,7 +49,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_IsGenericTypeDefinitionOf()
         {
-            var result = typeof(CustomSettingConfiguration).IsGenericTypeDefinitionOf(typeof(ILightConfiguration<>));
+            var result = typeof(CustomSettingConfiguration).IsGenericTypeDefinitionOf(typeof(ILiquidConfiguration<>));
             Assert.IsFalse(result);
         }
 
@@ -59,7 +59,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_IsGenericType()
         {
-            var result = typeof(ILightConfiguration<>).IsGenericType();
+            var result = typeof(ILiquidConfiguration<>).IsGenericType();
             Assert.IsTrue(result);
         }
 
@@ -69,7 +69,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_IsGenericImplementationOf()
         {
-            var result = typeof(ILightConfiguration<>).IsGenericImplementationOf(typeof(CustomSettingConfiguration));
+            var result = typeof(ILiquidConfiguration<>).IsGenericImplementationOf(typeof(CustomSettingConfiguration));
             Assert.IsFalse(result);
         }
 
@@ -79,7 +79,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_IsVariantVersionOf()
         {
-            var result = typeof(CustomSettingConfiguration).IsVariantVersionOf(typeof(ILightConfiguration<>));
+            var result = typeof(CustomSettingConfiguration).IsVariantVersionOf(typeof(ILiquidConfiguration<>));
             Assert.IsFalse(result);
         }
 
@@ -89,7 +89,7 @@ namespace Liquid.Core.Tests.Utils
         [Test]
         public void Verify_IsGenericTypeDefinition()
         {
-            var result = typeof(ILightConfiguration<>).IsGenericTypeDefinition();
+            var result = typeof(ILiquidConfiguration<>).IsGenericTypeDefinition();
             Assert.IsTrue(result);
         }
     }

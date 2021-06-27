@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Liquid.Core.Configuration;
 using Liquid.Core.Localization.Entities;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +10,7 @@ namespace Liquid.Core.Localization
     /// <summary>
     /// Resource extensions class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class LocalizationExtensions
     {
         /// <summary>
@@ -44,10 +45,10 @@ namespace Liquid.Core.Localization
         /// Adds the localization using the default filename localization.json
         /// </summary>
         /// <param name="services">The services.</param>
+        [Obsolete("This method will be removed or refactored in the next release.")]
         public static void AddLocalizationService(this IServiceCollection services)
         {
             services.AddSingleton<ILocalization, JsonFileLocalization>();
-            services.AddSingleton<ILightConfiguration<CultureSettings>, CultureConfiguration>();
         }
     }
 }

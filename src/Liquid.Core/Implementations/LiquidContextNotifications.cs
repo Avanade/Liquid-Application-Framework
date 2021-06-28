@@ -49,9 +49,9 @@ namespace Liquid.Core.Implementations
         }
 
         ///<inheritdoc/>
-        public void UpsertNotifications(IDictionary<string, object> notification)
+        public void UpsertNotifications(IDictionary<string, object> notifications)
         {
-            _liquidContext.Upsert(notificationKey.ToString(), notification);
+            _liquidContext.Upsert(notificationKey.ToString(), notifications);
         }
 
         ///<inheritdoc/>

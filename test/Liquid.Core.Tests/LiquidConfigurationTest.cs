@@ -13,13 +13,6 @@ namespace Liquid.Core.UnitTests
         private IOptions<MockSettings> _options = Substitute.For<IOptions<MockSettings>>();
         private IConfiguration _config = Substitute.For<IConfiguration>();
         private MockSettings _settings = new MockSettings();
-        private IServiceProvider _serviceProvider;
-
-
-        public LiquidConfigurationTest()
-        {
-
-        }
 
         [Fact]
         public void Ctor_WhenInjectOptions_Success()

@@ -1,8 +1,5 @@
 ﻿using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Xunit;
 
 namespace Liquid.Core.UnitTests
@@ -16,7 +13,7 @@ namespace Liquid.Core.UnitTests
             _sut = new LiquidContextNotifications(new LiquidContext());
         }
 
-        public void InitializeNotifications()
+        private void InitializeNotifications()
         {
             _sut.UpsertNotification("test", "initialize notifications");
         }

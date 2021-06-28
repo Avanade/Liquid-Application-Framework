@@ -7,12 +7,12 @@ namespace Liquid.Core.Base
     /// <summary>
     /// Base class to implement interceptors with actions after, before and on exception.
     /// </summary>
-    public abstract class LiquidInterceptorBase : AsyncInterceptorBase, IAsyncInterceptor
+    public abstract class LiquidInterceptorBase : AsyncInterceptorBase
     {
         /// <summary>
         /// Initialize an instace of <see cref="LiquidInterceptorBase"/>
         /// </summary>
-        public LiquidInterceptorBase()
+        protected LiquidInterceptorBase()
         {
         }
 

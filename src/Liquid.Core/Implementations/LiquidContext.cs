@@ -8,7 +8,7 @@ namespace Liquid.Core.Implementations
     ///<inheritdoc/>
     public class LiquidContext : ILiquidContext
     {
-        private IDictionary<string, object> _current = new Dictionary<string, object>();
+        private readonly IDictionary<string, object> _current = new Dictionary<string, object>();
 
         ///<inheritdoc/>
         public IDictionary<string, object> current => _current;

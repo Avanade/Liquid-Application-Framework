@@ -3,6 +3,7 @@ using Liquid.Core.Implementations;
 using Liquid.Core.UnitTests.Mocks;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -13,8 +14,6 @@ namespace Liquid.Core.UnitTests
         private LiquidTelemetryInterceptor _sut;
         private IMockService _input;
         private ILogger<LiquidTelemetryInterceptor> _logger;
-
-
 
         public LiquidTelemetryInterceptorTest()
         {
@@ -44,7 +43,7 @@ namespace Liquid.Core.UnitTests
         [Fact]
         public async Task Intercept_WhenMethodExecutionThrowsException_LogStarExceptionAndEnd()
         {
-            await _input.Get();
+            await Assert.ThrowsAsync<NotImplementedException>(() => _input.GetError());
 
             _logger.Received(3);
         }

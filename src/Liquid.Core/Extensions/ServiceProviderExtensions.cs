@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Liquid.Core.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +10,7 @@ namespace Liquid.Core.Extensions
     /// <summary>
     /// Service Provider Extensions Class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class ServiceProviderExtensions
     {
         /// <summary>

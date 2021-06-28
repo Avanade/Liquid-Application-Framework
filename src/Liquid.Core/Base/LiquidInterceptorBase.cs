@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 namespace Liquid.Core.Base
 {
     /// <summary>
-    /// Base class to implement interceptors.
+    /// Base class to implement interceptors with actions after, before and on exception.
     /// </summary>
     public abstract class LiquidInterceptorBase : AsyncInterceptorBase, IAsyncInterceptor
     {

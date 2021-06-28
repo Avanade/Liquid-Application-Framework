@@ -10,7 +10,7 @@ namespace Liquid.Core.Localization
     /// <summary>
     /// Represents the Culture Configuration inside appsettings.json.
     /// </summary>
-    [LiquidSectionName("culture")]
+    [LiquidSectionName("liquid:culture")]
     [Obsolete("This class will be removed or refactored in the next release.")]
     [ExcludeFromCodeCoverage]
     public class CultureSettings
@@ -21,7 +21,6 @@ namespace Liquid.Core.Localization
         /// <value>
         /// The default culture.
         /// </value>
-        [JsonProperty("defaultCulture")]
         public string DefaultCulture { get; set; }
     }
 }

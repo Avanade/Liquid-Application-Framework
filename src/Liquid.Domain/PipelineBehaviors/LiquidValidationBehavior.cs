@@ -41,6 +41,7 @@ namespace Liquid.Domain.PipelineBehaviors
                 var results = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
 
                 var errors = results.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+
                 if (errors.Count != 0)
                     throw new ValidationException(errors);
             }

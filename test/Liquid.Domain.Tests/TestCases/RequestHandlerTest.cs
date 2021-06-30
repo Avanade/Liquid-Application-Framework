@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Liquid.Core.Extensions;
 using Liquid.Domain.Extensions;
-using Liquid.Domain.Pipelines;
+using Liquid.Domain.PipelineBehaviors;
 using Liquid.Domain.Tests.CommandHandlers.Test1;
 using Liquid.Domain.Tests.CommandHandlers.Test2;
 using MediatR;

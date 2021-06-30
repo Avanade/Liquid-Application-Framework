@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Liquid.Domain.Pipelines
+namespace Liquid.Domain.PipelineBehaviors
 {
     /// <summary>
     /// Telemetry Behavior implementation for Mediator pipelines.
@@ -33,18 +33,18 @@ namespace Liquid.Domain.Pipelines
         /// </summary>
         /// <param name="request">Incoming request.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        /// <param name="proceed"> Awaitable delegate for the next action in the pipeline. Eventually this delegate 
+        /// <param name="next"> Awaitable delegate for the next action in the pipeline. Eventually this delegate 
         /// represents the handler.</param>
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> proceed)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            var methodInfo = proceed.GetMethodInfo();
+            var methodInfo = next.GetMethodInfo();
 
             TResponse response = default;
 
             try
             {
                 await BeforeRequest(methodInfo);
-                response = await proceed();
+                response = await next();
             }
             catch (Exception ex)
             {

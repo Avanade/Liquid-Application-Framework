@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Domain", "src\Liquid.Domain\Liquid.Domain.csproj", "{CE75EB47-68D9-46F5-BF91-60D39E52CC54}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DDF65239-02CF-486D-9AC5-F869148E9084}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Domain.Tests", "test\Liquid.Domain.Tests\Liquid.Domain.Tests.csproj", "{C1BA440C-1019-429B-B26E-77495E645B12}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77065B3E-8299-4B74-8F6A-A063D93F21DC}"
@@ -34,9 +32,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{C1BA440C-1019-429B-B26E-77495E645B12} = {DDF65239-02CF-486D-9AC5-F869148E9084}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE9FFD1F-A55F-4994-8B58-CA5E24CF6572}

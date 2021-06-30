@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using Liquid.Domain.Pipelines;
+using Liquid.Domain.PipelineBehaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;

@@ -8,11 +8,11 @@ namespace Liquid.Core.Implementations
     ///<inheritdoc/>
     public class LiquidContextNotifications : ILiquidContextNotifications
     {
-        private Guid notificationKey = Guid.NewGuid();
+        private string _notificationKey = "notification_" + Guid.NewGuid();
         private readonly ILiquidContext _liquidContext;
 
         /// <summary>
-        /// 
+        /// Initialize an instance of <seealso cref="LiquidContextNotifications"/>
         /// </summary>
         /// <param name="liquidContext"></param>
         public LiquidContextNotifications(ILiquidContext liquidContext)
@@ -21,51 +21,34 @@ namespace Liquid.Core.Implementations
         }
 
         ///<inheritdoc/>
-        public ILiquidContext context => _liquidContext;
-
-        ///<inheritdoc/>
-        public void UpsertNotification(string key, object value)
+        public void InsertNotification(string notification)
         {
-            var notifications = (Dictionary<string, object>)_liquidContext.Get(notificationKey.ToString());
-
+            var notifications = _liquidContext.Get<IList<string>>(_notificationKey);
             if (notifications is null)
-            {
-                notifications = new Dictionary<string, object>();
-                notifications.Add(key, value);
-            }
-            else
-            {
-                if (notifications.ContainsKey(key))
-                {
-                    notifications[key] = value;
-                }
-                else
-                {
-                    notifications.TryAdd(key, value);
-                }
-            } 
-            
-            UpsertNotifications(notifications);
+                notifications = new List<string>();
+
+            notifications.Add(notification);
+
+            _liquidContext.Upsert(_notificationKey, notifications);
         }
 
         ///<inheritdoc/>
-        public void UpsertNotifications(IDictionary<string, object> notifications)
+        public void InsertNotifications(IList<string> notifications)
         {
-            _liquidContext.Upsert(notificationKey.ToString(), notifications);
+            _liquidContext.Upsert(_notificationKey, notifications);
         }
 
         ///<inheritdoc/>
-        public IDictionary<string, object> GetNotifications()
+        public IList<string> GetNotifications()
         {
             try
             {
-                return (IDictionary<string, object>)_liquidContext.current[notificationKey.ToString()];
+                return _liquidContext.Get<IList<string>>(_notificationKey);
             }
             catch
             {
                 return null;
             }
-            
         }
     }
 }

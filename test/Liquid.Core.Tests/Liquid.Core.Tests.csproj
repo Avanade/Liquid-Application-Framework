@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture" Version="4.17.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.2.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0-preview.5.21301.5" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.10.0" />

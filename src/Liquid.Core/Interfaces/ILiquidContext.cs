@@ -23,6 +23,13 @@ namespace Liquid.Core.Interfaces
         object Get(string key);
 
         /// <summary>
+        /// Return context item value.
+        /// </summary>
+        /// <param name="key">key of the item to be obtained.</param>
+        /// <typeparam name="T">Type of return object.</typeparam>
+        T Get<T>(string key);
+
+        /// <summary>
         /// Insert or update itens in context.
         /// </summary>
         /// <param name="key">Key of the item.</param>

@@ -1,7 +1,5 @@
 ﻿using Liquid.Core.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Liquid.Core.Implementations
 {
@@ -38,6 +36,19 @@ namespace Liquid.Core.Implementations
                 return null;
             }
             
+        }
+
+        ///<inheritdoc/>
+        public T Get<T>(string key)
+        {
+            try
+            {
+                return (T)current[key];
+            }
+            catch
+            {
+                return default;
+            }
         }
     }
 }

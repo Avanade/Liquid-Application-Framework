@@ -15,18 +15,18 @@ namespace Liquid.Core.UnitTests
 
         private void InitializeNotifications()
         {
-            _sut.UpsertNotification("test", "initialize notifications");
+            _sut.InsertNotification("initialize notifications");
         }
 
         [Fact]
         public void InsertNotificaton_WhenContextHasNoNotifications_Inserted()
         {
-            _sut.UpsertNotification("case1", "test case");
+            _sut.InsertNotification("test case");
 
             var result = _sut.GetNotifications();
 
-            Assert.True(result.Count >= 1);
-            Assert.True(result["case1"].ToString() == "test case");
+            Assert.True(result.Count == 1);
+            Assert.True(result.Contains("test case"));
         }
 
         [Fact]
@@ -34,36 +34,25 @@ namespace Liquid.Core.UnitTests
         {
             InitializeNotifications();
 
-            _sut.UpsertNotification("case2", "test case");
+            _sut.InsertNotification("test case 2");
 
             var result = _sut.GetNotifications();
 
             Assert.True(result.Count > 1);
-            Assert.True(result["case2"].ToString() == "test case");
+            Assert.True(result.Contains("test case 2"));
         }
 
         [Fact]
-        public void UpdateNotificaton_WhenNotificationKeyDoesntExist_Inserted()
-        {
-            _sut.UpsertNotification("case3", "test case");
-
-            var result = _sut.GetNotifications();
-
-            Assert.True(result.Count == 1);
-            Assert.True(result["case3"].ToString() == "test case");
-        }
-
-        [Fact]
-        public void UpdateNotification_WhenNotificationKeyExists_Updated()
+        public void UpdateNotification_WhenNotificationTextAlredyExists_Inserted()
         {
             InitializeNotifications();
 
-            _sut.UpsertNotification("test", "test case");
+            _sut.InsertNotification("test case");
 
             var result = _sut.GetNotifications();
 
-            Assert.True(result.Count == 1);
-            Assert.True(result["test"].ToString() == "test case");
+            Assert.True(result.Count > 1);
+            Assert.True(result.Contains("test case"));
         }
 
         [Fact]

@@ -10,7 +10,7 @@ namespace Liquid.Core.Interfaces
     public interface ILiquidContextNotifications
     {
         /// <summary>
-        /// Add or update a notification.
+        /// Add or update a notification message.
         /// </summary>
         /// <param name="message">Message text.</param>
         void InsertNotification(string message);
@@ -18,11 +18,11 @@ namespace Liquid.Core.Interfaces
         /// <summary>
         /// Add or update notifications list on context.
         /// </summary>
-        /// <param name="notifications">Notifications list.</param>
+        /// <param name="notifications">Notification messages list.</param>
         void InsertNotifications(IList<string> notifications);
 
         /// <summary>
-        /// Gets notifications that exist in the global context.
+        /// Gets notification messages that exist in the global context.
         /// </summary>
         IList<string> GetNotifications();
     }

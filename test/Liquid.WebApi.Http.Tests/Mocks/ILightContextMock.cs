@@ -1,4 +1,4 @@
-﻿using Liquid.Core.Context;
+﻿using Liquid.Core.Interfaces;
 using NSubstitute;
 using System.Diagnostics.CodeAnalysis;
 
@@ -14,9 +14,9 @@ namespace Liquid.WebApi.Http.Tests.Mocks
         /// Gets the ILightContext mock.
         /// </summary>
         /// <returns></returns>
-        public static ILightContext GetMock()
+        public static ILiquidContext GetMock()
         {
-            var mock = Substitute.For<ILightContext>();
+            var mock = Substitute.For<ILiquidContext>();
             return mock;
         }
     }

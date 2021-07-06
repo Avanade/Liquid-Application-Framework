@@ -19,7 +19,7 @@ namespace Liquid.WebApi.Http.Extensions
         /// </returns>
         public static IApplicationBuilder UseCultureHandler(this IApplicationBuilder builder)
         {
-            return builder.UseMiddleware<CultureHandlerMiddleware>();
+            return builder.UseMiddleware<LiquidCultureMiddleware>();
         }
 
         /// <summary>
@@ -27,10 +27,10 @@ namespace Liquid.WebApi.Http.Extensions
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns></returns>
-        public static IApplicationBuilder UseChannelHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ChannelHandlerMiddleware>();
-        }
+        //public static IApplicationBuilder UseChannelHandler(this IApplicationBuilder builder)
+        //{
+        //    return builder.UseMiddleware<ChannelHandlerMiddleware>();
+        //}
 
         /// <summary>
         /// Adds the exception handler middleware class to the application builder.
@@ -39,22 +39,11 @@ namespace Liquid.WebApi.Http.Extensions
         /// <returns>
         /// Application Builder class.
         /// </returns>
-        public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ExceptionHandlerMiddleware>();
-        }
+        //public static IApplicationBuilder UseExceptionHandler(this IApplicationBuilder builder)
+        //{
+        //    return builder.UseMiddleware<ExceptionHandlerMiddleware>();
+        //}
 
-        /// <summary>
-        /// Adds the telemetry middleware to the application builder.
-        /// </summary>
-        /// <param name="builder">The application builder.</param>
-        /// <returns>
-        /// The application builder.
-        /// </returns>
-        public static IApplicationBuilder UseTelemetry(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<TelemetryHandlerMiddleware>();
-        }
 
         /// <summary>
         /// Adds the context data handler middleware to the application builder.
@@ -63,9 +52,9 @@ namespace Liquid.WebApi.Http.Extensions
         /// <returns>
         /// The application builder.
         /// </returns>
-        public static IApplicationBuilder UseContextHandler(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ContextDataHandlerMiddleware>();
-        }
+        //public static IApplicationBuilder UseContextHandler(this IApplicationBuilder builder)
+        //{
+        //    return builder.UseMiddleware<ContextDataHandlerMiddleware>();
+        //}
     }
 }

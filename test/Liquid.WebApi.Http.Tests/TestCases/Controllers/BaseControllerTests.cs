@@ -1,10 +1,6 @@
-﻿using Liquid.Core.Context;
-using Liquid.Core.Localization;
-using Liquid.Core.Telemetry;
-using Liquid.WebApi.Http.Controllers;
+﻿using Liquid.WebApi.Http.Controllers;
 using Liquid.WebApi.Http.Tests.Mocks;
 using MediatR;
-using Microsoft.Extensions.Logging;
 using NUnit.Framework;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -29,11 +25,7 @@ namespace Liquid.WebApi.Http.Tests.TestCases.Controllers
         [SetUp]
         public void EstablishContext()
         {
-            _sut = new ControllerTest(ILoggerFactoryMock.GetMock(),
-                                      IMediatorMock.GetMock(),
-                                      ILightContextMock.GetMock(),
-                                      ILightTelemetryMock.GetMock(),
-                                      ILocalizationMock.GetMock());
+            _sut = new ControllerTest(IMediatorMock.GetMock());
         }
 
         /// <summary>
@@ -61,11 +53,7 @@ namespace Liquid.WebApi.Http.Tests.TestCases.Controllers
         /// <param name="context">The current context.</param>
         /// <param name="telemetry">The current telemetry.</param>
         /// <param name="localization">The localization service.</param>
-        public ControllerTest(ILoggerFactory loggerFactory, 
-                              IMediator mediator, 
-                              ILightContext context, 
-                              ILightTelemetry telemetry, 
-                              ILocalization localization) : base(loggerFactory, mediator, context, telemetry, localization)
+        public ControllerTest(IMediator mediator) : base(mediator)
         {
         }
 

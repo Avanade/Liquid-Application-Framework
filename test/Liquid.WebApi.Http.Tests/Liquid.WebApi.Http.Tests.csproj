@@ -32,4 +32,8 @@
     <ProjectReference Include="..\..\src\Liquid.WebApi.Http\Liquid.WebApi.Http.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TestCases\Middlewares\" />
+  </ItemGroup>
+
 </Project>

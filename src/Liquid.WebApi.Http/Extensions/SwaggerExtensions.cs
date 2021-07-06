@@ -1,14 +1,14 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using Liquid.Core.Configuration;
-using Liquid.Core.Exceptions;
+﻿using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
 using Liquid.WebApi.Http.Configuration;
 using Liquid.WebApi.Http.Filters.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
 
 namespace Liquid.WebApi.Http.Extensions
 {
@@ -27,8 +27,8 @@ namespace Liquid.WebApi.Http.Extensions
         {
             var serviceProvider = services.BuildServiceProvider();
 
-            var configuration = serviceProvider.GetService<ILightConfiguration<SwaggerSettings>>();
-            if (configuration?.Settings == null) throw new LightException("'swagger' settings does not exist in appsettings.json file. Please check the file.");
+            var configuration = serviceProvider.GetService<ILiquidConfiguration<SwaggerSettings>>();
+            if (configuration?.Settings == null) throw new LiquidException("'swagger' settings does not exist in appsettings.json file. Please check the file.");
 
             var swaggerSettings = configuration.Settings;
             services.AddSwaggerGen(options =>
@@ -58,7 +58,7 @@ namespace Liquid.WebApi.Http.Extensions
         /// <returns></returns>
         public static IApplicationBuilder UseLiquidSwagger(this IApplicationBuilder app)
         {
-            var configuration = app.ApplicationServices.GetService<ILightConfiguration<SwaggerSettings>>();
+            var configuration = app.ApplicationServices.GetService<ILiquidConfiguration<SwaggerSettings>>();
 
             var swaggerSettings = configuration.Settings;
             app.UseSwagger().UseSwaggerUI(options =>

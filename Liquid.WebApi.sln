@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http", "src\Liquid.WebApi.Http\Liquid.WebApi.Http.csproj", "{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8989B81D-BA59-4B40-90F8-9538B4D67759}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http.Tests", "test\Liquid.WebApi.Http.Tests\Liquid.WebApi.Http.Tests.csproj", "{C89DCC79-6859-4D02-B08E-F3238B458902}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Grpc", "src\Liquid.WebApi.Grpc\Liquid.WebApi.Grpc.csproj", "{7806419C-7191-4D7A-BD52-8E705553ABEB}"
@@ -18,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\liquid-ci-cd-grpc-cartridge.yml = .github\workflows\liquid-ci-cd-grpc-cartridge.yml
 		.github\workflows\liquid-ci-cd-http-cartridge.yml = .github\workflows\liquid-ci-cd-http-cartridge.yml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grcp", "Grcp", "{15BED263-E56A-45B2-A647-7D44500383E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Http", "Http", "{13C213E0-722A-4CD5-9209-21E12FDA0CA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,8 +48,10 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C89DCC79-6859-4D02-B08E-F3238B458902} = {8989B81D-BA59-4B40-90F8-9538B4D67759}
-		{3B8464A5-3795-464E-A3B2-D2851C9E38DC} = {8989B81D-BA59-4B40-90F8-9538B4D67759}
+		{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4} = {13C213E0-722A-4CD5-9209-21E12FDA0CA8}
+		{C89DCC79-6859-4D02-B08E-F3238B458902} = {13C213E0-722A-4CD5-9209-21E12FDA0CA8}
+		{7806419C-7191-4D7A-BD52-8E705553ABEB} = {15BED263-E56A-45B2-A647-7D44500383E1}
+		{3B8464A5-3795-464E-A3B2-D2851C9E38DC} = {15BED263-E56A-45B2-A647-7D44500383E1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83C46B4F-18D0-45CB-B7EC-9A5B8840F6A0}

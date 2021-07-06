@@ -1,8 +1,4 @@
-﻿using Liquid.Core.Configuration;
-using Liquid.Core.Context;
-using Liquid.Core.Localization;
-using Liquid.Core.Telemetry;
-using Liquid.WebApi.Http.Factories;
+﻿using Liquid.Core.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
@@ -22,14 +18,7 @@ namespace Liquid.WebApi.Http.Extensions
         public static IServiceCollection ConfigureLiquidHttp(this IServiceCollection services)
         {
             services.AddHttpClient();
-            services.AddLocalizationService();
-
-            services.AddConfigurations(typeof(StartupExtensions).Assembly);
-            services.AddScoped<ILightContext, LightContext>();
-            services.AddTransient<ILightContextFactory, WebApiLightContextFactory>();
-
-            services.AddScoped<ILightTelemetry, LightTelemetry>();
-            services.AddSingleton<ILightTelemetryFactory, WebApiLightTelemetryFactory>();
+            services.AddLiquidConfiguration();
             return services;
         }
 
@@ -39,13 +28,9 @@ namespace Liquid.WebApi.Http.Extensions
         /// <param name="app">The application.</param>
         public static IApplicationBuilder ConfigureApplication(this IApplicationBuilder app)
         {
-            app.UseContextHandler();
-            app.UseTelemetry();
             app.UseExceptionHandler();
             app.UseCultureHandler();
-            app.UseChannelHandler();
-
             return app;
-        }        
+        }
     }
 }

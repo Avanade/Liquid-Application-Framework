@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Liquid.Core.Attributes;
 using Newtonsoft.Json;
 
 namespace Liquid.WebApi.Http.Configuration
@@ -7,6 +8,7 @@ namespace Liquid.WebApi.Http.Configuration
     /// Api settings class.
     /// </summary>
     [ExcludeFromCodeCoverage]
+    [LiquidSectionName("liquid:api")]
     public class ApiSettings
     {
         private bool? _trackRequests;

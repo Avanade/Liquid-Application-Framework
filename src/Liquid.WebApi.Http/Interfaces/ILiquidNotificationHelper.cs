@@ -3,7 +3,7 @@
     /// <summary>
     /// Abstracts the management of context notifications.
     /// </summary>
-    public interface INotificationHelper
+    public interface ILiquidNotificationHelper
     {
         /// <summary>
         /// Add context notification messages to the response object.

@@ -11,7 +11,7 @@ namespace Liquid.WebApi.Http.Controllers
     /// Base Controller Class.
     /// </summary>
     /// <seealso cref="Controller" />
-    public abstract class BaseController : Controller
+    public abstract class LiquidControllerBase : Controller
     {
         /// <summary>
         /// Gets or sets the mediator service.
@@ -23,10 +23,10 @@ namespace Liquid.WebApi.Http.Controllers
         protected IMediator Mediator { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="BaseController" /> class.
+        /// Initializes a new instance of the <see cref="LiquidControllerBase" /> class.
         /// </summary>
         /// <param name="mediator">The mediator service.</param>
-        protected BaseController(IMediator mediator)
+        protected LiquidControllerBase(IMediator mediator)
         {
             Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }

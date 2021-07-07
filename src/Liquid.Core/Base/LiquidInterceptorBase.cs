@@ -32,6 +32,7 @@ namespace Liquid.Core.Base
             catch (Exception ex)
             {
                 await OnExceptionInvocation(invocation, proceedInfo, ex);
+                throw;
             }
             finally
             {

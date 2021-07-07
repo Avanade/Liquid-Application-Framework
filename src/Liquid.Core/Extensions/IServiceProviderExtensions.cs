@@ -11,7 +11,7 @@ namespace Liquid.Core.Extensions
     /// Service Provider Extensions Class.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public static class ServiceProviderExtensions
+    public static class IServiceProviderExtensions
     {
         /// <summary>
         /// Get all registered <see cref="ServiceDescriptor"/>

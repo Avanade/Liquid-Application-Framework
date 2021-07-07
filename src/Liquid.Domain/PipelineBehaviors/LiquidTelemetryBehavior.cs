@@ -49,7 +49,7 @@ namespace Liquid.Domain.PipelineBehaviors
             catch (Exception ex)
             {
                 await OnExceptionResponse(methodInfo, ex);
-                throw ex;
+                throw;
             }
             finally
             {

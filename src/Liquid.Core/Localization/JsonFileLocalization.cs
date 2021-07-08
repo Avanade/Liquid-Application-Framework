@@ -7,6 +7,7 @@ using System.IO;
 using System.Threading;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Localization.Entities;
+using Liquid.Core.Settings;
 using Liquid.Core.Utils;
 
 namespace Liquid.Core.Localization

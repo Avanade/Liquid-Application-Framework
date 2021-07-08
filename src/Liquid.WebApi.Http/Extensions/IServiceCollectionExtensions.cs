@@ -25,11 +25,15 @@ namespace Liquid.WebApi.Http.Extensions
         /// Adds the web API services.
         /// </summary>
         /// <param name="services">The services.</param>
+        /// <param name="assemblies"></param>
         public static IServiceCollection AddLiquidHttp(this IServiceCollection services, params Assembly[] assemblies)
         {
+            services.AddScoped<ILiquidContext, LiquidContext>();
+
             services.AddLiquidConfiguration();
             services.AddAutoMapper(assemblies);
             services.AddLiquidHandlers(true, true, assemblies);
+
             services.AddLiquidSwagger();
             return services;
         }

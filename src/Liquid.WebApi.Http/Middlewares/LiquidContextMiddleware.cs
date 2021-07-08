@@ -4,6 +4,7 @@ using Liquid.WebApi.Http.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace Liquid.WebApi.Http.Middlewares
     /// Inserts configured context keys in LiquidContext service.
     /// Includes its behavior in netcore pipelines before request execution.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LiquidContextMiddleware
     {
         private readonly RequestDelegate _next;

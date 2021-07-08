@@ -2,6 +2,7 @@
 using Liquid.Core.Localization;
 using Liquid.WebApi.Http.Extensions;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
 
@@ -11,6 +12,7 @@ namespace Liquid.WebApi.Http.Middlewares
     /// Configures the culture in the current thread.
     /// Includes its behavior in netcore pipelines before request execution.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public sealed class LiquidCultureMiddleware
     {
         private const string _culture = "culture";

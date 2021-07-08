@@ -1,5 +1,6 @@
 ﻿using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
+using Liquid.WebApi.Http.Exceptions;
 using Liquid.WebApi.Http.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,8 +52,7 @@ namespace Liquid.WebApi.Http.Middlewares
                     value = context.GetValueFromQuery(key.KeyName);
 
                 if (string.IsNullOrEmpty(value) && key.Required)
-                    //TODO: implementar exceção para as chaves do contexto.
-                    throw new Exception();
+                    throw new LiquidContextKeysException(key.KeyName);
 
                 liquidContext.Upsert(key.KeyName, value);
             }

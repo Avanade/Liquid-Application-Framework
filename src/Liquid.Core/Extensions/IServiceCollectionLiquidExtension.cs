@@ -25,11 +25,11 @@ namespace Liquid.Core.Extensions
         }
 
         /// <summary>
-        /// 
+        /// Register interceptors for defined services. 
         /// </summary>
-        /// <typeparam name="TInterface"></typeparam>
-        /// <typeparam name="TService"></typeparam>
-        /// <param name="services"></param>
+        /// <typeparam name="TInterface">Interface type of service that should be intercepted.</typeparam>
+        /// <typeparam name="TService">Type of service that should be intercepted.</typeparam>
+        /// <param name="services">Extended IServiceCollection instance.</param>
         public static IServiceCollection AddLiquidInterceptors<TInterface, TService>(this IServiceCollection services) where TInterface : class where TService : TInterface
         {
             return services.AddTransient((provider) =>
@@ -39,6 +39,20 @@ namespace Liquid.Core.Extensions
 
                 return proxyGenerator.CreateInterfaceProxyWithTarget(service, provider.GetServices<IAsyncInterceptor>().ToArray());
             });
+        }
+
+        /// <summary>
+        /// Register Liquid implementation of Serializer services and Serializer provider. 
+        /// <see cref="LiquidJsonSerializer"/>, <see cref="LiquidXmlSerializer"/> and <see cref="LiquidSerializerProvider"/>
+        /// </summary>
+        /// <param name="services">Extended IServiceCollection instance.</param>
+        public static IServiceCollection AddLiquidSerializers(this IServiceCollection services)
+        {
+            services.AddTransient<ILiquidSerializer, LiquidJsonSerializer>();
+            services.AddTransient<ILiquidSerializer, LiquidXmlSerializer>();
+            services.AddTransient<ILiquidSerializerProvider, LiquidSerializerProvider>();
+
+            return services;
         }
     }
 }

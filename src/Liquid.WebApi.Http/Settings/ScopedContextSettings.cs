@@ -1,11 +1,13 @@
 ﻿using Liquid.Core.Attributes;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.WebApi.Http.Middlewares
+namespace Liquid.WebApi.Http.Settings
 {
     /// <summary>
     /// Context key settings.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [LiquidSectionName("Liquid:HttpScopedContext")]
     public class ScopedContextSettings
     {
@@ -13,7 +15,7 @@ namespace Liquid.WebApi.Http.Middlewares
         /// List of keys that should be created on context.
         /// </summary>
         public List<ContextKey> Keys { get; set; } = new List<ContextKey>();
-        
+
         /// <summary>
         /// Indicates if the current culture must be included on context keys.
         /// </summary>

@@ -1,10 +1,12 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace Liquid.WebApi.Http.Exceptions
 {
     ///<inheritdoc/>
+    [ExcludeFromCodeCoverage]
     [Serializable]
     public class LiquidContextKeysException : LiquidException
     {

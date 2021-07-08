@@ -2,9 +2,9 @@
 using Liquid.Core.Interfaces;
 using Liquid.WebApi.Http.Exceptions;
 using Liquid.WebApi.Http.Extensions;
+using Liquid.WebApi.Http.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;

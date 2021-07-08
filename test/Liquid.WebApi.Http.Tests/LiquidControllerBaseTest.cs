@@ -2,11 +2,13 @@ using Liquid.WebApi.Http.UnitTests.Mocks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Liquid.WebApi.Http.UnitTests
 {
+    [ExcludeFromCodeCoverage]
     public class LiquidControllerBaseTest
     {
         private TestController _sut;

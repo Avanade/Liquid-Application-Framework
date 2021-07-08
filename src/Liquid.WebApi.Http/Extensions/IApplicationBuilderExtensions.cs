@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Liquid.Core.Interfaces;
-using Liquid.WebApi.Http.Configuration;
 using Liquid.WebApi.Http.Middlewares;
+using Liquid.WebApi.Http.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 

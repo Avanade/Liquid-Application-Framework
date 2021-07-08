@@ -2,7 +2,7 @@
 using Liquid.Core.Attributes;
 using Newtonsoft.Json;
 
-namespace Liquid.WebApi.Http.Configuration
+namespace Liquid.WebApi.Http.Settings
 {
     /// <summary>
     /// Api settings class.

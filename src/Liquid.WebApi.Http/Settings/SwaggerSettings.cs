@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.WebApi.Http.Configuration
+namespace Liquid.WebApi.Http.Settings
 {
     /// <summary>
     /// Swagger Configuration Settings Class.

@@ -1,5 +1,5 @@
 ﻿using Liquid.Core.Interfaces;
-using Liquid.Core.Localization;
+using Liquid.Core.Settings;
 using Liquid.WebApi.Http.Extensions;
 using Microsoft.AspNetCore.Http;
 using System.Diagnostics.CodeAnalysis;

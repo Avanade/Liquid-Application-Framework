@@ -5,8 +5,14 @@ using System.Runtime.Serialization;
 namespace Liquid.WebApi.Http.Exceptions
 {
     ///<inheritdoc/>
+    [Serializable]
     public class LiquidContextKeysException : LiquidException
     {
+        ///<inheritdoc/>
+        public LiquidContextKeysException()
+        {
+        }
+
         ///<inheritdoc/>
         public LiquidContextKeysException(string contextKey) : base($"The value of required context key '{contextKey}' was not found in request.")
         {

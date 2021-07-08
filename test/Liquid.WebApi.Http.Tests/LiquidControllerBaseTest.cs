@@ -2,6 +2,7 @@ using Liquid.WebApi.Http.UnitTests.Mocks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using NSubstitute;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Liquid.WebApi.Http.UnitTests
@@ -19,7 +20,7 @@ namespace Liquid.WebApi.Http.UnitTests
 
 
         [Fact]
-        public async void ExecuteAsync_WhenIActionResultOverload_Return200()
+        public async Task ExecuteAsync_WhenIActionResultOverload_Return200()
         {
             var response = await _sut.GetCase1();
 
@@ -31,7 +32,7 @@ namespace Liquid.WebApi.Http.UnitTests
         }
 
         [Fact]
-        public async void ExecuteAsync_WhenGenericResultOverload_Return200()
+        public async Task ExecuteAsync_WhenGenericResultOverload_Return200()
         {
             var response = await _sut.GetCase2();
 

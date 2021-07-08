@@ -11,7 +11,7 @@ namespace Liquid.WebApi.Http.Extensions
     /// .Net application builder extensions class.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    internal static class IApplicationBuilderExtensions
+    public static class IApplicationBuilderExtensions
     {
         /// <summary>
         /// Adds <see cref="LiquidCultureMiddleware"/> to the application builder.
@@ -64,18 +64,11 @@ namespace Liquid.WebApi.Http.Extensions
         /// <param name="builder">Extended application builder.</param>
         public static IApplicationBuilder UseLiquidConfigure(this IApplicationBuilder builder)
         {
-            var configuration = builder.ApplicationServices.GetService<ILiquidConfiguration<SwaggerSettings>>();
 
-            var swaggerSettings = configuration.Settings;
-
-            builder.UseMiddleware<LiquidCultureMiddleware>();
-            builder.UseMiddleware<LiquidContextMiddleware>();
-            builder.UseMiddleware<LiquidExceptionMiddleware>();
-
-            builder.UseSwagger().UseSwaggerUI(options =>
-            {
-                options.SwaggerEndpoint(swaggerSettings.SwaggerEndpoint.Url, swaggerSettings.SwaggerEndpoint.Name);
-            });
+            builder.UseLiquidCulture();
+            builder.UseLiquidContext();
+            builder.UseLiquidSwagger();
+            builder.UseLiquidException();
 
             return builder;
         }

@@ -28,8 +28,8 @@ namespace Liquid.WebApi.Http.Extensions
         /// <param name="assemblies"></param>
         public static IServiceCollection AddLiquidHttp(this IServiceCollection services, params Assembly[] assemblies)
         {
-            services.AddScoped<ILiquidContext, LiquidContext>();
-
+            services.AddScoped<LiquidContext>();
+            services.AddLiquidSerializers();
             services.AddLiquidConfiguration();
             services.AddAutoMapper(assemblies);
             services.AddLiquidHandlers(true, true, assemblies);

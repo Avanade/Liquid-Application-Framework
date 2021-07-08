@@ -47,7 +47,7 @@ namespace Liquid.Core.Implementations
             }
             catch
             {
-                return null;
+                return default;
             }
         }
     }

@@ -25,6 +25,7 @@ namespace Liquid.WebApi.Http.Settings
     /// <summary>
     /// Definition of context key type.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ContextKey
     {
         /// <summary>

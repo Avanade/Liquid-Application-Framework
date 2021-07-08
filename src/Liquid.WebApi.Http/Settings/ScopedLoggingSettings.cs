@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Liquid.Core.Attributes;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Liquid.WebApi.Http.Settings
@@ -7,10 +9,12 @@ namespace Liquid.WebApi.Http.Settings
     /// <summary>
     /// Scoped logging setting properties.
     /// </summary>
+    [ExcludeFromCodeCoverage]
+    [LiquidSectionName("Liquid:HttpScopedLogging")]
     public class ScopedLoggingSettings
     {
         /// <summary>
-        /// List of keys that should be created on logging..
+        /// List of keys that should be created on logger scope.
         /// </summary>
         public List<ScopedKey> Keys { get; set; } = new List<ScopedKey>();
 
@@ -19,6 +23,7 @@ namespace Liquid.WebApi.Http.Settings
     /// <summary>
     /// Definition of scoped key type.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class ScopedKey
     {
         /// <summary>

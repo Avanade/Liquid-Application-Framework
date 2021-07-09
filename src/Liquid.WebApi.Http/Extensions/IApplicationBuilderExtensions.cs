@@ -41,6 +41,15 @@ namespace Liquid.WebApi.Http.Extensions
         }
 
         /// <summary>
+        /// Adds <see cref="LiquidScopedLoggingMiddleware"/> to the application builder.
+        /// </summary>
+        /// <param name="builder">Extended application builder.</param>
+        public static IApplicationBuilder UseLiquidScopedLogging(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<LiquidScopedLoggingMiddleware>();
+        }
+
+        /// <summary>
         /// Register the Swagger middleware with Liquid Configuration settings.
         /// </summary>
         /// <param name="builder">Extended application builder.</param>
@@ -57,15 +66,16 @@ namespace Liquid.WebApi.Http.Extensions
         }
 
         /// <summary>
-        /// Adds <see cref="LiquidCultureMiddleware"/> , <see cref="LiquidContextMiddleware"/> and
-        /// <see cref="LiquidExceptionMiddleware"/> to the application builder in this order, 
-        /// and finally register the Swagger middleware with Liquid Configuration settings.
+        /// Groups the execution of <see cref="UseLiquidCulture(IApplicationBuilder)"/>, 
+        /// <see cref="UseLiquidScopedLogging(IApplicationBuilder)"/> , <see cref="UseLiquidContext(IApplicationBuilder)"/>,
+        /// <see cref="UseLiquidSwagger(IApplicationBuilder)"/> and <see cref="UseLiquidException(IApplicationBuilder)"/> 
+        /// in this particular order, to add all Liquid functionality to the.net pipeline.
         /// </summary>
         /// <param name="builder">Extended application builder.</param>
         public static IApplicationBuilder UseLiquidConfigure(this IApplicationBuilder builder)
         {
-
             builder.UseLiquidCulture();
+            builder.UseLiquidScopedLogging();
             builder.UseLiquidContext();
             builder.UseLiquidSwagger();
             builder.UseLiquidException();

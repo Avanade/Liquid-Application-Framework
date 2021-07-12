@@ -1,6 +1,4 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Configuration;
-using Liquid.Core.Telemetry;
+﻿using Liquid.Core.Interfaces;
 using Liquid.Repository.Configuration;
 using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Extensions;
@@ -41,22 +39,27 @@ namespace Liquid.Repository.Mongo.Tests
         {
             _runner = MongoDbRunner.Start(singleNodeReplSet: true);
 
-            var connectionSettings = new MongoSettings()
-            {
-                ConnectionString = _runner.ConnectionString,
-                DatabaseName = "functionalTest"
+            var settings = new List<DatabaseSettings>() {
+                new DatabaseSettings()
+                {
+                    ConnectionString = _runner.ConnectionString,
+                    DatabaseName = "functionalTest"
+                }
             };
-            var configuration = Substitute.For<ILightDatabaseConfiguration<MongoSettings>>();
 
-            configuration.GetSettings(Arg.Any<string>()).Returns(connectionSettings);
+            var mongoSettings = Substitute.For<MongoSettings>();
+
+            mongoSettings.DbSettings = settings;
+
+            var configuration = Substitute.For<ILiquidConfiguration<MongoSettings>>();
+
+            configuration.Settings.Returns(mongoSettings);
 
             var services = new ServiceCollection();
 
             services.AddSingleton(configuration);
 
-            services.AddTransient((s) => Substitute.For<ILightTelemetryFactory>());
-
-            services.AddMongo("test", GetType().Assembly);
+            services.AddMongo("functionalTest", GetType().Assembly);
 
             services.AddTransient<ILightUnitOfWork, LightUnitOfWork>();
 

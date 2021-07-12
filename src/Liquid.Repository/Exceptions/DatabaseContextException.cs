@@ -8,7 +8,7 @@ namespace Liquid.Repository.Exceptions
     /// Occurs when a Repository database throw an error.
     /// </summary>
     [Serializable]
-    public class DatabaseContextException : LightException
+    public class DatabaseContextException : LiquidException
     {
         ///<inheritdoc/>
         public DatabaseContextException(string message) : base(message)

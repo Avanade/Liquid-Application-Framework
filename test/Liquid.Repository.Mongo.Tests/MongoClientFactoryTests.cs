@@ -1,5 +1,5 @@
 ﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Configuration;
+using Liquid.Core.Interfaces;
 using Liquid.Repository.Configuration;
 using Liquid.Repository.Mongo.Configuration;
 using Mongo2Go;
@@ -16,21 +16,27 @@ namespace Liquid.Repository.Mongo.Tests
         private IMongoClientFactory _sut;
         internal static MongoDbRunner _runner;
         internal static string _databaseName = "IntegrationTest";
-        private ILightDatabaseConfiguration<MongoSettings> _configuration;
+        private ILiquidConfiguration<MongoSettings> _configuration;
 
         [SetUp]
         protected void SetContext()
         {
             _runner = MongoDbRunner.StartForDebugging(singleNodeReplSet: false);
 
-            var connectionSettings = new MongoSettings()
-            {
-                ConnectionString = _runner.ConnectionString,
-                DatabaseName = _databaseName
+            var settings = new List<DatabaseSettings>() {
+                new DatabaseSettings()
+                {
+                    ConnectionString = _runner.ConnectionString,
+                    DatabaseName = _databaseName
+                }
             };
-            _configuration = Substitute.For<ILightDatabaseConfiguration<MongoSettings>>();
+            var mongoSettings = Substitute.For<MongoSettings>();
 
-            _configuration.GetSettings("test").Returns(connectionSettings);
+            mongoSettings.DbSettings = settings;
+
+            _configuration = Substitute.For<ILiquidConfiguration<MongoSettings>>();
+
+            _configuration.Settings.Returns(mongoSettings);     
 
             _sut = new MongoClientFactory(_configuration);
 
@@ -39,14 +45,15 @@ namespace Liquid.Repository.Mongo.Tests
         [Test]
         public void GetClient_WhenDatabaseIdExists_ClientCreated()
         {
-            var result = _sut.GetClient("test");
+            var result = _sut.GetClient("IntegrationTest");
 
             Assert.IsFalse(result.GetDatabase(_databaseName) is null);
         }
+
         [Test]
         public void GetClient_WhenDatabaseIdDoesntExists_ThrowException()
         {
-            Assert.Throws<LightDatabaseConfigurationDoesNotExistException>(() => _sut.GetClient("test1"));
+            Assert.Throws<LightDatabaseConfigurationDoesNotExistException>(() => _sut.GetClient("test"));
         }
     }
 }

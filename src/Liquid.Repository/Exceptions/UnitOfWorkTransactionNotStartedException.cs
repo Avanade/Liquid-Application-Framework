@@ -11,7 +11,7 @@ namespace Liquid.Repository.Exceptions
     /// <seealso cref="Liquid.Core.Exceptions.LightException" />
     [ExcludeFromCodeCoverage]
     [Serializable]
-    public class UnitOfWorkTransactionNotStartedException : LightException
+    public class UnitOfWorkTransactionNotStartedException : LiquidException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitOfWorkTransactionNotStartedException"/> class.

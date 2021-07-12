@@ -8,10 +8,10 @@ namespace Liquid.Repository.Mongo.Exceptions
     /// <summary>
     /// Occurs when the database is not found in Mongo Db server.
     /// </summary>
-    /// <seealso cref="LightException" />
+    /// <seealso cref="LiquidException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class MongoDatabaseDoesNotExistException : LightException
+    public class MongoDatabaseDoesNotExistException : LiquidException
     {
         ///<inheritdoc/>
         public MongoDatabaseDoesNotExistException()

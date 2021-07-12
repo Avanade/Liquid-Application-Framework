@@ -1,5 +1,4 @@
-﻿using Liquid.Core.Telemetry;
-using Liquid.Repository.Mongo.Attributes;
+﻿using Liquid.Repository.Mongo.Attributes;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.Mongo.Tests.Mock
@@ -8,8 +7,8 @@ namespace Liquid.Repository.Mongo.Tests.Mock
     [Mongo("TestEntities", "id", "TestDatabase")]
     public class TestRepository : MongoRepository<TestEntity, int>, ITestRepository
     {
-        public TestRepository(ILightTelemetryFactory telemetryFactory, IMongoDataContext dataContext)
-            : base(telemetryFactory, dataContext)
+        public TestRepository(IMongoDataContext dataContext)
+            : base(dataContext)
         {
         }
 

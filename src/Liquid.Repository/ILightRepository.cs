@@ -10,7 +10,7 @@ namespace Liquid.Repository
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
-    public interface ILightRepository<TEntity, TIdentifier> where TEntity : RepositoryEntity<TIdentifier>
+    public interface ILightRepository<TEntity, TIdentifier> where TEntity : ILiquidEntity<TIdentifier>
     {
         /// <summary>
         /// Gets the data context associated to repository.

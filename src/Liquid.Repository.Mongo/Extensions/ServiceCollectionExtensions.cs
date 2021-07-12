@@ -1,5 +1,4 @@
-﻿using Liquid.Core.Telemetry;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System.Linq;
 using System.Reflection;
@@ -15,11 +14,11 @@ namespace Liquid.Repository.Mongo.Extensions
         /// Adds the mongo database repositories and Context.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <param name="connectionId">The connection identifier.</param>
+        /// <param name="databaseName">The connection identifier.</param>
         /// <param name="assemblies">The assemblies.</param>
-        public static void AddMongo(this IServiceCollection services, string connectionId, params Assembly[] assemblies)
+        public static void AddMongo(this IServiceCollection services, string databaseName, params Assembly[] assemblies)
         {
-            AddMongoContext(services, connectionId);
+            AddMongoContext(services, databaseName);
             AddMongoRepositories(services, assemblies);
         }
 
@@ -50,17 +49,16 @@ namespace Liquid.Repository.Mongo.Extensions
         /// Adds the mongo database context and Unit of Work.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <param name="connectionId">The connection identifier.</param>
+        /// <param name="databaseName">The connection identifier.</param>
         /// <returns></returns>
-        private static void AddMongoContext(IServiceCollection services, string connectionId)
+        private static void AddMongoContext(IServiceCollection services, string databaseName)
         {
             services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
 
             services.AddScoped<IMongoDataContext>(sp =>
             {
                 return new MongoDataContext(
-                    sp.GetService<ILightTelemetryFactory>(),
-                    connectionId, sp.GetService<IMongoClientFactory>());
+                    databaseName, sp.GetService<IMongoClientFactory>());
             });
         }
     }

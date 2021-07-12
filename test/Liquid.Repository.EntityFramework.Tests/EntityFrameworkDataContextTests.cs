@@ -1,5 +1,4 @@
-﻿using Liquid.Core.Telemetry;
-using Liquid.Repository.Exceptions;
+﻿using Liquid.Repository.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using NSubstitute;
@@ -12,17 +11,12 @@ namespace Liquid.Repository.EntityFramework.Tests
     public class EntityFrameworkDataContextTests
     {
         private EntityFrameworkDataContext<DbContext> _sut;
-        private ILightTelemetryFactory _telemetryFactory;
-        private ILightTelemetry _telemetry;
         private DbContext _client;
         private DatabaseFacade _database;
 
         [SetUp]
         protected void SetContext()
         {
-            _telemetry = Substitute.For<ILightTelemetry>();
-            _telemetryFactory = Substitute.For<ILightTelemetryFactory>();
-            _telemetryFactory.GetTelemetry().Returns(_telemetry);
 
             _client = Substitute.For<DbContext>();
 
@@ -30,16 +24,13 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             _client.Database.Returns(_database);
 
-            _sut = new EntityFrameworkDataContext<DbContext>(_telemetryFactory, _client);
+            _sut = new EntityFrameworkDataContext<DbContext>( _client);
         }
 
         [Test]
         public async Task StartTransactionAsync_WhenClientExecutedSucessfuly_Success()
         {
             await _sut.StartTransactionAsync();
-
-            _telemetry.Received(1).AddContext(Arg.Any<string>());
-            _telemetry.Received(1).RemoveContext(Arg.Any<string>());
 
             await _client.Database.Received(1).BeginTransactionAsync();
         }
@@ -51,16 +42,13 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             var task = _sut.StartTransactionAsync();
 
-            Assert.ThrowsAsync<DatabaseContextException>(() => task);
+            Assert.ThrowsAsync<Exception>(() => task);
         }
 
         [Test]
         public async Task CommitAsync_WhenClientExecutedSucessfuly_Success()
         {
             await _sut.CommitAsync();
-
-            _telemetry.Received(1).AddContext(Arg.Any<string>());
-            _telemetry.Received(1).RemoveContext(Arg.Any<string>());
 
             await _client.Database.Received(1).CommitTransactionAsync();
         }
@@ -72,16 +60,13 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             var task = _sut.CommitAsync();
 
-            Assert.ThrowsAsync<DatabaseContextException>(() => task);
+            Assert.ThrowsAsync<Exception>(() => task);
         }
 
         [Test]
         public async Task RollbackTransactionAsync_WhenClientExecutedSucessfuly_Success()
         {
             await _sut.RollbackTransactionAsync();
-
-            _telemetry.Received(1).AddContext(Arg.Any<string>());
-            _telemetry.Received(1).RemoveContext(Arg.Any<string>());
 
             await _client.Database.Received(1).RollbackTransactionAsync();
         }
@@ -93,7 +78,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             var task = _sut.RollbackTransactionAsync();
 
-            Assert.ThrowsAsync<DatabaseContextException>(() => task);
+            Assert.ThrowsAsync<Exception>(() => task);
         }
 
         [Test]

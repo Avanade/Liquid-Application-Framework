@@ -1,8 +1,8 @@
-﻿using Liquid.Core.Telemetry;
-using Liquid.Repository.Exceptions;
+﻿using Liquid.Repository.Exceptions;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -13,25 +13,17 @@ namespace Liquid.Repository.Mongo.Tests
     {
         private MongoDataContext _sut;
         private IMongoClient _client;
-        private ILightTelemetryFactory _telemetryFactory;
-        private ILightTelemetry _lightTelemetry;
 
         [SetUp]
         protected void SetContext()
         {
             _client = Substitute.For<IMongoClient>();
 
-            _telemetryFactory = Substitute.For<ILightTelemetryFactory>();
-
-            _lightTelemetry = Substitute.For<ILightTelemetry>();
-
-            _telemetryFactory.GetTelemetry().Returns(_lightTelemetry);
 
             var provider = Substitute.For<IMongoClientFactory>();
             provider.GetClient(Arg.Any<string>()).Returns(_client);
 
-            _sut = new MongoDataContext(_telemetryFactory
-                , "test", provider);
+            _sut = new MongoDataContext("test", provider);
 
         }
 
@@ -42,8 +34,6 @@ namespace Liquid.Repository.Mongo.Tests
 
             await _client.Received(1).StartSessionAsync();
 
-            _lightTelemetry.Received().AddContext(Arg.Any<string>());
-            _lightTelemetry.Received().RemoveContext(Arg.Any<string>());
         }
 
         [Test]
@@ -55,9 +45,6 @@ namespace Liquid.Repository.Mongo.Tests
 
             await _sut.ClientSessionHandle.Received().CommitTransactionAsync();
 
-            _lightTelemetry.Received().AddContext(Arg.Any<string>());
-            _lightTelemetry.Received().RemoveContext(Arg.Any<string>());
-
         }
 
         [Test]
@@ -65,7 +52,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var task = _sut.CommitAsync();
 
-            Assert.ThrowsAsync<DatabaseContextException>(() => task);
+            Assert.ThrowsAsync<NullReferenceException>(() => task);
         }
 
         [Test]
@@ -77,9 +64,6 @@ namespace Liquid.Repository.Mongo.Tests
 
             await _sut.ClientSessionHandle.Received().AbortTransactionAsync();
 
-            _lightTelemetry.Received().AddContext(Arg.Any<string>());
-            _lightTelemetry.Received().RemoveContext(Arg.Any<string>());
-
         }
 
         [Test]
@@ -87,7 +71,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var task = _sut.RollbackTransactionAsync();
 
-            Assert.ThrowsAsync<DatabaseContextException>(() => task);
+            Assert.ThrowsAsync<NullReferenceException>(() => task);
 
         }
         [Test]

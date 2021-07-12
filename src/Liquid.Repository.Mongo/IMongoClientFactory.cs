@@ -10,8 +10,8 @@ namespace Liquid.Repository.Mongo
         /// <summary>
         /// Provide a new instance of <see cref="MongoClient"/> with db conection started.
         /// </summary>
-        /// <param name="connectionId">data base configuration Id.</param>
+        /// <param name="databaseName">data base name.</param>
         /// <returns></returns>
-        IMongoClient GetClient(string connectionId);
+        IMongoClient GetClient(string databaseName);
     }
 }

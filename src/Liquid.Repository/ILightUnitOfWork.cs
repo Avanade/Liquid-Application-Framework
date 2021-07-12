@@ -17,7 +17,7 @@ namespace Liquid.Repository
         /// <returns></returns>
         TRepository GetRepository<TRepository, TEntity, TIdentifier>()
             where TRepository : ILightRepository<TEntity, TIdentifier>
-            where TEntity : RepositoryEntity<TIdentifier>;
+            where TEntity : ILiquidEntity<TIdentifier>;
 
         /// <summary>
         /// Starts the transaction of all data contexts in repositories inside UnitOfWork.

@@ -8,10 +8,10 @@ namespace Liquid.Repository.EntityFramework.Exceptions
     /// <summary>
     /// Occurs when the database is not found in Sql Server.
     /// </summary>
-    /// <seealso cref="LightException" />
+    /// <seealso cref="LiquidException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class DatabaseDoesNotExistException : LightException
+    public class DatabaseDoesNotExistException : LiquidException
     {
         ///<inheritdoc/>
         public DatabaseDoesNotExistException()

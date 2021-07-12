@@ -10,7 +10,7 @@ namespace Liquid.Repository.EntityFramework.Tests.Entities
     ///     <cref>Liquid.Data.Entities.DataMappingBase{System.Int32}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    public class MockEntity : RepositoryEntity<int>
+    public class MockEntity : LiquidEfEntity<int>
     {
         /// <summary>
         /// Gets or sets the mock identifier.
@@ -47,5 +47,6 @@ namespace Liquid.Repository.EntityFramework.Tests.Entities
         /// The created date.
         /// </value>
         public DateTime CreatedDate { get; set; }
+        
     }
 }

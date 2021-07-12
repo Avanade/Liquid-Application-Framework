@@ -8,17 +8,17 @@ namespace Liguid.Repository.Configuration
     /// <summary>
     /// Occurs when the database connection string is not found in appsettings file. Check the connection id and the configuration file.
     /// </summary>
-    /// <seealso cref="Liquid.Core.Exceptions.LightException" />
+    /// <seealso cref="Liquid.Core.Exceptions.LiquidException" />
     [ExcludeFromCodeCoverage]
     [Serializable]
-    public class LightDatabaseConfigurationDoesNotExistException : LightException
+    public class LightDatabaseConfigurationDoesNotExistException : LiquidException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="LightDatabaseConfigurationDoesNotExistException"/> class.
         /// </summary>
-        /// <param name="connectionId">The connection identifier.</param>
-        public LightDatabaseConfigurationDoesNotExistException(string connectionId)
-            : base($"Database connection string '{connectionId}' does not exist.")
+        /// <param name="databaseName">The connection identifier.</param>
+        public LightDatabaseConfigurationDoesNotExistException(string databaseName)
+            : base($"The connection string for database '{databaseName}' does not exist.")
         {
         }
         ///<inheritdoc/>

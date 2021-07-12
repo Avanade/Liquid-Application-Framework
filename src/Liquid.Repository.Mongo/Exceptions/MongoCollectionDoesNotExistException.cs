@@ -8,10 +8,10 @@ namespace Liquid.Repository.Mongo.Exceptions
     /// <summary>
     /// Occurs when the Mongo Db collection does not exist in database.
     /// </summary>
-    /// <seealso cref="LightException" />
+    /// <seealso cref="LiquidException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class MongoCollectionDoesNotExistException : LightException
+    public class MongoCollectionDoesNotExistException : LiquidException
     {
         ///<inheritdoc/>
         public MongoCollectionDoesNotExistException()

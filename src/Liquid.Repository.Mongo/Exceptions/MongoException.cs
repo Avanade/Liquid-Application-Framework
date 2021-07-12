@@ -8,10 +8,10 @@ namespace Liquid.Repository.Mongo.Exceptions
     /// <summary>
     /// Occurs when an exception has occurred in Mongo Db.
     /// </summary>
-    /// <seealso cref="LightException" />
+    /// <seealso cref="LiquidException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class MongoException : LightException
+    public class MongoException : LiquidException
     {
         ///<inheritdoc/>
         public MongoException()

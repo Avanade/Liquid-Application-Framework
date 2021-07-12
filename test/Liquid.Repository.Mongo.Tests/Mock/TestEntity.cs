@@ -10,8 +10,10 @@ namespace Liquid.Repository.Mongo.Tests.Mock
     ///     <cref>Liquid.Data.Entities.DataMappingBase{System.Int32}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    public class TestEntity : RepositoryEntity<int>
+    public class TestEntity : ILiquidEntity<int>
     {
+        ///<inheritdoc/>
+        public int Id { get; set; }
         /// <summary>
         /// Gets or sets the mock title.
         /// </summary>
@@ -35,5 +37,6 @@ namespace Liquid.Repository.Mongo.Tests.Mock
         /// The created date.
         /// </value>
         public DateTime CreatedDate { get; set; }
+        
     }
 }

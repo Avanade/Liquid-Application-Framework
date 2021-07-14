@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <PackageId>Liquid.Repository.EntityFramework</PackageId>
-    <Version>2.0.2-alpha</Version>
+    <Version>2.0.0-preview-20210712-01</Version>
     <Authors>Avanade Brazil</Authors>
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>

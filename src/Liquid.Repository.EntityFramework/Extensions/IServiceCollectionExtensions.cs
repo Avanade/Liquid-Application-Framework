@@ -1,47 +1,37 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Liquid.Core.Extensions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using System.Reflection;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.EntityFramework.Extensions
 {
     /// <summary>
     /// Entity Framework Service Collection Extensions Class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class IServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds the entity framework database repositories and Context.
+        /// Adds the entity framework database repositories and <see cref="DbContext"/>.
         /// </summary>
         /// <param name="services">The services.</param>
-        /// <param name="assemblies">The assemblies.</param>
-        public static void AddEntityFramework<TContext>(this IServiceCollection services, params Assembly[] assemblies) where TContext : DbContext
+        /// <param name="optionsAction">  An action to configure the <see cref="DbContextOptions"/> 
+        ///  for the context.</param>
+        public static IServiceCollection AddLiquidEntityFramework<TContext, TEntity, TIdentifier>(this IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction)
+            where TEntity : LiquidEntity<TIdentifier>, new()
+            where TContext : DbContext
         {
+            //TODO: if para não registrar mais de um dbcontext igual
             services.AddScoped<IEntityFrameworkDataContext<TContext>, EntityFrameworkDataContext<TContext>>();
-            AddEntityRepositories<TContext>(services, assemblies);
-        }
 
-        /// <summary>
-        /// Adds the entity framework database repositories.
-        /// </summary>
-        /// <param name="services">The services.</param>
-        /// <param name="assemblies">The assemblies.</param>
-        private static void AddEntityRepositories<TContext>(IServiceCollection services, Assembly[] assemblies) where TContext : DbContext
-        {
-            var repositoryTypes = assemblies.SelectMany(a => a.ExportedTypes)
-                            .Where(t => t.BaseType != null &&
-                                        t.BaseType.Assembly.FullName == Assembly.GetAssembly(typeof(EntityFrameworkDataContext<TContext>)).FullName &&
-                                        t.BaseType.Name.StartsWith("EntityFrameworkRepository"));
+            services.AddDbContext<TContext>(optionsAction);
 
-            foreach (var repositoryType in repositoryTypes)
-            {
-                var interfaceType = repositoryType.GetInterfaces().FirstOrDefault(t =>
-                    t.GetInterfaces()
-                        .Any(i => i.Assembly.FullName == Assembly.GetAssembly(typeof(ILiquidDataContext)).FullName &&
-                                  i.Name.StartsWith("ILiquidRepository")));
+            services.AddScoped<EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
 
-                if (interfaceType != null) services.AddScoped(interfaceType, repositoryType);
-            }
+            services.AddLiquidInterceptors<ILiquidRepository<TEntity, TIdentifier>, EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
+
+            return services;
         }
     }
 }

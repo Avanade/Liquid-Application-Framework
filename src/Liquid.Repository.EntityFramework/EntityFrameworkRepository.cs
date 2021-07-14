@@ -14,7 +14,7 @@ namespace Liquid.Repository.EntityFramework
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
     /// <seealso cref="ILiquidRepository{TEntity, TIdentifier}" />
-    public abstract class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new() where TContext : DbContext
+    public class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new() where TContext : DbContext
     {
         ///<inheritdoc/>
         public IEntityFrameworkDataContext<TContext> EntityDataContext { get; }
@@ -35,7 +35,7 @@ namespace Liquid.Repository.EntityFramework
         /// or
         /// dataContext
         /// </exception>
-        protected EntityFrameworkRepository(IEntityFrameworkDataContext<TContext> dataContext)
+        public EntityFrameworkRepository(IEntityFrameworkDataContext<TContext> dataContext)
         {
             EntityDataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
 

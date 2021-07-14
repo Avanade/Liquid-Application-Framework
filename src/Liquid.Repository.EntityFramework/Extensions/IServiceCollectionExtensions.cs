@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Extensions;
+using Liquid.Core.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -13,7 +14,11 @@ namespace Liquid.Repository.EntityFramework.Extensions
     public static class IServiceCollectionExtensions
     {
         /// <summary>
-        /// Adds the entity framework database repositories and <see cref="DbContext"/>.
+        /// Registers a <see cref="EntityFrameworkRepository{TEntity, TIdentifier, TContext}"/> service 
+        /// for the entity <typeparamref name="TEntity"/>, and <see cref="DbContext"/> 
+        /// <typeparamref name="TContext"/> with <see cref="IEntityFrameworkDataContext{TContext}"/> 
+        /// if not previously registered.
+        /// This method also registers <see cref="LiquidTelemetryInterceptor"/> for EntityFrameworkRepository instance.
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="optionsAction">  An action to configure the <see cref="DbContextOptions"/> 

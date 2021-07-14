@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Extensions;
+using Liquid.Core.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using System.Linq;
@@ -12,13 +13,14 @@ namespace Liquid.Repository.Mongo.Extensions
     public static class IServiceCollectionExtensions
     {
         /// <summary>
-        /// Registers a <see cref="MongoRepository{TEntity, TIdentifier}"/> for the informed entity,
-        /// injecting a new instance of its database context.
+        /// Registers a <see cref="MongoRepository{TEntity, TIdentifier}"/> for the entity <typeparamref name="TEntity"/>,
+        /// and a <see cref="MongoClientFactory"/>  if not previously registered.
+        /// This method also registers <see cref="LiquidTelemetryInterceptor"/> for MongoRepository instance.
         /// </summary>
         /// <typeparam name="TEntity">Type of entity that the repository should correspond to</typeparam>
         /// <typeparam name="TIdentifier">Entity identifier type.</typeparam>
-        /// <param name="services">Database name that should be context related.</param>
-        /// <param name="databaseName"></param>
+        /// <param name="services">Extended ServiceCollection object.</param>
+        /// <param name="databaseName">Database name that should be context related.</param>
         /// <returns></returns>
         public static IServiceCollection AddLiquidMongoRepository<TEntity,TIdentifier>(this IServiceCollection services, string databaseName)
             where TEntity : LiquidEntity<TIdentifier>, new()

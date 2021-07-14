@@ -10,7 +10,7 @@ namespace Liquid.Repository.Mongo
     /// <seealso cref="Liquid.Repository.Mongo.IMongoDataContext" />
     public class MongoDataContext : IMongoDataContext, IDisposable
     {
-        private IMongoClient _mongoClient;
+        private readonly IMongoClient _mongoClient;
         private IMongoDatabase _database;
         private IClientSessionHandle _clientSessionHandle;
 

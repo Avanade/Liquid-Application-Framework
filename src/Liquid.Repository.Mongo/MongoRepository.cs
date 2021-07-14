@@ -74,12 +74,8 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            IEnumerable<TEntity> returnValue = null;
-
-
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-            returnValue = (await collection.FindAsync(new BsonDocument(), MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
-
+            var returnValue = (await collection.FindAsync(new BsonDocument(), MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
 
             return returnValue;
         }
@@ -118,12 +114,9 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> whereClause)
         {
-            IEnumerable<TEntity> returnValue = null;
-
-
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-            returnValue = (await collection.FindAsync(whereClause, MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
 
+            var returnValue = (await collection.FindAsync(whereClause, MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
 
             return returnValue;
         }

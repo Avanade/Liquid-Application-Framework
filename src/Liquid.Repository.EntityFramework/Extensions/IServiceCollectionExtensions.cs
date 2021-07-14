@@ -37,8 +37,8 @@ namespace Liquid.Repository.EntityFramework.Extensions
             {
                 var interfaceType = repositoryType.GetInterfaces().FirstOrDefault(t =>
                     t.GetInterfaces()
-                        .Any(i => i.Assembly.FullName == Assembly.GetAssembly(typeof(ILightDataContext)).FullName &&
-                                  i.Name.StartsWith("ILightRepository")));
+                        .Any(i => i.Assembly.FullName == Assembly.GetAssembly(typeof(ILiquidDataContext)).FullName &&
+                                  i.Name.StartsWith("ILiquidRepository")));
 
                 if (interfaceType != null) services.AddScoped(interfaceType, repositoryType);
             }

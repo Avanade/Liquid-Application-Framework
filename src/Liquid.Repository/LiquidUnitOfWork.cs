@@ -10,19 +10,19 @@ namespace Liquid.Repository
     /// <summary>
     /// Controls transactions in all data contexts
     /// </summary>
-    /// <seealso cref="Liquid.Repository.ILightUnitOfWork" />
-    public class LightUnitOfWork : ILightUnitOfWork
+    /// <seealso cref="Liquid.Repository.ILiquidUnitOfWork" />
+    public class LiquidUnitOfWork : ILiquidUnitOfWork
     {
-        private readonly List<ILightDataContext> _datacontexts = new List<ILightDataContext>();
+        private readonly List<ILiquidDataContext> _datacontexts = new List<ILiquidDataContext>();
         private readonly IServiceProvider _serviceProvider;
         private bool _transactionStarted;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LightUnitOfWork"/> class.
+        /// Initializes a new instance of the <see cref="LiquidUnitOfWork"/> class.
         /// </summary>
         /// <param name="serviceProvider">The service provider.</param>
         /// <exception cref="ArgumentNullException">serviceProvider</exception>
-        public LightUnitOfWork(IServiceProvider serviceProvider)
+        public LiquidUnitOfWork(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         }
@@ -35,7 +35,7 @@ namespace Liquid.Repository
         /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
         /// <returns></returns>
         public TRepository GetRepository<TRepository, TEntity, TIdentifier>()
-            where TRepository : ILightRepository<TEntity, TIdentifier>
+            where TRepository : ILiquidRepository<TEntity, TIdentifier>
             where TEntity : LiquidEntity<TIdentifier>
         {
             var repository = _serviceProvider.GetService<TRepository>();

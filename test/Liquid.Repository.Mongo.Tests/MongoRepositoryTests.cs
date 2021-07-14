@@ -15,7 +15,7 @@ namespace Liquid.Repository.Mongo.Tests
     class MongoRepositoryTests
     {
         private IMongoDataContext _dbDataContext;
-        private ILightRepository<TestEntity, int> _sut;
+        private ILiquidRepository<TestEntity, int> _sut;
         private TestEntity _entity;
         internal static string _databaseName = "IntegrationTest";
         private IMongoCollection<TestEntity> _collection;

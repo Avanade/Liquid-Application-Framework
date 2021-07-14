@@ -5,8 +5,8 @@ namespace Liquid.Repository.Mongo
     /// <summary>
     /// Mongo database context interface.
     /// </summary>
-    /// <seealso cref="Liquid.Repository.ILightDataContext" />
-    public interface IMongoDataContext : ILightDataContext
+    /// <seealso cref="Liquid.Repository.ILiquidDataContext" />
+    public interface IMongoDataContext : ILiquidDataContext
     {
         /// <summary>
         /// Gets the Mongo Database.

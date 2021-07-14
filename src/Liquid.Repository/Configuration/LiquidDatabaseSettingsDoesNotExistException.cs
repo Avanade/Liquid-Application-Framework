@@ -11,23 +11,23 @@ namespace Liguid.Repository.Configuration
     /// <seealso cref="Liquid.Core.Exceptions.LiquidException" />
     [ExcludeFromCodeCoverage]
     [Serializable]
-    public class LightDatabaseConfigurationDoesNotExistException : LiquidException
+    public class LiquidDatabaseSettingsDoesNotExistException : LiquidException
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="LightDatabaseConfigurationDoesNotExistException"/> class.
+        /// Initializes a new instance of the <see cref="LiquidDatabaseSettingsDoesNotExistException"/> class.
         /// </summary>
         /// <param name="databaseName">The connection identifier.</param>
-        public LightDatabaseConfigurationDoesNotExistException(string databaseName)
+        public LiquidDatabaseSettingsDoesNotExistException(string databaseName)
             : base($"The connection string for database '{databaseName}' does not exist.")
         {
         }
         ///<inheritdoc/>
-        public LightDatabaseConfigurationDoesNotExistException(string message, Exception innerException) : base(message, innerException)
+        public LiquidDatabaseSettingsDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
 
         ///<inheritdoc/>
-        protected LightDatabaseConfigurationDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
+        protected LiquidDatabaseSettingsDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

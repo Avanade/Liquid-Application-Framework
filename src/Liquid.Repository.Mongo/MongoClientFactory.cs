@@ -25,7 +25,7 @@ namespace Liquid.Repository.Mongo
         public IMongoClient GetClient(string databaseName)
         {
             var databaseSettings = _configuration.Settings.GetDbSettings(databaseName);
-            if (databaseSettings == null) throw new LightDatabaseConfigurationDoesNotExistException(databaseName);
+            if (databaseSettings == null) throw new LiquidDatabaseSettingsDoesNotExistException(databaseName);
 
             var mongoClient = new MongoClient(databaseSettings.ConnectionString);
 

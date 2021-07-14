@@ -6,7 +6,7 @@ namespace Liquid.Repository
     /// <summary>
     /// Interface responsible for Managing the repositories transactions.
     /// </summary>
-    public interface ILightUnitOfWork : IDisposable
+    public interface ILiquidUnitOfWork : IDisposable
     {
         /// <summary>
         /// Gets the repository from Service Provider and adds to UnitOfWork.
@@ -16,7 +16,7 @@ namespace Liquid.Repository
         /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
         /// <returns></returns>
         TRepository GetRepository<TRepository, TEntity, TIdentifier>()
-            where TRepository : ILightRepository<TEntity, TIdentifier>
+            where TRepository : ILiquidRepository<TEntity, TIdentifier>
             where TEntity : LiquidEntity<TIdentifier>;
 
         /// <summary>

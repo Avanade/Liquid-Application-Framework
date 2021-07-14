@@ -16,8 +16,8 @@ namespace Liquid.Repository.Mongo.Tests
     class MongoUnitOfWorkFunctionalTests
     {
         private IServiceProvider _serviceProvider;
-        private ILightUnitOfWork _unitOfWork;
-        private ILightRepository<TestEntity, int> _sut;
+        private ILiquidUnitOfWork _unitOfWork;
+        private ILiquidRepository<TestEntity, int> _sut;
         private MongoDbRunner _runner;
         private readonly TestEntity _entity = new TestEntity()
         {
@@ -62,11 +62,11 @@ namespace Liquid.Repository.Mongo.Tests
 
             services.AddLiquidMongoRepository<TestEntity,int>("functionalTest");
 
-            services.AddTransient<ILightUnitOfWork, LightUnitOfWork>();
+            services.AddTransient<ILiquidUnitOfWork, LiquidUnitOfWork>();
 
             _serviceProvider = services.BuildServiceProvider();
 
-            _unitOfWork = _serviceProvider.GetService<ILightUnitOfWork>();
+            _unitOfWork = _serviceProvider.GetService<ILiquidUnitOfWork>();
 
             _sut = _unitOfWork.GetRepository<MongoRepository<TestEntity,int>, TestEntity, int>();
         }

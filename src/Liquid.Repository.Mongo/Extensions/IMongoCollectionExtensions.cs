@@ -8,7 +8,7 @@ namespace Liquid.Repository.Mongo.Extensions
     /// <summary>
     /// Extends <see cref="IMongoCollection{TDocument}"/> methods.
     /// </summary>
-    public static class MongoCollectionExtensions
+    public static class IMongoCollectionExtensions
     {
         /// <summary>
         ///   Inserts a single document.

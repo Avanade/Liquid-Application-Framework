@@ -1,13 +1,11 @@
-﻿using Liquid.Repository;
-using Liquid.Repository.EntityFramework;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Liquid.Data.EntityFramework
+namespace Liquid.Repository.EntityFramework
 {
     /// <summary>
     /// Implements the EntityFramework repository.
@@ -15,14 +13,14 @@ namespace Liquid.Data.EntityFramework
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
-    /// <seealso cref="Liquid.Repository.ILightRepository{TEntity, TIdentifier}" />
-    public abstract class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILightRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new() where TContext : DbContext
+    /// <seealso cref="ILiquidRepository{TEntity, TIdentifier}" />
+    public abstract class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new() where TContext : DbContext
     {
         ///<inheritdoc/>
         public IEntityFrameworkDataContext<TContext> EntityDataContext { get; }
 
         ///<inheritdoc/>
-        public ILightDataContext DataContext => EntityDataContext;
+        public ILiquidDataContext DataContext => EntityDataContext;
 
         private readonly TContext _dbClient;
         private readonly DbSet<TEntity> _dbSet;
@@ -32,7 +30,7 @@ namespace Liquid.Data.EntityFramework
         /// Initializes a new instance of the <see cref="EntityFrameworkRepository{TEntity, TIdentifier, TContext}" /> class.
         /// </summary>
         /// <param name="dataContext">The data context.</param>
-        /// <exception cref="System.ArgumentNullException">
+        /// <exception cref="ArgumentNullException">
         /// telemetryFactory
         /// or
         /// dataContext

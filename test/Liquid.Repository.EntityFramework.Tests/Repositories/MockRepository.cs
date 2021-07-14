@@ -1,5 +1,4 @@
-﻿using Liquid.Data.EntityFramework;
-using Liquid.Repository.EntityFramework.Tests.Entities;
+﻿using Liquid.Repository.EntityFramework.Tests.Entities;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.EntityFramework.Tests.Repositories

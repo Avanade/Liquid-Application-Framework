@@ -5,7 +5,7 @@ namespace Liquid.Repository
     /// <summary>
     /// Represents the database context
     /// </summary>
-    public interface ILightDataContext
+    public interface ILiquidDataContext
     {
         /// <summary>
         /// Gets the identifier of data context.

@@ -14,13 +14,13 @@ using System.Threading.Tasks;
 namespace Liquid.Repository.Mongo
 {
     /// <summary>
-    /// Mongo database repository class. Implements the <seealso cref="ILightRepository{TEntity, TIdentifier}"/> interface to provide 
+    /// Mongo database repository class. Implements the <seealso cref="ILiquidRepository{TEntity, TIdentifier}"/> interface to provide 
     /// the repository pattern access to a Mongo Db document. Also provides a Mongo data context to extend Mongo client resources.
     /// </summary>
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
-    /// <seealso cref="ILightRepository{TEntity, TIdentifier}" />
-    public class MongoRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
+    /// <seealso cref="ILiquidRepository{TEntity, TIdentifier}" />
+    public class MongoRepository<TEntity, TIdentifier> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
     {
         private readonly MongoAttribute _MongoAttribute;
 
@@ -28,7 +28,7 @@ namespace Liquid.Repository.Mongo
         public IMongoDataContext MongoDataContext { get; }
 
         ///<inheritdoc/>
-        public ILightDataContext DataContext => MongoDataContext;
+        public ILiquidDataContext DataContext => MongoDataContext;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoRepository{TEntity, TIdentifier}" /> class.

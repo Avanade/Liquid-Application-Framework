@@ -2,7 +2,7 @@
 
 namespace Liquid.Repository.EntityFramework.Tests.Repositories
 {
-    public interface IMockRepository : ILightRepository<MockEntity, int>
+    public interface IMockRepository : ILiquidRepository<MockEntity, int>
     {
     }
 }

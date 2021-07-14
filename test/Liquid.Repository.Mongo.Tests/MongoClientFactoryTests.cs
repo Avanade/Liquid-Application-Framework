@@ -53,7 +53,7 @@ namespace Liquid.Repository.Mongo.Tests
         [Test]
         public void GetClient_WhenDatabaseIdDoesntExists_ThrowException()
         {
-            Assert.Throws<LightDatabaseConfigurationDoesNotExistException>(() => _sut.GetClient("test"));
+            Assert.Throws<LiquidDatabaseSettingsDoesNotExistException>(() => _sut.GetClient("test"));
         }
     }
 }

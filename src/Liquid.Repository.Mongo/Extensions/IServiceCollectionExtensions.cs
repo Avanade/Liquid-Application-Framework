@@ -31,7 +31,7 @@ namespace Liquid.Repository.Mongo.Extensions
                 return new MongoRepository<TEntity, TIdentifier>(context);
             });
 
-            services.AddLiquidInterceptors<ILightRepository<TEntity, TIdentifier>, MongoRepository<TEntity, TIdentifier>>();
+            services.AddLiquidInterceptors<ILiquidRepository<TEntity, TIdentifier>, MongoRepository<TEntity, TIdentifier>>();
 
             return services;
         }

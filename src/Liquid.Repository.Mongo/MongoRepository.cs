@@ -20,7 +20,7 @@ namespace Liquid.Repository.Mongo
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
     /// <seealso cref="ILightRepository{TEntity, TIdentifier}" />
-    public abstract class MongoRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : ILiquidEntity<TIdentifier>, new()
+    public abstract class MongoRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
     {
         private readonly MongoAttribute _MongoAttribute;
 

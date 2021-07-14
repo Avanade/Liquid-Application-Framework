@@ -16,7 +16,7 @@ namespace Liquid.Data.EntityFramework
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
     /// <seealso cref="Liquid.Repository.ILightRepository{TEntity, TIdentifier}" />
-    public abstract class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILightRepository<TEntity, TIdentifier> where TEntity : LiquidEfEntity<TIdentifier>, new() where TContext : DbContext
+    public abstract class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILightRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new() where TContext : DbContext
     {
         ///<inheritdoc/>
         public IEntityFrameworkDataContext<TContext> EntityDataContext { get; }

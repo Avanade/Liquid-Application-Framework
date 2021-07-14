@@ -36,7 +36,7 @@ namespace Liquid.Repository
         /// <returns></returns>
         public TRepository GetRepository<TRepository, TEntity, TIdentifier>()
             where TRepository : ILightRepository<TEntity, TIdentifier>
-            where TEntity : ILiquidEntity<TIdentifier>
+            where TEntity : LiquidEntity<TIdentifier>
         {
             var repository = _serviceProvider.GetService<TRepository>();
 

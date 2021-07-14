@@ -10,10 +10,8 @@ namespace Liquid.Repository.Mongo.Tests.Mock
     ///     <cref>Liquid.Data.Entities.DataMappingBase{System.Int32}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    public class TestEntity : ILiquidEntity<int>
+    public class TestEntity : LiquidEntity<int>
     {
-        ///<inheritdoc/>
-        public int Id { get; set; }
         /// <summary>
         /// Gets or sets the mock title.
         /// </summary>

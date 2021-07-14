@@ -10,7 +10,7 @@ namespace Liquid.Repository.EntityFramework.Tests.Entities
     ///     <cref>Liquid.Data.Entities.DataMappingBase{System.Int32}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    public class MockEntity : LiquidEfEntity<int>
+    public class MockEntity : LiquidEntity<int>
     {
         /// <summary>
         /// Gets or sets the mock identifier.

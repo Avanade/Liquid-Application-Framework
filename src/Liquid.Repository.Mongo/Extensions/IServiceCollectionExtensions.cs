@@ -1,9 +1,6 @@
 ﻿using Liquid.Core.Extensions;
 using Liquid.Core.Implementations;
 using Microsoft.Extensions.DependencyInjection;
-using MongoDB.Driver;
-using System.Linq;
-using System.Reflection;
 
 namespace Liquid.Repository.Mongo.Extensions
 {
@@ -22,12 +19,13 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="services">Extended ServiceCollection object.</param>
         /// <param name="databaseName">Database name that should be context related.</param>
         /// <returns></returns>
-        public static IServiceCollection AddLiquidMongoRepository<TEntity,TIdentifier>(this IServiceCollection services, string databaseName)
+        public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services, string databaseName)
             where TEntity : LiquidEntity<TIdentifier>, new()
         {
             services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
 
-            services.AddScoped((sp) => {
+            services.AddScoped((sp) =>
+            {
                 var context = new MongoDataContext(
                     databaseName, sp.GetService<IMongoClientFactory>());
                 return new MongoRepository<TEntity, TIdentifier>(context);

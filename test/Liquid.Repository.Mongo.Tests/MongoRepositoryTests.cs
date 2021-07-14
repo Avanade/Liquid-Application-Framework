@@ -1,5 +1,4 @@
-﻿using Liquid.Repository.Exceptions;
-using Liquid.Repository.Mongo.Tests.Mock;
+﻿using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
@@ -44,7 +43,7 @@ namespace Liquid.Repository.Mongo.Tests
             _dbDataContext.Database.GetCollection<TestEntity>("TestEntities")
                 .Returns(_collection);
 
-            _sut = new MongoRepository<TestEntity, int>( _dbDataContext);
+            _sut = new MongoRepository<TestEntity, int>(_dbDataContext);
         }
 
         private IMongoCollection<TestEntity> GetCollection()

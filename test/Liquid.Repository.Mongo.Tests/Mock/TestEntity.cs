@@ -37,6 +37,6 @@ namespace Liquid.Repository.Mongo.Tests.Mock
         /// The created date.
         /// </value>
         public DateTime CreatedDate { get; set; }
-        
+
     }
 }

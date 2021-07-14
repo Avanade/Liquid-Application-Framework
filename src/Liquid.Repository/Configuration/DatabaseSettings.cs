@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Liquid.Repository.Configuration
+﻿namespace Liquid.Repository.Configuration
 {
     /// <summary>
     /// Database configuration properties.

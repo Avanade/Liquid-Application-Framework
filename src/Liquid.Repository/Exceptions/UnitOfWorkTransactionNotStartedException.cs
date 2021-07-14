@@ -8,7 +8,7 @@ namespace Liquid.Repository.Exceptions
     /// <summary>
     /// Occurs when the transaction is not started.
     /// </summary>
-    /// <seealso cref="Liquid.Core.Exceptions.LightException" />
+    /// <seealso cref="LiquidException" />
     [ExcludeFromCodeCoverage]
     [Serializable]
     public class UnitOfWorkTransactionNotStartedException : LiquidException

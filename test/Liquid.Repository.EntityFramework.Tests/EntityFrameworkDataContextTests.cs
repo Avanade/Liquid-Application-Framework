@@ -1,5 +1,4 @@
-﻿using Liquid.Repository.Exceptions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using NSubstitute;
 using NUnit.Framework;
@@ -24,7 +23,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             _client.Database.Returns(_database);
 
-            _sut = new EntityFrameworkDataContext<DbContext>( _client);
+            _sut = new EntityFrameworkDataContext<DbContext>(_client);
         }
 
         [Test]

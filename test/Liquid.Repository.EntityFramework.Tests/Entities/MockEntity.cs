@@ -47,6 +47,6 @@ namespace Liquid.Repository.EntityFramework.Tests.Entities
         /// The created date.
         /// </value>
         public DateTime CreatedDate { get; set; }
-        
+
     }
 }

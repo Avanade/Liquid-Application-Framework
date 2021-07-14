@@ -36,7 +36,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _configuration = Substitute.For<ILiquidConfiguration<MongoSettings>>();
 
-            _configuration.Settings.Returns(mongoSettings);     
+            _configuration.Settings.Returns(mongoSettings);
 
             _sut = new MongoClientFactory(_configuration);
 

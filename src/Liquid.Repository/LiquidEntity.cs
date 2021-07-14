@@ -1,7 +1,4 @@
-﻿using Newtonsoft.Json;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Liquid.Repository
+﻿namespace Liquid.Repository
 {
     /// <summary>
     /// Represents the repository entity

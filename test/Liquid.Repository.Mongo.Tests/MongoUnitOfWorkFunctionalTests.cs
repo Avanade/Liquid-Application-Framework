@@ -43,8 +43,8 @@ namespace Liquid.Repository.Mongo.Tests
                 new DatabaseSettings()
                 {
                     ConnectionString = _runner.ConnectionString,
-                    DatabaseName = "functionalTest",                  
-                    
+                    DatabaseName = "functionalTest",
+
                 }
             };
 
@@ -60,7 +60,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             services.AddSingleton(configuration);
 
-            services.AddLiquidMongoRepository<TestEntity,int>("functionalTest");
+            services.AddLiquidMongoRepository<TestEntity, int>("functionalTest");
 
             services.AddTransient<ILiquidUnitOfWork, LiquidUnitOfWork>();
 
@@ -68,7 +68,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _unitOfWork = _serviceProvider.GetService<ILiquidUnitOfWork>();
 
-            _sut = _unitOfWork.GetRepository<MongoRepository<TestEntity,int>, TestEntity, int>();
+            _sut = _unitOfWork.GetRepository<MongoRepository<TestEntity, int>, TestEntity, int>();
         }
 
         [Test]

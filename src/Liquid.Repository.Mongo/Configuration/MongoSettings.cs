@@ -14,7 +14,7 @@ namespace Liquid.Repository.Mongo.Configuration
         /// <summary>
         /// List of mongo settings.
         /// </summary>
-        public IList<DatabaseSettings> DbSettings { get; set; } 
+        public IList<DatabaseSettings> DbSettings { get; set; }
 
         /// <summary>
         /// Retrieve settings from a given database.

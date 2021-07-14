@@ -20,7 +20,7 @@ namespace Liquid.Repository.Mongo
     /// <typeparam name="TEntity">The type of the entity.</typeparam>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
     /// <seealso cref="ILightRepository{TEntity, TIdentifier}" />
-    public abstract class MongoRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
+    public class MongoRepository<TEntity, TIdentifier> : ILightRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
     {
         private readonly MongoAttribute _MongoAttribute;
 
@@ -39,14 +39,14 @@ namespace Liquid.Repository.Mongo
         /// or
         /// dataContext
         /// </exception>
-        protected MongoRepository(IMongoDataContext dataContext)
+        public MongoRepository(IMongoDataContext dataContext)
         {
             MongoDataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
-            if (!GetType().GetCustomAttributes(typeof(MongoAttribute), true).Any())
+            if (!typeof(TEntity).GetCustomAttributes(typeof(MongoAttribute), true).Any())
             {
                 throw new NotImplementedException($"The {nameof(MongoAttribute)} attribute decorator must be added to class.");
             }
-            _MongoAttribute = GetType().GetCustomAttribute<MongoAttribute>(true);
+            _MongoAttribute = typeof(TEntity).GetCustomAttribute<MongoAttribute>(true);
 
             if (!BsonClassMap.IsClassMapRegistered(typeof(TEntity)))
             {

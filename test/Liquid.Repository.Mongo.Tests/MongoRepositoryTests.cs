@@ -44,7 +44,7 @@ namespace Liquid.Repository.Mongo.Tests
             _dbDataContext.Database.GetCollection<TestEntity>("TestEntities")
                 .Returns(_collection);
 
-            _sut = new TestRepository( _dbDataContext);
+            _sut = new MongoRepository<TestEntity, int>( _dbDataContext);
         }
 
         private IMongoCollection<TestEntity> GetCollection()

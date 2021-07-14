@@ -8,7 +8,7 @@ namespace Liquid.Repository.EntityFramework.Extensions
     /// <summary>
     /// Entity Framework Service Collection Extensions Class.
     /// </summary>
-    public static class ServiceCollectionExtensions
+    public static class IServiceCollectionExtensions
     {
         /// <summary>
         /// Adds the entity framework database repositories and Context.

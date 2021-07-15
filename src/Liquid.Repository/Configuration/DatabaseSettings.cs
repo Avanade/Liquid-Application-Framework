@@ -1,8 +1,11 @@
-﻿namespace Liquid.Repository.Configuration
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Liquid.Repository.Configuration
 {
     /// <summary>
     /// Database configuration properties.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class DatabaseSettings
     {
         /// <summary>

@@ -8,8 +8,9 @@ namespace Liquid.Repository.Mongo
     /// Implements the Mongo data context for repositories.
     /// </summary>
     /// <seealso cref="Liquid.Repository.Mongo.IMongoDataContext" />
-    public class MongoDataContext : IMongoDataContext, IDisposable
+    public class MongoDataContext : IMongoDataContext
     {
+        private bool _disposed = false;
         private readonly IMongoClient _mongoClient;
         private IMongoDatabase _database;
         private IClientSessionHandle _clientSessionHandle;
@@ -94,12 +95,27 @@ namespace Liquid.Repository.Mongo
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
-        {
-            if (_clientSessionHandle?.IsInTransaction == true) _clientSessionHandle.AbortTransaction();
-            _clientSessionHandle?.Dispose();
-        }
+        public void Dispose() => Dispose(true);
 
+        /// <summary>
+        /// Releases the allocated resources <see cref="IClientSessionHandle"/> for this context.
+        /// </summary>
+        /// <param name="disposing">Indicates if method should perform dispose.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                if (_clientSessionHandle?.IsInTransaction == true) _clientSessionHandle.AbortTransaction();
+                _clientSessionHandle?.Dispose();
+            }
+
+            _disposed = true;
+        }
         ///<inheritdoc/>
         public void SetDatabase(string databaseName)
         {

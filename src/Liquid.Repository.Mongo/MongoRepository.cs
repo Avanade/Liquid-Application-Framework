@@ -83,12 +83,9 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task<TEntity> FindByIdAsync(TIdentifier id)
         {
-            TEntity returnValue = default;
-
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
             var result = await collection.FindAsync(e => e.Id.Equals(id), MongoDataContext?.ClientSessionHandle);
-            returnValue = result.SingleOrDefault();
-
+            var returnValue = result.SingleOrDefault();
 
             return returnValue;
         }
@@ -96,10 +93,8 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task RemoveAsync(TEntity entity)
         {
-
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
             await collection.DeleteOneAsync(e => e.Id.Equals(entity.Id), MongoDataContext?.ClientSessionHandle);
-
         }
 
         ///<inheritdoc/>

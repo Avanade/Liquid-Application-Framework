@@ -1,11 +1,12 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace Liquid.Repository
 {
     /// <summary>
     /// Represents the database context
     /// </summary>
-    public interface ILiquidDataContext
+    public interface ILiquidDataContext : IDisposable
     {
         /// <summary>
         /// Gets the identifier of data context.

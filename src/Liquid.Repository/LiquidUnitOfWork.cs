@@ -13,6 +13,7 @@ namespace Liquid.Repository
     /// <seealso cref="Liquid.Repository.ILiquidUnitOfWork" />
     public class LiquidUnitOfWork : ILiquidUnitOfWork
     {
+        private bool _disposed = false;
         private readonly List<ILiquidDataContext> _datacontexts = new List<ILiquidDataContext>();
         private readonly IServiceProvider _serviceProvider;
         private bool _transactionStarted;
@@ -95,12 +96,30 @@ namespace Liquid.Repository
             _datacontexts.Clear();
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose()
-        {
+        ///<inheritdoc/>
+        public void Dispose() => Dispose(true);
 
+        /// <summary>
+        /// Releases the allocated resources for all contexts <see cref="ILiquidDataContext"/> 
+        /// in this unit of work.
+        /// </summary>
+        /// <param name="disposing">Indicates if method should perform dispose.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                foreach (var context in _datacontexts)
+                {
+                    context.Dispose();
+                }
+            }
+
+            _disposed = true;
         }
     }
 }

@@ -9,8 +9,9 @@ namespace Liquid.Repository.EntityFramework
     /// </summary>
     /// <seealso cref="Liquid.Repository.EntityFramework.EntityFrameworkDataContext{TContext}" />
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
-    public class EntityFrameworkDataContext<TContext> : IEntityFrameworkDataContext<TContext>, IDisposable where TContext : DbContext
+    public class EntityFrameworkDataContext<TContext> : IEntityFrameworkDataContext<TContext> where TContext : DbContext
     {
+        private bool _disposed = false;
         private readonly TContext _databaseContext;
 
         /// <summary>
@@ -53,9 +54,25 @@ namespace Liquid.Repository.EntityFramework
         }
 
         ///<inheritdoc/>
-        public void Dispose()
+        public void Dispose() => Dispose(true);
+
+        /// <summary>
+        /// Releases the allocated resources <see cref="DbContext"/> for this context.
+        /// </summary>
+        /// <param name="disposing">Indicates if method should perform dispose.</param>
+        protected virtual void Dispose(bool disposing)
         {
-            _databaseContext.Dispose();
+            if (_disposed)
+            {
+                return;
+            }
+
+            if (disposing)
+            {
+                _databaseContext.Dispose();
+            }
+
+            _disposed = true;
         }
 
     }

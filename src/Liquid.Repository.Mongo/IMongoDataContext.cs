@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Liquid.Repository.Mongo.Attributes;
+using MongoDB.Driver;
 
 namespace Liquid.Repository.Mongo
 {
@@ -6,8 +7,12 @@ namespace Liquid.Repository.Mongo
     /// Mongo database context interface.
     /// </summary>
     /// <seealso cref="Liquid.Repository.ILiquidDataContext" />
-    public interface IMongoDataContext : ILiquidDataContext
+    public interface IMongoDataContext<TEntity> : ILiquidDataContext
     {
+        /// <summary>
+        /// Gets configurations set from <typeparamref name="TEntity"/> attribute.
+        /// </summary>
+        MongoAttribute Settings { get; }
         /// <summary>
         /// Gets the Mongo Database.
         /// </summary>

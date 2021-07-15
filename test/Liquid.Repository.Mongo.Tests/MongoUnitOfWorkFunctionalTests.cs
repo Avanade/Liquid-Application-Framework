@@ -43,7 +43,7 @@ namespace Liquid.Repository.Mongo.Tests
                 new DatabaseSettings()
                 {
                     ConnectionString = _runner.ConnectionString,
-                    DatabaseName = "functionalTest",
+                    DatabaseName = "TestDatabase",
 
                 }
             };
@@ -60,7 +60,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             services.AddSingleton(configuration);
 
-            services.AddLiquidMongoRepository<TestEntity, int>("functionalTest");
+            services.AddLiquidMongoRepository<TestEntity, int>();
 
             services.AddTransient<ILiquidUnitOfWork, LiquidUnitOfWork>();
 

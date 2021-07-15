@@ -1,5 +1,9 @@
-﻿using MongoDB.Driver;
+﻿using Liquid.Repository.Mongo.Attributes;
+using Liquid.Repository.Mongo.Exceptions;
+using MongoDB.Driver;
 using System;
+using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.Mongo
@@ -7,14 +11,14 @@ namespace Liquid.Repository.Mongo
     /// <summary>
     /// Implements the Mongo data context for repositories.
     /// </summary>
-    /// <seealso cref="Liquid.Repository.Mongo.IMongoDataContext" />
-    public class MongoDataContext : IMongoDataContext
+    /// <seealso cref="IMongoDataContext{TEntity}" />
+    public class MongoDataContext<TEntity> : IMongoDataContext<TEntity>
     {
         private bool _disposed = false;
         private readonly IMongoClient _mongoClient;
         private IMongoDatabase _database;
         private IClientSessionHandle _clientSessionHandle;
-
+        private readonly MongoAttribute _settings;
         /// <summary>
         /// Gets the Mongo Database.
         /// </summary>
@@ -45,9 +49,13 @@ namespace Liquid.Repository.Mongo
         public string Id { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MongoDataContext" /> class.
+        /// 
         /// </summary>
-        /// <param name="databaseName">Database connection name.</param>
+        public MongoAttribute Settings => _settings;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MongoDataContext{Tentity}" /> class.
+        /// </summary>
         /// <param name="clientProvider">Mongo client generator.</param>
         /// <exception cref="ArgumentNullException">
         /// telemetryFactory
@@ -59,12 +67,22 @@ namespace Liquid.Repository.Mongo
         /// <exception cref="System.ArgumentNullException">connectionString
         /// or
         /// databaseName</exception>
-        public MongoDataContext(string databaseName, IMongoClientFactory clientProvider)
-        {
-            if (databaseName is null) throw new ArgumentNullException(nameof(databaseName));
+        public MongoDataContext(IMongoClientFactory clientProvider)
+        {    
             if (clientProvider is null) throw new ArgumentNullException(nameof(clientProvider));
 
-            _mongoClient = clientProvider.GetClient(databaseName);
+            if (!typeof(TEntity).GetCustomAttributes(typeof(MongoAttribute), true).Any())
+            {
+                throw new NotImplementedException($"The {nameof(MongoAttribute)} attribute decorator must be added to class.");
+            }
+
+            _settings = typeof(TEntity).GetCustomAttribute<MongoAttribute>(true);
+
+            _mongoClient = clientProvider.GetClient(_settings.DatabaseName);
+
+            SetDatabase(_settings.DatabaseName);
+
+            ValidateCollection();
         }
 
         /// <summary>
@@ -122,6 +140,21 @@ namespace Liquid.Repository.Mongo
         public void SetDatabase(string databaseName)
         {
             _database = _mongoClient.GetDatabase(databaseName);
+        }
+
+        /// <summary>
+        /// Validates if the collection exists, if not, an exception is thrown.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="MongoCollectionDoesNotExistException">Collection, _databaseName</exception>
+        private void ValidateCollection()
+        {
+
+            var collection = Database.GetCollection<TEntity>(_settings.CollectionName);
+            if (collection is null)
+            {
+                throw new MongoCollectionDoesNotExistException(_settings.CollectionName, _settings.DatabaseName);
+            }
         }
     }
 }

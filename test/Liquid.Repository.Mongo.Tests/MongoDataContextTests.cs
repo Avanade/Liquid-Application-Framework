@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Liquid.Repository.Mongo.Tests.Mock;
+using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
 using System;
@@ -10,7 +11,7 @@ namespace Liquid.Repository.Mongo.Tests
     [ExcludeFromCodeCoverage]
     class MongoDataContextTests
     {
-        private MongoDataContext _sut;
+        private MongoDataContext<TestEntity> _sut;
         private IMongoClient _client;
 
         [SetUp]
@@ -22,7 +23,7 @@ namespace Liquid.Repository.Mongo.Tests
             var provider = Substitute.For<IMongoClientFactory>();
             provider.GetClient(Arg.Any<string>()).Returns(_client);
 
-            _sut = new MongoDataContext("test", provider);
+            _sut = new MongoDataContext<TestEntity>(provider);
 
         }
 

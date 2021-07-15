@@ -13,7 +13,7 @@ namespace Liquid.Repository.Mongo.Tests
     [ExcludeFromCodeCoverage]
     class MongoRepositoryTests
     {
-        private IMongoDataContext _dbDataContext;
+        private IMongoDataContext<TestEntity> _dbDataContext;
         private ILiquidRepository<TestEntity, int> _sut;
         private TestEntity _entity;
         internal static string _databaseName = "IntegrationTest";
@@ -32,7 +32,9 @@ namespace Liquid.Repository.Mongo.Tests
             };
 
 
-            _dbDataContext = Substitute.For<IMongoDataContext>();
+            _dbDataContext = Substitute.For<IMongoDataContext<TestEntity>>();
+
+            _dbDataContext.Settings.Returns(new Attributes.MongoAttribute("TestEntities", "id", _databaseName));
 
             IClientSessionHandle handle = null;
 
@@ -65,7 +67,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             await _sut.AddAsync(_entity);
 
-            _dbDataContext.Database.Received(2).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
         }
 
         [Test]
@@ -74,10 +76,11 @@ namespace Liquid.Repository.Mongo.Tests
 
             await _sut.AddAsync(_entity);
 
-            _dbDataContext.Database.Received(2).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
 
             await _collection.Received(1).InsertOneAsync(_entity);
         }
+
         [Test]
         public void AddAsync_WhenClientThrowsError_ThrowException()
         {
@@ -93,7 +96,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var result = await _sut.GetAllAsync();
 
-            _dbDataContext.Database.Received(2).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
 
             Assert.IsTrue(result.Count() > 0);
             Assert.AreEqual(result.FirstOrDefault(), _entity);
@@ -116,7 +119,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             var result = await _sut.FindByIdAsync(1234);
 
-            _dbDataContext.Database.Received(2).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
 
             Assert.IsTrue(result == _entity);
 
@@ -138,7 +141,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             await _sut.RemoveAsync(_entity);
 
-            _dbDataContext.Database.Received(2).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
 
             await _collection.Received().DeleteOneAsync(Arg.Any<FilterDefinition<TestEntity>>());
 

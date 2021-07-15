@@ -1,5 +1,4 @@
 ﻿using Liquid.Repository.Mongo.Attributes;
-using Liquid.Repository.Mongo.Exceptions;
 using Liquid.Repository.Mongo.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -8,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.Mongo
@@ -22,10 +20,10 @@ namespace Liquid.Repository.Mongo
     /// <seealso cref="ILiquidRepository{TEntity, TIdentifier}" />
     public class MongoRepository<TEntity, TIdentifier> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
     {
-        private readonly MongoAttribute _MongoAttribute;
+        private readonly MongoAttribute _settings;
 
         ///<inheritdoc/>
-        public IMongoDataContext MongoDataContext { get; }
+        public IMongoDataContext<TEntity> MongoDataContext { get; }
 
         ///<inheritdoc/>
         public ILiquidDataContext DataContext => MongoDataContext;
@@ -39,14 +37,11 @@ namespace Liquid.Repository.Mongo
         /// or
         /// dataContext
         /// </exception>
-        public MongoRepository(IMongoDataContext dataContext)
+        public MongoRepository(IMongoDataContext<TEntity> dataContext)
         {
             MongoDataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
-            if (!typeof(TEntity).GetCustomAttributes(typeof(MongoAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(MongoAttribute)} attribute decorator must be added to class.");
-            }
-            _MongoAttribute = typeof(TEntity).GetCustomAttribute<MongoAttribute>(true);
+            
+            _settings = dataContext.Settings;
 
             if (!BsonClassMap.IsClassMapRegistered(typeof(TEntity)))
             {
@@ -57,16 +52,14 @@ namespace Liquid.Repository.Mongo
                 });
             }
 
-            MongoDataContext.SetDatabase(_MongoAttribute.DatabaseName);
-
-            ValidateCollection();
+            MongoDataContext.SetDatabase(_settings.DatabaseName);            
         }
 
         ///<inheritdoc/>
         public async Task AddAsync(TEntity entity)
         {
 
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
             await collection.InsertOneAsync(entity, MongoDataContext?.ClientSessionHandle);
 
         }
@@ -74,7 +67,7 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
             var returnValue = (await collection.FindAsync(new BsonDocument(), MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
 
             return returnValue;
@@ -83,7 +76,7 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task<TEntity> FindByIdAsync(TIdentifier id)
         {
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
             var result = await collection.FindAsync(e => e.Id.Equals(id), MongoDataContext?.ClientSessionHandle);
             var returnValue = result.SingleOrDefault();
 
@@ -93,7 +86,7 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task RemoveAsync(TEntity entity)
         {
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
             await collection.DeleteOneAsync(e => e.Id.Equals(entity.Id), MongoDataContext?.ClientSessionHandle);
         }
 
@@ -101,7 +94,7 @@ namespace Liquid.Repository.Mongo
         public async Task UpdateAsync(TEntity entity)
         {
 
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
             await collection.ReplaceOneAsync(x => x.Id.Equals(entity.Id), entity, new ReplaceOptions { IsUpsert = true }, MongoDataContext?.ClientSessionHandle);
 
         }
@@ -109,26 +102,11 @@ namespace Liquid.Repository.Mongo
         ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> whereClause)
         {
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
+            var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
 
             var returnValue = (await collection.FindAsync(whereClause, MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
 
             return returnValue;
-        }
-
-        /// <summary>
-        /// Validates if the collection exists, if not, an exception is thrown.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="MongoCollectionDoesNotExistException">Collection, _databaseName</exception>
-        private void ValidateCollection()
-        {
-
-            var collection = MongoDataContext.Database.GetCollection<TEntity>(_MongoAttribute.CollectionName);
-            if (collection is null)
-            {
-                throw new MongoCollectionDoesNotExistException(_MongoAttribute.CollectionName, MongoDataContext.Database.DatabaseNamespace.DatabaseName);
-            }
-        }
+        }        
     }
 }

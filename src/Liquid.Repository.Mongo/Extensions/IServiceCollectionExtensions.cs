@@ -18,20 +18,15 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <typeparam name="TEntity">Type of entity that the repository should correspond to</typeparam>
         /// <typeparam name="TIdentifier">Entity identifier type.</typeparam>
         /// <param name="services">Extended ServiceCollection object.</param>
-        /// <param name="databaseName">Database name that should be context related.</param>
-        /// <returns></returns>
-        public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services, string databaseName)
+        public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services)
             where TEntity : LiquidEntity<TIdentifier>, new()
         {
             if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
                 services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
 
-            services.AddScoped((sp) =>
-            {
-                var context = new MongoDataContext(
-                    databaseName, sp.GetService<IMongoClientFactory>());
-                return new MongoRepository<TEntity, TIdentifier>(context);
-            });
+            services.AddScoped<IMongoDataContext<TEntity>, MongoDataContext<TEntity>>();
+
+            services.AddScoped<MongoRepository<TEntity,TIdentifier>>();
 
             services.AddLiquidInterceptors<ILiquidRepository<TEntity, TIdentifier>, MongoRepository<TEntity, TIdentifier>>();
 

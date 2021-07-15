@@ -92,10 +92,12 @@ namespace Liquid.Repository.Mongo
             await _clientSessionHandle.AbortTransactionAsync();
         }
 
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        public void Dispose() => Dispose(true);
+        ///<inheritdoc/>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Releases the allocated resources <see cref="IClientSessionHandle"/> for this context.

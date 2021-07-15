@@ -97,7 +97,11 @@ namespace Liquid.Repository
         }
 
         ///<inheritdoc/>
-        public void Dispose() => Dispose(true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Releases the allocated resources for all contexts <see cref="ILiquidDataContext"/> 

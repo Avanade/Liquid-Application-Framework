@@ -54,7 +54,11 @@ namespace Liquid.Repository.EntityFramework
         }
 
         ///<inheritdoc/>
-        public void Dispose() => Dispose(true);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
         /// <summary>
         /// Releases the allocated resources <see cref="DbContext"/> for this context.

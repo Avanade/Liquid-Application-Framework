@@ -134,7 +134,6 @@ namespace Liquid.Repository.Mongo
             {
                 throw new MongoCollectionDoesNotExistException(_MongoAttribute.CollectionName, MongoDataContext.Database.DatabaseNamespace.DatabaseName);
             }
-
         }
     }
 }

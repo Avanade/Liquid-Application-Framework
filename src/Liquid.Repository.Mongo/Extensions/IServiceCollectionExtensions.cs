@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Extensions;
 using Liquid.Core.Implementations;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 
 namespace Liquid.Repository.Mongo.Extensions
 {
@@ -22,7 +23,8 @@ namespace Liquid.Repository.Mongo.Extensions
         public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services, string databaseName)
             where TEntity : LiquidEntity<TIdentifier>, new()
         {
-            services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
+            if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
+                services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
 
             services.AddScoped((sp) =>
             {

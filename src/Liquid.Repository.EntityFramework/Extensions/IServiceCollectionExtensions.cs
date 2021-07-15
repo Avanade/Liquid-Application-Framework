@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Liquid.Repository.EntityFramework.Extensions
 {
@@ -27,16 +28,25 @@ namespace Liquid.Repository.EntityFramework.Extensions
             where TEntity : LiquidEntity<TIdentifier>, new()
             where TContext : DbContext
         {
-            //TODO: if para não registrar mais de um dbcontext igual
-            services.AddScoped<IEntityFrameworkDataContext<TContext>, EntityFrameworkDataContext<TContext>>();
-
-            services.AddDbContext<TContext>(optionsAction);
+            AddLiquidDbContext<TContext>(services, optionsAction);
 
             services.AddScoped<EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
 
             services.AddLiquidInterceptors<ILiquidRepository<TEntity, TIdentifier>, EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
 
             return services;
+        }
+
+        private static void AddLiquidDbContext<TContext>(IServiceCollection services, Action<DbContextOptionsBuilder> optionsAction) where TContext : DbContext
+        {
+            var dbContext = services.FirstOrDefault(x => x.ServiceType == typeof(IEntityFrameworkDataContext<TContext>));
+
+            if(dbContext is null)
+            {
+                services.AddDbContext<TContext>(optionsAction);
+
+                services.AddScoped<IEntityFrameworkDataContext<TContext>, EntityFrameworkDataContext<TContext>>();                
+            }            
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Liquid.Core.Base;
+﻿using Liquid.Core.Base;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Core.Exceptions
 {

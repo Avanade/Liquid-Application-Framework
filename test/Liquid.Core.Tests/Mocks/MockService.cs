@@ -1,8 +1,5 @@
-﻿using Liquid.Core.Interfaces;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Liquid.Core.UnitTests.Mocks

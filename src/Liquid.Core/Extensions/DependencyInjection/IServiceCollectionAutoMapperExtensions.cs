@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Liquid.Core.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-namespace Liquid.Core.Extensions
+namespace Liquid.Core.Extensions.DependencyInjection
 {
     /// <summary>
     /// Extensions to scan for AutoMapper classes and register the configuration, mapping, and extensions with the service collection:

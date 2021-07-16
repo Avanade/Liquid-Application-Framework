@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Liquid.Core.Interfaces;
+using Liquid.Core.Localization.Entities;
+using Liquid.Core.Settings;
+using Liquid.Core.Utils;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Threading;
-using Liquid.Core.Interfaces;
-using Liquid.Core.Localization.Entities;
-using Liquid.Core.Settings;
-using Liquid.Core.Utils;
 
 namespace Liquid.Core.Localization
 {
@@ -80,7 +80,7 @@ namespace Liquid.Core.Localization
         {
             if (string.IsNullOrEmpty(key)) throw new ArgumentNullException(nameof(key));
             if (culture == null) throw new ArgumentNullException(nameof(culture));
-            
+
             try
             {
                 if (_localizationItems.TryGetValue(culture, out var localizationItem))

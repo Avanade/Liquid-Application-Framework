@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Liquid.Core.Extensions
+namespace Liquid.Core.Extensions.DependencyInjection
 {
     /// <summary>
     /// Extends <see cref="IServiceCollection"/> interface.
@@ -25,17 +25,20 @@ namespace Liquid.Core.Extensions
         }
 
         /// <summary>
-        /// Register interceptors for defined services. 
+        /// Register telemetry interceptor <see cref="LiquidTelemetryInterceptor"/> for defined <typeparamref name="TService"/> services. 
         /// </summary>
         /// <typeparam name="TInterface">Interface type of service that should be intercepted.</typeparam>
         /// <typeparam name="TService">Type of service that should be intercepted.</typeparam>
         /// <param name="services">Extended IServiceCollection instance.</param>
-        public static IServiceCollection AddLiquidInterceptors<TInterface, TService>(this IServiceCollection services) where TInterface : class where TService : TInterface
+        public static IServiceCollection AddLiquidTelemetryInterceptor<TInterface, TService>(this IServiceCollection services) where TInterface : class where TService : TInterface
         {
-            return services.AddTransient((provider) =>
+            services.AddTransient(typeof(IAsyncInterceptor), typeof(LiquidTelemetryInterceptor));
+            services.AddSingleton(new ProxyGenerator());
+
+            return services.AddScoped((provider) =>
             {
                 var proxyGenerator = provider.GetService<ProxyGenerator>();
-                TInterface service = provider.GetRequiredService<TService>();
+                var service = (TInterface)provider.GetRequiredService<TService>();
 
                 return proxyGenerator.CreateInterfaceProxyWithTarget(service, provider.GetServices<IAsyncInterceptor>().ToArray());
             });

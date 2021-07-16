@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Liquid.Core.Interfaces
+﻿namespace Liquid.Core.Interfaces
 {
     /// <summary>
     /// Serialization

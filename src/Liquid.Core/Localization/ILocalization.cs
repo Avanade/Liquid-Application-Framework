@@ -7,7 +7,7 @@ namespace Liquid.Core.Localization
     /// Resource catalog interface.
     /// </summary>
     [Obsolete("This class will be removed or refactored in the next release.")]
-    public interface ILocalization 
+    public interface ILocalization
     {
         /// <summary>
         /// Gets the specified string according to culture.

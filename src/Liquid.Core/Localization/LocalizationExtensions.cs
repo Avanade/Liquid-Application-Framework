@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Liquid.Core.Localization.Entities;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Liquid.Core.Localization.Entities;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Liquid.Core.Localization
 {

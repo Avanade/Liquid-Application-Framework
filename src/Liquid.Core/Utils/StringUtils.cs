@@ -10,7 +10,7 @@ namespace Liquid.Core.Utils
     public static class StringUtils
     {
         private static readonly Regex WordCountRegex = new Regex(@"[^\s]+", RegexOptions.Compiled);
-        
+
         /// <summary>
         /// Determines whether a string contains a specified value.
         /// </summary>

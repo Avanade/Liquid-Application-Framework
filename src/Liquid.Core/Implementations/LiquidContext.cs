@@ -35,7 +35,7 @@ namespace Liquid.Core.Implementations
             {
                 return null;
             }
-            
+
         }
 
         ///<inheritdoc/>

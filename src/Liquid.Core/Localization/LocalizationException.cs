@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Liquid.Core.Exceptions;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-using Liquid.Core.Exceptions;
 
 namespace Liquid.Core.Localization
 {

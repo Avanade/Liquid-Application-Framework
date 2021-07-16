@@ -1,10 +1,7 @@
 ﻿using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
-using NSubstitute;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Xunit;
 
 namespace Liquid.Core.Tests

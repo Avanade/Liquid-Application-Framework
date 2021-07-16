@@ -37,7 +37,7 @@ namespace Liquid.Core.Utils
         {
             var array = instance?.ToArray();
             if (array == null || !array.Any()) return null;
-            
+
             var csv = new StringBuilder();
             array.Each(value => csv.AppendFormat("{0}{1}", value, separator));
             return csv.ToString(0, csv.Length - 1);

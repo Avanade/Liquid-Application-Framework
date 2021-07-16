@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Liquid.Core.Utils;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Liquid.Core.Utils;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace Liquid.Core.Extensions
+namespace Liquid.Core.Extensions.DependencyInjection
 {
     /// <summary>
     /// Service Provider Extensions Class.

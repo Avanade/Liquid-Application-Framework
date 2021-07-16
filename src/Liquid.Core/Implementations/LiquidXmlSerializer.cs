@@ -30,11 +30,11 @@ namespace Liquid.Core.Implementations
 
                 return stringWriter.ToString();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new SerializerFailException(nameof(content), ex);
             }
-            
+
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Liquid.Core.Implementations
 {
     ///<inheritdoc/>
     public class LiquidConfiguration<T> : ILiquidConfiguration<T> where T : class, new()
-    {        
+    {
         ///<inheritdoc/>
         public T Settings { get; private set; }
 

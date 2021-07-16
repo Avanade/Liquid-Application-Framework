@@ -7,7 +7,7 @@ namespace Liquid.Core.Utils
     /// <summary>
     /// Xml Extensions Class.
     /// </summary>
-    public static  class XmlUtils
+    public static class XmlUtils
     {
         /// <summary>
         /// Serializes an object to xml.
@@ -41,7 +41,7 @@ namespace Liquid.Core.Utils
             if (xs.CanDeserialize(new XmlTextReader(stream)))
             {
                 stream.Position = 0;
-                return (T) xs.Deserialize(stream);
+                return (T)xs.Deserialize(stream);
             }
             return default;
         }

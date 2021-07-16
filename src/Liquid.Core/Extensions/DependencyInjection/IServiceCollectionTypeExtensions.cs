@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
-namespace Liquid.Core.DependencyInjection
+namespace Liquid.Core.Extensions.DependencyInjection
 {
     /// <summary>
     /// Service Collection Extensions Class.
@@ -139,7 +139,7 @@ namespace Liquid.Core.DependencyInjection
             }
             return services;
         }
-        
+
         /// <summary>
         /// Adds a singleton service of the type specified in <paramref name="serviceType" /> with an
         /// implementation of the types specified in <paramref name="implementationTypes" /> to the

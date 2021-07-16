@@ -1,15 +1,4 @@
-﻿using AutoFixture;
-using Liquid.Core.Extensions;
-using Liquid.Core.Localization;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System;
-using System.Globalization;
-using System.Threading;
-using Xunit;
-
-namespace Liquid.Core.UnitTests
+﻿namespace Liquid.Core.UnitTests
 {
     public class LocalizationTest
     {

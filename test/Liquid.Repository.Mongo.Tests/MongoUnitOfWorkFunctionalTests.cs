@@ -1,9 +1,11 @@
-﻿using Liquid.Core.Interfaces;
+﻿using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Liquid.Repository.Configuration;
 using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Extensions;
 using Liquid.Repository.Mongo.Tests.Mock;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Mongo2Go;
 using NSubstitute;
 using NUnit.Framework;
@@ -56,11 +58,15 @@ namespace Liquid.Repository.Mongo.Tests
 
             configuration.Settings.Returns(mongoSettings);
 
+
+
             var services = new ServiceCollection();
+
+            services.AddSingleton(Substitute.For<ILogger<LiquidTelemetryInterceptor>>());
 
             services.AddSingleton(configuration);
 
-            services.AddLiquidMongoRepository<TestEntity, int>();
+            services.AddLiquidMongoWithTelemetry<TestEntity, int>();
 
             services.AddTransient<ILiquidUnitOfWork, LiquidUnitOfWork>();
 
@@ -68,7 +74,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _unitOfWork = _serviceProvider.GetService<ILiquidUnitOfWork>();
 
-            _sut = _unitOfWork.GetRepository<MongoRepository<TestEntity, int>, TestEntity, int>();
+            _sut = _unitOfWork.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>();
         }
 
         [Test]

@@ -1,4 +1,4 @@
-﻿using Liquid.Core.Extensions;
+﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +32,7 @@ namespace Liquid.Repository.EntityFramework.Extensions
 
             services.AddScoped<EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
 
-            services.AddLiquidInterceptors<ILiquidRepository<TEntity, TIdentifier>, EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
+            services.AddLiquidTelemetryInterceptor<ILiquidRepository<TEntity, TIdentifier>, EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
 
             return services;
         }

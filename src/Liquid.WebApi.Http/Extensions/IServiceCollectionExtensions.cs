@@ -1,5 +1,5 @@
 ﻿using Liquid.Core.Exceptions;
-using Liquid.Core.Extensions;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;

@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Google.Cloud.PubSub.V1;
 using Grpc.Core;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using Liquid.Messaging.Gcp.Configuration;
@@ -19,6 +12,11 @@ using Liquid.Messaging.Gcp.Parameters;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Gcp
 {
@@ -32,8 +30,7 @@ namespace Liquid.Messaging.Gcp
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly PubSubSettings _messagingSettings;
-        private readonly ILightContextFactory _contextFactory;
-        private readonly ILightTelemetryFactory _telemetryFactory;
+        private readonly ILiquidContext _context;
         private readonly PubSubConsumerParameter _pubSubConsumerParameter;
         private readonly IPubSubClientFactory _pubSubClientFactory;
         private SubscriberClient _client;
@@ -80,8 +77,7 @@ namespace Liquid.Messaging.Gcp
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="mediator">The mediator.</param>
         /// <param name="mapper">The mapper.</param>
-        /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
+        /// <param name="context">The context factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="pubSubClientFactory">The pub sub client factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
@@ -90,19 +86,17 @@ namespace Liquid.Messaging.Gcp
         protected PubSubConsumer(IServiceProvider serviceProvider,
                                  IMediator mediator,
                                  IMapper mapper,
-                                 ILightContextFactory contextFactory,
-                                 ILightTelemetryFactory telemetryFactory,
+                                 ILiquidContext context,
                                  ILoggerFactory loggerFactory,
                                  IPubSubClientFactory pubSubClientFactory,
-                                 ILightMessagingConfiguration<PubSubSettings> messagingConfiguration,
+                                 ILiquidConfiguration<PubSubSettings> messagingConfiguration,
                                  PubSubConsumerParameter pubSubConsumerParameter)
         {
             _pubSubConsumerParameter = pubSubConsumerParameter;
-            _telemetryFactory = telemetryFactory;
             _serviceProvider = serviceProvider;
-            _contextFactory = contextFactory;
+            _context = context;
             _pubSubClientFactory = pubSubClientFactory;
-            _messagingSettings = messagingConfiguration?.GetSettings(_pubSubConsumerParameter.ConnectionId) ??
+            _messagingSettings = messagingConfiguration?.Settings ??
                     throw new MessagingMissingConfigurationException(_pubSubConsumerParameter.ConnectionId);
             MediatorService = mediator;
             MapperService = mapper;
@@ -146,13 +140,10 @@ namespace Liquid.Messaging.Gcp
         {
             await _client.StartAsync(async (message, cancellationToken) =>
             {
-                var telemetry = _telemetryFactory.GetTelemetry();
+                
                 try
                 {
-                    var telemetryKey = $"PubSubConsumer_{_pubSubConsumerParameter.Topic}_{_pubSubConsumerParameter.Subscription}";
-
-                    telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
-                    telemetry.StartTelemetryStopWatchMetric(telemetryKey);
+                   
 
                     var eventMessage = message.Attributes.ContainsKey(CommonExtensions.ContentTypeHeader) &&
                                        message.Attributes[CommonExtensions.ContentTypeHeader].Equals(CommonExtensions.GZipContentType, StringComparison.InvariantCultureIgnoreCase)
@@ -161,7 +152,7 @@ namespace Liquid.Messaging.Gcp
 
                     using (_serviceProvider.CreateScope())
                     {
-                        var context = _contextFactory.GetContext();
+                        var context = _context;
 
                         var headers = message.Attributes.GetCustomHeaders();
 
@@ -169,17 +160,7 @@ namespace Liquid.Messaging.Gcp
 
                         var messageProcessed = await handler.Invoke(eventMessage, headers, cancellationToken);
 
-                        telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
-                        {
-                            consumer = telemetryKey,
-                            messageType = typeof(TMessage).FullName,
-                            aggregationId = context.GetAggregationId(),
-                            messageId = message.MessageId,
-                            message = eventMessage,
-                            processed = _pubSubConsumerParameter.AutoComplete || messageProcessed,
-                            autoComplete = _pubSubConsumerParameter.AutoComplete,
-                            headers
-                        });
+                        
 
                         return messageProcessed || _pubSubConsumerParameter.AutoComplete ?
                             await Task.FromResult(SubscriberClient.Reply.Ack) :
@@ -191,10 +172,6 @@ namespace Liquid.Messaging.Gcp
                     LogService.LogError(ex, ex.Message);
                     throw new MessagingConsumerException(ex);
                 }
-                finally
-                {
-                    telemetry.RemoveContext($"ConsumeMessage_{nameof(TMessage)}");
-                }
             });
         }
 
@@ -203,18 +180,18 @@ namespace Liquid.Messaging.Gcp
         /// </summary>
         /// <param name="headers">The headers.</param>
         /// <param name="context">The context.</param>
-        private static void AddContextHeaders(IDictionary<string, object> headers, ILightContext context)
+        private static void AddContextHeaders(IDictionary<string, object> headers, ILiquidContext context)
         {
-            if (headers.TryGetValue("liquidCulture", out var culture) && culture?.ToString().IsNotNullOrEmpty() == true)
-                context.SetCulture(culture.ToString());
-            if (headers.TryGetValue("liquidChannel", out var channel) && channel?.ToString().IsNotNullOrEmpty() == true)
-                context.SetChannel(channel.ToString());
-            if (headers.TryGetValue("liquidCorrelationId", out var contextId) && contextId?.ToString().IsNotNullOrEmpty() == true)
-                context.SetContextId(contextId.ToString().ToGuid());
-            if (headers.TryGetValue("liquidBusinessCorrelationId", out var businessContextId) && businessContextId?.ToString().IsNotNullOrEmpty() == true)
-                context.SetBusinessContextId(businessContextId.ToString().ToGuid());
-            if (headers.TryGetValue("liquidAggregationId", out var aggregationId) && aggregationId?.ToString().IsNotNullOrEmpty() == true)
-                context.SetAggregationId(aggregationId.ToString());
+            if (headers.TryGetValue("Culture", out var culture) && culture?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("culture", culture.ToString());
+            if (headers.TryGetValue("Channel", out var channel) && channel?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("Channel", channel.ToString());
+            if (headers.TryGetValue("CorrelationId", out var contextId) && contextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("CorrelationId", contextId.ToString().ToGuid());
+            if (headers.TryGetValue("BusinessCorrelationId", out var businessContextId) && businessContextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("BusinessCorrelationId", businessContextId.ToString().ToGuid());
+            if (headers.TryGetValue("AggregationId", out var aggregationId) && aggregationId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("AggregationId", aggregationId.ToString());
         }
 
 

@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.Kafka.Parameters;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Configuration;
-using Liquid.Messaging.Configuration;
+using Liquid.Messaging.Kafka.Parameters;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -30,12 +28,10 @@ namespace Liquid.Messaging.Kafka.Extensions
         {
             var parameters = new KafkaProducerParameter(connectionId, topic, compressMessage);
 
-            services.AddSingleton<ILightMessagingConfiguration<KafkaSettings>, KafkaConfiguration>();
             services.AddSingleton<ILightProducer<TMessage>>((sp) =>
-                    new KafkaProducer<TMessage>(sp.GetService<ILightContextFactory>(),
-                                                 sp.GetService<ILightTelemetryFactory>(),
+                    new KafkaProducer<TMessage>(sp.GetService<ILiquidContext>(),
                                                  sp.GetService<ILoggerFactory>(),
-                                                 sp.GetService<ILightMessagingConfiguration<KafkaSettings>>(),
+                                                 sp.GetService<ILiquidConfiguration<KafkaSettings>>(),
                                                  parameters));
             return services;
         }
@@ -56,16 +52,14 @@ namespace Liquid.Messaging.Kafka.Extensions
         {
             var parameters = new KafkaConsumerParameter(connectionId, topic, autoComplete);
 
-            services.AddSingleton<ILightMessagingConfiguration<KafkaSettings>, KafkaConfiguration>();
             services.AddSingleton<ILightConsumer<TMessage>>((sp) =>
                     (TConsumer)Activator.CreateInstance(typeof(TConsumer),
                                                         sp,
                                                         sp.GetService<IMediator>(),
                                                         sp.GetService<IMapper>(),
-                                                        sp.GetService<ILightContextFactory>(),
-                                                        sp.GetService<ILightTelemetryFactory>(),
+                                                        sp.GetService<ILiquidContext>(),
                                                         sp.GetService<ILoggerFactory>(),
-                                                        sp.GetService<ILightMessagingConfiguration<KafkaSettings>>(),
+                                                        sp.GetService<ILiquidConfiguration<KafkaSettings>>(),
                                                         parameters)
             );
 

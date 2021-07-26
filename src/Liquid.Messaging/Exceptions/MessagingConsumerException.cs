@@ -8,10 +8,10 @@ namespace Liquid.Messaging.Exceptions
     /// <summary>
     /// Occurs when an exception is raised consuming a message.
     /// </summary>
-    /// <seealso cref="LightException" />
+    /// <seealso cref="LiquidException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class MessagingConsumerException : LightException
+    public class MessagingConsumerException : LiquidException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MessagingConsumerException"/> class.

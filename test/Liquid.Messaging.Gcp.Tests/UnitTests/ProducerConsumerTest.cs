@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Threading.Tasks;
-using AutoFixture;
-using Liquid.Core.Context;
-using Liquid.Core.DependencyInjection;
-using Liquid.Core.Telemetry;
+﻿using AutoFixture;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Domain.Extensions;
 using Liquid.Messaging.Extensions;
-using Liquid.Messaging.Gcp.Tests.Messages;
 using Liquid.Messaging.Gcp.Extensions;
+using Liquid.Messaging.Gcp.Tests.Consumers;
+using Liquid.Messaging.Gcp.Tests.Messages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -18,7 +12,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.Console;
 using NUnit.Framework;
-using Liquid.Messaging.Gcp.Tests.Consumers;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Gcp.Tests.UnitTests
 {
@@ -47,11 +45,11 @@ namespace Liquid.Messaging.Gcp.Tests.UnitTests
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
-            
-            services.AddDefaultTelemetry();
-            services.AddDefaultContext();
-            services.AddDomainRequestHandlers(GetType().Assembly);
+
+            services.AddLiquidConfiguration();
+            services.AddLiquidHandlers(false, false, GetType().Assembly);
             services.AddAutoMapper(GetType().Assembly);
+
             services.AddPubSubProducer<PubSubTestMessage>("TestPubSub", "TestMessageTopic", true, true);
             services.AddPubSubConsumer<PubSubTestConsumer, PubSubTestMessage>("TestPubSub", "TestMessageTopic", "TestMessageSubscription", false, true);
 

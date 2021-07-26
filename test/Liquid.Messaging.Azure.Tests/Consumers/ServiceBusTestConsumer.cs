@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Azure.Configuration;
 using Liquid.Messaging.Azure.Parameters;
 using Liquid.Messaging.Azure.Tests.Messages;
-using Liquid.Messaging.Configuration;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Azure.Tests.Consumers
 {
@@ -34,11 +32,10 @@ namespace Liquid.Messaging.Azure.Tests.Consumers
         public ServiceBusTestConsumer(IServiceProvider serviceProvider, 
                                       IMediator mediator, 
                                       IMapper mapper, 
-                                      ILightContextFactory contextFactory, 
-                                      ILightTelemetryFactory telemetryFactory, 
+                                      ILiquidContext contextFactory, 
                                       ILoggerFactory loggerFactory, 
-                                      ILightMessagingConfiguration<ServiceBusSettings> messagingConfiguration, 
-                                      ServiceBusConsumerParameter serviceBusConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, telemetryFactory, loggerFactory, messagingConfiguration, serviceBusConsumerParameter)
+                                      ILiquidConfiguration<ServiceBusSettings> messagingConfiguration, 
+                                      ServiceBusConsumerParameter serviceBusConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, serviceBusConsumerParameter)
         {
         }
 

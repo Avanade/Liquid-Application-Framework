@@ -1,44 +1,14 @@
 ﻿using Amazon;
-using Liquid.Core.Configuration;
-using Liquid.Messaging.Configuration;
-using Microsoft.Extensions.Configuration;
+using Liquid.Core.Attributes;
 using Newtonsoft.Json;
-using System;
 
 namespace Liquid.Messaging.Aws.Configuration
 {
-    /// <summary>
-    /// Aws Messaging Configuration Class.
-    /// </summary>
-    /// <seealso cref="LightConfiguration" />
-    /// <seealso>
-    /// <cref>
-    ///     Core.Configuration.ILightConfiguration{Messaging.Configuration.MessagingSettings}
-    /// </cref>
-    /// </seealso>
-    public class AwsMessagingConfiguration : LightConfiguration, ILightMessagingConfiguration<AwsMessagingSettings>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AwsMessagingConfiguration"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public AwsMessagingConfiguration(IConfiguration configuration) : base(configuration)
-        {
-        }
-
-        /// <inheritdoc/>
-        public AwsMessagingSettings Settings => throw new NotImplementedException(); //Not Used
-
-        /// <inheritdoc/>
-        public AwsMessagingSettings GetSettings(string configurationSection)
-        {
-            return GetConfigurationSection<AwsMessagingSettings>($"liquid:messaging:aws:{configurationSection}");
-        }
-    }
 
     /// <summary>
     /// Aws Messaging Settings
     /// </summary>
+    [LiquidSectionName("liquid:messaging:aws:")]
     public class AwsMessagingSettings
     {
         /// <summary>

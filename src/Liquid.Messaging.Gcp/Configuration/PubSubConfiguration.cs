@@ -1,54 +1,13 @@
-﻿using Liquid.Core.Configuration;
-using Liquid.Messaging.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Liquid.Core.Attributes;
 using Newtonsoft.Json;
-using System;
 
 namespace Liquid.Messaging.Gcp.Configuration
 {
     /// <summary>
-    /// Google Pub Sub Configuration Class.
-    /// </summary>
-    /// <seealso cref="Liquid.Core.Configuration.LightConfiguration" />
-    /// <seealso>
-    /// <cref>
-    ///     Liquid.Messaging.Configuration.ILightMessagingConfiguration{Liquid.Messaging.Gcp.Configuration.PubSubSettings}
-    /// </cref>
-    /// </seealso>
-    public class PubSubConfiguration : LightConfiguration, ILightMessagingConfiguration<PubSubSettings>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PubSubConfiguration"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public PubSubConfiguration(IConfiguration configuration) : base(configuration)
-        {
-        }
-
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <value>
-        /// The settings.
-        /// </value>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public PubSubSettings Settings => throw new NotImplementedException(); //Not used.
-
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <param name="configurationSection">The configuration section.</param>
-        /// <returns></returns>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public PubSubSettings GetSettings(string configurationSection)
-        {
-            return GetConfigurationSection<PubSubSettings>($"liquid:messaging:gcp:{configurationSection}");
-        }
-    }
-
-    /// <summary>
     /// Google Pub Sub Settings.
     /// </summary>
+    /// 
+    [LiquidSectionName("liquid:messaging:gcp:")]
     public class PubSubSettings
     {
         /// <summary>

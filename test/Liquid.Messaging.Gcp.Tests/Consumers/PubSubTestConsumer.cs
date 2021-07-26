@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.Configuration;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Gcp.Configuration;
 using Liquid.Messaging.Gcp.Factories;
 using Liquid.Messaging.Gcp.Parameters;
@@ -36,12 +34,11 @@ namespace Liquid.Messaging.Gcp.Tests.Consumers
         public PubSubTestConsumer(IServiceProvider serviceProvider, 
                                   IMediator mediator, 
                                   IMapper mapper, 
-                                  ILightContextFactory contextFactory, 
-                                  ILightTelemetryFactory telemetryFactory, 
+                                  ILiquidContext contextFactory, 
                                   ILoggerFactory loggerFactory, 
                                   IPubSubClientFactory pubSubClientFactory, 
-                                  ILightMessagingConfiguration<PubSubSettings> messagingConfiguration, 
-                                  PubSubConsumerParameter pubSubConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, telemetryFactory, loggerFactory, pubSubClientFactory, messagingConfiguration, pubSubConsumerParameter)
+                                  ILiquidConfiguration<PubSubSettings> messagingConfiguration, 
+                                  PubSubConsumerParameter pubSubConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, pubSubClientFactory, messagingConfiguration, pubSubConsumerParameter)
         {
         }
 

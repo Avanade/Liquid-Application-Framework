@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Liquid.Core.DependencyInjection;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Utils;
 
 namespace Liquid.Messaging.Extensions

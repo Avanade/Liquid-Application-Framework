@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.RabbitMq.Parameters;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Configuration;
-using Liquid.Messaging.Configuration;
+using Liquid.Messaging.RabbitMq.Parameters;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -31,12 +29,10 @@ namespace Liquid.Messaging.RabbitMq.Extensions
         {
             var parameters = new RabbitMqProducerParameter(connectionId, exchange, advancedSettings, compressMessage);
 
-            services.AddSingleton<ILightMessagingConfiguration<RabbitMqSettings>, RabbitMqConfiguration>();
             services.AddSingleton<ILightProducer<TMessage>>((sp) =>
-                    new RabbitMqProducer<TMessage>(sp.GetService<ILightContextFactory>(),
-                                                   sp.GetService<ILightTelemetryFactory>(),
+                    new RabbitMqProducer<TMessage>(sp.GetService<ILiquidContext>(),
                                                    sp.GetService<ILoggerFactory>(),
-                                                   sp.GetService<ILightMessagingConfiguration<RabbitMqSettings>>(),
+                                                   sp.GetService<ILiquidConfiguration<RabbitMqSettings>>(),
                                                    parameters));
             return services;
         }
@@ -58,16 +54,14 @@ namespace Liquid.Messaging.RabbitMq.Extensions
         {
             var parameters = new RabbitMqConsumerParameter(connectionId, exchange, queue, advancedSettings);
 
-            services.AddSingleton<ILightMessagingConfiguration<RabbitMqSettings>, RabbitMqConfiguration>();
             services.AddSingleton<ILightConsumer<TMessage>>((sp) =>
                     (TConsumer)Activator.CreateInstance(typeof(TConsumer),
                                                         sp,
                                                         sp.GetService<IMediator>(),
                                                         sp.GetService<IMapper>(),
-                                                        sp.GetService<ILightContextFactory>(),
-                                                        sp.GetService<ILightTelemetryFactory>(),
+                                                        sp.GetService<ILiquidContext>(),
                                                         sp.GetService<ILoggerFactory>(),
-                                                        sp.GetService<ILightMessagingConfiguration<RabbitMqSettings>>(),
+                                                        sp.GetService<ILiquidConfiguration<RabbitMqSettings>>(),
                                                         parameters)
             );
 

@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+﻿using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Azure.Configuration;
 using Liquid.Messaging.Azure.Parameters;
-using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Azure
 {
@@ -23,9 +21,8 @@ namespace Liquid.Messaging.Azure
     public class ServiceBusProducer<TMessage> : ILightProducer<TMessage>
     {
         private readonly ILogger _logger;
-        private readonly ILightContextFactory _contextFactory;
+        private readonly ILiquidContext _context;
         private readonly ServiceBusSettings _messagingSettings;
-        private readonly ILightTelemetryFactory _telemetryFactory;
         private readonly ServiceBusProducerParameter _serviceBusProducerParameter;
         private TopicClient _client;
 
@@ -33,23 +30,21 @@ namespace Liquid.Messaging.Azure
         /// Initializes a new instance of the <see cref="ServiceBusProducer{TMessage}" /> class.
         /// </summary>
         /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The service bus configuration.</param>
         /// <param name="serviceBusProducerParameter">The service bus producer parameter.</param>
         /// <exception cref="MessagingMissingConfigurationException"></exception>
-        public ServiceBusProducer(ILightContextFactory contextFactory,
-                                     ILightTelemetryFactory telemetryFactory,
+        public ServiceBusProducer(ILiquidContext contextFactory,
                                      ILoggerFactory loggerFactory,
-                                     ILightMessagingConfiguration<ServiceBusSettings> messagingConfiguration,
+                                     ILiquidConfiguration<ServiceBusSettings> messagingConfiguration,
                                      ServiceBusProducerParameter serviceBusProducerParameter)
         {
             _serviceBusProducerParameter = serviceBusProducerParameter;
-            _contextFactory = contextFactory;
-            _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingConfiguration?.GetSettings(_serviceBusProducerParameter.ConnectionId) ?? 
+            _context = contextFactory;
+            _messagingSettings = messagingConfiguration?.Settings ?? 
                      throw new MessagingMissingConfigurationException(_serviceBusProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(ServiceBusProducer<TMessage>).FullName);
+
             InitializeClient();
         }
 
@@ -71,23 +66,22 @@ namespace Liquid.Messaging.Azure
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            var telemetry = _telemetryFactory.GetTelemetry();
+
             if (customHeaders == null) customHeaders = new Dictionary<string, object>();
 
             try
             {
-                var context = _contextFactory.GetContext();
+                var context = _context;
                 var telemetryKey = $"ServiceBusProducer_{_serviceBusProducerParameter.Topic}";
                 
-                telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
-                telemetry.StartTelemetryStopWatchMetric(telemetryKey);
-                var aggregationId = context.GetAggregationId();
+                
+                var aggregationId = context.Get("AggregationId").ToString();
                 var messageId = Guid.NewGuid().ToString();
 
-                customHeaders.TryAdd("liquidCulture", context.ContextCulture);
-                customHeaders.TryAdd("liquidChannel", context.ContextChannel);
-                customHeaders.TryAdd("liquidCorrelationId", context.ContextId.ToString());
-                customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
+                customHeaders.TryAdd("Culture", context.Get("Culture"));
+                customHeaders.TryAdd("Channel", context.Get("Channel"));
+                customHeaders.TryAdd("CorrelationId", context.Get("CorrelationId"));
+                customHeaders.TryAdd("BusinessCorrelationId", context.Get("BusinessCorrelationId"));
 
                 var messageBytes = !_serviceBusProducerParameter.CompressMessage ? message.ToJsonBytes() : message.ToJson().GzipCompress();
                 var messageRequest = new Message(messageBytes) { CorrelationId = aggregationId, MessageId = messageId };
@@ -101,26 +95,11 @@ namespace Liquid.Messaging.Azure
 
                 await _client.SendAsync(messageRequest);
 
-                telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
-                {
-                    producer = telemetryKey,
-                    messageType = typeof(TMessage).FullName,
-                    aggregationId,
-                    messageId,
-                    message,
-                    headers = customHeaders,
-                    compressed = _serviceBusProducerParameter.CompressMessage
-                });
-
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw new MessagingProducerException(ex);
-            }
-            finally
-            {
-                telemetry.RemoveContext($"SendMessage_{nameof(TMessage)}");
             }
         }
     }

@@ -8,10 +8,10 @@ namespace Liquid.Messaging.Exceptions
     /// <summary>
     /// Occurs when a Configuration in settings configuration does not exist.
     /// </summary>
-    /// <seealso cref="LightException" />
+    /// <seealso cref="LiquidException" />
     [Serializable]
     [ExcludeFromCodeCoverage]
-    public class MessagingMissingConfigurationException : LightException
+    public class MessagingMissingConfigurationException : LiquidException
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="MessagingMissingConfigurationException"/> class.

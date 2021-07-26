@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using AutoFixture;
-using Liquid.Core.Context;
-using Liquid.Core.DependencyInjection;
-using Liquid.Core.Telemetry;
+﻿using AutoFixture;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Domain.Extensions;
-using Liquid.Messaging.Azure.Tests.Messages;
 using Liquid.Messaging.Azure.Extensions;
+using Liquid.Messaging.Azure.Tests.Consumers;
+using Liquid.Messaging.Azure.Tests.Messages;
 using Liquid.Messaging.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +12,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.Console;
 using NUnit.Framework;
-using Liquid.Messaging.Azure.Tests.Consumers;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Azure.Tests.UnitTests
 {
@@ -45,11 +43,11 @@ namespace Liquid.Messaging.Azure.Tests.UnitTests
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
-            
-            services.AddDefaultTelemetry();
-            services.AddDefaultContext();
-            services.AddDomainRequestHandlers(GetType().Assembly);
+
+            services.AddLiquidConfiguration();
+            services.AddLiquidHandlers(false, false, GetType().Assembly);
             services.AddAutoMapper(GetType().Assembly);
+
             services.AddServiceBusProducer<ServiceBusTestMessage>("TestAzureServiceBus", "TestMessageTopic", true);
             services.AddServiceBusConsumer<ServiceBusTestConsumer, ServiceBusTestMessage>("TestAzureServiceBus", "TestMessageTopic", "TestMessageSubscription");
 

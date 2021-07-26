@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using AutoFixture;
-using Liquid.Core.Context;
-using Liquid.Core.DependencyInjection;
-using Liquid.Core.Telemetry;
+﻿using AutoFixture;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Domain.Extensions;
 using Liquid.Messaging.Extensions;
 using Liquid.Messaging.Kafka.Extensions;
@@ -18,6 +12,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.Console;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Kafka.Tests.UnitTests
 {
@@ -45,11 +43,11 @@ namespace Liquid.Messaging.Kafka.Tests.UnitTests
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
-            
-            services.AddDefaultTelemetry();
-            services.AddDefaultContext();
-            services.AddDomainRequestHandlers(GetType().Assembly);
+
+            services.AddLiquidConfiguration();
+            services.AddLiquidHandlers(false, false, GetType().Assembly);
             services.AddAutoMapper(GetType().Assembly);
+
             services.AddKafkaProducer<KafkaTestMessage>("TestKafka", "TestMessageTopic", true);
             services.AddKafkaConsumer<KafkaTestConsumer, KafkaTestMessage>("TestKafka", "TestMessageTopic");
 

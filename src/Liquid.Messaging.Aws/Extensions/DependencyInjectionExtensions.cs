@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Aws.Configuration;
 using Liquid.Messaging.Aws.Parameters;
-using Liquid.Messaging.Configuration;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -30,12 +28,10 @@ namespace Liquid.Messaging.Aws.Extensions
         {
             var parameters = new SnsProducerParameter(connectionId, topic, messageStructure, compressMessage);
 
-            services.AddSingleton<ILightMessagingConfiguration<AwsMessagingSettings>, AwsMessagingConfiguration>();
             services.AddSingleton<ILightProducer<TMessage>>((sp) =>
-                    new SnsProducer<TMessage>(sp.GetService<ILightContextFactory>(),
-                                              sp.GetService<ILightTelemetryFactory>(),
+                    new SnsProducer<TMessage>(sp.GetService<ILiquidContext>(),
                                               sp.GetService<ILoggerFactory>(),
-                                              sp.GetService<ILightMessagingConfiguration<AwsMessagingSettings>>(),
+                                              sp.GetService<ILiquidConfiguration<AwsMessagingSettings>>(),
                                               parameters));
 
             return services;
@@ -54,12 +50,10 @@ namespace Liquid.Messaging.Aws.Extensions
         {
             var parameters = new SqsProducerParameter(connectionId, queue, compressMessage);
 
-            services.AddSingleton<ILightMessagingConfiguration<AwsMessagingSettings>, AwsMessagingConfiguration>();
             services.AddSingleton<ILightProducer<TMessage>>((sp) =>
-                    new SqsProducer<TMessage>(sp.GetService<ILightContextFactory>(),
-                                              sp.GetService<ILightTelemetryFactory>(),
+                    new SqsProducer<TMessage>(sp.GetService<ILiquidContext>(),
                                               sp.GetService<ILoggerFactory>(),
-                                              sp.GetService<ILightMessagingConfiguration<AwsMessagingSettings>>(),
+                                              sp.GetService<ILiquidConfiguration<AwsMessagingSettings>>(),
                                               parameters));
 
             return services;
@@ -80,16 +74,14 @@ namespace Liquid.Messaging.Aws.Extensions
         {
             var parameters = new SqsConsumerParameter(connectionId, queue, autoComplete);
 
-            services.AddSingleton<ILightMessagingConfiguration<AwsMessagingSettings>, AwsMessagingConfiguration>();
             services.AddSingleton<ILightConsumer<TMessage>>((sp) =>
                     (TConsumer)Activator.CreateInstance(typeof(TConsumer),
                                                         sp,
                                                         sp.GetService<IMediator>(),
                                                         sp.GetService<IMapper>(),
-                                                        sp.GetService<ILightContextFactory>(),
-                                                        sp.GetService<ILightTelemetryFactory>(),
+                                                        sp.GetService<ILiquidContext>(),
                                                         sp.GetService<ILoggerFactory>(),
-                                                        sp.GetService<ILightMessagingConfiguration<AwsMessagingSettings>>(),
+                                                        sp.GetService<ILiquidConfiguration<AwsMessagingSettings>>(),
                                                         parameters)
             );
 

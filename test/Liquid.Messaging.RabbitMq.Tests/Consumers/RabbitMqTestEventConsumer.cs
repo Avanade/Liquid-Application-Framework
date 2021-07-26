@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Liquid.Core.Configuration;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.Configuration;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Configuration;
 using Liquid.Messaging.RabbitMq.Parameters;
 using Liquid.Messaging.RabbitMq.Tests.Messages;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.RabbitMq.Tests.Consumers
 {
@@ -37,11 +34,10 @@ namespace Liquid.Messaging.RabbitMq.Tests.Consumers
         public RabbitMqTestEventConsumer(IServiceProvider serviceProvider, 
                                          IMediator mediator, 
                                          IMapper mapper, 
-                                         ILightContextFactory contextFactory, 
-                                         ILightTelemetryFactory telemetryFactory, 
+                                         ILiquidContext contextFactory, 
                                          ILoggerFactory loggerFactory, 
-                                         ILightMessagingConfiguration<RabbitMqSettings> messagingConfiguration, 
-                                         RabbitMqConsumerParameter rabbitMqConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, telemetryFactory, loggerFactory, messagingConfiguration, rabbitMqConsumerParameter)
+                                         ILiquidConfiguration<RabbitMqSettings> messagingConfiguration, 
+                                         RabbitMqConsumerParameter rabbitMqConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, rabbitMqConsumerParameter)
         {
         }
 

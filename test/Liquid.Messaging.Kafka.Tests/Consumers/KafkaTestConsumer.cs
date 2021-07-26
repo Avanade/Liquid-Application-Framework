@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.Configuration;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Configuration;
 using Liquid.Messaging.Kafka.Parameters;
 using Liquid.Messaging.Kafka.Tests.Messages;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Kafka.Tests.Consumers
 {
@@ -34,11 +32,10 @@ namespace Liquid.Messaging.Kafka.Tests.Consumers
         public KafkaTestConsumer(IServiceProvider serviceProvider, 
                                  IMediator mediator, 
                                  IMapper mapper, 
-                                 ILightContextFactory contextFactory, 
-                                 ILightTelemetryFactory telemetryFactory, 
+                                 ILiquidContext contextFactory, 
                                  ILoggerFactory loggerFactory, 
-                                 ILightMessagingConfiguration<KafkaSettings> messagingConfiguration, 
-                                 KafkaConsumerParameter kafkaConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, telemetryFactory, loggerFactory, messagingConfiguration, kafkaConsumerParameter)
+                                 ILiquidConfiguration<KafkaSettings> messagingConfiguration, 
+                                 KafkaConsumerParameter kafkaConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, kafkaConsumerParameter)
         {
         }
 

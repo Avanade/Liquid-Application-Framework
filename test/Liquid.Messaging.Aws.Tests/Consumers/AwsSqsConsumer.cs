@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Aws.Configuration;
 using Liquid.Messaging.Aws.Parameters;
 using Liquid.Messaging.Aws.Tests.Messages;
-using Liquid.Messaging.Configuration;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Aws.Tests.Consumers
 {
@@ -29,18 +27,16 @@ namespace Liquid.Messaging.Aws.Tests.Consumers
         /// <param name="mediator">The mediator.</param>
         /// <param name="mapper">The mapper.</param>
         /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="sqsConsumerParameter">The SQS consumer parameter.</param>
         public AwsSqsConsumer(IServiceProvider serviceProvider, 
                               IMediator mediator, 
                               IMapper mapper, 
-                              ILightContextFactory contextFactory, 
-                              ILightTelemetryFactory telemetryFactory, 
+                              ILiquidContext contextFactory,  
                               ILoggerFactory loggerFactory, 
-                              ILightMessagingConfiguration<AwsMessagingSettings> messagingConfiguration, 
-                              SqsConsumerParameter sqsConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, telemetryFactory, loggerFactory, messagingConfiguration, sqsConsumerParameter)
+                              ILiquidConfiguration<AwsMessagingSettings> messagingConfiguration, 
+                              SqsConsumerParameter sqsConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, sqsConsumerParameter)
         {
         }
 

@@ -21,13 +21,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Domain" Version="2.0.2-alpha" />
+    <PackageReference Include="Liquid.Domain" Version="2.0.0-preview-20210712-04" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.1.3" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Liquid.Messaging\Liquid.Messaging.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,6 +31,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Messaging\Liquid.Messaging.csproj" />
   </ItemGroup>
   
 </Project>

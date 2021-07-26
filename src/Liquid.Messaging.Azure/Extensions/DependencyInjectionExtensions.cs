@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.Azure.Parameters;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Azure.Configuration;
-using Liquid.Messaging.Configuration;
+using Liquid.Messaging.Azure.Parameters;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -29,12 +27,10 @@ namespace Liquid.Messaging.Azure.Extensions
         {
             var parameters = new ServiceBusProducerParameter(connectionId, topic, compressMessage);
 
-            services.AddSingleton<ILightMessagingConfiguration<ServiceBusSettings>, ServiceBusConfiguration>();
             services.AddSingleton<ILightProducer<TMessage>>((sp) =>
-                    new ServiceBusProducer<TMessage>(sp.GetService<ILightContextFactory>(),
-                                                     sp.GetService<ILightTelemetryFactory>(),
+                    new ServiceBusProducer<TMessage>(sp.GetService<ILiquidContext>(),
                                                      sp.GetService<ILoggerFactory>(),
-                                                     sp.GetService<ILightMessagingConfiguration<ServiceBusSettings>>(),
+                                                     sp.GetService<ILiquidConfiguration<ServiceBusSettings>>(),
                                                      parameters));
             return services;
         }
@@ -56,16 +52,14 @@ namespace Liquid.Messaging.Azure.Extensions
         {
             var parameters = new ServiceBusConsumerParameter(connectionId, topic, subscription, autoComplete, maxConcurrentCalls);
 
-            services.AddSingleton<ILightMessagingConfiguration<ServiceBusSettings>, ServiceBusConfiguration>();
             services.AddSingleton<ILightConsumer<TMessage>>((sp) =>
                     (TConsumer)Activator.CreateInstance(typeof(TConsumer),
                                                         sp,
                                                         sp.GetService<IMediator>(),
                                                         sp.GetService<IMapper>(),
-                                                        sp.GetService<ILightContextFactory>(),
-                                                        sp.GetService<ILightTelemetryFactory>(),
+                                                        sp.GetService<ILiquidContext>(),
                                                         sp.GetService<ILoggerFactory>(),
-                                                        sp.GetService<ILightMessagingConfiguration<ServiceBusSettings>>(),
+                                                        sp.GetService<ILiquidConfiguration<ServiceBusSettings>>(),
                                                         parameters)
             );
 

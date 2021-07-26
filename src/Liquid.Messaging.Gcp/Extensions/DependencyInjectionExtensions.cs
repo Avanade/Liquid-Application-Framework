@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.Gcp.Parameters;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Gcp.Configuration;
-using Liquid.Messaging.Configuration;
+using Liquid.Messaging.Gcp.Factories;
+using Liquid.Messaging.Gcp.Parameters;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using Liquid.Messaging.Gcp.Factories;
 
 namespace Liquid.Messaging.Gcp.Extensions
 {
@@ -31,18 +29,16 @@ namespace Liquid.Messaging.Gcp.Extensions
         {
             var parameters = new PubSubProducerParameter(connectionId, topic, compressMessage);
 
-            services.AddSingleton<ILightMessagingConfiguration<PubSubSettings>, PubSubConfiguration>();
             services.AddSingleton<IPubSubClientFactory>((sp) => 
             {
                 if (emulated) return new EmulatedPubSubClientFactory();
                 else return new DefaultPubSubClientFactory();
             });
             services.AddSingleton<ILightProducer<TMessage>>((sp) =>
-                    new PubSubProducer<TMessage>(sp.GetService<ILightContextFactory>(),
-                                                 sp.GetService<ILightTelemetryFactory>(),
+                    new PubSubProducer<TMessage>(sp.GetService<ILiquidContext>(),
                                                  sp.GetService<ILoggerFactory>(),
                                                  sp.GetService<IPubSubClientFactory>(),
-                                                 sp.GetService<ILightMessagingConfiguration<PubSubSettings>>(),
+                                                 sp.GetService<ILiquidConfiguration<PubSubSettings>>(),
                                                  parameters));
             return services;
         }
@@ -64,7 +60,6 @@ namespace Liquid.Messaging.Gcp.Extensions
         {
             var parameters = new PubSubConsumerParameter(connectionId, topic, subscription, autoComplete);
 
-            services.AddSingleton<ILightMessagingConfiguration<PubSubSettings>, PubSubConfiguration>();
             services.AddSingleton<IPubSubClientFactory>((sp) =>
             {
                 if (emulated) return new EmulatedPubSubClientFactory();
@@ -75,11 +70,10 @@ namespace Liquid.Messaging.Gcp.Extensions
                                                         sp,
                                                         sp.GetService<IMediator>(),
                                                         sp.GetService<IMapper>(),
-                                                        sp.GetService<ILightContextFactory>(),
-                                                        sp.GetService<ILightTelemetryFactory>(),
+                                                        sp.GetService<ILiquidContext>(),
                                                         sp.GetService<ILoggerFactory>(),
                                                         sp.GetService<IPubSubClientFactory>(),
-                                                        sp.GetService<ILightMessagingConfiguration<PubSubSettings>>(),
+                                                        sp.GetService<ILiquidConfiguration<PubSubSettings>>(),
                                                         parameters)
             );
 

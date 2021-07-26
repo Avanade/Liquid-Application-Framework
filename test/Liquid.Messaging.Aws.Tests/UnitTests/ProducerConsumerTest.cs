@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
-using AutoFixture;
-using Liquid.Core.Context;
-using Liquid.Core.DependencyInjection;
-using Liquid.Core.Telemetry;
+﻿using AutoFixture;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Domain.Extensions;
 using Liquid.Messaging.Aws.Extensions;
 using Liquid.Messaging.Aws.Tests.Consumers;
@@ -18,6 +12,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.Console;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Aws.Tests.UnitTests
 {
@@ -45,15 +43,14 @@ namespace Liquid.Messaging.Aws.Tests.UnitTests
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
             services.AddSingleton(configurationRoot);
-            
-            services.AddDefaultTelemetry();
-            services.AddDefaultContext();
-            services.AddDomainRequestHandlers(GetType().Assembly);
+
+            services.AddLiquidConfiguration();
+            services.AddLiquidHandlers(false, false, GetType().Assembly);
             services.AddAutoMapper(GetType().Assembly);
+
             services.AddSnsProducer<SnsTestMessage>("TestSns", "SnsTestMessageTopic");
             services.AddSqsProducer<SqsTestMessage>("TestSqs", "TestMessageQueue", true);
             services.AddSqsConsumer<AwsSqsConsumer, SqsTestMessage>("TestSqs", "TestMessageQueue");
-
 
 
             _serviceProvider = services.BuildServiceProvider();

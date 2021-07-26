@@ -1,24 +1,22 @@
-﻿using System;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
+using Liquid.Core.Utils;
+using Liquid.Messaging.Exceptions;
+using Liquid.Messaging.Extensions;
+using Liquid.Messaging.RabbitMq.Configuration;
+using Liquid.Messaging.RabbitMq.Parameters;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-using Liquid.Core.Utils;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Messaging.Configuration;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Extensions;
-using Liquid.Messaging.RabbitMq.Parameters;
-using Liquid.Messaging.RabbitMq.Configuration;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 
 namespace Liquid.Messaging.RabbitMq
 {
@@ -31,9 +29,8 @@ namespace Liquid.Messaging.RabbitMq
     public abstract class RabbitMqConsumer<TMessage> : ILightConsumer<TMessage>
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly ILightContextFactory _contextFactory;
+        private readonly ILiquidContext _context;
         private readonly RabbitMqSettings _messagingSettings;
-        private readonly ILightTelemetryFactory _telemetryFactory;
         private readonly RabbitMqConsumerParameter _rabbitMqConsumerParameter;
         private IModel _channelModel;
         private bool _autoAck;
@@ -81,7 +78,6 @@ namespace Liquid.Messaging.RabbitMq
         /// <param name="mediator">The mediator.</param>
         /// <param name="mapper">The mapper.</param>
         /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="rabbitMqConsumerParameter">The rabbit mq consumer parameter.</param>
@@ -89,18 +85,16 @@ namespace Liquid.Messaging.RabbitMq
         protected RabbitMqConsumer(IServiceProvider serviceProvider,
                                    IMediator mediator,
                                    IMapper mapper,
-                                   ILightContextFactory contextFactory,
-                                   ILightTelemetryFactory telemetryFactory,
+                                   ILiquidContext contextFactory,
                                    ILoggerFactory loggerFactory,
-                                   ILightMessagingConfiguration<RabbitMqSettings> messagingConfiguration,
+                                   ILiquidConfiguration<RabbitMqSettings> messagingConfiguration,
                                    RabbitMqConsumerParameter rabbitMqConsumerParameter)
         {
             _rabbitMqConsumerParameter = rabbitMqConsumerParameter;
             _serviceProvider = serviceProvider;
-            _contextFactory = contextFactory;
-            _messagingSettings = messagingConfiguration?.GetSettings(_rabbitMqConsumerParameter.ConnectionId) ??
+            _context = contextFactory;
+            _messagingSettings = messagingConfiguration?.Settings ??
                     throw new MessagingMissingConfigurationException(_rabbitMqConsumerParameter.ConnectionId);
-            _telemetryFactory = telemetryFactory;
             MediatorService = mediator;
             MapperService = mapper;
             LogService = loggerFactory.CreateLogger(typeof(RabbitMqConsumer<TMessage>).FullName);
@@ -163,13 +157,8 @@ namespace Liquid.Messaging.RabbitMq
         /// <exception cref="MessagingConsumerException"></exception>
         private async Task ProcessMessageAsync(Func<TMessage, IDictionary<string, object>, CancellationToken, Task<bool>> handler, BasicDeliverEventArgs deliverEvent)
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
             try
             {
-                var telemetryKey = $"RabbitMqConsumer_{_rabbitMqConsumerParameter.Exchange}_{_rabbitMqConsumerParameter.Queue}";
-
-                telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
-                telemetry.StartTelemetryStopWatchMetric(telemetryKey);
 
                 var eventMessage = deliverEvent.BasicProperties?.ContentType == CommonExtensions.GZipContentType
                     ? deliverEvent.Body.ToArray().GzipDecompress().ParseJson<TMessage>()
@@ -177,13 +166,13 @@ namespace Liquid.Messaging.RabbitMq
 
                 using (_serviceProvider.CreateScope())
                 {
-                    var context = _contextFactory.GetContext();
+                    var context = _context;
 
                     var headers = deliverEvent.BasicProperties?.Headers;
                     if (headers != null) AddContextHeaders(headers, context);
 
-                    context.SetAggregationId(deliverEvent.BasicProperties?.CorrelationId);
-                    context.SetMessageId(deliverEvent.BasicProperties?.MessageId);
+                    context.Upsert("AggegationId", deliverEvent.BasicProperties?.CorrelationId);
+                    context.Upsert("MessageId", deliverEvent.BasicProperties?.MessageId);
 
                     var messageProcessed = await handler.Invoke(eventMessage, headers, CancellationToken.None);
                     if (messageProcessed || _autoAck)
@@ -193,28 +182,12 @@ namespace Liquid.Messaging.RabbitMq
                     else
                     {
                         _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
-                    }
-
-                    telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
-                    {
-                        consumer = typeof(RabbitMqConsumer<TMessage>).FullName,
-                        messageType = typeof(TMessage).FullName,
-                        aggregationId = deliverEvent.BasicProperties?.CorrelationId,
-                        messageId = deliverEvent.BasicProperties?.MessageId,
-                        message = eventMessage,
-                        processed = _autoAck || messageProcessed,
-                        autoComplete = _autoAck,
-                        headers
-                    });
+                    }                    
                 }
             }
             catch (Exception ex)
             {
                 throw new MessagingConsumerException(ex);
-            }
-            finally
-            {
-                telemetry.RemoveContext($"ConsumeMessage_{nameof(TMessage)}");
             }
         }
 
@@ -223,17 +196,17 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         /// <param name="headers">The headers.</param>
         /// <param name="context">The context.</param>
-        private static void AddContextHeaders(IDictionary<string, object> headers, ILightContext context)
+        private static void AddContextHeaders(IDictionary<string, object> headers, ILiquidContext context)
         {
 
-            if (headers.TryGetValue("liquidCulture", out var culture) && culture != null && ((byte[])culture).Any())
-                context.SetCulture(Encoding.UTF8.GetString((byte[])culture));
-            if (headers.TryGetValue("liquidChannel", out var channel) && channel != null && ((byte[])channel).Any())
-                context.SetChannel(Encoding.UTF8.GetString((byte[])channel));
-            if (headers.TryGetValue("liquidCorrelationId", out var contextId) && contextId != null && ((byte[])contextId).Any())
-                context.SetContextId(Encoding.UTF8.GetString((byte[])contextId).ToGuid());
-            if (headers.TryGetValue("liquidBusinessCorrelationId", out var businessContextId) && businessContextId != null && ((byte[])businessContextId).Any())
-                context.SetBusinessContextId(Encoding.UTF8.GetString((byte[])businessContextId).ToGuid());
+            if (headers.TryGetValue("Culture", out var culture) && culture?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("culture", culture.ToString());
+            if (headers.TryGetValue("Channel", out var channel) && channel?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("Channel", channel.ToString());
+            if (headers.TryGetValue("CorrelationId", out var contextId) && contextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("CorrelationId", contextId.ToString().ToGuid());
+            if (headers.TryGetValue("BusinessCorrelationId", out var businessContextId) && businessContextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("BusinessCorrelationId", businessContextId.ToString().ToGuid());
         }
     }
 }

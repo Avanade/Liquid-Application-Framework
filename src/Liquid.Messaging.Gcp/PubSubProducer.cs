@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Google.Cloud.PubSub.V1;
+﻿using Google.Cloud.PubSub.V1;
 using Google.Protobuf;
 using Grpc.Core;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using Liquid.Messaging.Gcp.Configuration;
@@ -15,6 +10,9 @@ using Liquid.Messaging.Gcp.Extensions;
 using Liquid.Messaging.Gcp.Factories;
 using Liquid.Messaging.Gcp.Parameters;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Gcp
 {
@@ -27,9 +25,8 @@ namespace Liquid.Messaging.Gcp
     public class PubSubProducer<TMessage> : ILightProducer<TMessage>
     {
         private readonly ILogger _logger;
-        private readonly ILightContextFactory _contextFactory;
+        private readonly ILiquidContext _context;
         private readonly PubSubSettings _messagingSettings;
-        private readonly ILightTelemetryFactory _telemetryFactory;
         private readonly PubSubProducerParameter _pubSubProducerParameter;
         private readonly IPubSubClientFactory _pubSubClientFactory;
         private PublisherServiceApiClient _client;
@@ -39,23 +36,20 @@ namespace Liquid.Messaging.Gcp
         /// Initializes a new instance of the <see cref="PubSubProducer{TMessage}" /> class.
         /// </summary>
         /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="pubSubClientFactory">The pub sub client factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="pubSubProducerParameter">The pub sub producer parameter.</param>
         /// <exception cref="MessagingMissingConfigurationException">messaging</exception>
-        public PubSubProducer(ILightContextFactory contextFactory,
-                                 ILightTelemetryFactory telemetryFactory,
+        public PubSubProducer(ILiquidContext contextFactory,
                                  ILoggerFactory loggerFactory,
                                  IPubSubClientFactory pubSubClientFactory,
-                                 ILightMessagingConfiguration<PubSubSettings> messagingConfiguration,
+                                 ILiquidConfiguration<PubSubSettings> messagingConfiguration,
                                  PubSubProducerParameter pubSubProducerParameter)
         {
             _pubSubProducerParameter = pubSubProducerParameter;
-            _contextFactory = contextFactory;
-            _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingConfiguration?.GetSettings(_pubSubProducerParameter.ConnectionId) ??
+            _context = contextFactory;
+            _messagingSettings = messagingConfiguration?.Settings ??
                     throw new MessagingMissingConfigurationException(_pubSubProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(PubSubProducer<TMessage>).FullName);
             _pubSubClientFactory = pubSubClientFactory;
@@ -90,23 +84,18 @@ namespace Liquid.Messaging.Gcp
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            var telemetry = _telemetryFactory.GetTelemetry();
+           
             if (customHeaders == null) customHeaders = new Dictionary<string, object>();
 
             try
             {
-                var context = _contextFactory.GetContext();
-                var telemetryKey = $"PubSubProducer_{_pubSubProducerParameter.Topic}";
+                var context = _context;
 
-                telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
-                telemetry.StartTelemetryStopWatchMetric(telemetryKey);
-                var aggregationId = context.GetAggregationId();
+                foreach (var item in context.current)
+                {
+                    customHeaders.TryAdd(item.Key, item.Value);
+                }
 
-                customHeaders.TryAdd("liquidCulture", context.ContextCulture);
-                customHeaders.TryAdd("liquidChannel", context.ContextChannel);
-                customHeaders.TryAdd("liquidCorrelationId", context.ContextId.ToString());
-                customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
-                customHeaders.TryAdd("liquidAggregationId", aggregationId);
                 if (_pubSubProducerParameter.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
 
                 var messageBytes = !_pubSubProducerParameter.CompressMessage ? message.ToJsonBytes() : message.ToJson().GzipCompress();
@@ -115,26 +104,11 @@ namespace Liquid.Messaging.Gcp
 
                 var messageId = await _client.PublishAsync(_topicName, new[] { request });
 
-                telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
-                {
-                    producer = telemetryKey,
-                    messageType = typeof(TMessage).FullName,
-                    aggregationId,
-                    messageId,
-                    message,
-                    headers = customHeaders,
-                    compressed = _pubSubProducerParameter.CompressMessage
-                });
-
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw new MessagingProducerException(ex);
-            }
-            finally
-            {
-                telemetry.RemoveContext($"SendMessage_{nameof(TMessage)}");
             }
         }
     }

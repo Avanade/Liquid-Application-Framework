@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Azure.Configuration;
 using Liquid.Messaging.Azure.Parameters;
-using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using MediatR;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Azure
 {
@@ -29,8 +27,7 @@ namespace Liquid.Messaging.Azure
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ServiceBusSettings _messagingSettings;
-        private readonly ILightContextFactory _contextFactory;
-        private readonly ILightTelemetryFactory _telemetryFactory;
+        private readonly ILiquidContext _context;
         private readonly ServiceBusConsumerParameter _serviceBusConsumerParameter;
         private SubscriptionClient _client;
         private bool _autoComplete;
@@ -78,8 +75,7 @@ namespace Liquid.Messaging.Azure
         /// <param name="serviceProvider">The service provider.</param>
         /// <param name="mediator">The mediator.</param>
         /// <param name="mapper">The mapper.</param>
-        /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
+        /// <param name="context">The context factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The service bus messaging configuration.</param>
         /// <param name="serviceBusConsumerParameter">The service bus consumer parameter.</param>
@@ -87,17 +83,15 @@ namespace Liquid.Messaging.Azure
         protected ServiceBusConsumer(IServiceProvider serviceProvider,
                                      IMediator mediator,
                                      IMapper mapper,
-                                     ILightContextFactory contextFactory,
-                                     ILightTelemetryFactory telemetryFactory,
+                                     ILiquidContext context,
                                      ILoggerFactory loggerFactory,
-                                     ILightMessagingConfiguration<ServiceBusSettings> messagingConfiguration,
+                                     ILiquidConfiguration<ServiceBusSettings> messagingConfiguration,
                                      ServiceBusConsumerParameter serviceBusConsumerParameter)
         {
             _serviceBusConsumerParameter = serviceBusConsumerParameter;
-            _telemetryFactory = telemetryFactory;
             _serviceProvider = serviceProvider;
-            _contextFactory = contextFactory;
-            _messagingSettings = messagingConfiguration?.GetSettings(_serviceBusConsumerParameter.ConnectionId) ??
+            _context = context;
+            _messagingSettings = messagingConfiguration.Settings ??
                     throw new MessagingMissingConfigurationException(_serviceBusConsumerParameter.ConnectionId);
 
             MediatorService = mediator;
@@ -137,13 +131,9 @@ namespace Liquid.Messaging.Azure
         /// <returns></returns>
         private async Task ProcessMessageAsync(Message message, CancellationToken cancellationToken)
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
+           
             try
             {
-                var telemetryKey = $"ServiceBusConsumer_{_serviceBusConsumerParameter.Topic}_{_serviceBusConsumerParameter.Subscription}";
-
-                telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
-                telemetry.StartTelemetryStopWatchMetric(telemetryKey);
 
                 var eventMessage = message.ContentType == CommonExtensions.GZipContentType
                     ? message.Body.GzipDecompress().ParseJson<TMessage>()
@@ -151,15 +141,15 @@ namespace Liquid.Messaging.Azure
 
                 using (_serviceProvider.CreateScope())
                 {
-                    var context = _contextFactory.GetContext();
+                    
                     var headers = message.UserProperties;
                     if (headers != null)
                     {
-                        AddContextHeaders(headers, context);
+                        AddContextHeaders(headers, _context);
                     }
 
-                    context.SetAggregationId(message.CorrelationId);
-                    context.SetMessageId(message.MessageId);
+                    //context.SetAggregationId(message.CorrelationId);
+                    //context.SetMessageId(message.MessageId);
                     var messageProcessed = await _messageHandler.Invoke(eventMessage, headers, cancellationToken);
                     if (messageProcessed || _autoComplete)
                     {
@@ -168,29 +158,13 @@ namespace Liquid.Messaging.Azure
                     else
                     {
                         await _client.AbandonAsync(message.SystemProperties.LockToken);
-                    }
-
-                    telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
-                    {
-                        consumer = telemetryKey,
-                        messageType = typeof(TMessage).FullName,
-                        aggregationId = message.CorrelationId,
-                        messageId = message.MessageId,
-                        message = eventMessage,
-                        processed = _autoComplete || messageProcessed,
-                        autoComplete = _autoComplete,
-                        headers
-                    });
+                    }                   
                 }
             }
             catch (Exception ex)
             {
                 LogService.LogError(ex, ex.Message);
                 throw new MessagingConsumerException(ex);
-            }
-            finally
-            {
-                telemetry.RemoveContext($"ConsumeMessage_{nameof(TMessage)}");
             }
         }
 
@@ -199,16 +173,16 @@ namespace Liquid.Messaging.Azure
         /// </summary>
         /// <param name="headers">The headers.</param>
         /// <param name="context">The context.</param>
-        private static void AddContextHeaders(IDictionary<string, object> headers, ILightContext context)
+        private static void AddContextHeaders(IDictionary<string, object> headers, ILiquidContext context)
         {
-            if (headers.TryGetValue("liquidCulture", out var culture) && culture?.ToString().IsNotNullOrEmpty() == true)
-                context.SetCulture(culture.ToString());
-            if (headers.TryGetValue("liquidChannel", out var channel) && channel?.ToString().IsNotNullOrEmpty() == true)
-                context.SetChannel(channel.ToString());
-            if (headers.TryGetValue("liquidCorrelationId", out var contextId) && contextId?.ToString().IsNotNullOrEmpty() == true)
-                context.SetContextId(contextId.ToString().ToGuid());
-            if (headers.TryGetValue("liquidBusinessCorrelationId", out var businessContextId) && businessContextId?.ToString().IsNotNullOrEmpty() == true)
-                context.SetBusinessContextId(businessContextId.ToString().ToGuid());
+            if (headers.TryGetValue("Culture", out var culture) && culture?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("culture", culture.ToString());
+            if (headers.TryGetValue("Channel", out var channel) && channel?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("Channel", channel.ToString());
+            if (headers.TryGetValue("CorrelationId", out var contextId) && contextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("CorrelationId", contextId.ToString().ToGuid());
+            if (headers.TryGetValue("BusinessCorrelationId", out var businessContextId) && businessContextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("BusinessCorrelationId", businessContextId.ToString().ToGuid());
         }
 
         /// <summary>

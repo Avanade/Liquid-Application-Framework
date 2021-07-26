@@ -1,24 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-using Amazon.Runtime;
+﻿using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
 using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Aws.Configuration;
 using Liquid.Messaging.Aws.Extensions;
 using Liquid.Messaging.Aws.Parameters;
-using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Aws
 {
@@ -31,8 +29,7 @@ namespace Liquid.Messaging.Aws
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly AwsMessagingSettings _messagingSettings;
-        private readonly ILightContextFactory _contextFactory;
-        private readonly ILightTelemetryFactory _telemetryFactory;
+        private readonly ILiquidContext _contextFactory;
         private readonly SqsConsumerParameter _sqsConsumerParameter;
         private readonly CancellationTokenSource _cancellationToken;
         private IAmazonSQS _client;
@@ -84,7 +81,6 @@ namespace Liquid.Messaging.Aws
         /// <param name="mediator">The mediator.</param>
         /// <param name="mapper">The mapper.</param>
         /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="sqsConsumerParameter">The SQS consumer parameter.</param>
@@ -92,18 +88,16 @@ namespace Liquid.Messaging.Aws
         protected SqsConsumer(IServiceProvider serviceProvider,
                               IMediator mediator,
                               IMapper mapper,
-                              ILightContextFactory contextFactory,
-                              ILightTelemetryFactory telemetryFactory,
+                              ILiquidContext contextFactory,
                               ILoggerFactory loggerFactory,
-                              ILightMessagingConfiguration<AwsMessagingSettings> messagingConfiguration,
+                              ILiquidConfiguration<AwsMessagingSettings> messagingConfiguration,
                               SqsConsumerParameter sqsConsumerParameter)
         {
             _sqsConsumerParameter = sqsConsumerParameter;
             _serviceProvider = serviceProvider;
             _contextFactory = contextFactory;
-            _messagingSettings = messagingConfiguration?.GetSettings(_sqsConsumerParameter.ConnectionId) ??
+            _messagingSettings = messagingConfiguration?.Settings ??
                     throw new MessagingMissingConfigurationException(_sqsConsumerParameter.ConnectionId); 
-            _telemetryFactory = telemetryFactory;
 
             MediatorService = mediator;
             MapperService = mapper;
@@ -156,13 +150,9 @@ namespace Liquid.Messaging.Aws
 
         private async Task ProcessMessageAsync(Message message)
         {
-            var telemetry = _telemetryFactory.GetTelemetry();
+            
             try
             {
-                var telemetryKey = $"SqsConsumer_{_sqsConsumerParameter.Queue}";
-
-                telemetry.AddContext($"ConsumeMessage_{nameof(TMessage)}");
-                telemetry.StartTelemetryStopWatchMetric(telemetryKey);
 
                 var eventMessage = message.MessageAttributes.ContainsKey(CommonExtensions.ContentTypeHeader) &&
                                    message.MessageAttributes[CommonExtensions.ContentTypeHeader].StringValue.Equals(CommonExtensions.GZipContentType, StringComparison.InvariantCultureIgnoreCase)
@@ -171,9 +161,9 @@ namespace Liquid.Messaging.Aws
 
                 using (_serviceProvider.CreateScope())
                 {
-                    var context = _contextFactory.GetContext();
+                    var context = _contextFactory;
 
-                    context.SetMessageId(message.MessageId);
+                    context.Upsert("MessageId", message.MessageId);
 
                     var headers = message.MessageAttributes.GetCustomHeaders();
 
@@ -186,26 +176,11 @@ namespace Liquid.Messaging.Aws
                         await _client.DeleteMessageAsync(deleteMessageRequest);
                     }
 
-                    telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
-                    {
-                        consumer = telemetryKey,
-                        messageType = typeof(TMessage).FullName,
-                        aggregationId = context.GetAggregationId(),
-                        messageId = message.MessageId,
-                        message = eventMessage,
-                        processed = messageProcessed,
-                        autoComplete = _sqsConsumerParameter.AutoComplete,
-                        headers
-                    });
                 }
             }
             catch (Exception ex)
             {
                 LogService.LogError(ex, ex.Message);
-            }
-            finally
-            {
-                telemetry.RemoveContext($"ConsumeMessage_{nameof(TMessage)}");
             }
         }
 
@@ -214,18 +189,18 @@ namespace Liquid.Messaging.Aws
         /// </summary>
         /// <param name="headers">The headers.</param>
         /// <param name="context">The context.</param>
-        private static void AddContextHeaders(IDictionary<string, MessageAttributeValue> headers, ILightContext context)
+        private static void AddContextHeaders(IDictionary<string, MessageAttributeValue> headers, ILiquidContext context)
         {
-            if (headers.TryGetValue("liquidCulture", out var culture) && culture?.StringValue.IsNotNullOrEmpty() == true)
-                context.SetCulture(culture.StringValue);
-            if (headers.TryGetValue("liquidChannel", out var channel) && channel?.StringValue.IsNotNullOrEmpty() == true)
-                context.SetChannel(channel.StringValue);
-            if (headers.TryGetValue("liquidCorrelationId", out var contextId) && contextId?.StringValue.IsNotNullOrEmpty() == true)
-                context.SetContextId(contextId.StringValue.ToGuid());
-            if (headers.TryGetValue("liquidBusinessCorrelationId", out var businessContextId) && businessContextId?.StringValue.IsNotNullOrEmpty() == true)
-                context.SetBusinessContextId(businessContextId.StringValue.ToGuid());
-            if (headers.TryGetValue("liquidAggregationId", out var aggregationId) && aggregationId?.StringValue.IsNotNullOrEmpty() == true)
-                context.SetAggregationId(aggregationId.StringValue);
+            if (headers.TryGetValue("Culture", out var culture) && culture?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("culture", culture.ToString());
+            if (headers.TryGetValue("Channel", out var channel) && channel?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("Channel", channel.ToString());
+            if (headers.TryGetValue("CorrelationId", out var contextId) && contextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("CorrelationId", contextId.ToString().ToGuid());
+            if (headers.TryGetValue("BusinessCorrelationId", out var businessContextId) && businessContextId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("BusinessCorrelationId", businessContextId.ToString().ToGuid());
+            if (headers.TryGetValue("AggregationId", out var aggregationId) && aggregationId?.ToString().IsNotNullOrEmpty() == true)
+                context.Upsert("AggregationId", aggregationId.ToString());
         }
 
         /// <summary>

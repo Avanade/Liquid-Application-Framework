@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Liquid.Core.Context;
-
 namespace Liquid.Messaging.Extensions
 {
     /// <summary>
@@ -43,35 +41,35 @@ namespace Liquid.Messaging.Extensions
         /// </summary>
         /// <param name="context">The context.</param>
         /// <returns></returns>
-        public static string GetAggregationId(this ILightContext context)
-        {
-            var aggregationId = context.GetContextDataValue<string>(EventContextAggregationId);
-            if (string.IsNullOrEmpty(aggregationId))
-            {
-                aggregationId = Guid.NewGuid().ToString();
-                context.AddOrReplaceContextValue(EventContextAggregationId, aggregationId);
-            }
-            return aggregationId;
-        }
+        //public static string GetAggregationId(this ILightContext context)
+        //{
+        //    var aggregationId = context.GetContextDataValue<string>(EventContextAggregationId);
+        //    if (string.IsNullOrEmpty(aggregationId))
+        //    {
+        //        aggregationId = Guid.NewGuid().ToString();
+        //        context.AddOrReplaceContextValue(EventContextAggregationId, aggregationId);
+        //    }
+        //    return aggregationId;
+        //}
 
         /// <summary>
         /// Sets the aggregation identifier to the context.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="aggregationId">The aggregation identifier.</param>
-        public static void SetAggregationId(this ILightContext context, string aggregationId)
-        {
-            context.AddOrReplaceContextValue(EventContextAggregationId, aggregationId);
-        }
+        //public static void SetAggregationId(this ILightContext context, string aggregationId)
+        //{
+        //    context.AddOrReplaceContextValue(EventContextAggregationId, aggregationId);
+        //}
 
         /// <summary>
         /// Sets the message identifier.
         /// </summary>
         /// <param name="context">The context.</param>
         /// <param name="eventId">The message identifier.</param>
-        public static void SetMessageId(this ILightContext context, string eventId)
-        {
-            context.AddOrReplaceContextValue(EventContextEventId, eventId);
-        }
+        //public static void SetMessageId(this ILightContext context, string eventId)
+        //{
+        //    context.AddOrReplaceContextValue(EventContextEventId, eventId);
+        //}
     }
 }

@@ -1,53 +1,13 @@
-﻿using Liquid.Core.Configuration;
-using Liquid.Messaging.Configuration;
-using Microsoft.Extensions.Configuration;
+﻿using Liquid.Core.Attributes;
 using Newtonsoft.Json;
-using System;
 
 namespace Liquid.Messaging.RabbitMq.Configuration
 {
-    /// <summary>
-    /// RabbitMq Configuration Class.
-    /// </summary>
-    /// <seealso cref="Liquid.Core.Configuration.LightConfiguration" />
-    /// /// <seealso>
-    /// <cref>
-    ///     Liquid.Messaging.Configuration.ILightMessagingConfiguration{Liquid.Messaging.RabbitMq.Configuration.RabbitMqSettings}
-    /// </cref>
-    /// </seealso>
-    public class RabbitMqConfiguration : LightConfiguration, ILightMessagingConfiguration<RabbitMqSettings>
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="RabbitMqConfiguration"/> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public RabbitMqConfiguration(IConfiguration configuration) : base(configuration)
-        {
-        }
-
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <value>
-        /// The settings.
-        /// </value>
-        /// <exception cref="System.NotImplementedException"></exception>
-        public RabbitMqSettings Settings => throw new NotImplementedException(); // Not Used.
-
-        /// <summary>
-        /// Gets the settings.
-        /// </summary>
-        /// <param name="configurationSection">The configuration section.</param>
-        /// <returns></returns>
-        public RabbitMqSettings GetSettings(string configurationSection)
-        {
-            return GetConfigurationSection<RabbitMqSettings>($"liquid:messaging:rabbitMq:{configurationSection}");
-        }
-    }
 
     /// <summary>
     /// 
     /// </summary>
+    [LiquidSectionName("liquid:messaging:rabbitMq")]
     public class RabbitMqSettings
     {
         /// <summary>

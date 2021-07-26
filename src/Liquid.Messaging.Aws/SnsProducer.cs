@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Amazon.Runtime;
+﻿using Amazon.Runtime;
 using Amazon.SimpleNotificationService;
 using Amazon.SimpleNotificationService.Model;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Aws.Configuration;
 using Liquid.Messaging.Aws.Extensions;
 using Liquid.Messaging.Aws.Parameters;
-using Liquid.Messaging.Configuration;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using MessageAttributeValue = Amazon.SimpleNotificationService.Model.MessageAttributeValue;
 
 namespace Liquid.Messaging.Aws
@@ -26,9 +24,8 @@ namespace Liquid.Messaging.Aws
     public class SnsProducer<TMessage> : ILightProducer<TMessage>
     {
         private readonly ILogger _logger;
-        private readonly ILightContextFactory _contextFactory;
+        private readonly ILiquidContext _context;
         private readonly AwsMessagingSettings _messagingSettings;
-        private readonly ILightTelemetryFactory _telemetryFactory;
         private readonly SnsProducerParameter _snsProducerParameter;
         private AmazonSimpleNotificationServiceClient _client;
 
@@ -36,21 +33,18 @@ namespace Liquid.Messaging.Aws
         /// Initializes a new instance of the <see cref="SqsProducer{TMessage}" /> class.
         /// </summary>
         /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="snsProducerParameter">The SNS producer parameter.</param>
         /// <exception cref="MessagingMissingConfigurationException">messaging</exception>
-        public SnsProducer(ILightContextFactory contextFactory,
-                           ILightTelemetryFactory telemetryFactory,
+        public SnsProducer(ILiquidContext contextFactory,
                            ILoggerFactory loggerFactory,
-                           ILightMessagingConfiguration<AwsMessagingSettings> messagingConfiguration,
+                           ILiquidConfiguration<AwsMessagingSettings> messagingConfiguration,
                            SnsProducerParameter snsProducerParameter)
         {
             _snsProducerParameter = snsProducerParameter;
-            _contextFactory = contextFactory;
-            _telemetryFactory = telemetryFactory;
-            _messagingSettings = messagingConfiguration?.GetSettings(_snsProducerParameter.ConnectionId) ?? 
+            _context = contextFactory;
+            _messagingSettings = messagingConfiguration?.Settings ?? 
                     throw new MessagingMissingConfigurationException(_snsProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(SqsProducer<TMessage>).FullName);
             InitializeClient();
@@ -81,23 +75,19 @@ namespace Liquid.Messaging.Aws
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            var telemetry = _telemetryFactory.GetTelemetry();
+            
             if (customHeaders == null) customHeaders = new Dictionary<string, object>();
 
             try
             {
-                var context = _contextFactory.GetContext();
+                var context = _context;
                 var telemetryKey = $"SnsProducer_{_snsProducerParameter.Topic}";
 
-                telemetry.AddContext($"SendMessage_{nameof(TMessage)}");
-                telemetry.StartTelemetryStopWatchMetric(telemetryKey);
-                var aggregationId = context.GetAggregationId();
 
-                if (!string.IsNullOrEmpty(context.ContextCulture)) customHeaders.TryAdd("liquidCulture", context.ContextCulture);
-                if (!string.IsNullOrEmpty(context.ContextChannel)) customHeaders.TryAdd("liquidChannel", context.ContextChannel);
-                customHeaders.TryAdd("liquidCorrelationId", context.ContextId.ToString());
-                customHeaders.TryAdd("liquidBusinessCorrelationId", context.BusinessContextId.ToString());
-                customHeaders.TryAdd("liquidAggregationId", aggregationId);
+                foreach (var item in context.current)
+                {
+                    customHeaders.TryAdd(item.Key, item.Value);
+                }
 
                 var messageBody = message.ToString();
                 if (_snsProducerParameter.MessageStructure.Equals("json", StringComparison.InvariantCultureIgnoreCase))
@@ -119,26 +109,12 @@ namespace Liquid.Messaging.Aws
                 if (customHeaders.ContainsKey("PhoneNumber")) { request.PhoneNumber = customHeaders["PhoneNumber"].ToString(); }
                 if (customHeaders.ContainsKey("Subject")) { request.Subject = customHeaders["Subject"].ToString(); }
 
-                await _client.PublishAsync(request);
-
-                telemetry.CollectTelemetryStopWatchMetric(telemetryKey, new
-                {
-                    producer = telemetryKey,
-                    messageType = typeof(TMessage).FullName,
-                    aggregationId,
-                    message,
-                    headers = customHeaders,
-                    compressed = _snsProducerParameter.CompressMessage
-                });
+                await _client.PublishAsync(request);                               
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, ex.Message);
                 throw new MessagingProducerException(ex);
-            }
-            finally
-            {
-                telemetry.RemoveContext($"SendMessage_{nameof(TMessage)}");
             }
         }
     }

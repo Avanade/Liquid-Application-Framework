@@ -46,6 +46,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\liquid-ci-cd.yml = .github\workflows\liquid-ci-cd.yml
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Messaging.ServiceBus", "src\Liquid.Messaging.ServiceBus\Liquid.Messaging.ServiceBus.csproj", "{1489A09C-139E-48FD-B476-DA2A8819A419}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceBus", "ServiceBus", "{E3235627-B0F4-4D13-9D99-1413ACD18FEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Messaging.ServiceBus.Tests", "test\Liquid.Messaging.ServiceBus.Tests\Liquid.Messaging.ServiceBus.Tests.csproj", "{3ADD0242-B66A-4BC9-B203-DEE5457043CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -96,6 +102,14 @@ Global
 		{7308816A-BF10-4CBC-8661-D8C39641A454}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7308816A-BF10-4CBC-8661-D8C39641A454}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7308816A-BF10-4CBC-8661-D8C39641A454}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1489A09C-139E-48FD-B476-DA2A8819A419}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1489A09C-139E-48FD-B476-DA2A8819A419}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1489A09C-139E-48FD-B476-DA2A8819A419}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1489A09C-139E-48FD-B476-DA2A8819A419}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3ADD0242-B66A-4BC9-B203-DEE5457043CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ADD0242-B66A-4BC9-B203-DEE5457043CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ADD0242-B66A-4BC9-B203-DEE5457043CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3ADD0242-B66A-4BC9-B203-DEE5457043CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +125,8 @@ Global
 		{871E089A-7DEF-4362-A3D4-A6201465A0F9} = {64802DDF-DE71-454A-A03B-35BF72B1B94B}
 		{6CFF2DEC-50E9-417C-A6E1-A0EFCD1EB94C} = {AA755102-3E23-47A0-B7A4-9AD9EC4285D9}
 		{7308816A-BF10-4CBC-8661-D8C39641A454} = {64802DDF-DE71-454A-A03B-35BF72B1B94B}
+		{1489A09C-139E-48FD-B476-DA2A8819A419} = {E3235627-B0F4-4D13-9D99-1413ACD18FEB}
+		{3ADD0242-B66A-4BC9-B203-DEE5457043CD} = {E3235627-B0F4-4D13-9D99-1413ACD18FEB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4D71E980-1BF3-4614-AFAA-6B1D285B63A8}

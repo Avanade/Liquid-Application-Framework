@@ -7,7 +7,7 @@ namespace Liquid.Messaging.Gcp.Configuration
     /// Google Pub Sub Settings.
     /// </summary>
     /// 
-    [LiquidSectionName("liquid:messaging:gcp:")]
+    [LiquidSectionName("liquid:messaging:gcp")]
     public class PubSubSettings
     {
         /// <summary>

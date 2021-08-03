@@ -32,8 +32,11 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <param name="services">Extended IServiceCollection instance.</param>
         public static IServiceCollection AddLiquidTelemetryInterceptor<TInterface, TService>(this IServiceCollection services) where TInterface : class where TService : TInterface
         {
-            services.AddTransient(typeof(IAsyncInterceptor), typeof(LiquidTelemetryInterceptor));
-            services.AddSingleton(new ProxyGenerator());
+            if (services.FirstOrDefault(x => x.ImplementationType == typeof(LiquidTelemetryInterceptor)) is null)
+                services.AddTransient(typeof(IAsyncInterceptor), typeof(LiquidTelemetryInterceptor));
+
+            if (services.FirstOrDefault(x => x.ImplementationType == typeof(ProxyGenerator)) is null)
+                services.AddSingleton(new ProxyGenerator());
 
             return services.AddScoped((provider) =>
             {

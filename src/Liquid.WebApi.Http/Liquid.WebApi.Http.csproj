@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.WebApi</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.0-preview-20210712-05</Version>
+    <Version>2.0.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <DebugType>Full</DebugType>

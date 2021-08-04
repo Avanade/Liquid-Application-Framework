@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Liquid.Domain.Extensions
+namespace Liquid.Domain.Extensions.DependencyInjection
 {
     /// <summary>
     /// IServiceCollectionExtensions extension methods.

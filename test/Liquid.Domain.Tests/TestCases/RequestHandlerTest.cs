@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using Liquid.Core.Extensions;
-using Liquid.Domain.Extensions;
+using Liquid.Domain.Extensions.DependencyInjection;
 using Liquid.Domain.PipelineBehaviors;
 using Liquid.Domain.Tests.CommandHandlers.Test1;
 using Liquid.Domain.Tests.CommandHandlers.Test2;

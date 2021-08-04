@@ -5,7 +5,7 @@ using Liquid.WebApi.Http.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Liquid.WebApi.Http.Extensions
+namespace Liquid.WebApi.Http.Extensions.DependencyInjection
 {
     /// <summary>
     /// .Net application builder extensions class.

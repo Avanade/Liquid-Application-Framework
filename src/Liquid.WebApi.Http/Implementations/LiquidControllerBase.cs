@@ -10,8 +10,8 @@ namespace Liquid.WebApi.Http.Controllers
     /// <summary>
     /// Base Controller Class.
     /// </summary>
-    /// <seealso cref="Controller" />
-    public abstract class LiquidControllerBase : Controller
+    /// <seealso cref="ControllerBase" />
+    public abstract class LiquidControllerBase : ControllerBase
     {
         /// <summary>
         /// Gets or sets the mediator service.

@@ -1,7 +1,7 @@
 ﻿using Liquid.Core.Interfaces;
+using Liquid.Core.Settings;
 using Liquid.WebApi.Http.Exceptions;
 using Liquid.WebApi.Http.Extensions;
-using Liquid.WebApi.Http.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;

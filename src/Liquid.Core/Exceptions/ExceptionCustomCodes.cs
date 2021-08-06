@@ -33,7 +33,7 @@ namespace Liquid.Core.Exceptions
         /// <summary>
         /// Indicates the resource is not accessible.
         /// </summary>
-        public static readonly ExceptionCustomCodes Forbidden = new ExceptionCustomCodes(400, "Forbidden");
+        public static readonly ExceptionCustomCodes Forbidden = new ExceptionCustomCodes(403, "Forbidden");
 
         /// <summary>
         /// Indicates a timeout error.
@@ -43,7 +43,7 @@ namespace Liquid.Core.Exceptions
         /// <summary>
         /// Indicates the item is not authorized.
         /// </summary>
-        public static readonly ExceptionCustomCodes Unauthorized = new ExceptionCustomCodes(400, "Unauthorized");
+        public static readonly ExceptionCustomCodes Unauthorized = new ExceptionCustomCodes(401, "Unauthorized");
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ExceptionCustomCodes"/> class.

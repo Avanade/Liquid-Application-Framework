@@ -134,12 +134,12 @@ namespace Liquid.Repository.Mongo.Tests
 
             Assert.ThrowsAsync<Exception>(() => test);
 
-        }
+        }             
 
         [Test]
-        public async Task RemoveAsync_WhenActionIsSuccessful_CallDeleteOneMethod()
+        public async Task RemoveByIdAsync_WhenActionIsSuccessful_CallDeleteOneMethod()
         {
-            await _sut.RemoveAsync(_entity);
+            await _sut.RemoveByIdAsync(_entity.Id);
 
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
 
@@ -148,11 +148,11 @@ namespace Liquid.Repository.Mongo.Tests
         }
 
         [Test]
-        public void RemoveAsync_WhenClientThrowsError_ThrowException()
+        public void RemoveByIdAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.DeleteOneAsync(Arg.Any<FilterDefinition<TestEntity>>())).Do((call) => throw new Exception());
 
-            var test = _sut.RemoveAsync(_entity);
+            var test = _sut.RemoveByIdAsync(_entity.Id);
 
             Assert.ThrowsAsync<Exception>(() => test);
         }

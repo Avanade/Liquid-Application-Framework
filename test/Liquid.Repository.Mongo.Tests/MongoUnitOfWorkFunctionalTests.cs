@@ -110,14 +110,15 @@ namespace Liquid.Repository.Mongo.Tests
             Assert.Null(result);
 
         }
+        
         [Test]
-        public async Task RemoveAsync_WhenCommitTransaction_ItemNotDeleted()
+        public async Task RemoveByIdAsync_WhenCommitTransaction_ItemDeleted()
         {
             await _sut.AddAsync(_entity);
 
             await _unitOfWork.StartTransactionAsync();
 
-            await _sut.RemoveAsync(_entity);
+            await _sut.RemoveByIdAsync(_entity.Id);
 
             await _unitOfWork.CommitAsync();
 
@@ -129,13 +130,13 @@ namespace Liquid.Repository.Mongo.Tests
         }
 
         [Test]
-        public async Task RemoveAsync_WhenRollbackTransaction_ItemNotDeleted()
+        public async Task RemoveByIdAsync_WhenRollbackTransaction_ItemNotDeleted()
         {
             await _sut.AddAsync(_entity);
 
             await _unitOfWork.StartTransactionAsync();
 
-            await _sut.RemoveAsync(_entity);
+            await _sut.RemoveByIdAsync(_entity.Id);
 
             await _unitOfWork.RollbackTransactionAsync();
 

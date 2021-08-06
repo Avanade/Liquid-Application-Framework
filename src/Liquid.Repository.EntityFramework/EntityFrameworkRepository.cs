@@ -69,9 +69,9 @@ namespace Liquid.Repository.EntityFramework
         }
 
         ///<inheritdoc/>
-        public async Task RemoveAsync(TEntity entity)
+        public async Task RemoveByIdAsync(TIdentifier id)
         {
-            var obj = await _dbSet.FirstOrDefaultAsync(o => o.Id.Equals(entity.Id));
+            var obj = await _dbSet.FirstOrDefaultAsync(o => o.Id.Equals(id));
 
             if (obj == null) return;
 

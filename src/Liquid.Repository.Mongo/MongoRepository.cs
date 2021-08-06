@@ -84,10 +84,10 @@ namespace Liquid.Repository.Mongo
         }
 
         ///<inheritdoc/>
-        public async Task RemoveAsync(TEntity entity)
+        public async Task RemoveByIdAsync(TIdentifier id)
         {
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
-            await collection.DeleteOneAsync(e => e.Id.Equals(entity.Id), MongoDataContext?.ClientSessionHandle);
+            await collection.DeleteOneAsync(e => e.Id.Equals(id), MongoDataContext?.ClientSessionHandle);
         }
 
         ///<inheritdoc/>

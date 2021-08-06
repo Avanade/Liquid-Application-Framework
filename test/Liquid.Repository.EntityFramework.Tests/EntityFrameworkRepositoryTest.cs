@@ -174,9 +174,9 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             //Assert
             Assert.IsEmpty(result);
-        }
+        }             
 
-        [Category("RemoveAsync")]
+        [Category("RemoveByIdAsync")]
         [Test]
         public async Task Verify_delete()
         {
@@ -185,14 +185,14 @@ namespace Liquid.Repository.EntityFramework.Tests
             var mockId = 1;
 
             //Act
-            var entity = await mockRepository.FindByIdAsync(mockId);
-            await mockRepository.RemoveAsync(entity);
+            await mockRepository.RemoveByIdAsync(mockId);
             var anotherEntity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
             Assert.IsNull(anotherEntity);
         }
-        [Category("RemoveAsync")]
+
+        [Category("RemoveByIdAsync")]
         [Test]
         public async Task Verify_delete_invalid()
         {
@@ -201,16 +201,14 @@ namespace Liquid.Repository.EntityFramework.Tests
             var mockId = 101;
 
             //Act
-            var entity = await mockRepository.FindByIdAsync(mockId);
-            await mockRepository.RemoveAsync(new MockEntity() { MockId = mockId });
+            await mockRepository.RemoveByIdAsync(mockId);
             var anotherEntity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.IsNull(entity);
             Assert.IsNull(anotherEntity);
         }
 
-        [Category("RemoveAsync")]
+        [Category("RemoveByIdAsync")]
         [Test]
         public void Verify_delete_Except()
         {
@@ -220,7 +218,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var mockId = 1;
 
             //Act
-            var task = mockRepository.RemoveAsync(new MockEntity() { MockId = mockId });
+            var task = mockRepository.RemoveByIdAsync(mockId);
 
             //Assert
             Assert.ThrowsAsync<InvalidOperationException>(() => task);

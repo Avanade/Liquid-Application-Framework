@@ -27,11 +27,11 @@ namespace Liquid.Repository
         Task AddAsync(TEntity entity);
 
         /// <summary>
-        /// Removes the specified entity item from repository.
+        /// Removes the specified entity item from repository by informed Id.
         /// </summary>
-        /// <param name="entity">The entity.</param>
+        /// <param name="id">Identifier of entity that should be removed.</param>
         /// <returns></returns>
-        Task RemoveAsync(TEntity entity);
+        Task RemoveByIdAsync(TIdentifier id);
 
         /// <summary>
         /// Updates the specified entity item in repository.

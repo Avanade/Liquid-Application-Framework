@@ -43,15 +43,6 @@ namespace Liquid.Repository.Mongo
             
             _settings = dataContext.Settings;
 
-            if (!BsonClassMap.IsClassMapRegistered(typeof(TEntity)))
-            {
-                BsonClassMap.RegisterClassMap<TEntity>(cm =>
-                {
-                    cm.AutoMap();
-                    cm.SetIgnoreExtraElements(true);
-                });
-            }
-
             MongoDataContext.SetDatabase(_settings.DatabaseName);            
         }
 
@@ -68,7 +59,9 @@ namespace Liquid.Repository.Mongo
         public async Task<IEnumerable<TEntity>> FindAllAsync()
         {
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
-            var returnValue = (await collection.FindAsync(_ => true, MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
+
+            var response = await collection.FindAsync(new BsonDocument(), MongoDataContext?.ClientSessionHandle);
+            var returnValue = response.ToEnumerable();
 
             return returnValue;
         }
@@ -104,7 +97,7 @@ namespace Liquid.Repository.Mongo
         {
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
 
-            var returnValue = (await collection.FindAsync(whereClause, MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
+            var returnValue = (await collection.FindAsync(whereClause, MongoDataContext?.ClientSessionHandle)).ToEnumerable();
 
             return returnValue;
         }        

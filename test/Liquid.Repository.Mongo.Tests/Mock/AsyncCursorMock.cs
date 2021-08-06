@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,6 +32,11 @@ namespace Liquid.Repository.Mongo.Tests.Mock
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             return Current.GetEnumerator().MoveNext();
+        }
+
+        public IEnumerable<TDocument> ToEnumerable()
+        {
+            return Current.ToList();
         }
     }
 }

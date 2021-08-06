@@ -92,19 +92,19 @@ namespace Liquid.Repository.Mongo.Tests
         }
 
         [Test]
-        public async Task GetAllAsync_WhenCollectionExists_ReturnItens()
+        public async Task FindAllAsync_WhenCollectionExists_ReturnItens()
         {
             var result = await _sut.FindAllAsync();
 
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
 
-            Assert.IsTrue(result.Count() > 0);
+            Assert.NotNull(result);
             Assert.AreEqual(result.FirstOrDefault(), _entity);
 
         }
 
         [Test]
-        public void GetAllAsync_WhenClientThrowsError_ThrowException()
+        public void FindAllAsync_WhenClientThrowsError_ThrowException()
         {
             _dbDataContext.Database.When(o => o.GetCollection<TestEntity>(Arg.Any<string>())).Do((call) => throw new Exception());
 
@@ -186,7 +186,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _dbDataContext.Database.Received().GetCollection<TestEntity>("TestEntities");
 
-            Assert.IsTrue(result.Count() > 0);
+            Assert.NotNull(result);
             Assert.AreEqual(result.FirstOrDefault(), _entity);
         }
 

@@ -11,6 +11,7 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.Mongo.Tests
@@ -126,7 +127,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _runner.Dispose();
 
-            Assert.Null(result);
+            Assert.AreEqual(result.ToList().Count, 0);
         }
 
         [Test]

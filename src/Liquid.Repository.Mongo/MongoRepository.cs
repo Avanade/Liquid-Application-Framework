@@ -65,10 +65,10 @@ namespace Liquid.Repository.Mongo
         }
 
         ///<inheritdoc/>
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> FindAllAsync()
         {
             var collection = MongoDataContext.Database.GetCollection<TEntity>(_settings.CollectionName);
-            var returnValue = (await collection.FindAsync(new BsonDocument(), MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
+            var returnValue = (await collection.FindAsync(_ => true, MongoDataContext?.ClientSessionHandle)).Current.AsEnumerable();
 
             return returnValue;
         }

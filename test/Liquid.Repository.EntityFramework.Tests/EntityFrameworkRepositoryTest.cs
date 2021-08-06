@@ -152,7 +152,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var mockRepository = GenerateMockRepository();
 
             //Act
-            var result = await mockRepository.GetAllAsync();
+            var result = await mockRepository.FindAllAsync();
 
             //Assert
             Assert.NotNull(result);
@@ -170,7 +170,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var mockRepository = GenerateMockRepository(dbSet);
 
             //Act
-            var result = await mockRepository.GetAllAsync();
+            var result = await mockRepository.FindAllAsync();
 
             //Assert
             Assert.IsEmpty(result);

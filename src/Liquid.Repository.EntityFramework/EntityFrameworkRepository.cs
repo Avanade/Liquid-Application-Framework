@@ -53,7 +53,7 @@ namespace Liquid.Repository.EntityFramework
         }
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         ///<inheritdoc/>
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public async Task<IEnumerable<TEntity>> FindAllAsync()
         {
             IEnumerable<TEntity> returnValue = _queryableReadOnly;
 

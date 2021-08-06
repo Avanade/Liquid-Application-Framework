@@ -60,6 +60,6 @@ namespace Liquid.Repository
         /// Retrieve all entities.
         /// </summary>
         /// <returns>List of all entities.</returns>
-        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> FindAllAsync();
     }
 }

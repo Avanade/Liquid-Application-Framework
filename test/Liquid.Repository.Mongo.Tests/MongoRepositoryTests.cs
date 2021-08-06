@@ -94,7 +94,7 @@ namespace Liquid.Repository.Mongo.Tests
         [Test]
         public async Task GetAllAsync_WhenCollectionExists_ReturnItens()
         {
-            var result = await _sut.GetAllAsync();
+            var result = await _sut.FindAllAsync();
 
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
 
@@ -108,7 +108,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             _dbDataContext.Database.When(o => o.GetCollection<TestEntity>(Arg.Any<string>())).Do((call) => throw new Exception());
 
-            var test = _sut.GetAllAsync();
+            var test = _sut.FindAllAsync();
 
             Assert.ThrowsAsync<Exception>(() => test);
         }

@@ -22,3 +22,15 @@ C:\Source\Repos\LiquidSimpleApiSample\src\Liquid.Domain\obj\Debug\net5.0\Liquid.
 C:\Source\Repos\LiquidSimpleApiSample\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.dll
 C:\Source\Repos\LiquidSimpleApiSample\src\Liquid.Domain\obj\Debug\net5.0\ref\Liquid.Sample.Domain.dll
 C:\Source\Repos\LiquidSimpleApiSample\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.pdb
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\bin\Debug\net5.0\Liquid.Sample.Domain.deps.json
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\bin\Debug\net5.0\Liquid.Sample.Domain.dll
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\bin\Debug\net5.0\ref\Liquid.Sample.Domain.dll
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\bin\Debug\net5.0\Liquid.Sample.Domain.pdb
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.csproj.AssemblyReference.cache
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.AssemblyInfoInputs.cache
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.AssemblyInfo.cs
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.csproj.CoreCompileInputs.cache
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.dll
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\ref\Liquid.Sample.Domain.dll
+C:\Source\Repos\Avanade\Liquid-Application-Framework\Samples\src\Liquid.Domain\obj\Debug\net5.0\Liquid.Sample.Domain.pdb

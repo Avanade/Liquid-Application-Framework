@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Tests.Mock
@@ -14,7 +11,7 @@ namespace Liquid.Messaging.Tests.Mock
 
         public override async Task ProcessMessageAsync(ProcessMessageEventArgs<EntityMock> args, CancellationToken cancellationToken)
         {
-            
+
         }
     }
 }

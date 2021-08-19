@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 namespace Liquid.Messaging.Extensions
 {
@@ -10,17 +9,17 @@ namespace Liquid.Messaging.Extensions
     {
         private const string EventContextAggregationId = "Event_ContextAggregationId_xzop";
         private const string EventContextEventId = "Event_ContextId_xzop";
-        
+
         /// <summary>
         /// The Gzip content type
         /// </summary>
         public const string GZipContentType = "application/gzip";
-        
+
         /// <summary>
         /// The content type header
         /// </summary>
         public const string ContentTypeHeader = "ContentType";
-        
+
         /// <summary>
         /// Adds the range from the elements dictionary to the source dictionary. If the element from elements dictionary alreads exists in source, it will be discarded.
         /// </summary>

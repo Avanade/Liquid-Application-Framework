@@ -31,7 +31,7 @@ namespace Liquid.Messaging.ServiceBus
 
                 return new MessageReceiver(_options.ConnectionString, _options.EntityPath, receiveMode, null, _options.MaxConcurrentCalls);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new MessagingMissingConfigurationException(ex);
             }
@@ -44,7 +44,7 @@ namespace Liquid.Messaging.ServiceBus
             {
                 return new MessageSender(_options.ConnectionString, _options.EntityPath);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new MessagingMissingConfigurationException(ex);
             }

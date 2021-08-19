@@ -29,12 +29,12 @@ namespace Liquid.Messaging.Kafka.Tests.Consumers
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="kafkaConsumerParameter">The kafka consumer parameter.</param>
-        public KafkaTestConsumer(IServiceProvider serviceProvider, 
-                                 IMediator mediator, 
-                                 IMapper mapper, 
-                                 ILiquidContext contextFactory, 
-                                 ILoggerFactory loggerFactory, 
-                                 ILiquidConfiguration<KafkaSettings> messagingConfiguration, 
+        public KafkaTestConsumer(IServiceProvider serviceProvider,
+                                 IMediator mediator,
+                                 IMapper mapper,
+                                 ILiquidContext contextFactory,
+                                 ILoggerFactory loggerFactory,
+                                 ILiquidConfiguration<KafkaSettings> messagingConfiguration,
                                  KafkaConsumerParameter kafkaConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, kafkaConsumerParameter)
         {
         }

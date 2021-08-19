@@ -101,7 +101,7 @@ namespace Liquid.Messaging.Kafka
                 var request = new Message<Null, string> { Value = messageBody, Headers = new Headers().AddCustomHeaders(customHeaders) };
 
                 await _client.ProduceAsync(_kafkaProducerParameter.Topic, request);
-                
+
             }
             catch (Exception ex)
             {

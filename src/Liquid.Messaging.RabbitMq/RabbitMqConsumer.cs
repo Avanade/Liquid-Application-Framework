@@ -13,8 +13,6 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -182,7 +180,7 @@ namespace Liquid.Messaging.RabbitMq
                     else
                     {
                         _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
-                    }                    
+                    }
                 }
             }
             catch (Exception ex)

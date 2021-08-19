@@ -140,10 +140,10 @@ namespace Liquid.Messaging.Gcp
         {
             await _client.StartAsync(async (message, cancellationToken) =>
             {
-                
+
                 try
                 {
-                   
+
 
                     var eventMessage = message.Attributes.ContainsKey(CommonExtensions.ContentTypeHeader) &&
                                        message.Attributes[CommonExtensions.ContentTypeHeader].Equals(CommonExtensions.GZipContentType, StringComparison.InvariantCultureIgnoreCase)
@@ -160,7 +160,7 @@ namespace Liquid.Messaging.Gcp
 
                         var messageProcessed = await handler.Invoke(eventMessage, headers, cancellationToken);
 
-                        
+
 
                         return messageProcessed || _pubSubConsumerParameter.AutoComplete ?
                             await Task.FromResult(SubscriberClient.Reply.Ack) :

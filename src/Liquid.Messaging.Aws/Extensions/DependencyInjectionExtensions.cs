@@ -69,7 +69,7 @@ namespace Liquid.Messaging.Aws.Extensions
         /// <param name="queue">The queue.</param>
         /// <param name="autoComplete">if set to <c>true</c> [automatic complete].</param>
         /// <returns></returns>
-        public static IServiceCollection AddSqsConsumer<TConsumer, TMessage>(this IServiceCollection services, string connectionId, string queue, bool autoComplete = false) 
+        public static IServiceCollection AddSqsConsumer<TConsumer, TMessage>(this IServiceCollection services, string connectionId, string queue, bool autoComplete = false)
             where TConsumer : SqsConsumer<TMessage>
         {
             var parameters = new SqsConsumerParameter(connectionId, queue, autoComplete);

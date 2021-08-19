@@ -31,12 +31,12 @@ namespace Liquid.Messaging.RabbitMq.Tests.Consumers
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="rabbitMqConsumerParameter">The rabbit mq consumer parameter.</param>
-        public RabbitMqTestEventConsumer(IServiceProvider serviceProvider, 
-                                         IMediator mediator, 
-                                         IMapper mapper, 
-                                         ILiquidContext contextFactory, 
-                                         ILoggerFactory loggerFactory, 
-                                         ILiquidConfiguration<RabbitMqSettings> messagingConfiguration, 
+        public RabbitMqTestEventConsumer(IServiceProvider serviceProvider,
+                                         IMediator mediator,
+                                         IMapper mapper,
+                                         ILiquidContext contextFactory,
+                                         ILoggerFactory loggerFactory,
+                                         ILiquidConfiguration<RabbitMqSettings> messagingConfiguration,
                                          RabbitMqConsumerParameter rabbitMqConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, rabbitMqConsumerParameter)
         {
         }

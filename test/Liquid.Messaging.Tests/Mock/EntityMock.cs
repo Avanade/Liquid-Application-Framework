@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Liquid.Messaging.Tests.Mock
+﻿namespace Liquid.Messaging.Tests.Mock
 {
     public class EntityMock
     {

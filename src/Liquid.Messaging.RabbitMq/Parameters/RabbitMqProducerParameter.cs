@@ -1,6 +1,6 @@
-﻿using System;
-using Liquid.Messaging.Parameters;
+﻿using Liquid.Messaging.Parameters;
 using Liquid.Messaging.RabbitMq.Configuration;
+using System;
 
 namespace Liquid.Messaging.RabbitMq.Parameters
 {

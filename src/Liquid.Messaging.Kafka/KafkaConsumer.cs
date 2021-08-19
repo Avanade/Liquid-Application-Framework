@@ -144,7 +144,7 @@ namespace Liquid.Messaging.Kafka
         /// <param name="response">The response.</param>
         /// <exception cref="MessagingConsumerException"></exception>
         private async Task ProcessMessageAsync(ConsumeResult<Ignore, string> response)
-        {           
+        {
             try
             {
 

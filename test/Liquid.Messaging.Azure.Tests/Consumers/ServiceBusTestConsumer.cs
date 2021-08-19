@@ -29,12 +29,12 @@ namespace Liquid.Messaging.Azure.Tests.Consumers
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The service bus messaging configuration.</param>
         /// <param name="serviceBusConsumerParameter">The service bus consumer parameter.</param>
-        public ServiceBusTestConsumer(IServiceProvider serviceProvider, 
-                                      IMediator mediator, 
-                                      IMapper mapper, 
-                                      ILiquidContext contextFactory, 
-                                      ILoggerFactory loggerFactory, 
-                                      ILiquidConfiguration<ServiceBusSettings> messagingConfiguration, 
+        public ServiceBusTestConsumer(IServiceProvider serviceProvider,
+                                      IMediator mediator,
+                                      IMapper mapper,
+                                      ILiquidContext contextFactory,
+                                      ILoggerFactory loggerFactory,
+                                      ILiquidConfiguration<ServiceBusSettings> messagingConfiguration,
                                       ServiceBusConsumerParameter serviceBusConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, serviceBusConsumerParameter)
         {
         }

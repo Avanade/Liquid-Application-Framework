@@ -131,7 +131,7 @@ namespace Liquid.Messaging.Azure
         /// <returns></returns>
         private async Task ProcessMessageAsync(Message message, CancellationToken cancellationToken)
         {
-           
+
             try
             {
 
@@ -141,7 +141,7 @@ namespace Liquid.Messaging.Azure
 
                 using (_serviceProvider.CreateScope())
                 {
-                    
+
                     var headers = message.UserProperties;
                     if (headers != null)
                     {
@@ -158,7 +158,7 @@ namespace Liquid.Messaging.Azure
                     else
                     {
                         await _client.AbandonAsync(message.SystemProperties.LockToken);
-                    }                   
+                    }
                 }
             }
             catch (Exception ex)

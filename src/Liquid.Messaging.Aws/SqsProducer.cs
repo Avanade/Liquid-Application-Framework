@@ -44,7 +44,7 @@ namespace Liquid.Messaging.Aws
 
             _sqsProducerParameter = sqsProducerParameter;
             _context = context;
-            _messagingSettings = messagingConfiguration?.Settings ?? 
+            _messagingSettings = messagingConfiguration?.Settings ??
                     throw new MessagingMissingConfigurationException(_sqsProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(SqsProducer<TMessage>).FullName);
             InitializeClient();
@@ -84,13 +84,13 @@ namespace Liquid.Messaging.Aws
 
                 _queueUrl = await _client.GetAwsQueueUrlAsync(_sqsProducerParameter.Queue);
 
-               foreach(var item in context.current)
+                foreach (var item in context.current)
                 {
                     customHeaders.TryAdd(item.Key, item.Value);
                 }
 
                 if (_sqsProducerParameter.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
-                
+
                 var messageBody = !_sqsProducerParameter.CompressMessage ? message.ToJson() : Convert.ToBase64String(message.ToJson().GzipCompress());
 
                 var request = new SendMessageRequest
@@ -102,7 +102,7 @@ namespace Liquid.Messaging.Aws
 
                 await _client.SendMessageAsync(request);
 
-              
+
             }
             catch (Exception ex)
             {

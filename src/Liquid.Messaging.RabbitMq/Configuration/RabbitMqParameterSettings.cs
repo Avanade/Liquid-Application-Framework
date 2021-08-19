@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
 
 namespace Liquid.Messaging.RabbitMq.Configuration
 {
@@ -80,7 +80,7 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// The exchange arguments.
         /// </value>
         [JsonProperty("exchangeArguments")]
-        public IDictionary<string,object> ExchangeArguments { get; set; }
+        public IDictionary<string, object> ExchangeArguments { get; set; }
 
         /// <summary>
         /// Gets or sets the queue arguments.
@@ -89,6 +89,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// The queue arguments.
         /// </value>
         [JsonProperty("queueArguments")]
-        public IDictionary<string,object> QueueArguments { get; set; }
+        public IDictionary<string, object> QueueArguments { get; set; }
     }
 }

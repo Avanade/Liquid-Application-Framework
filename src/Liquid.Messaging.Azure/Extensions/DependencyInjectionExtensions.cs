@@ -47,7 +47,7 @@ namespace Liquid.Messaging.Azure.Extensions
         /// <param name="autoComplete">if set to <c>true</c> [automatic complete].</param>
         /// <param name="maxConcurrentCalls">The maximum concurrent calls.</param>
         /// <returns></returns>
-        public static IServiceCollection AddServiceBusConsumer<TConsumer, TMessage>(this IServiceCollection services, string connectionId, string topic, string subscription, bool autoComplete = false, int maxConcurrentCalls = 1) 
+        public static IServiceCollection AddServiceBusConsumer<TConsumer, TMessage>(this IServiceCollection services, string connectionId, string topic, string subscription, bool autoComplete = false, int maxConcurrentCalls = 1)
             where TConsumer : ServiceBusConsumer<TMessage>
         {
             var parameters = new ServiceBusConsumerParameter(connectionId, topic, subscription, autoComplete, maxConcurrentCalls);

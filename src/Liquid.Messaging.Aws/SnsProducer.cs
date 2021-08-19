@@ -44,7 +44,7 @@ namespace Liquid.Messaging.Aws
         {
             _snsProducerParameter = snsProducerParameter;
             _context = contextFactory;
-            _messagingSettings = messagingConfiguration?.Settings ?? 
+            _messagingSettings = messagingConfiguration?.Settings ??
                     throw new MessagingMissingConfigurationException(_snsProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(SqsProducer<TMessage>).FullName);
             InitializeClient();
@@ -75,7 +75,7 @@ namespace Liquid.Messaging.Aws
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-            
+
             if (customHeaders == null) customHeaders = new Dictionary<string, object>();
 
             try
@@ -109,7 +109,7 @@ namespace Liquid.Messaging.Aws
                 if (customHeaders.ContainsKey("PhoneNumber")) { request.PhoneNumber = customHeaders["PhoneNumber"].ToString(); }
                 if (customHeaders.ContainsKey("Subject")) { request.Subject = customHeaders["Subject"].ToString(); }
 
-                await _client.PublishAsync(request);                               
+                await _client.PublishAsync(request);
             }
             catch (Exception ex)
             {

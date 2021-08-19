@@ -97,7 +97,7 @@ namespace Liquid.Messaging.Aws
             _serviceProvider = serviceProvider;
             _contextFactory = contextFactory;
             _messagingSettings = messagingConfiguration?.Settings ??
-                    throw new MessagingMissingConfigurationException(_sqsConsumerParameter.ConnectionId); 
+                    throw new MessagingMissingConfigurationException(_sqsConsumerParameter.ConnectionId);
 
             MediatorService = mediator;
             MapperService = mapper;
@@ -129,8 +129,8 @@ namespace Liquid.Messaging.Aws
                 _queueUrl = await _client.GetAwsQueueUrlAsync(_sqsConsumerParameter.Queue);
                 var receiveMessageRequest = new ReceiveMessageRequest
                 {
-                    QueueUrl = _queueUrl, 
-                    AttributeNames = new List<string> { "All" }, 
+                    QueueUrl = _queueUrl,
+                    AttributeNames = new List<string> { "All" },
                     MessageAttributeNames = new List<string> { "All" }
                 };
 
@@ -150,7 +150,7 @@ namespace Liquid.Messaging.Aws
 
         private async Task ProcessMessageAsync(Message message)
         {
-            
+
             try
             {
 

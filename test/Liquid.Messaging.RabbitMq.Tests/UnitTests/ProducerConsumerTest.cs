@@ -1,20 +1,5 @@
-﻿using AutoFixture;
-using Liquid.Core.Extensions.DependencyInjection;
-using Liquid.Domain.Extensions;
-using Liquid.Messaging.Extensions;
-using Liquid.Messaging.RabbitMq.Extensions;
-using Liquid.Messaging.RabbitMq.Tests.Common;
-using Liquid.Messaging.RabbitMq.Tests.Consumers;
-using Liquid.Messaging.RabbitMq.Tests.Messages;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
-using Microsoft.Extensions.Logging.Console;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
@@ -34,25 +19,25 @@ namespace Liquid.Messaging.RabbitMq.Tests.UnitTests
         [SetUp]
         public void SetUp()
         {
-//            var services = new ServiceCollection();
-//            //Add log and configuration.
-//            services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, ConsoleLoggerProvider>());
-//            LoggerProviderOptions.RegisterProviderOptions<ConsoleLoggerOptions, ConsoleLoggerProvider>(services);
-//#pragma warning disable CS0618
-//            services.Configure(new Action<ConsoleLoggerOptions>(options => options.DisableColors = false));
-//#pragma warning restore CS0618
-//            services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
-//            IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
-//            services.AddSingleton(configurationRoot);
+            //            var services = new ServiceCollection();
+            //            //Add log and configuration.
+            //            services.TryAddEnumerable(ServiceDescriptor.Singleton<ILoggerProvider, ConsoleLoggerProvider>());
+            //            LoggerProviderOptions.RegisterProviderOptions<ConsoleLoggerOptions, ConsoleLoggerProvider>(services);
+            //#pragma warning disable CS0618
+            //            services.Configure(new Action<ConsoleLoggerOptions>(options => options.DisableColors = false));
+            //#pragma warning restore CS0618
+            //            services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
+            //            IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
+            //            services.AddSingleton(configurationRoot);
 
-//            services.AddLiquidConfiguration();
-//            services.AddLiquidHandlers(false, false, GetType().Assembly);
-//            services.AddAutoMapper(GetType().Assembly);
+            //            services.AddLiquidConfiguration();
+            //            services.AddLiquidHandlers(false, false, GetType().Assembly);
+            //            services.AddAutoMapper(GetType().Assembly);
 
-//            services.AddRabbitMqProducer<RabbitMqTestMessage>("TestRabbitMq", "TestMessageTopic", AdvancedSettingsMockFactory.GetAdvancedSettings());
-//            services.AddRabbitMqConsumer<RabbitMqTestEventConsumer, RabbitMqTestMessage>("TestRabbitMq", "TestMessageTopic", "TestMessageSubscription", AdvancedSettingsMockFactory.GetAdvancedSettings());
+            //            services.AddRabbitMqProducer<RabbitMqTestMessage>("TestRabbitMq", "TestMessageTopic", AdvancedSettingsMockFactory.GetAdvancedSettings());
+            //            services.AddRabbitMqConsumer<RabbitMqTestEventConsumer, RabbitMqTestMessage>("TestRabbitMq", "TestMessageTopic", "TestMessageSubscription", AdvancedSettingsMockFactory.GetAdvancedSettings());
 
-//            _serviceProvider = services.BuildServiceProvider();
+            //            _serviceProvider = services.BuildServiceProvider();
         }
 
         /// <summary>

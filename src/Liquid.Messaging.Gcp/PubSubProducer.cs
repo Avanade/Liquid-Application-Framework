@@ -84,7 +84,7 @@ namespace Liquid.Messaging.Gcp
         public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
         {
             if (message == null) throw new ArgumentNullException(nameof(message));
-           
+
             if (customHeaders == null) customHeaders = new Dictionary<string, object>();
 
             try

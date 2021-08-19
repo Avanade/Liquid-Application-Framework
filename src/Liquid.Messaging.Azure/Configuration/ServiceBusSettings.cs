@@ -18,6 +18,6 @@ namespace Liquid.Messaging.Azure.Configuration
         /// The connection string.
         /// </value>
         [JsonProperty("connectionString")]
-        public string ConnectionString { get; set; }        
+        public string ConnectionString { get; set; }
     }
 }

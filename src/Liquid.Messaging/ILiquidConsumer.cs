@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,6 +16,6 @@ namespace Liquid.Messaging
         void Start();
 
         event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
-        event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;        
+        event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
     }
 }

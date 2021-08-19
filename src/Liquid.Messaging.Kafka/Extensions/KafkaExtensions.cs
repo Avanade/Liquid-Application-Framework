@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Confluent.Kafka;
+using System.Collections.Generic;
 using System.Text;
-using Confluent.Kafka;
 
 namespace Liquid.Messaging.Kafka.Extensions
 {

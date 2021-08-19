@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Liquid.Core.Interfaces;
 using Liquid.Messaging.Gcp.Configuration;
 using Liquid.Messaging.Gcp.Factories;
@@ -10,6 +6,10 @@ using Liquid.Messaging.Gcp.Parameters;
 using Liquid.Messaging.Gcp.Tests.Messages;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Gcp.Tests.Consumers
 {
@@ -31,13 +31,13 @@ namespace Liquid.Messaging.Gcp.Tests.Consumers
         /// <param name="pubSubClientFactory">The pub sub client factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="pubSubConsumerParameter">The pub sub consumer parameter.</param>
-        public PubSubTestConsumer(IServiceProvider serviceProvider, 
-                                  IMediator mediator, 
-                                  IMapper mapper, 
-                                  ILiquidContext contextFactory, 
-                                  ILoggerFactory loggerFactory, 
-                                  IPubSubClientFactory pubSubClientFactory, 
-                                  ILiquidConfiguration<PubSubSettings> messagingConfiguration, 
+        public PubSubTestConsumer(IServiceProvider serviceProvider,
+                                  IMediator mediator,
+                                  IMapper mapper,
+                                  ILiquidContext contextFactory,
+                                  ILoggerFactory loggerFactory,
+                                  IPubSubClientFactory pubSubClientFactory,
+                                  ILiquidConfiguration<PubSubSettings> messagingConfiguration,
                                   PubSubConsumerParameter pubSubConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, pubSubClientFactory, messagingConfiguration, pubSubConsumerParameter)
         {
         }

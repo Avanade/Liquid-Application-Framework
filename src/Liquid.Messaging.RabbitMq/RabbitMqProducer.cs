@@ -83,7 +83,7 @@ namespace Liquid.Messaging.RabbitMq
             try
             {
                 var context = _context;
-                
+
                 await Task.Run(() =>
                 {
                     var aggregationId = context.Get("AggregationId").ToString();
@@ -100,7 +100,7 @@ namespace Liquid.Messaging.RabbitMq
                     messageProperties.Expiration = _rabbitMqProducerParameter.AdvancedSettings?.Expiration ?? "30000";
                     messageProperties.Headers = customHeaders;
                     messageProperties.CorrelationId = aggregationId;
-                    messageProperties.MessageId = messageId;                    
+                    messageProperties.MessageId = messageId;
 
                     var messageBytes = !_rabbitMqProducerParameter.CompressMessage ? message.ToJsonBytes() : message.ToJson().GzipCompress();
 
@@ -110,7 +110,7 @@ namespace Liquid.Messaging.RabbitMq
                     }
 
                     _channelModel.BasicPublish(_rabbitMqProducerParameter.Exchange, string.Empty, messageProperties, messageBytes);
-                                        
+
                 });
             }
             catch (Exception ex)

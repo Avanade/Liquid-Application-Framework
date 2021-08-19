@@ -30,12 +30,12 @@ namespace Liquid.Messaging.Aws.Tests.Consumers
         /// <param name="loggerFactory">The logger factory.</param>
         /// <param name="messagingConfiguration">The messaging configuration.</param>
         /// <param name="sqsConsumerParameter">The SQS consumer parameter.</param>
-        public AwsSqsConsumer(IServiceProvider serviceProvider, 
-                              IMediator mediator, 
-                              IMapper mapper, 
-                              ILiquidContext contextFactory,  
-                              ILoggerFactory loggerFactory, 
-                              ILiquidConfiguration<AwsMessagingSettings> messagingConfiguration, 
+        public AwsSqsConsumer(IServiceProvider serviceProvider,
+                              IMediator mediator,
+                              IMapper mapper,
+                              ILiquidContext contextFactory,
+                              ILoggerFactory loggerFactory,
+                              ILiquidConfiguration<AwsMessagingSettings> messagingConfiguration,
                               SqsConsumerParameter sqsConsumerParameter) : base(serviceProvider, mediator, mapper, contextFactory, loggerFactory, messagingConfiguration, sqsConsumerParameter)
         {
         }

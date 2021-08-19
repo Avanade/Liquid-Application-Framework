@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Google.Protobuf.Collections;
+﻿using Google.Protobuf.Collections;
+using System.Collections.Generic;
 
 namespace Liquid.Messaging.Gcp.Extensions
 {

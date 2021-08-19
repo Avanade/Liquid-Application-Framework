@@ -29,7 +29,7 @@ namespace Liquid.Messaging.Gcp.Extensions
         {
             var parameters = new PubSubProducerParameter(connectionId, topic, compressMessage);
 
-            services.AddSingleton<IPubSubClientFactory>((sp) => 
+            services.AddSingleton<IPubSubClientFactory>((sp) =>
             {
                 if (emulated) return new EmulatedPubSubClientFactory();
                 else return new DefaultPubSubClientFactory();

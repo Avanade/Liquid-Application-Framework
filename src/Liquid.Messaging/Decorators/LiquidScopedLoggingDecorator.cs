@@ -3,7 +3,6 @@ using Liquid.Core.Settings;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,7 +21,7 @@ namespace Liquid.Messaging.Decorators
         {
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _options = options ?? throw new ArgumentNullException(nameof(options));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));            
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         public async Task Execute<T>(ProcessMessageEventArgs<T> message, Func<ProcessMessageEventArgs<T>, CancellationToken, Task> process, CancellationToken cancellationToken)
@@ -32,7 +31,7 @@ namespace Liquid.Messaging.Decorators
             foreach (var key in _options.Settings.Keys)
             {
                 message.Headers.TryGetValue(key.KeyName, out object value);
-                
+
                 if (value is null && key.Required)
                     //TODO: Custom Exception.
                     throw new Exception(key.KeyName);

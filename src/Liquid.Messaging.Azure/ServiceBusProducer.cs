@@ -41,7 +41,7 @@ namespace Liquid.Messaging.Azure
         {
             _serviceBusProducerParameter = serviceBusProducerParameter;
             _context = contextFactory;
-            _messagingSettings = messagingConfiguration?.Settings ?? 
+            _messagingSettings = messagingConfiguration?.Settings ??
                      throw new MessagingMissingConfigurationException(_serviceBusProducerParameter.ConnectionId);
             _logger = loggerFactory.CreateLogger(typeof(ServiceBusProducer<TMessage>).FullName);
 
@@ -73,8 +73,8 @@ namespace Liquid.Messaging.Azure
             {
                 var context = _context;
                 var telemetryKey = $"ServiceBusProducer_{_serviceBusProducerParameter.Topic}";
-                
-                
+
+
                 var aggregationId = context.Get("AggregationId").ToString();
                 var messageId = Guid.NewGuid().ToString();
 

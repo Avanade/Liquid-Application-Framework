@@ -1,5 +1,5 @@
-﻿using System;
-using Liquid.Messaging.Parameters;
+﻿using Liquid.Messaging.Parameters;
+using System;
 
 namespace Liquid.Messaging.Azure.Parameters
 {

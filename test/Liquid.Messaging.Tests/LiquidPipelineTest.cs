@@ -36,7 +36,7 @@ namespace Liquid.Messaging.Tests
         [Fact]
         public void Execute_WhenProcessFail_ThrowException()
         {
-            _consumer.When(x => 
+            _consumer.When(x =>
             x.ProcessMessageAsync(Arg.Any<ProcessMessageEventArgs<EntityMock>>(), Arg.Any<CancellationToken>()))
                 .Do((call) => throw new Exception());
 

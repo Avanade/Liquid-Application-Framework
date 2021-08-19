@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Liquid.Core.Exceptions;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-using Liquid.Core.Exceptions;
 
 namespace Liquid.Messaging.Exceptions
 {
@@ -22,7 +22,7 @@ namespace Liquid.Messaging.Exceptions
         public MessagingMissingConfigurationException(string message) : base(message)
         {
         }
-        
+
         /// <inheritdoc/>
         protected MessagingMissingConfigurationException(SerializationInfo info, StreamingContext context) : base(info, context)
         {

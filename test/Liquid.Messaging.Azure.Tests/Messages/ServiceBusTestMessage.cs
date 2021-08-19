@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
 
 namespace Liquid.Messaging.Azure.Tests.Messages
 {

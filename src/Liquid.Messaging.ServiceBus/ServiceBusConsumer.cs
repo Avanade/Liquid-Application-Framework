@@ -42,10 +42,10 @@ namespace Liquid.Messaging.ServiceBus
         }
 
         private async Task MessageHandler(Message message, CancellationToken cancellationToken)
-        {    
+        {
             await _pipeline.Execute(GetEventArgs(message), ProcessMessageAsync, cancellationToken);
 
-            if(_messageReceiver.ReceiveMode == ReceiveMode.PeekLock)
+            if (_messageReceiver.ReceiveMode == ReceiveMode.PeekLock)
             {
                 await _messageReceiver.CompleteAsync(message.SystemProperties.LockToken);
             }
@@ -53,8 +53,9 @@ namespace Liquid.Messaging.ServiceBus
 
         private Task ErrorHandler(ExceptionReceivedEventArgs args)
         {
-            return ProcessErrorAsync(new ProcessErrorEventArgs() { 
-                Exception = new MessagingConsumerException(args.Exception) 
+            return ProcessErrorAsync(new ProcessErrorEventArgs()
+            {
+                Exception = new MessagingConsumerException(args.Exception)
             });
         }
 

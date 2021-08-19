@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Amazon.SQS;
+using Amazon.SQS.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Amazon.SQS;
-using Amazon.SQS.Model;
 
 namespace Liquid.Messaging.Aws.Extensions
 {

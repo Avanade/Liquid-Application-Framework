@@ -27,6 +27,6 @@ namespace Liquid.Messaging
             }
         }
 
-        protected abstract Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken);
+        public abstract Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken);
     }
 }

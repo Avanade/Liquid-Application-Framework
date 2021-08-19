@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Liquid.Messaging
 {
-    public interface ILiquidProducer<TEvent>
+    public interface ILiquidProducer<TEntity>
     {
-        Task SendAsync(IEnumerable<TEvent> events);
+        Task SendAsync(IEnumerable<TEntity> events);
 
-        Task SendAsync(TEvent @event);
+        Task SendAsync(TEntity @event);
     }
 }

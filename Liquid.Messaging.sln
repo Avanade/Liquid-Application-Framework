@@ -50,7 +50,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Messaging.ServiceBus
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ServiceBus", "ServiceBus", "{E3235627-B0F4-4D13-9D99-1413ACD18FEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Messaging.ServiceBus.Tests", "test\Liquid.Messaging.ServiceBus.Tests\Liquid.Messaging.ServiceBus.Tests.csproj", "{3ADD0242-B66A-4BC9-B203-DEE5457043CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Messaging.ServiceBus.Tests", "test\Liquid.Messaging.ServiceBus.Tests\Liquid.Messaging.ServiceBus.Tests.csproj", "{3ADD0242-B66A-4BC9-B203-DEE5457043CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Messaging.Tests", "test\Liquid.Messaging.Tests\Liquid.Messaging.Tests.csproj", "{FF1C2056-A50D-4685-997C-671D9765D731}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -110,6 +112,10 @@ Global
 		{3ADD0242-B66A-4BC9-B203-DEE5457043CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3ADD0242-B66A-4BC9-B203-DEE5457043CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3ADD0242-B66A-4BC9-B203-DEE5457043CD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF1C2056-A50D-4685-997C-671D9765D731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF1C2056-A50D-4685-997C-671D9765D731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF1C2056-A50D-4685-997C-671D9765D731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF1C2056-A50D-4685-997C-671D9765D731}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

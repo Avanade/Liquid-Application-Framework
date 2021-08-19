@@ -6,11 +6,18 @@ using System.Threading.Tasks;
 
 namespace Liquid.Messaging
 {
-    public interface ILiquidConsumer<TEvent>
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    public interface ILiquidConsumer<TEntity>
     {
+        /// <summary>
+        /// 
+        /// </summary>
         void Start();
 
-        event Func<ProcessMessageEventArgs<TEvent>, CancellationToken, Task> ProcessMessageAsync;
-        event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
+        event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
+        event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;        
     }
 }

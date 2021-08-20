@@ -11,15 +11,10 @@ namespace Liquid.Messaging.Tests
     {
         private static readonly ILiquidConsumer<EntityMock> _consumer = Substitute.For<ILiquidConsumer<EntityMock>>();
 
-        public LiquidConsumerBaseTest() : base(SubstituteConsumer())
+        public LiquidConsumerBaseTest() : base(_consumer)
         {            
         }
         
-        public static ILiquidConsumer<EntityMock> SubstituteConsumer()
-        {              
-            return _consumer;
-        }
-
         [Fact]
         public void ExecuteAsync_WhenStart_ConsumerReceivedStartCall()
         {

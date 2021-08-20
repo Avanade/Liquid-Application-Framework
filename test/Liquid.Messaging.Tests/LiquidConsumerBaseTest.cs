@@ -1,8 +1,6 @@
 ﻿using Liquid.Messaging.Tests.Mock;
 using NSubstitute;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -11,13 +9,10 @@ namespace Liquid.Messaging.Tests
 {
     public class LiquidConsumerBaseTest : LiquidConsumerBase<EntityMock>
     {
-        static readonly CancellationTokenSource s_cts = new CancellationTokenSource();
-        private readonly LiquidConsumerBase<EntityMock> _sut;
         private static readonly ILiquidConsumer<EntityMock> _consumer = Substitute.For<ILiquidConsumer<EntityMock>>();
 
         public LiquidConsumerBaseTest() : base(SubstituteConsumer())
         {            
-            _sut = new EntityConsumerMock(_consumer);
         }
         
         public static ILiquidConsumer<EntityMock> SubstituteConsumer()
@@ -48,7 +43,7 @@ namespace Liquid.Messaging.Tests
 
         public override Task ProcessMessageAsync(ProcessMessageEventArgs<EntityMock> args, CancellationToken cancellationToken)
         {
-            return _sut.ProcessMessageAsync(args, cancellationToken);
+            throw new NotImplementedException();
         }
     }
 

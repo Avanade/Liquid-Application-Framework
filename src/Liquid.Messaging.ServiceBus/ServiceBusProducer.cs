@@ -12,11 +12,13 @@ using System.Threading.Tasks;
 
 namespace Liquid.Messaging.ServiceBus
 {
+    ///<inheritdoc/>
     public class ServiceBusProducer<TEntity> : ILiquidProducer<TEntity>
     {
         private readonly IMessageSender _messageSender;
+
         /// <summary>
-        /// Initialize a new instance of <see cref="ServiceBusProducer"/>.
+        /// Initialize a new instance of <see cref="ServiceBusConsumer{TEntity}"/>.
         /// </summary>
         /// <param name="factory">Service Bus client factory.</param>
         public ServiceBusProducer(IServiceBusFactory factory)
@@ -30,6 +32,7 @@ namespace Liquid.Messaging.ServiceBus
 
             _messageSender = factory?.GetSender(settings.SettingsName) ?? throw new ArgumentNullException(nameof(factory));
         }
+
         ///<inheritdoc/>
         public async Task SendMessagesAsync(IEnumerable<TEntity> messageBodies)
         {
@@ -56,7 +59,7 @@ namespace Liquid.Messaging.ServiceBus
             }
         }
 
-        protected Message ToMessage(TEntity messageBody, IDictionary<string, object> customProperties = null)
+        private Message ToMessage(TEntity messageBody, IDictionary<string, object> customProperties = null)
         {
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream ms = new MemoryStream();

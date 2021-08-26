@@ -20,7 +20,7 @@ namespace Liquid.Messaging.Tests
         {
             _ = base.ExecuteAsync(new CancellationToken());
 
-            _consumer.Received().Start();
+            _consumer.Received().RegisterMessageHandler();
         }
 
 
@@ -28,7 +28,7 @@ namespace Liquid.Messaging.Tests
         public async Task ExecuteAsync_WhenStartFail_ThrowException()
         {
             _consumer.When(x =>
-            x.Start())
+            x.RegisterMessageHandler())
                 .Do((call) => throw new Exception());
 
             var task = ExecuteAsync(new CancellationToken());

@@ -5,17 +5,24 @@ using System.Threading.Tasks;
 namespace Liquid.Messaging
 {
     /// <summary>
-    /// 
+    /// Handles message consuming process.
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">Type of message body.</typeparam>
     public interface ILiquidConsumer<TEntity>
     {
         /// <summary>
-        /// 
+        /// Initialize handler for consume <typeparamref name="TEntity"/> messages from topic or queue.
         /// </summary>
-        void Start();
+        void RegisterMessageHandler();
 
+        /// <summary>
+        /// Defining the message processing function.
+        /// </summary>
         event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
+
+        /// <summary>
+        /// Definition of the error handling process.
+        /// </summary>
         event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
     }
 }

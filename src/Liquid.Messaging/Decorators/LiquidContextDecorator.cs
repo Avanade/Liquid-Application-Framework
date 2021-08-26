@@ -1,6 +1,8 @@
 ﻿using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
+using Liquid.Messaging.Exceptions;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ namespace Liquid.Messaging.Decorators
     /// Inserts configured context keys in LiquidContext service.
     /// Includes its behavior in messaging pipelines before process execution.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LiquidContextDecorator : ILiquidPipeline
     {
         private readonly ILiquidPipeline _inner;
@@ -18,7 +21,7 @@ namespace Liquid.Messaging.Decorators
         private readonly ILiquidConfiguration<ScopedContextSettings> _options;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="LiquidContextDecorator"/>
+        /// Initialize a new instance of <see cref="LiquidContextDecorator"/>.
         /// </summary>
         /// <param name="inner">Decorated service.</param>
         /// <param name="context">Scoped Context service.</param>
@@ -29,19 +32,16 @@ namespace Liquid.Messaging.Decorators
             _context = context ?? throw new ArgumentNullException(nameof(context));
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
+
         ///<inheritdoc/>
         public async Task Execute<T>(ProcessMessageEventArgs<T> message, Func<ProcessMessageEventArgs<T>, CancellationToken, Task> process, CancellationToken cancellationToken)
         {
-
-            object value = default;
-
             foreach (var key in _options.Settings.Keys)
             {
-                message.Headers.TryGetValue(key.KeyName, out value);
+                message.Headers.TryGetValue(key.KeyName, out var value);
 
                 if (value is null && key.Required)
-                    //TODO: build a custom exception
-                    throw new Exception(key.KeyName);
+                    throw new MessagingMissingContextKeysException(key.KeyName);
 
                 _context.Upsert(key.KeyName, value);
             }

@@ -16,28 +16,30 @@ namespace Liquid.Messaging.ServiceBus
     public class ServiceBusConsumer<TEntity> : ILiquidConsumer<TEntity>
     {
         private IMessageReceiver _messageReceiver;
+
         private readonly IServiceBusFactory _factory;
 
         private readonly ILiquidPipeline _pipeline;
 
+        ///<inheritdoc/>
         public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
+
+        ///<inheritdoc/>
         public event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
 
         /// <summary>
-        /// Initilize an instance of <see cref="ServiceBusConsumer"/>
+        /// Initilize an instance of <see cref="ServiceBusConsumer{TEntity}"/>
         /// </summary>
-        /// <param name="factory"></param>
-        /// <param name="pipeline"></param>
+        /// <param name="factory">Service Bus client factory.</param>
+        /// <param name="pipeline">Liquid message handlers pipeline.</param>
         public ServiceBusConsumer(IServiceBusFactory factory, ILiquidPipeline pipeline)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
         }
 
-        /// <summary>
-        /// Initialize handler for consume <typeparamref name="TEntity"/> messages from topic or queue.
-        /// </summary>
-        public void Start()
+        ///<inheritdoc/>
+        public void RegisterMessageHandler()
         {
             if (!typeof(TEntity).GetCustomAttributes(typeof(SettingsNameAttribute), true).Any())
             {
@@ -51,6 +53,11 @@ namespace Liquid.Messaging.ServiceBus
             _messageReceiver.RegisterMessageHandler(MessageHandler, new MessageHandlerOptions(ErrorHandler));
         }
 
+        /// <summary>
+        /// Process incoming messages.
+        /// </summary>
+        /// <param name="message">Message to be processed.</param>
+        /// <param name="cancellationToken"> Propagates notification that operations should be canceled.</param>
         protected async Task MessageHandler(Message message, CancellationToken cancellationToken)
         {
             await _pipeline.Execute(GetEventArgs(message), ProcessMessageAsync, cancellationToken);

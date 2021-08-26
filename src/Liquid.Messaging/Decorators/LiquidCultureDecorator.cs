@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace Liquid.Messaging.Decorators
     /// Configures the culture in the current thread.
     /// Includes its behavior in messaging pipelines before process execution.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LiquidCultureDecorator : ILiquidPipeline
     {
         private const string _culture = "culture";
@@ -27,6 +29,7 @@ namespace Liquid.Messaging.Decorators
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
+
         ///<inheritdoc/>
         public async Task Execute<T>(ProcessMessageEventArgs<T> message, Func<ProcessMessageEventArgs<T>, CancellationToken, Task> process, CancellationToken cancellationToken)
         {

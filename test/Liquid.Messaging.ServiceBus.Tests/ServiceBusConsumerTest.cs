@@ -28,7 +28,7 @@ namespace Liquid.Messaging.ServiceBus.Tests
             var messageReceiver = Substitute.For<IMessageReceiver>();
             _factory.GetReceiver(Arg.Any<string>()).Returns(messageReceiver);
 
-            Start();
+            RegisterMessageHandler();
 
             messageReceiver.Received(1).RegisterMessageHandler(Arg.Any<Func<Message, CancellationToken, Task>>(), Arg.Any<MessageHandlerOptions>());
         }
@@ -39,7 +39,7 @@ namespace Liquid.Messaging.ServiceBus.Tests
             var messageReceiver = Substitute.For<IMessageReceiver>();
             _factory.When(x => x.GetReceiver(Arg.Any<string>())).Do((call) => throw new Exception());
 
-            Assert.Throws<Exception>(() => Start());
+            Assert.Throws<Exception>(() => RegisterMessageHandler());
 
             messageReceiver.Received(0).RegisterMessageHandler(Arg.Any<Func<Message, CancellationToken, Task>>(), Arg.Any<MessageHandlerOptions>());
         }
@@ -86,7 +86,7 @@ namespace Liquid.Messaging.ServiceBus.Tests
                 , Arg.Any<Func<ProcessMessageEventArgs<EntityMock>, CancellationToken, Task>>()
                 , Arg.Any<CancellationToken>()))
                 .Do((call) => throw new Exception());
-            Start();
+            RegisterMessageHandler();
 
             var task = MessageHandler(message, new CancellationToken());
 

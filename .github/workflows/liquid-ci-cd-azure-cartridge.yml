@@ -71,13 +71,13 @@ jobs:
     - name: (CI/CD) Build and Analyze Project
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_AZURE }}
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_SERVICEBUS }}
       run: |
-        dotnet sonarscanner begin /k:"Avanade_Liquid.Messaging.ServiceBus" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN_AZURE}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
+        dotnet sonarscanner begin /k:"Avanade_Liquid.Messaging.ServiceBus" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN_SERVICEBUS}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
         dotnet build src/Liquid.Messaging.ServiceBus/Liquid.Messaging.ServiceBus.csproj --configuration Release --no-restore
         dotnet test test/Liquid.Messaging.ServiceBus.Tests/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
         reportgenerator -reports:$GITHUB_WORKSPACE/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"SonarQube"
-        dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN_AZURE}}"
+        dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN_SERVICEBUS}}"
 
     - name: (CD) Nuget Pack & Push to Nuget.org
       if: ${{ github.event_name == 'push' }}

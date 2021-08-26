@@ -9,11 +9,11 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.0-preview-20210806-01</Version>
+    <Version>2.0.0-preview-20210827-02</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>
       The Liquid.Messaging provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
-      The main components are ILightProducer and ILightConsumer.
+      The main components are ILiquidProducer and ILiquidConsumer.
       This component is part of Liquid Application Framework.
     </Description>
     <ProjectGuid>{CE81EFD6-CA1D-493B-9ABD-ABD8EB577DCC}</ProjectGuid>

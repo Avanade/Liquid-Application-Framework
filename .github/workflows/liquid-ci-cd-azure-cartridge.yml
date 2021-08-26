@@ -1,17 +1,17 @@
 # CI & CD workflow
-name: CI/CD - Messaging.Azure Cartridge for Liquid Application Framework
+name: CI/CD - Messaging.ServiceBus Cartridge for Liquid Application Framework
 
 on:
   push:
     branches: [ main ]
     paths:
-    - 'src/Liquid.Messaging.Azure/**'
+    - 'src/Liquid.Messaging.ServiceBus/**'
     
   pull_request:
     branches: [ main ]
     types: [opened, synchronize, reopened]
     paths:
-    - 'src/Liquid.Messaging.Azure/**'
+    - 'src/Liquid.Messaging.ServiceBus/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -66,13 +66,13 @@ jobs:
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
     - name: (CI/CD) Restore dependencies
-      run: dotnet restore src/Liquid.Messaging.Azure/Liquid.Messaging.Azure.csproj
+      run: dotnet restore src/Liquid.Messaging.ServiceBus/Liquid.Messaging.ServiceBus.csproj
 
     # required to run tests that depends on Azure Services
     - name: Parse Secrets
       uses: jwsi/secret-parser@v1
       with:
-        filename: test/Liquid.Messaging.Azure.Tests/appsettings.json
+        filename: test/Liquid.Messaging.ServiceBus.Tests/appsettings.json
         secret-name: LIQUID_MESSAGING_AZURE_TEST_CONNECTIONS
         secret-value: ${{ secrets.LIQUID_MESSAGING_AZURE_TEST_CONNECTIONS }}
 
@@ -81,15 +81,15 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN_AZURE }}
       run: |
-        dotnet sonarscanner begin /k:"Avanade_Liquid.Messaging.Azure" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN_AZURE}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
-        dotnet build src/Liquid.Messaging.Azure/Liquid.Messaging.Azure.csproj --configuration Release --no-restore
-        dotnet test test/Liquid.Messaging.Azure.Tests/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
+        dotnet sonarscanner begin /k:"Avanade_Liquid.Messaging.ServiceBus" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN_AZURE}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/coverlet/reports/SonarQube.xml
+        dotnet build src/Liquid.Messaging.ServiceBus/Liquid.Messaging.ServiceBus.csproj --configuration Release --no-restore
+        dotnet test test/Liquid.Messaging.ServiceBus.Tests/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/testresults
         reportgenerator -reports:$GITHUB_WORKSPACE/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/coverlet/reports -reporttypes:"SonarQube"
         dotnet sonarscanner end /d:sonar.login="${{secrets.SONAR_TOKEN_AZURE}}"
 
     - name: (CD) Nuget Pack & Push to Nuget.org
       if: ${{ github.event_name == 'push' }}
       run: |
-        dotnet pack --no-build --configuration Release src/Liquid.Messaging.Azure/Liquid.Messaging.Azure.csproj --output .
+        dotnet pack --no-build --configuration Release src/Liquid.Messaging.ServiceBus/Liquid.Messaging.ServiceBus.csproj --output .
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate
       

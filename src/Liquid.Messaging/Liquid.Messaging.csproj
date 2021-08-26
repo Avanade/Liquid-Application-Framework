@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <PackageReference Include="Liquid.Core" Version="2.0.1" />
+    <PackageReference Include="Liquid.Domain" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
   </ItemGroup>
 

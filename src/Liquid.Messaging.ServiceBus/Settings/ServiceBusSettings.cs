@@ -1,4 +1,7 @@
 ﻿using Liquid.Core.Attributes;
+using Liquid.Messaging.Exceptions;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Liquid.Messaging.ServiceBus.Settings
 {
@@ -9,6 +12,36 @@ namespace Liquid.Messaging.ServiceBus.Settings
     public class ServiceBusSettings
     {
         /// <summary>
+        /// Service Bus configuration settings list.
+        /// </summary>
+        public IList<ServiceBusConfiguration> Settings { get; set; }
+
+        /// <summary>
+        /// Gets a set of Service Bus configuration properties <see cref="ServiceBusConfiguration"/>
+        /// that contains property "SettingsName" with same value of <paramref name="settingsName"/>.
+        /// </summary>
+        /// <param name="settingsName">Identifier of configuration set.</param>
+        public ServiceBusConfiguration GetSettings(string settingsName)
+        {
+            var config = Settings.FirstOrDefault(x => x.SettingsName == settingsName);
+
+            if (config is null) throw new MessagingMissingSettingsException(settingsName);
+
+            return config;
+        }
+    }
+
+    /// <summary>
+    /// Service bus configuration properties set.
+    /// </summary>
+    public class ServiceBusConfiguration
+    {
+        /// <summary>
+        /// Identifier of configuration set.
+        /// </summary>
+        public string SettingsName { get; set; }
+
+        // <summary>
         /// Connection string of Service Bus resource.
         /// </summary>
         public string ConnectionString { get; set; }

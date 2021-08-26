@@ -66,15 +66,7 @@ jobs:
       run: dotnet tool install --global dotnet-reportgenerator-globaltool
 
     - name: (CI/CD) Restore dependencies
-      run: dotnet restore src/Liquid.Messaging.ServiceBus/Liquid.Messaging.ServiceBus.csproj
-
-    # required to run tests that depends on Azure Services
-    - name: Parse Secrets
-      uses: jwsi/secret-parser@v1
-      with:
-        filename: test/Liquid.Messaging.ServiceBus.Tests/appsettings.json
-        secret-name: LIQUID_MESSAGING_AZURE_TEST_CONNECTIONS
-        secret-value: ${{ secrets.LIQUID_MESSAGING_AZURE_TEST_CONNECTIONS }}
+      run: dotnet restore src/Liquid.Messaging.ServiceBus/Liquid.Messaging.ServiceBus.csproj    
 
     - name: (CI/CD) Build and Analyze Project
       env:

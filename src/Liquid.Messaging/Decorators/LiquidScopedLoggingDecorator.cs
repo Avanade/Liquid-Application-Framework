@@ -4,6 +4,7 @@ using Liquid.Messaging.Exceptions;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace Liquid.Messaging.Decorators
     /// Inserts configured context keys in ILogger service scope.
     /// Includes its behavior in messaging pipelines before process execution.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LiquidScopedLoggingDecorator : ILiquidPipeline
     {
         private readonly ILogger<LiquidScopedLoggingDecorator> _logger;

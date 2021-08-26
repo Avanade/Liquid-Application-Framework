@@ -16,7 +16,7 @@ namespace Liquid.Messaging
         /// Initialize a new instance of <see cref="LiquidConsumerBase{TEntity}"/>
         /// </summary>
         /// <param name="consumer">Consumer service with message handler definition for processing messages.</param>
-        public LiquidConsumerBase(ILiquidConsumer<TEntity> consumer)
+        protected LiquidConsumerBase(ILiquidConsumer<TEntity> consumer)
         {
             _consumer = consumer;
         }

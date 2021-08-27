@@ -18,7 +18,9 @@ namespace Liquid.Messaging.Tests
         [Fact]
         public void ExecuteAsync_WhenStart_ConsumerReceivedStartCall()
         {
-            _ = base.ExecuteAsync(new CancellationToken());
+            var task = base.ExecuteAsync(new CancellationToken());
+
+            task.Wait(1000);
 
             _consumer.Received().RegisterMessageHandler();
         }

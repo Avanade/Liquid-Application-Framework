@@ -41,7 +41,7 @@ namespace Liquid.Messaging.ServiceBus.Settings
         /// </summary>
         public string SettingsName { get; set; }
 
-        // <summary>
+        /// <summary>
         /// Connection string of Service Bus resource.
         /// </summary>
         public string ConnectionString { get; set; }

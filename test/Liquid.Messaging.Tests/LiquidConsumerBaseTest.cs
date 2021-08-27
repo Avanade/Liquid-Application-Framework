@@ -1,5 +1,5 @@
 ﻿using Liquid.Messaging.Tests.Mock;
-using NSubstitute;
+using Moq;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -9,29 +9,28 @@ namespace Liquid.Messaging.Tests
 {
     public class LiquidConsumerBaseTest : LiquidConsumerBase<EntityMock>
     {
-        private static readonly ILiquidConsumer<EntityMock> _consumer = Substitute.For<ILiquidConsumer<EntityMock>>();
+        private static readonly Mock<ILiquidConsumer<EntityMock>> _consumer = new Mock<ILiquidConsumer<EntityMock>>();
 
-        public LiquidConsumerBaseTest() : base(_consumer)
+        public LiquidConsumerBaseTest() : base(_consumer.Object)
         {
         }
 
         [Fact]
-        public void ExecuteAsync_WhenStart_ConsumerReceivedStartCall()
+        public async Task ExecuteAsync_WhenStart_ConsumerReceivedStartCall()
         {
-            var task = base.ExecuteAsync(new CancellationToken());
+            _consumer.Setup(x => x.RegisterMessageHandler()).Verifiable();
+           
+            base.ExecuteAsync(new CancellationToken()).Wait(3000);
 
-            task.Wait(1000);
-
-            _consumer.Received().RegisterMessageHandler();
+            _consumer.Verify(x => x.RegisterMessageHandler());
         }
 
 
         [Fact]
         public async Task ExecuteAsync_WhenStartFail_ThrowException()
         {
-            _consumer.When(x =>
-            x.RegisterMessageHandler())
-                .Do((call) => throw new Exception());
+            _consumer.Setup(x =>
+            x.RegisterMessageHandler()).Throws(new Exception());
 
             var task = ExecuteAsync(new CancellationToken());
 

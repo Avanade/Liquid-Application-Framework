@@ -19,7 +19,6 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TEntity">Type of entity that will be consumed by this service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
-        /// <returns></returns>
         public static IServiceCollection AddServiceBusProducer<TEntity>(this IServiceCollection services)
         {
             if (services.FirstOrDefault((ServiceDescriptor x) => x.ServiceType == typeof(IServiceBusFactory)) == null)
@@ -52,7 +51,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
                 services.AddTransient<IServiceBusFactory, ServiceBusFactory>();
             }
 
-            services.AddScoped<ServiceBusConsumer<TEntity>>();
+            services.AddSingleton<ServiceBusConsumer<TEntity>>();
 
             services.AddLiquidTelemetryInterceptor<ILiquidConsumer<TEntity>, ServiceBusConsumer<TEntity>>();     
 
@@ -68,7 +67,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TEntity">Type of entity that will be consumed by the service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
-        public static IServiceCollection AddServiceBusConsumer<TEntity>(this IServiceCollection services)
+        public static IServiceCollection AddLiquidServiceBusConsumer<TEntity>(this IServiceCollection services)
         {
             services.AddTransient<ILiquidPipeline, LiquidPipeline>();
 
@@ -77,7 +76,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
                 services.AddTransient<IServiceBusFactory, ServiceBusFactory>();
             }
 
-            services.AddScoped<ServiceBusConsumer<TEntity>>();
+            services.AddSingleton<ServiceBusConsumer<TEntity>>();
 
             services.AddLiquidTelemetryInterceptor<ILiquidConsumer<TEntity>, ServiceBusConsumer<TEntity>>();
 

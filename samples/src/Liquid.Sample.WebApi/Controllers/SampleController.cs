@@ -1,4 +1,5 @@
-﻿using Liquid.Sample.Domain.Handlers;
+﻿using Liquid.Sample.Domain.Entities;
+using Liquid.Sample.Domain.Handlers;
 using Liquid.WebApi.Http.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -17,5 +18,8 @@ namespace Liquid.Sample.WebApi.Controllers
 
         [HttpGet("Sample")]
         public async Task<IActionResult> Get([FromQuery] int id) => await ExecuteAsync(new SampleRequest(id), HttpStatusCode.OK);
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] SampleMessageEntity entity) => await ExecuteAsync(new SampleEventRequest(entity), HttpStatusCode.OK);
     }
 }

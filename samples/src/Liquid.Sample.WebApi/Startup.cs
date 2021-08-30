@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Liquid.Sample.Domain.Entities;
 using Liquid.Core.Extensions.DependencyInjection;
+using Liquid.Messaging.ServiceBus.Extensions.DependencyInjection;
 
 namespace Liquid.Sample.WebApi
 {
@@ -18,6 +19,8 @@ namespace Liquid.Sample.WebApi
         {
            
             services.AddLiquidMongoWithTelemetry<SampleEntity, int>();
+
+            services.AddServiceBusProducer<SampleMessageEntity>();
 
             services.AddLiquidHttp(typeof(SampleRequest).Assembly);
 

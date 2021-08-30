@@ -3,10 +3,10 @@ using Liquid.Messaging.Exceptions;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
 using System;
-using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -78,13 +78,8 @@ namespace Liquid.Messaging.ServiceBus
 
         private ProcessMessageEventArgs<TEntity> GetEventArgs(Message message)
         {
-            MemoryStream memStream = new MemoryStream();
-            BinaryFormatter binForm = new BinaryFormatter();
+            var data = JsonSerializer.Deserialize<TEntity>(Encoding.UTF8.GetString(message.Body));
 
-            memStream.Write(message.Body, 0, message.Body.Length);
-            memStream.Seek(0, SeekOrigin.Begin);
-
-            var data = (TEntity)binForm.Deserialize(memStream);
             var headers = message.UserProperties;
 
             return new ProcessMessageEventArgs<TEntity> { Data = data, Headers = headers };

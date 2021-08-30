@@ -6,6 +6,7 @@ using NSubstitute;
 using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -74,10 +75,8 @@ namespace Liquid.Messaging.ServiceBus.Tests
         public async Task MessageHandler_WhenPipelineExecutionFail_ThrowException(Message message)
         {
             var entity = new EntityMock() { Id = 1, MyProperty = "test" };
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, entity);
-            message.Body = ms.ToArray();
+
+            message.Body = JsonSerializer.SerializeToUtf8Bytes(entity);
 
             var messageReceiver = Substitute.For<IMessageReceiver>();
             _factory.GetReceiver(Arg.Any<string>()).Returns(messageReceiver);

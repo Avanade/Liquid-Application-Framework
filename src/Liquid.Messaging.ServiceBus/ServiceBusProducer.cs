@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Liquid.Messaging.ServiceBus
@@ -61,11 +62,7 @@ namespace Liquid.Messaging.ServiceBus
 
         private Message ToMessage(TEntity messageBody, IDictionary<string, object> customProperties = null)
         {
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, messageBody);
-
-            var message = new Message(ms.ToArray());
+            var message = new Message(JsonSerializer.SerializeToUtf8Bytes(messageBody));
 
             if (customProperties != null)
             {

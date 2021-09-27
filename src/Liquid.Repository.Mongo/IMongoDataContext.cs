@@ -1,4 +1,4 @@
-﻿using Liquid.Repository.Mongo.Attributes;
+﻿using Liquid.Repository.Mongo.Configuration;
 using MongoDB.Driver;
 
 namespace Liquid.Repository.Mongo
@@ -12,7 +12,7 @@ namespace Liquid.Repository.Mongo
         /// <summary>
         /// Gets configurations set from <typeparamref name="TEntity"/> attribute.
         /// </summary>
-        MongoAttribute Settings { get; }
+        MongoEntityOptions Settings { get; }
         /// <summary>
         /// Gets the Mongo Database.
         /// </summary>

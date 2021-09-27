@@ -1,5 +1,6 @@
-﻿using Liquid.Repository.Mongo.Attributes;
+﻿using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Exceptions;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Liquid.Repository.Mongo
         private readonly IMongoClient _mongoClient;
         private IMongoDatabase _database;
         private IClientSessionHandle _clientSessionHandle;
-        private readonly MongoAttribute _settings;
+        private readonly MongoEntityOptions _settings;
         /// <summary>
         /// Gets the Mongo Database.
         /// </summary>
@@ -51,12 +52,13 @@ namespace Liquid.Repository.Mongo
         /// <summary>
         /// 
         /// </summary>
-        public MongoAttribute Settings => _settings;
+        public MongoEntityOptions Settings => _settings;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoDataContext{Tentity}" /> class.
         /// </summary>
         /// <param name="clientProvider">Mongo client generator.</param>
+        /// <param name="entityOptions">MongoEntityOptions to configure how the entity will be persisted on Mongo.</param>
         /// <exception cref="ArgumentNullException">
         /// telemetryFactory
         /// or
@@ -67,16 +69,12 @@ namespace Liquid.Repository.Mongo
         /// <exception cref="System.ArgumentNullException">connectionString
         /// or
         /// databaseName</exception>
-        public MongoDataContext(IMongoClientFactory clientProvider)
+        public MongoDataContext(IMongoClientFactory clientProvider, IOptions<MongoEntityOptions> entityOptions)
         {    
             if (clientProvider is null) throw new ArgumentNullException(nameof(clientProvider));
+            if (entityOptions is null) throw new ArgumentNullException(nameof(entityOptions));
 
-            if (!typeof(TEntity).GetCustomAttributes(typeof(MongoAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(MongoAttribute)} attribute decorator must be added to class.");
-            }
-
-            _settings = typeof(TEntity).GetCustomAttribute<MongoAttribute>(true);
+            _settings = entityOptions.Value;
 
             _mongoClient = clientProvider.GetClient(_settings.DatabaseName);
 

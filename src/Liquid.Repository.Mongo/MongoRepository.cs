@@ -1,4 +1,4 @@
-﻿using Liquid.Repository.Mongo.Attributes;
+﻿using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Extensions;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -20,7 +20,7 @@ namespace Liquid.Repository.Mongo
     /// <seealso cref="ILiquidRepository{TEntity, TIdentifier}" />
     public class MongoRepository<TEntity, TIdentifier> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
     {
-        private readonly MongoAttribute _settings;
+        private readonly MongoEntityOptions _settings;
 
         ///<inheritdoc/>
         public IMongoDataContext<TEntity> MongoDataContext { get; }

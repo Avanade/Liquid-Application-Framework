@@ -1,4 +1,5 @@
-﻿using Liquid.Repository.Mongo.Tests.Mock;
+﻿using Liquid.Repository.Mongo.Configuration;
+using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
@@ -17,6 +18,7 @@ namespace Liquid.Repository.Mongo.Tests
         private ILiquidRepository<TestEntity, int> _sut;
         private TestEntity _entity;
         internal static string _databaseName = "IntegrationTest";
+        internal static string _collectionName = "TestEntities";
         private IMongoCollection<TestEntity> _collection;
 
         [SetUp]
@@ -31,10 +33,13 @@ namespace Liquid.Repository.Mongo.Tests
                 MockTitle = "test"
             };
 
+            MongoEntityOptions _options = new MongoEntityOptions();
+            _options.CollectionName = _collectionName;
+            _options.ShardKey = "id";
+            _options.DatabaseName = _databaseName;
 
             _dbDataContext = Substitute.For<IMongoDataContext<TestEntity>>();
-
-            _dbDataContext.Settings.Returns(new Attributes.MongoAttribute("TestEntities", "id", _databaseName));
+            _dbDataContext.Settings.Returns(_options);
 
             IClientSessionHandle handle = null;
 
@@ -42,7 +47,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _collection = GetCollection();
 
-            _dbDataContext.Database.GetCollection<TestEntity>("TestEntities")
+            _dbDataContext.Database.GetCollection<TestEntity>(_collectionName)
                 .Returns(_collection);
 
             _sut = new MongoRepository<TestEntity, int>(_dbDataContext);
@@ -67,7 +72,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             await _sut.AddAsync(_entity);
 
-            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
         }
 
         [Test]
@@ -76,7 +81,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             await _sut.AddAsync(_entity);
 
-            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
             await _collection.Received(1).InsertOneAsync(_entity);
         }
@@ -96,7 +101,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var result = await _sut.FindAllAsync();
 
-            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
             Assert.NotNull(result);
             Assert.AreEqual(result.FirstOrDefault(), _entity);
@@ -119,7 +124,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             var result = await _sut.FindByIdAsync(1234);
 
-            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
             Assert.IsTrue(result == _entity);
 
@@ -141,7 +146,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             await _sut.RemoveByIdAsync(_entity.Id);
 
-            _dbDataContext.Database.Received(1).GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
             await _collection.Received().DeleteOneAsync(Arg.Any<FilterDefinition<TestEntity>>());
 
@@ -163,7 +168,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             await _sut.UpdateAsync(_entity);
 
-            _dbDataContext.Database.Received().GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received().GetCollection<TestEntity>(_collectionName);
 
             await _collection.Received().ReplaceOneAsync(Arg.Any<FilterDefinition<TestEntity>>(), _entity, Arg.Any<ReplaceOptions>());
 
@@ -184,7 +189,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var result = await _sut.WhereAsync(e => e.Id.Equals(_entity.Id));
 
-            _dbDataContext.Database.Received().GetCollection<TestEntity>("TestEntities");
+            _dbDataContext.Database.Received().GetCollection<TestEntity>(_collectionName);
 
             Assert.NotNull(result);
             Assert.AreEqual(result.FirstOrDefault(), _entity);

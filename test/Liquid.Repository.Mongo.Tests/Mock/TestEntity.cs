@@ -1,4 +1,4 @@
-﻿using Liquid.Repository.Mongo.Attributes;
+﻿using Liquid.Repository.Mongo.Configuration;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -11,7 +11,6 @@ namespace Liquid.Repository.Mongo.Tests.Mock
     ///     <cref>Liquid.Data.Entities.DataMappingBase{System.Int32}</cref>
     /// </seealso>
     [ExcludeFromCodeCoverage]
-    [Mongo("TestEntities", "id", "TestDatabase")]
     public class TestEntity : LiquidEntity<int>
     {
         /// <summary>

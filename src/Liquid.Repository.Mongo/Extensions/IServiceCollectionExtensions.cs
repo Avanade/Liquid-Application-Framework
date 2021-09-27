@@ -1,6 +1,8 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
+using Liquid.Repository.Mongo.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 
 namespace Liquid.Repository.Mongo.Extensions
@@ -18,11 +20,14 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <typeparam name="TEntity">Type of entity that the repository should correspond to</typeparam>
         /// <typeparam name="TIdentifier">Entity identifier type.</typeparam>
         /// <param name="services">Extended ServiceCollection object.</param>
-        public static IServiceCollection AddLiquidMongoWithTelemetry<TEntity, TIdentifier>(this IServiceCollection services)
+        /// <param name="entityOptions">MongoEntityOptions to configure how the entity will be persisted on Mongo.</param>
+        public static IServiceCollection AddLiquidMongoWithTelemetry<TEntity, TIdentifier>(this IServiceCollection services, Action<MongoEntityOptions> entityOptions)
             where TEntity : LiquidEntity<TIdentifier>, new()
         {
             if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
                 services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
+
+            services.Configure(entityOptions);
 
             services.AddScoped<IMongoDataContext<TEntity>, MongoDataContext<TEntity>>();
 
@@ -38,10 +43,13 @@ namespace Liquid.Repository.Mongo.Extensions
         /// that exists in project and a <see cref="MongoClientFactory"/>  if not previously registered.
         /// </summary>
         /// <param name="services">Extended ServiceCollection object.</param>
-        public static IServiceCollection AddLiquidMongoRepositories(this IServiceCollection services)
+        /// <param name="entityOptions">MongoEntityOptions to configure how the entity will be persisted on Mongo.</param>
+        public static IServiceCollection AddLiquidMongoRepositories(this IServiceCollection services, Action<MongoEntityOptions> entityOptions)
         {
             if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
                 services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
+
+            services.Configure(entityOptions);
 
             services.AddScoped(typeof(IMongoDataContext<>), typeof(MongoDataContext<>));
 

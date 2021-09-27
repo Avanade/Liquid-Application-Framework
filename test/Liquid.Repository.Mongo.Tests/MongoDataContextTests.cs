@@ -1,4 +1,6 @@
-﻿using Liquid.Repository.Mongo.Tests.Mock;
+﻿using Liquid.Repository.Mongo.Configuration;
+using Liquid.Repository.Mongo.Tests.Mock;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
@@ -19,11 +21,15 @@ namespace Liquid.Repository.Mongo.Tests
         {
             _client = Substitute.For<IMongoClient>();
 
+            var options = new MongoEntityOptions();
+            options.CollectionName = "TestEntities";
+            options.ShardKey = "id";
+            options.DatabaseName = "TestDatabase";
 
             var provider = Substitute.For<IMongoClientFactory>();
             provider.GetClient(Arg.Any<string>()).Returns(_client);
 
-            _sut = new MongoDataContext<TestEntity>(provider);
+            _sut = new MongoDataContext<TestEntity>(provider, Options.Create<MongoEntityOptions>(options));
 
         }
 

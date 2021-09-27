@@ -67,7 +67,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             services.AddSingleton(configuration);
 
-            services.AddLiquidMongoWithTelemetry<TestEntity, int>();
+            services.AddLiquidMongoWithTelemetry<TestEntity, int>(options => { options.DatabaseName = "TestDatabase"; options.CollectionName = "TestEntities"; options.ShardKey = "id"; });
 
             services.AddTransient<ILiquidUnitOfWork, LiquidUnitOfWork>();
 

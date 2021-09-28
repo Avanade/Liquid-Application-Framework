@@ -1,4 +1,5 @@
-﻿using Liquid.Core.Implementations;
+﻿using FluentValidation;
+using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Liquid.WebApi.Http.Entities;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +38,7 @@ namespace Liquid.WebApi.Http.Middlewares
         }
 
         /// <summary>
-        /// Generates a log and serialize a formated Json response object for generic exceptions.
+        /// Generates a log and serialize a formated Json response object for exceptions.
         /// Includes its behavior in netcore pipelines after request execution when thows error.
         /// </summary>
         /// <param name="context">HTTP-specific information about an individual HTTP request.</param>
@@ -48,17 +49,23 @@ namespace Liquid.WebApi.Http.Middlewares
             {
                 await _next(context);
             }
+            catch (ValidationException ex)
+            {
+                _logger.LogError(ex, $"Liquid request validation error: {ex}");
+                await HandleExceptionAsync(context, ex, HttpStatusCode.BadRequest);
+            }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Unexpected error: {ex}");
-                await HandleExceptionAsync(context, ex);
+                await HandleExceptionAsync(context, ex, HttpStatusCode.InternalServerError);
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private Task HandleExceptionAsync(HttpContext context, Exception exception, HttpStatusCode statusCode)
         {
             context.Response.ContentType = context.Request.ContentType;
-            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+
+            context.Response.StatusCode = (int)statusCode;
 
             var response = new LiquidErrorResponse()
             {

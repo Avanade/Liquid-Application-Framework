@@ -69,12 +69,12 @@ namespace Liquid.Repository.Mongo
         /// <exception cref="System.ArgumentNullException">connectionString
         /// or
         /// databaseName</exception>
-        public MongoDataContext(IMongoClientFactory clientProvider, IOptions<MongoEntityOptions> entityOptions)
+        public MongoDataContext(IMongoClientFactory clientProvider, IOptionsSnapshot<MongoEntityOptions> entityOptions)
         {    
             if (clientProvider is null) throw new ArgumentNullException(nameof(clientProvider));
             if (entityOptions is null) throw new ArgumentNullException(nameof(entityOptions));
 
-            _settings = entityOptions.Value;
+            _settings = entityOptions.Get(typeof(TEntity).Name);
 
             _mongoClient = clientProvider.GetClient(_settings.DatabaseName);
 

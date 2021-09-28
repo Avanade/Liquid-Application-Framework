@@ -1,7 +1,10 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Liquid.Repository.Mongo.Configuration;
+using Liquid.Repository.Mongo.Exceptions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
 
@@ -27,7 +30,9 @@ namespace Liquid.Repository.Mongo.Extensions
             if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
                 services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
 
-            services.Configure(entityOptions);
+            services.AddOptions();
+
+            services.Configure<MongoEntityOptions>(typeof(TEntity).Name, entityOptions);
 
             services.AddScoped<IMongoDataContext<TEntity>, MongoDataContext<TEntity>>();
 
@@ -39,17 +44,25 @@ namespace Liquid.Repository.Mongo.Extensions
         }
 
         /// <summary>
-        /// Registers a escoped <see cref="MongoRepository{TEntity, TIdentifier}"/> for any entity 
+        /// Registers a scoped <see cref="MongoRepository{TEntity, TIdentifier}"/> for any entity 
         /// that exists in project and a <see cref="MongoClientFactory"/>  if not previously registered.
         /// </summary>
         /// <param name="services">Extended ServiceCollection object.</param>
-        /// <param name="entityOptions">MongoEntityOptions to configure how the entity will be persisted on Mongo.</param>
-        public static IServiceCollection AddLiquidMongoRepositories(this IServiceCollection services, Action<MongoEntityOptions> entityOptions)
+        /// <param name="mongoEntityConfigurationSection">Configuration section where entities have their options configured.</param>
+        public static IServiceCollection AddLiquidMongoRepositories(this IServiceCollection services, IConfiguration mongoEntityConfigurationSection)
         {
+            if (mongoEntityConfigurationSection is null) throw new MongoEntityOptionsSettingsDoesNotExistException(nameof(mongoEntityConfigurationSection));
+            if (mongoEntityConfigurationSection.GetChildren().Count() == 0) throw new MongoEntityOptionsSettingsDoesNotExistException(nameof(mongoEntityConfigurationSection));
+
             if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
                 services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
 
-            services.Configure(entityOptions);
+            services.AddOptions();
+
+            foreach (var entityOptions in mongoEntityConfigurationSection.GetChildren())
+            {
+                services.Configure<MongoEntityOptions>(entityOptions.Key, entityOptions);
+            }
 
             services.AddScoped(typeof(IMongoDataContext<>), typeof(MongoDataContext<>));
 

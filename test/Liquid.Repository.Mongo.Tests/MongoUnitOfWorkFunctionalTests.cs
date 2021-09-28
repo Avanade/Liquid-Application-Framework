@@ -11,11 +11,13 @@ using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.Mongo.Tests
 {
+    [ExcludeFromCodeCoverage]
     class MongoUnitOfWorkFunctionalTests
     {
         private IServiceProvider _serviceProvider;

@@ -15,23 +15,37 @@ namespace Liquid.Repository.Mongo.Tests
     {
         private MongoDataContext<TestEntity> _sut;
         private IMongoClient _client;
+        private IOptionsSnapshot<MongoEntityOptions> _entityOptions;
+        private IMongoClientFactory _provider;
 
         [SetUp]
         protected void SetContext()
         {
             _client = Substitute.For<IMongoClient>();
 
-            var options = new MongoEntityOptions();
-            options.CollectionName = "TestEntities";
-            options.ShardKey = "id";
-            options.DatabaseName = "TestDatabase";
+            var options = new MongoEntityOptions()
+            {
+                CollectionName = "TestEntities",
+                ShardKey = "id",
+                DatabaseName = "TestDatabase"
+            };
 
-            var provider = Substitute.For<IMongoClientFactory>();
-            provider.GetClient(Arg.Any<string>()).Returns(_client);
+            _entityOptions = Substitute.For<IOptionsSnapshot<MongoEntityOptions>>();
+            _entityOptions.Get(nameof(TestEntity)).Returns(options);
 
-            _sut = new MongoDataContext<TestEntity>(provider, Options.Create<MongoEntityOptions>(options));
+            _provider = Substitute.For<IMongoClientFactory>();
+            _provider.GetClient(Arg.Any<string>()).Returns(_client);
 
+            _sut = new MongoDataContext<TestEntity>(_provider, _entityOptions);
         }
+
+        [Test]
+        public void MongoDataContext_WhenCreatedWithNullArguments_ThrowsException() 
+        {
+            Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(null, _entityOptions));
+            Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(_provider, null));
+        }
+
 
         [Test]
         public async Task StartTransaction_WhenDBInitialized_Sucess()
@@ -80,6 +94,7 @@ namespace Liquid.Repository.Mongo.Tests
             Assert.ThrowsAsync<NullReferenceException>(() => task);
 
         }
+
         [Test]
         public async Task Dispose_WhenTansactionIsStarted_Sucess()
         {

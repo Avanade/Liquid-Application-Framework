@@ -70,6 +70,12 @@ namespace Liquid.Repository.Mongo.Tests
 
 
         [Test]
+        public void MongoRepository_WhenCreatedWithNoDataContext_ThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MongoRepository<TestEntity, int>(null));
+        }
+
+        [Test]
         public async Task ValidateCollection_WhenCollectionExists_Success()
         {
             await _sut.AddAsync(_entity);

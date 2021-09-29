@@ -5,6 +5,7 @@ using Liquid.Repository.Mongo.Configuration;
 using Mongo2Go;
 using NSubstitute;
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
@@ -40,6 +41,12 @@ namespace Liquid.Repository.Mongo.Tests
 
             _sut = new MongoClientFactory(_configuration);
 
+        }
+
+        [Test]
+        public void MongoClientFactory_WhenSettingsDoesntExists_ThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MongoClientFactory(null));
         }
 
         [Test]

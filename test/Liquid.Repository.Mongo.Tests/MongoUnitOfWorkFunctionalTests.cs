@@ -129,7 +129,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _runner.Dispose();
 
-            Assert.AreEqual(result.ToList().Count, 0);
+            Assert.IsFalse(result.Any());
         }
 
         [Test]

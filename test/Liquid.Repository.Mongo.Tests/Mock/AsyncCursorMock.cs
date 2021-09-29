@@ -19,6 +19,12 @@ namespace Liquid.Repository.Mongo.Tests.Mock
 
         public void Dispose()
         {
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
             Current.GetEnumerator().Dispose();
         }
 

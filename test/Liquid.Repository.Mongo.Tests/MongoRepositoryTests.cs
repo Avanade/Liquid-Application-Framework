@@ -33,10 +33,12 @@ namespace Liquid.Repository.Mongo.Tests
                 MockTitle = "test"
             };
 
-            MongoEntityOptions _options = new MongoEntityOptions();
-            _options.CollectionName = _collectionName;
-            _options.ShardKey = "id";
-            _options.DatabaseName = _databaseName;
+            var _options = new MongoEntityOptions()
+            {
+                CollectionName = _collectionName,
+                ShardKey = "id",
+                DatabaseName = _databaseName
+            };
 
             _dbDataContext = Substitute.For<IMongoDataContext<TestEntity>>();
             _dbDataContext.Settings.Returns(_options);

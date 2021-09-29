@@ -14,7 +14,9 @@ namespace Liquid.Repository.EntityFramework
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
     /// <seealso cref="ILiquidRepository{TEntity, TIdentifier}" />
+#pragma warning disable S2436 // Types and methods should not have too many generic parameters
     public class EntityFrameworkRepository<TEntity, TIdentifier, TContext> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new() where TContext : DbContext
+#pragma warning restore S2436 // Types and methods should not have too many generic parameters
     {
         ///<inheritdoc/>
         public IEntityFrameworkDataContext<TContext> EntityDataContext { get; }

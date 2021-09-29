@@ -51,8 +51,8 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <param name="mongoEntityConfigurationSection">Configuration section where entities have their options configured.</param>
         public static IServiceCollection AddLiquidMongoRepositories(this IServiceCollection services, IConfiguration mongoEntityConfigurationSection)
         {
-            if (mongoEntityConfigurationSection is null) throw new MongoEntityOptionsSettingsDoesNotExistException(nameof(mongoEntityConfigurationSection));
-            if (mongoEntityConfigurationSection.GetChildren().Count() == 0) throw new MongoEntityOptionsSettingsDoesNotExistException(nameof(mongoEntityConfigurationSection));
+            if (mongoEntityConfigurationSection is null || 
+                !mongoEntityConfigurationSection.GetChildren().Any()) throw new MongoEntityOptionsSettingsDoesNotExistException(nameof(mongoEntityConfigurationSection));
 
             if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
                 services.AddSingleton<IMongoClientFactory, MongoClientFactory>();

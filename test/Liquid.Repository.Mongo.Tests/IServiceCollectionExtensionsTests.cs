@@ -25,13 +25,6 @@ namespace Liquid.Repository.Mongo.Tests
         private IServiceProvider _serviceProvider;
         private IConfiguration _mongoEntityOptions;
         private MongoDbRunner _runner;
-        private readonly TestEntity _entity = new TestEntity()
-        {
-            CreatedDate = DateTime.Now,
-            Active = true,
-            Id = 1242,
-            MockTitle = "test"
-        };
 
         [SetUp]
         public void Setup()

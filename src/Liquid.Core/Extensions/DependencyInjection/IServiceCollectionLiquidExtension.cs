@@ -2,6 +2,7 @@
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <param name="services">Extended IServiceCollection instance.</param>
         public static IServiceCollection AddLiquidConfiguration(this IServiceCollection services)
         {
-            services.AddTransient(typeof(ILiquidConfiguration<>), typeof(LiquidConfiguration<>));
+            services.TryAddTransient(typeof(ILiquidConfiguration<>), typeof(LiquidConfiguration<>));
 
             return services;
         }
@@ -32,13 +33,11 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <param name="services">Extended IServiceCollection instance.</param>
         public static IServiceCollection AddLiquidTelemetryInterceptor<TInterface, TService>(this IServiceCollection services) where TInterface : class where TService : TInterface
         {
-            if (services.FirstOrDefault(x => x.ImplementationType == typeof(LiquidTelemetryInterceptor)) is null)
-                services.AddTransient(typeof(IAsyncInterceptor), typeof(LiquidTelemetryInterceptor));
+                services.TryAddTransient(typeof(IAsyncInterceptor), typeof(LiquidTelemetryInterceptor));
 
-            if (services.FirstOrDefault(x => x.ImplementationType == typeof(ProxyGenerator)) is null)
-                services.AddSingleton(new ProxyGenerator());
+                services.TryAddSingleton(new ProxyGenerator());
 
-            return services.AddScoped((provider) =>
+            return services.AddTransient((provider) =>
             {
                 var proxyGenerator = provider.GetService<ProxyGenerator>();
                 var service = (TInterface)provider.GetRequiredService<TService>();

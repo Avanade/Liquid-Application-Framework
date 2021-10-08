@@ -80,6 +80,17 @@ namespace Liquid.Repository.Mongo.Tests
             _sut = _unitOfWork.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>();
         }
 
+        [TearDown]
+        public void DisposeResources()
+        {
+            _serviceProvider = null;
+            _sut = null;
+            _unitOfWork.Dispose();
+            _unitOfWork = null;
+            _runner.Dispose();
+            _runner = null;
+        }
+
         [Test]
         public async Task AddAsync_WhenCommitTransaction_ItemAdded()
         {

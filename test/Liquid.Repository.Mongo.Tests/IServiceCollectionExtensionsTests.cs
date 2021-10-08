@@ -74,6 +74,16 @@ namespace Liquid.Repository.Mongo.Tests
                                         .GetSection("MongoEntityOptions");
         }
 
+        [TearDown]
+        public void DisposeResources()
+        {
+            _mongoEntityOptions = null;
+            _serviceProvider = null;
+            _services = null;
+            _runner.Dispose();
+            _runner = null;
+        }
+
         [Test]
         public void AddLiquidMongoWithTelemetry_WhenMongoEntityOptionsIsNull_ThrowsException()
         {

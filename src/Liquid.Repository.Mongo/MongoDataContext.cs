@@ -79,8 +79,6 @@ namespace Liquid.Repository.Mongo
             _mongoClient = clientProvider.GetClient(_settings.DatabaseName);
 
             SetDatabase(_settings.DatabaseName);
-
-            ValidateCollection();
         }
 
         /// <summary>
@@ -138,21 +136,6 @@ namespace Liquid.Repository.Mongo
         public void SetDatabase(string databaseName)
         {
             _database = _mongoClient.GetDatabase(databaseName);
-        }
-
-        /// <summary>
-        /// Validates if the collection exists, if not, an exception is thrown.
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="MongoCollectionDoesNotExistException">Collection, _databaseName</exception>
-        private void ValidateCollection()
-        {
-
-            var collection = Database.GetCollection<TEntity>(_settings.CollectionName);
-            if (collection is null)
-            {
-                throw new MongoCollectionDoesNotExistException(_settings.CollectionName, _settings.DatabaseName);
-            }
         }
     }
 }

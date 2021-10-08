@@ -1,5 +1,6 @@
 ﻿using Liquid.Core.Attributes;
 using Liquid.Repository.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +9,7 @@ namespace Liquid.Repository.Mongo.Configuration
     /// <summary>
     /// MongoDB configurations List
     /// </summary>
+    [Obsolete("This class is deprecated. Use the IConfiguration with named settings instead.")]
     [LiquidSectionName("liquid:databases:mongo")]
     public class MongoSettings
     {

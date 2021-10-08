@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Liquid.Messaging
+namespace Liquid.Messaging.Interfaces
 {
     /// <summary>
     /// Execution Pipeline for message handlers.

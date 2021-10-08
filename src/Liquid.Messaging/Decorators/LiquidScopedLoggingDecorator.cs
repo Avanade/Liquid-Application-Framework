@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
 using Liquid.Messaging.Exceptions;
+using Liquid.Messaging.Interfaces;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;

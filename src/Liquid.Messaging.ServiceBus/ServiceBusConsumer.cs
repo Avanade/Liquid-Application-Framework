@@ -1,5 +1,6 @@
 ﻿using Liquid.Messaging.Attributes;
 using Liquid.Messaging.Exceptions;
+using Liquid.Messaging.Interfaces;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
 using System;

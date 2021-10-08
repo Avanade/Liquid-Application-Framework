@@ -1,5 +1,6 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Messaging.Extensions.DependencyInjection;
+using Liquid.Messaging.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;

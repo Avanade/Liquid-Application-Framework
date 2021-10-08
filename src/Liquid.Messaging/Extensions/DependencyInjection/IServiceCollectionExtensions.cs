@@ -2,6 +2,7 @@
 using Liquid.Core.Implementations;
 using Liquid.Domain.Extensions.DependencyInjection;
 using Liquid.Messaging.Decorators;
+using Liquid.Messaging.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;

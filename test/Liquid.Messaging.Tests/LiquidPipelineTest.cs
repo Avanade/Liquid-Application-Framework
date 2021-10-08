@@ -1,4 +1,5 @@
 using Liquid.Messaging.Exceptions;
+using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.Tests.Mock;
 using NSubstitute;
 using System;

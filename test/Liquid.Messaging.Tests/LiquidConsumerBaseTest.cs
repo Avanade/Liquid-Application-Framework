@@ -1,4 +1,5 @@
-﻿using Liquid.Messaging.Tests.Mock;
+﻿using Liquid.Messaging.Interfaces;
+using Liquid.Messaging.Tests.Mock;
 using Moq;
 using System;
 using System.Threading;

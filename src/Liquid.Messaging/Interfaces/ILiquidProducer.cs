@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Liquid.Messaging
+namespace Liquid.Messaging.Interfaces
 {
     /// <summary>
     /// Handle send messages process.

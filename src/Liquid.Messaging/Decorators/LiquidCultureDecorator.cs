@@ -1,5 +1,6 @@
 ﻿using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
+using Liquid.Messaging.Interfaces;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;

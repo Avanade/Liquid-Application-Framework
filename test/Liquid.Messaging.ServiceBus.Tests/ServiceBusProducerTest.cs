@@ -1,4 +1,5 @@
 ﻿using Liquid.Messaging.Exceptions;
+using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.ServiceBus.Tests.Mock;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;

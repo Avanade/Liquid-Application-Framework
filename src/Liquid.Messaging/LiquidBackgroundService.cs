@@ -1,25 +1,31 @@
 ﻿using Liquid.Messaging.Interfaces;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Liquid.Messaging
 {
     /// <summary>
-    /// Base worker service consumer implementation.
+    /// Liquid BackgroundService implementation for message consumers.
     /// </summary>
     /// <typeparam name="TEntity">Type of message body.</typeparam>
-    public abstract class LiquidConsumerBase<TEntity> : BackgroundService
+    public class LiquidBackgroundService<TEntity> : BackgroundService
     {
         private readonly ILiquidConsumer<TEntity> _consumer;
 
+        private readonly IServiceProvider _serviceProvider;
+
         /// <summary>
-        /// Initialize a new instance of <see cref="LiquidConsumerBase{TEntity}"/>
+        /// Initialize a new instance of <see cref="LiquidBackgroundService{TEntity}"/>
         /// </summary>
+        /// <param name="serviceProvider"></param>
         /// <param name="consumer">Consumer service with message handler definition for processing messages.</param>
-        protected LiquidConsumerBase(ILiquidConsumer<TEntity> consumer)
+        public LiquidBackgroundService(IServiceProvider serviceProvider, ILiquidConsumer<TEntity> consumer)
         {
-            _consumer = consumer;
+            _serviceProvider = serviceProvider;
+            _consumer = consumer ?? throw new ArgumentNullException(nameof(consumer));
         }
 
         /// <summary>
@@ -43,12 +49,19 @@ namespace Liquid.Messaging
 
         /// <summary>
         /// This method is called when message handler gets a message.
-        /// The implementation should return a task that represents 
-        /// the process to be executed by the message handler.
+        /// Return a task that represents the process to be executed 
+        /// by the message handler.
         /// </summary>
         /// <param name="args"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        public abstract Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken);
+        public Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
+        {
+            using (IServiceScope scope = _serviceProvider.CreateScope())
+            {
+                var worker = scope.ServiceProvider.GetRequiredService<ILiquidWorker<TEntity>>();
+
+                return worker.ProcessMessageAsync(args, cancellationToken);
+            }
+        }
     }
 }

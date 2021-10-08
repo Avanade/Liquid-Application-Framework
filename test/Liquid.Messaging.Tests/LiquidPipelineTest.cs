@@ -1,6 +1,7 @@
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.Tests.Mock;
+using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -13,12 +14,20 @@ namespace Liquid.Messaging.Tests
     public class LiquidPipelineTest
     {
         private readonly ILiquidPipeline _sut;
-        private readonly LiquidConsumerBase<EntityMock> _consumer;
+        private readonly LiquidBackgroundService<EntityMock> _consumer;
         public LiquidPipelineTest()
         {
-            _sut = new LiquidPipeline();
-            _consumer = Substitute.For<LiquidConsumerBase<EntityMock>>(Substitute.For<ILiquidConsumer<EntityMock>>());
+            var worker = Substitute.For<ILiquidWorker<EntityMock>>();
 
+            var services = new ServiceCollection();
+
+            services.AddSingleton(worker);
+
+            var provider = services.BuildServiceProvider();
+
+            _consumer = Substitute.For<LiquidBackgroundService<EntityMock>>(provider, Substitute.For<ILiquidConsumer<EntityMock>>());
+
+            _sut = new LiquidPipeline();
         }
 
         [Fact]

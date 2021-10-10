@@ -13,22 +13,24 @@ namespace Liquid.Messaging.Decorators
 {
     /// <summary>
     /// Inserts configured context keys in ILogger service scope.
-    /// Includes its behavior in messaging pipelines before process execution.
+    /// Includes its behavior in worker service before process execution.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class LiquidScopedLoggingDecorator : ILiquidPipeline
+    public class LiquidScopedLoggingDecorator<TEntity> : ILiquidWorker<TEntity>
     {
-        private readonly ILogger<LiquidScopedLoggingDecorator> _logger;
+        private readonly ILogger<LiquidScopedLoggingDecorator<TEntity>> _logger;
         private readonly ILiquidConfiguration<ScopedLoggingSettings> _options;
-        private readonly ILiquidPipeline _inner;
+        private readonly ILiquidWorker<TEntity> _inner;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="LiquidScopedLoggingDecorator"/>
+        /// Initialize a new instance of <see cref="LiquidScopedLoggingDecorator{TEntity}"/>
         /// </summary>
         /// <param name="inner">Decorated service.</param>
         /// <param name="options">Default culture configuration.</param>
         /// <param name="logger">Logger service instance.</param>
-        public LiquidScopedLoggingDecorator(ILiquidPipeline inner, ILiquidConfiguration<ScopedLoggingSettings> options, ILogger<LiquidScopedLoggingDecorator> logger)
+        public LiquidScopedLoggingDecorator(ILiquidWorker<TEntity> inner
+            , ILiquidConfiguration<ScopedLoggingSettings> options
+            , ILogger<LiquidScopedLoggingDecorator<TEntity>> logger)
         {
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _options = options ?? throw new ArgumentNullException(nameof(options));
@@ -36,15 +38,15 @@ namespace Liquid.Messaging.Decorators
         }
 
         ///<inheritdoc/>
-        public async Task Execute<T>(ProcessMessageEventArgs<T> message, Func<ProcessMessageEventArgs<T>, CancellationToken, Task> process, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
             var scope = new List<KeyValuePair<string, object>>();
 
             foreach (var key in _options.Settings.Keys)
             {
-                message.Headers.TryGetValue(key.KeyName, out object value);
+                args.Headers.TryGetValue(key.KeyName, out object value);
 
-                if (value is null && key.Required)                    
+                if (value is null && key.Required)
                     throw new MessagingMissingScopedKeysException(key.KeyName);
 
                 scope.Add(new KeyValuePair<string, object>(key.KeyName, value));
@@ -52,7 +54,7 @@ namespace Liquid.Messaging.Decorators
 
             using (_logger.BeginScope(scope.ToArray()))
             {
-                await _inner.Execute(message, process, cancellationToken);
+                await _inner.ProcessMessageAsync(args, cancellationToken);
             }
         }
     }

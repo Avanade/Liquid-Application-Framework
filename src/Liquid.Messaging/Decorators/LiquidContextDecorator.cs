@@ -12,22 +12,22 @@ namespace Liquid.Messaging.Decorators
 {
     /// <summary>
     /// Inserts configured context keys in LiquidContext service.
-    /// Includes its behavior in messaging pipelines before process execution.
+    /// Includes its behavior in worker service before process execution.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class LiquidContextDecorator : ILiquidPipeline
+    public class LiquidContextDecorator<TEntity> : ILiquidWorker<TEntity>
     {
-        private readonly ILiquidPipeline _inner;
+        private readonly ILiquidWorker<TEntity> _inner;
         private readonly ILiquidContext _context;
         private readonly ILiquidConfiguration<ScopedContextSettings> _options;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="LiquidContextDecorator"/>.
+        /// Initialize a new instance of <see cref="LiquidContextDecorator{TEntity}"/>
         /// </summary>
         /// <param name="inner">Decorated service.</param>
         /// <param name="context">Scoped Context service.</param>
         /// <param name="options">Scoped context keys set.</param>
-        public LiquidContextDecorator(ILiquidPipeline inner, ILiquidContext context, ILiquidConfiguration<ScopedContextSettings> options)
+        public LiquidContextDecorator(ILiquidWorker<TEntity> inner, ILiquidContext context, ILiquidConfiguration<ScopedContextSettings> options)
         {
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -35,11 +35,11 @@ namespace Liquid.Messaging.Decorators
         }
 
         ///<inheritdoc/>
-        public async Task Execute<T>(ProcessMessageEventArgs<T> message, Func<ProcessMessageEventArgs<T>, CancellationToken, Task> process, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
             foreach (var key in _options.Settings.Keys)
             {
-                message.Headers.TryGetValue(key.KeyName, out var value);
+                args.Headers.TryGetValue(key.KeyName, out var value);
 
                 if (value is null && key.Required)
                     throw new MessagingMissingContextKeysException(key.KeyName);
@@ -52,7 +52,7 @@ namespace Liquid.Messaging.Decorators
                 _context.Upsert("culture", CultureInfo.CurrentCulture.Name);
             }
 
-            await _inner.Execute(message, process, cancellationToken);
+            await _inner.ProcessMessageAsync(args, cancellationToken);
         }
     }
 }

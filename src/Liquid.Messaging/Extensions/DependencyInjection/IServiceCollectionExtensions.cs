@@ -1,5 +1,6 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Liquid.Domain.Extensions.DependencyInjection;
 using Liquid.Messaging.Decorators;
 using Liquid.Messaging.Interfaces;
@@ -27,29 +28,28 @@ namespace Liquid.Messaging.Extensions.DependencyInjection
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
         /// <returns></returns>
-        public static IServiceCollection AddLiquidForConsumer(this IServiceCollection services, params Assembly[] assemblies)
+        public static IServiceCollection AddLiquidForConsumer<TEntity>(this IServiceCollection services, params Assembly[] assemblies) 
         {
             services.AddLiquidConfiguration();
-            services.AddLiquidPipeline();
+            services.AddLiquidPipeline<TEntity>();
             services.AddAutoMapper(assemblies);
             services.AddLiquidHandlers(withTelemetry: true, withValidators: true, assemblies);
 
             return services;
         }
         /// <summary>
-        /// Register <see cref="LiquidPipeline"/> and aditional behaviors
-        /// <see cref="LiquidContextDecorator"/>, <see cref="LiquidScopedLoggingDecorator"/>
-        /// and <see cref="LiquidCultureDecorator"/>. These additional behaviors will be 
-        /// performed in the reverse order they were recgistered.
+        /// Register <see cref="LiquidContext"/> and aditional behaviors
+        /// <see cref="LiquidContextDecorator{TEntity}"/>, <see cref="LiquidScopedLoggingDecorator{TEntity}"/>
+        /// and <see cref="LiquidCultureDecorator{TEntity}"/>. These additional behaviors will be 
+        /// performed in the reverse order they were registered.
         /// </summary>
         /// <param name="services">Extended service collection instance.</param>
-        public static IServiceCollection AddLiquidPipeline(this IServiceCollection services)
+        public static IServiceCollection AddLiquidPipeline<TEntity>(this IServiceCollection services)
         {
-            services.AddScoped<LiquidContext>();
-            services.AddTransient<ILiquidPipeline, LiquidPipeline>();
-            services.Decorate<ILiquidPipeline, LiquidContextDecorator>();
-            services.Decorate<ILiquidPipeline, LiquidScopedLoggingDecorator>();
-            services.Decorate<ILiquidPipeline, LiquidCultureDecorator>();
+            services.AddScoped<ILiquidContext,LiquidContext>();
+            services.Decorate<ILiquidWorker<TEntity>, LiquidContextDecorator<TEntity>>();
+            services.Decorate<ILiquidWorker<TEntity>, LiquidScopedLoggingDecorator<TEntity>>();
+            services.Decorate<ILiquidWorker<TEntity>, LiquidCultureDecorator<TEntity>>();
 
             return services;
         }

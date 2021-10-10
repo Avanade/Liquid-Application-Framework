@@ -20,8 +20,6 @@ namespace Liquid.Messaging.ServiceBus
 
         private readonly IServiceBusFactory _factory;
 
-        private readonly ILiquidPipeline _pipeline;
-
         ///<inheritdoc/>
         public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
 
@@ -32,11 +30,9 @@ namespace Liquid.Messaging.ServiceBus
         /// Initilize an instance of <see cref="ServiceBusConsumer{TEntity}"/>
         /// </summary>
         /// <param name="factory">Service Bus client factory.</param>
-        /// <param name="pipeline">Liquid message handlers pipeline.</param>
-        public ServiceBusConsumer(IServiceBusFactory factory, ILiquidPipeline pipeline)
+        public ServiceBusConsumer(IServiceBusFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            _pipeline = pipeline ?? throw new ArgumentNullException(nameof(pipeline));
         }
 
         ///<inheritdoc/>
@@ -61,15 +57,14 @@ namespace Liquid.Messaging.ServiceBus
         /// <param name="cancellationToken"> Propagates notification that operations should be canceled.</param>
         protected async Task MessageHandler(Message message, CancellationToken cancellationToken)
         {
-            await _pipeline.Execute(GetEventArgs(message), ProcessMessageAsync, cancellationToken);
-
-            if (_messageReceiver.ReceiveMode == ReceiveMode.PeekLock)
-            {
-                await _messageReceiver.CompleteAsync(message.SystemProperties.LockToken);
-            }
+            await ProcessMessageAsync(GetEventArgs(message), cancellationToken);
         }
 
-        private Task ErrorHandler(ExceptionReceivedEventArgs args)
+        /// <summary>
+        /// Process exception from message handler.
+        /// </summary>
+        /// <param name="args"></param>
+        public Task ErrorHandler(ExceptionReceivedEventArgs args)
         {
             return ProcessErrorAsync(new ProcessErrorEventArgs()
             {

@@ -45,7 +45,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
         public static IServiceCollection AddLiquidServiceBusConsumer<TEntity>(this IServiceCollection services, params Assembly[] assemblies)
         {            
-            services.AddLiquidForConsumer(assemblies);
+            services.AddLiquidForConsumer<TEntity>(assemblies);
 
             if (services.FirstOrDefault((ServiceDescriptor x) => x.ServiceType == typeof(IServiceBusFactory)) == null)
             {
@@ -70,8 +70,6 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <param name="services">Extended service collection instance.</param>
         public static IServiceCollection AddLiquidServiceBusConsumer<TEntity>(this IServiceCollection services)
         {
-            services.AddTransient<ILiquidPipeline, LiquidPipeline>();
-
             if (services.FirstOrDefault((ServiceDescriptor x) => x.ServiceType == typeof(IServiceBusFactory)) == null)
             {
                 services.AddTransient<IServiceBusFactory, ServiceBusFactory>();

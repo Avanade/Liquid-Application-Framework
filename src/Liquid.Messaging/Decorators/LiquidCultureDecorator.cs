@@ -11,31 +11,30 @@ namespace Liquid.Messaging.Decorators
 {
     /// <summary>
     /// Configures the culture in the current thread.
-    /// Includes its behavior in messaging pipelines before process execution.
+    /// Includes its behavior in worker service before process execution.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class LiquidCultureDecorator : ILiquidPipeline
+    public class LiquidCultureDecorator<TEntity> : ILiquidWorker<TEntity>
     {
         private const string _culture = "culture";
         private readonly ILiquidConfiguration<CultureSettings> _options;
-        private readonly ILiquidPipeline _inner;
+        private readonly ILiquidWorker<TEntity> _inner;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="LiquidCultureDecorator"/>
+        /// Initialize a new instance of <see cref="LiquidCultureDecorator{TEntity}"/>
         /// </summary>
         /// <param name="inner">Decorated service.</param>
         /// <param name="options">Default culture configuration.</param>
-        public LiquidCultureDecorator(ILiquidPipeline inner, ILiquidConfiguration<CultureSettings> options)
+        public LiquidCultureDecorator(ILiquidWorker<TEntity> inner, ILiquidConfiguration<CultureSettings> options)
         {
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _options = options ?? throw new ArgumentNullException(nameof(options));
         }
 
         ///<inheritdoc/>
-        public async Task Execute<T>(ProcessMessageEventArgs<T> message, Func<ProcessMessageEventArgs<T>, CancellationToken, Task> process, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
-
-            message.Headers.TryGetValue(_culture, out object cultureCode);
+            args.Headers.TryGetValue(_culture, out object cultureCode);
 
             if (cultureCode is null && !string.IsNullOrEmpty(_options.Settings.DefaultCulture))
             {
@@ -48,7 +47,7 @@ namespace Liquid.Messaging.Decorators
                 CultureInfo.CurrentUICulture = new CultureInfo(cultureCode.ToString());
             }
 
-            await _inner.Execute(message, process, cancellationToken);
+            await _inner.ProcessMessageAsync(args, cancellationToken);
         }
     }
 }

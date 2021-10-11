@@ -1,11 +1,8 @@
-﻿using Liquid.Messaging.Attributes;
-using Liquid.Messaging.Exceptions;
+﻿using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -20,6 +17,8 @@ namespace Liquid.Messaging.ServiceBus
 
         private readonly IServiceBusFactory _factory;
 
+        private readonly string _settingsName;
+
         ///<inheritdoc/>
         public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
 
@@ -30,22 +29,22 @@ namespace Liquid.Messaging.ServiceBus
         /// Initilize an instance of <see cref="ServiceBusConsumer{TEntity}"/>
         /// </summary>
         /// <param name="factory">Service Bus client factory.</param>
-        public ServiceBusConsumer(IServiceBusFactory factory)
+        /// <param name="settingsName">Configuration section name for this service instance.</param>
+        public ServiceBusConsumer(IServiceBusFactory factory, string settingsName)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
+            _settingsName = settingsName;
         }
 
         ///<inheritdoc/>
         public void RegisterMessageHandler()
         {
-            if (!typeof(TEntity).GetCustomAttributes(typeof(SettingsNameAttribute), true).Any())
+            if (ProcessMessageAsync is null)
             {
-                throw new NotImplementedException($"The {nameof(SettingsNameAttribute)} attribute decorator must be added to class.");
-            }
+                throw new NotImplementedException($"The {nameof(ProcessErrorAsync)} action must be added to class.");
+            }                       
 
-            var settings = typeof(TEntity).GetCustomAttribute<SettingsNameAttribute>(true);
-
-            _messageReceiver = _factory.GetReceiver(settings.SettingsName);
+            _messageReceiver = _factory.GetReceiver(_settingsName);
 
             _messageReceiver.RegisterMessageHandler(MessageHandler, new MessageHandlerOptions(ErrorHandler));
         }

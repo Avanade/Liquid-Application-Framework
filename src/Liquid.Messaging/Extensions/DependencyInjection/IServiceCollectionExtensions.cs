@@ -30,7 +30,6 @@ namespace Liquid.Messaging.Extensions.DependencyInjection
         /// <returns></returns>
         public static IServiceCollection AddLiquidForConsumer<TEntity>(this IServiceCollection services, params Assembly[] assemblies) 
         {
-            services.AddLiquidConfiguration();
             services.AddLiquidPipeline<TEntity>();
             services.AddAutoMapper(assemblies);
             services.AddLiquidHandlers(withTelemetry: true, withValidators: true, assemblies);

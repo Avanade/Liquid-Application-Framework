@@ -14,7 +14,7 @@ namespace Liquid.Messaging.ServiceBus.Tests
     {
         private static readonly IServiceBusFactory _factory = Substitute.For<IServiceBusFactory>();
 
-        public ServiceBusConsumerTest() : base(_factory)
+        public ServiceBusConsumerTest() : base(_factory, "test")
         {
 
         }
@@ -70,7 +70,9 @@ namespace Liquid.Messaging.ServiceBus.Tests
 
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task ProcessMessageAsyncMock(ProcessMessageEventArgs<EntityMock> args, CancellationToken cancellationToken)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             if (args.Data.Id == 2)
                 throw new Exception();

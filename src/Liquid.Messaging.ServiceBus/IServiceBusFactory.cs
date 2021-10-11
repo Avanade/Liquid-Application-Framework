@@ -10,11 +10,11 @@ namespace Liquid.Messaging.ServiceBus
         /// <summary>
         /// Initialize and return a new instance of <see cref="MessageSender"/>.
         /// </summary>
-        IMessageSender GetSender(string settingsName);
+        IMessageSender GetSender(string sectionName);
 
         /// <summary>
         /// Initialize and return a new instance of <see cref="MessageReceiver"/>
         /// </summary>
-        IMessageReceiver GetReceiver(string settingsName);
+        IMessageReceiver GetReceiver(string sectionName);
     }
 }

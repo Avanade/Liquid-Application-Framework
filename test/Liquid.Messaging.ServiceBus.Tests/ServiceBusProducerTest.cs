@@ -26,7 +26,7 @@ namespace Liquid.Messaging.ServiceBus.Tests
 
             _serviceBusFactory.GetSender(Arg.Any<string>()).Returns(_client);
 
-            _sut = new ServiceBusProducer<EntityMock>(_serviceBusFactory);
+            _sut = new ServiceBusProducer<EntityMock>(_serviceBusFactory, "test");
 
             _message = new EntityMock() { Id = 1, MyProperty = "test" };
         }

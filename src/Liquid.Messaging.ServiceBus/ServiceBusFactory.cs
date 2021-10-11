@@ -1,8 +1,7 @@
-﻿using Liquid.Core.Interfaces;
-using Liquid.Messaging.Exceptions;
+﻿using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.ServiceBus.Settings;
-using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace Liquid.Messaging.ServiceBus
@@ -10,27 +9,25 @@ namespace Liquid.Messaging.ServiceBus
     ///<inheritdoc/>
     public class ServiceBusFactory : IServiceBusFactory
     {
-        private readonly ILiquidConfiguration<ServiceBusSettings> _options;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Initialize a new instace of <see cref="ServiceBusFactory"/>
         /// </summary>
-        /// <param name="options"></param>
-        public ServiceBusFactory(ILiquidConfiguration<ServiceBusSettings> options)
+        /// <param name="configuration">Configuration Providers</param>
+        public ServiceBusFactory(IConfiguration configuration)
         {
-            _options = options ?? throw new ArgumentNullException(nameof(options));
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
         }
 
         ///<inheritdoc/>
         public IMessageReceiver GetReceiver(string settingsName)
         {
-            var config = _options.Settings.GetSettings(settingsName);
+            var config = _configuration.GetSection("Messaging:ServiceBus:" + settingsName).Get<ServiceBusSettings>();
 
             try
             {
-                var receiveMode = config.PeekLockMode ? ReceiveMode.PeekLock : ReceiveMode.ReceiveAndDelete;
-
-                return new MessageReceiver(config.ConnectionString, config.EntityPath, receiveMode, null, config.MaxConcurrentCalls);
+                return new MessageReceiver(config.ConnectionString, config.EntityPath);
             }
             catch (Exception ex)
             {
@@ -41,7 +38,7 @@ namespace Liquid.Messaging.ServiceBus
         ///<inheritdoc/>
         public IMessageSender GetSender(string settingsName)
         {
-            var config = _options.Settings.GetSettings(settingsName);
+            var config = _configuration.GetSection("Messaging:ServiceBus:" + settingsName).Get<ServiceBusSettings>();
 
             try
             {

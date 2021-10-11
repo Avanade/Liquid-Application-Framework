@@ -1,14 +1,10 @@
-﻿using Liquid.Messaging.Attributes;
-using Liquid.Messaging.Exceptions;
+﻿using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.ServiceBus.Core;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -18,21 +14,15 @@ namespace Liquid.Messaging.ServiceBus
     public class ServiceBusProducer<TEntity> : ILiquidProducer<TEntity>
     {
         private readonly IMessageSender _messageSender;
-
         /// <summary>
         /// Initialize a new instance of <see cref="ServiceBusConsumer{TEntity}"/>.
         /// </summary>
         /// <param name="factory">Service Bus client factory.</param>
-        public ServiceBusProducer(IServiceBusFactory factory)
+        /// <param name="settingsName">Configuration section name for this service instance.</param>
+        public ServiceBusProducer(IServiceBusFactory factory, string settingsName)
         {
-            if (!typeof(TEntity).GetCustomAttributes(typeof(SettingsNameAttribute), true).Any())
-            {
-                throw new NotImplementedException($"The {nameof(SettingsNameAttribute)} attribute decorator must be added to class.");
-            }
-
-            var settings = typeof(TEntity).GetCustomAttribute<SettingsNameAttribute>(true);
-
-            _messageSender = factory?.GetSender(settings.SettingsName) ?? throw new ArgumentNullException(nameof(factory));
+            if(settingsName is null) throw new ArgumentNullException(nameof(settingsName));
+            _messageSender = factory?.GetSender(settingsName) ?? throw new ArgumentNullException(nameof(factory));            
         }
 
         ///<inheritdoc/>

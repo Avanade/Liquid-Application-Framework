@@ -8,6 +8,8 @@ using Microsoft.Extensions.Hosting;
 using Liquid.Sample.Domain.Entities;
 using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Messaging.ServiceBus.Extensions.DependencyInjection;
+using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 
 namespace Liquid.Sample.WebApi
 {
@@ -23,6 +25,7 @@ namespace Liquid.Sample.WebApi
                 options.ShardKey = "id"; 
             });
 
+            services.AddScoped<ILiquidContext, LiquidContext>();
             services.AddServiceBusProducer<SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleProducer");
 
             services.AddLiquidHttp(typeof(SampleRequest).Assembly);

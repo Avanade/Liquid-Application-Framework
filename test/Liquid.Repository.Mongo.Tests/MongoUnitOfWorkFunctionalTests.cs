@@ -4,6 +4,7 @@ using Liquid.Repository.Configuration;
 using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Extensions;
 using Liquid.Repository.Mongo.Tests.Mock;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mongo2Go;
@@ -20,10 +21,15 @@ namespace Liquid.Repository.Mongo.Tests
     [ExcludeFromCodeCoverage]
     class MongoUnitOfWorkFunctionalTests
     {
+        internal const string _databaseConfigurationSectionName = "MyMongoDbSettings";
+        internal const string _databaseName = "TestDatabase";
+
         private IServiceProvider _serviceProvider;
         private ILiquidUnitOfWork _unitOfWork;
         private ILiquidRepository<TestEntity, int> _sut;
         private MongoDbRunner _runner;
+        private IConfiguration _databaseSettings;
+
         private readonly TestEntity _entity = new TestEntity()
         {
             CreatedDate = DateTime.Now,
@@ -44,32 +50,25 @@ namespace Liquid.Repository.Mongo.Tests
         {
             _runner = MongoDbRunner.Start(singleNodeReplSet: true);
 
-            var settings = new List<DatabaseSettings>() {
-                new DatabaseSettings()
-                {
-                    ConnectionString = _runner.ConnectionString,
-                    DatabaseName = "TestDatabase",
-
-                }
+            var mongoDatabaseConfiguration = new Dictionary<string, string>
+            {
+                {$"{_databaseConfigurationSectionName}:{_databaseName}:DatabaseName", _databaseName},
+                {$"{_databaseConfigurationSectionName}:{_databaseName}:ConnectionString", _runner.ConnectionString},
+                {$"{_databaseConfigurationSectionName}:{_databaseName}-2:DatabaseName", $"{_databaseName}-2"},
+                {$"{_databaseConfigurationSectionName}:{_databaseName}-2:ConnectionString", _runner.ConnectionString}
             };
 
-            var mongoSettings = Substitute.For<MongoSettings>();
+            var builder = new ConfigurationBuilder()
+                                        .AddInMemoryCollection(mongoDatabaseConfiguration)
+                                        .Build();
 
-            mongoSettings.DbSettings = settings;
-
-            var configuration = Substitute.For<ILiquidConfiguration<MongoSettings>>();
-
-            configuration.Settings.Returns(mongoSettings);
-
-
+            _databaseSettings = builder.GetSection(_databaseConfigurationSectionName);
 
             var services = new ServiceCollection();
 
             services.AddSingleton(Substitute.For<ILogger<LiquidTelemetryInterceptor>>());
 
-            services.AddSingleton(configuration);
-
-            services.AddLiquidMongoWithTelemetry<TestEntity, int>(options => { options.DatabaseName = "TestDatabase"; options.CollectionName = "TestEntities"; options.ShardKey = "id"; });
+            services.AddLiquidMongoRepository<TestEntity, int>(_databaseSettings, options => { options.DatabaseName = _databaseName; options.CollectionName = "TestEntities"; options.ShardKey = "id"; });
 
             services.AddTransient<ILiquidUnitOfWork, LiquidUnitOfWork>();
 
@@ -83,6 +82,7 @@ namespace Liquid.Repository.Mongo.Tests
         [TearDown]
         public void DisposeResources()
         {
+            _databaseSettings = null;
             _serviceProvider = null;
             _sut = null;
             _unitOfWork.Dispose();

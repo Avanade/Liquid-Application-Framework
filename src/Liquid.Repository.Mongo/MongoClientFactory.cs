@@ -4,6 +4,7 @@ using Liquid.Repository.Configuration;
 using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Exceptions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -14,40 +15,20 @@ namespace Liquid.Repository.Mongo
     ///<inheritdoc/>
     public class MongoClientFactory : IMongoClientFactory
     {
-        [Obsolete("This private member is deprecated along with the constructor that injects it.", false)]
-        private readonly ILiquidConfiguration<MongoSettings> _configuration;
-
-        private readonly IDictionary<string, DatabaseSettings> _databaseConfigurations;
+        private readonly IOptionsSnapshot<DatabaseSettings> _allDatabaseConfigurations;
 
         private readonly IDictionary<string, IMongoClient> _mongoClients;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoClientFactory" /> class.
         /// </summary>
-        /// <param name="configuration">Database configuration settings.</param>
-        [Obsolete("This constructor is deprecated. Use MongoClientFactory(IConfiguration configurationSection) instead.", false)]
-        public MongoClientFactory(ILiquidConfiguration<MongoSettings> configuration)
+        /// <param name="databaseSettings">An IOptionsSnapshot with database settings.</param>
+        public MongoClientFactory(IOptionsSnapshot<DatabaseSettings> databaseSettings)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            if (databaseSettings is null) throw new LiquidDatabaseSettingsDoesNotExistException(nameof(databaseSettings));
+
+            _allDatabaseConfigurations = databaseSettings;
             _mongoClients = new Dictionary<string, IMongoClient>();
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MongoClientFactory" /> class.
-        /// </summary>
-        /// <param name="configurationSection">A configuration section with all database settings.</param>
-        public MongoClientFactory(IConfiguration configurationSection)
-        {
-            if (configurationSection is null || 
-                !configurationSection.GetChildren().Any()) throw new LiquidDatabaseSettingsDoesNotExistException(nameof(configurationSection));
-
-            _databaseConfigurations = new Dictionary<string, DatabaseSettings>();
-            _mongoClients = new Dictionary<string, IMongoClient>();
-
-            foreach (var databaseSettings in configurationSection.GetChildren())
-            {
-                _databaseConfigurations.Add(databaseSettings.Key, databaseSettings.Get<DatabaseSettings>());
-            }
         }
 
         ///<inheritdoc/>
@@ -72,16 +53,12 @@ namespace Liquid.Repository.Mongo
             return mongoClient;
         }
 
-        // TODO: refactor or remove this method and the deprecated items on the next major release
         private DatabaseSettings GetDatabaseSettings(string databaseId)
         {
             DatabaseSettings databaseSettings = null;
 
-            if (_configuration != null)
-                databaseSettings = _configuration.Settings.GetDbSettings(databaseId);
-
-            if (_databaseConfigurations != null)
-                _databaseConfigurations.TryGetValue(databaseId, out databaseSettings);
+            if (_allDatabaseConfigurations != null)
+                databaseSettings = _allDatabaseConfigurations.Get(databaseId);
 
             if (databaseSettings is null) 
                 throw new LiquidDatabaseSettingsDoesNotExistException(databaseId);

@@ -10,6 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
 		logo.png = logo.png
 		nuget.config = nuget.config
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.Mongo", "src\Liquid.Repository.Mongo\Liquid.Repository.Mongo.csproj", "{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}"

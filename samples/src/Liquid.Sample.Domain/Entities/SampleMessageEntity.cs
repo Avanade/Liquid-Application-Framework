@@ -1,11 +1,8 @@
-﻿using Liquid.Messaging.Attributes;
-using Liquid.Repository;
-using Liquid.Repository.Mongo.Attributes;
+﻿using Liquid.Repository;
 using System;
 
 namespace Liquid.Sample.Domain.Entities
 {
-    [SettingsName("test")]
     [Serializable]
     public class SampleMessageEntity
     {

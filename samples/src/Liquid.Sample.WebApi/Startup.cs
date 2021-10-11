@@ -16,11 +16,14 @@ namespace Liquid.Sample.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
-        {
-           
-            services.AddLiquidMongoWithTelemetry<SampleEntity, int>();
+        {           
+            services.AddLiquidMongoWithTelemetry<SampleEntity, int>(options => { 
+                options.DatabaseName = "MySampleDb";
+                options.CollectionName = "SampleCollection"; 
+                options.ShardKey = "id"; 
+            });
 
-            services.AddServiceBusProducer<SampleMessageEntity>();
+            services.AddServiceBusProducer<SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleProducer");
 
             services.AddLiquidHttp(typeof(SampleRequest).Assembly);
 

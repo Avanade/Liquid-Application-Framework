@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Liquid.Messaging;
+using Liquid.Messaging.Interfaces;
 using Liquid.Sample.Domain.Entities;
 using MediatR;
 using System.Linq;

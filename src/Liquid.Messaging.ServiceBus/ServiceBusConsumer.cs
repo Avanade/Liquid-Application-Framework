@@ -46,6 +46,8 @@ namespace Liquid.Messaging.ServiceBus
 
             _messageReceiver = _factory.GetReceiver(_settingsName);
 
+            ProcessErrorAsync += ProcessError;
+
             _messageReceiver.RegisterMessageHandler(MessageHandler, new MessageHandlerOptions(ErrorHandler));
         }
 
@@ -63,11 +65,11 @@ namespace Liquid.Messaging.ServiceBus
         /// Process exception from message handler.
         /// </summary>
         /// <param name="args"></param>
-        public Task ErrorHandler(ExceptionReceivedEventArgs args)
+        protected async Task ErrorHandler(ExceptionReceivedEventArgs args)
         {
-            return ProcessErrorAsync(new ProcessErrorEventArgs()
+            await ProcessErrorAsync(new ProcessErrorEventArgs()
             {
-                Exception = new MessagingConsumerException(args.Exception)
+                Exception = args.Exception
             });
         }
 
@@ -78,6 +80,11 @@ namespace Liquid.Messaging.ServiceBus
             var headers = message.UserProperties;
 
             return new ProcessMessageEventArgs<TEntity> { Data = data, Headers = headers };
+        }
+
+        private Task ProcessError(ProcessErrorEventArgs args)
+        {
+            throw new MessagingConsumerException(args.Exception);
         }
     }
 }

@@ -11,11 +11,6 @@ namespace Liquid.Messaging.ServiceBus.Settings
     public class ServiceBusSettings
     {
         /// <summary>
-        /// Identifier of configuration set.
-        /// </summary>
-        public string SettingsName { get; set; }
-
-        /// <summary>
         /// Connection string of Service Bus resource.
         /// </summary>
         public string ConnectionString { get; set; }

@@ -22,23 +22,23 @@ namespace Liquid.Messaging.ServiceBus
 
         ///<inheritdoc/>
         public IMessageReceiver GetReceiver(string settingsName)
-        {
-            var config = _configuration.GetSection("Messaging:ServiceBus:" + settingsName).Get<ServiceBusSettings>();
-
+        {   
             try
             {
+                var config = _configuration.GetSection(settingsName).Get<ServiceBusSettings>();
+
                 return new MessageReceiver(config.ConnectionString, config.EntityPath);
             }
             catch (Exception ex)
             {
-                throw new MessagingMissingConfigurationException(ex);
+                throw new MessagingMissingConfigurationException(ex, settingsName);
             }
         }
 
         ///<inheritdoc/>
         public IMessageSender GetSender(string settingsName)
         {
-            var config = _configuration.GetSection("Messaging:ServiceBus:" + settingsName).Get<ServiceBusSettings>();
+            var config = _configuration.GetSection(settingsName).Get<ServiceBusSettings>();
 
             try
             {
@@ -46,7 +46,7 @@ namespace Liquid.Messaging.ServiceBus
             }
             catch (Exception ex)
             {
-                throw new MessagingMissingConfigurationException(ex);
+                throw new MessagingMissingConfigurationException(ex, settingsName);
             }
         }
     }

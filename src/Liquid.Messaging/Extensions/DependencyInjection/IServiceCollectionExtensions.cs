@@ -20,22 +20,54 @@ namespace Liquid.Messaging.Extensions.DependencyInjection
     public static class IServiceCollectionExtensions
     {
         /// <summary>
-        /// Register liquid settings <see cref="IServiceCollectionLiquidExtension.AddLiquidConfiguration(IServiceCollection)"/>,
-        /// messaging pipeline with Liquid Decorators <see cref="AddLiquidPipeline(IServiceCollection)"/>, and domain handlers
-        /// <see cref="Domain.Extensions.DependencyInjection.IServiceCollectionExtensions.AddLiquidHandlers(IServiceCollection, bool, bool, Assembly[])"/>
+        /// Register Liquid Worker Service <see cref="AddLiquidWorkerService{TService, TEntity}(IServiceCollection)"/>
+        /// with messaging pipeline <see cref="AddLiquidPipeline(IServiceCollection)"/>,
+        /// and domain handlers <see cref="AddLiquidDomain(IServiceCollection, Assembly[])"/>
         /// that exists in <paramref name="assemblies"/>, with telemetry and validators.
         /// </summary>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
         /// <returns></returns>
-        public static IServiceCollection AddLiquidForConsumer<TEntity>(this IServiceCollection services, params Assembly[] assemblies) 
+        public static IServiceCollection AddLiquidMessageConsumer<TWorker, TEntity>(this IServiceCollection services, params Assembly[] assemblies)
+            where TWorker : class, ILiquidWorker<TEntity>
         {
+            services.AddLiquidWorkerService<TWorker, TEntity>();
             services.AddLiquidPipeline<TEntity>();
+            services.AddLiquidDomain(assemblies);
+            return services;
+        }
+        /// <summary>
+        /// Register <see cref="ILiquidWorker{TEntity}"/> implementation service  
+        /// <typeparamref name="TWorker"/> and <see cref="LiquidBackgroundService{TEntity}"/>.
+        /// </summary>
+        /// <typeparam name="TWorker"><see cref="ILiquidWorker{TEntity}"/> implementation type.</typeparam>
+        /// <typeparam name="TEntity">Type of entity that will be consumed by this service.</typeparam>
+        /// <param name="services">Extended service collection instance.</param>
+        public static IServiceCollection AddLiquidWorkerService<TWorker, TEntity>(this IServiceCollection services)
+            where TWorker : class, ILiquidWorker<TEntity>
+        {
+            services.AddScoped<ILiquidWorker<TEntity>, TWorker>();
+
+            services.AddHostedService<LiquidBackgroundService<TEntity>>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Register domain handlers <see cref="AddLiquidDomain(IServiceCollection, Assembly[])"/> and
+        /// its mappers <see cref="IServiceCollectionAutoMapperExtensions.AddAutoMapper(IServiceCollection, Action{AutoMapper.IMapperConfigurationExpression}, Assembly[])"/>
+        /// that exists in <paramref name="assemblies"/>, with telemetry and validators.
+        /// </summary>
+        /// <param name="services">Extended service collection instance.</param>
+        /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
+        public static IServiceCollection AddLiquidDomain(this IServiceCollection services, params Assembly[] assemblies)
+        {
             services.AddAutoMapper(assemblies);
             services.AddLiquidHandlers(withTelemetry: true, withValidators: true, assemblies);
 
             return services;
         }
+
         /// <summary>
         /// Register <see cref="LiquidContext"/> and aditional behaviors
         /// <see cref="LiquidContextDecorator{TEntity}"/>, <see cref="LiquidScopedLoggingDecorator{TEntity}"/>

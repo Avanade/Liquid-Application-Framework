@@ -29,7 +29,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
                 return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, sectionName);
             });
 
-            services.AddLiquidTelemetryInterceptor<ILiquidProducer<TEntity>, ServiceBusProducer<TEntity>>();
+            services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, ServiceBusProducer<TEntity>>();
 
             return services;
         }
@@ -84,7 +84,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
                 return ActivatorUtilities.CreateInstance<ServiceBusConsumer<TEntity>>(provider, sectionName);
             });
 
-            services.AddLiquidTelemetryInterceptor<ILiquidConsumer<TEntity>, ServiceBusConsumer<TEntity>>();
+            services.AddSingletonLiquidTelemetry<ILiquidConsumer<TEntity>, ServiceBusConsumer<TEntity>>();
 
             return services;
         }

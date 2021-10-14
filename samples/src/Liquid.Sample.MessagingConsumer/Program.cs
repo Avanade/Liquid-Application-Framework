@@ -30,7 +30,7 @@ namespace Liquid.Sample.MessagingConsumer
                         options.ShardKey = "id";
                     });
                     services.AddServiceBusProducer<SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleProducer");
-                    services.AddLiquidServiceBusConsumerPoc<Worker, SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleConsumer", typeof(PutCommandRequest).Assembly);
+                    services.AddLiquidServiceBusConsumer<Worker, SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleConsumer", typeof(PutCommandRequest).Assembly);
                 });
     }
 }

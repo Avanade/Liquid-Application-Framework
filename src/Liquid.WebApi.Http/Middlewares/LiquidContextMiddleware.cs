@@ -40,7 +40,7 @@ namespace Liquid.WebApi.Http.Middlewares
         public async Task InvokeAsync(HttpContext context)
         {
 
-            var liquidContext = context.RequestServices.GetRequiredService<LiquidContext>();
+            ILiquidContext liquidContext = context.RequestServices.GetRequiredService<ILiquidContext>();
 
             var value = string.Empty;
 

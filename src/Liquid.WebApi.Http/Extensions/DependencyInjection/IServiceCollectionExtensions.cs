@@ -32,7 +32,7 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
         /// <param name="assemblies">Array of assemblies that the domain handlers are implemented.</param>
         public static IServiceCollection AddLiquidHttp(this IServiceCollection services, params Assembly[] assemblies)
         {
-            services.AddScoped<LiquidContext>();
+            services.AddScoped<ILiquidContext, LiquidContext>();
             services.AddLiquidSerializers();
             services.AddLiquidConfiguration();
             services.AddAutoMapper(assemblies);

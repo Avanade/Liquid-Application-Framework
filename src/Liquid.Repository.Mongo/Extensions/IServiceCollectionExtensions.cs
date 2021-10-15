@@ -3,6 +3,8 @@ using Liquid.Core.Implementations;
 using Liquid.Repository.Mongo.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.Mongo.Extensions
 {
@@ -60,6 +62,23 @@ namespace Liquid.Repository.Mongo.Extensions
             }
 
             return services;
+        }
+
+
+        /// <summary>
+        /// Registers a <see cref="MongoRepository{TEntity, TIdentifier}"/> for the entity <typeparamref name="TEntity"/>,
+        /// and a <see cref="MongoClientFactory"/>  if not previously registered.
+        /// This method also registers <see cref="LiquidTelemetryInterceptor"/> for MongoRepository instance.
+        /// </summary>
+        /// <typeparam name="TEntity">Type of entity that the repository should correspond to</typeparam>
+        /// <typeparam name="TIdentifier">Entity identifier type.</typeparam>
+        /// <param name="services">Extended ServiceCollection object.</param>
+        [ExcludeFromCodeCoverage]
+        [Obsolete("This is method is deprecated. Use AddLiquidMongoRepository<T, T>(activateTelemetry: true) instead.")]
+        public static IServiceCollection AddLiquidMongoWithTelemetry<TEntity, TIdentifier>(this IServiceCollection services)
+            where TEntity : LiquidEntity<TIdentifier>, new()
+        {
+            return AddLiquidMongoRepository<TEntity, TIdentifier>(services, activateTelemetry: true);
         }
     }
 }

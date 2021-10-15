@@ -34,7 +34,7 @@ namespace Liquid.Repository.Mongo.Extensions
             services.AddScoped<MongoRepository<TEntity, TIdentifier>>();
 
             if (activateTelemetry)
-                services.AddLiquidTelemetryInterceptor<ILiquidRepository<TEntity, TIdentifier>, MongoRepository<TEntity, TIdentifier>>();
+                services.AddScopedLiquidTelemetry<ILiquidRepository<TEntity, TIdentifier>, MongoRepository<TEntity, TIdentifier>>();
 
             return services;
         }
@@ -58,7 +58,11 @@ namespace Liquid.Repository.Mongo.Extensions
 
             if (activateTelemetry) 
             {
-                // TODO: services.AddLiquidTelemetryInterceptor for all Repositories
+                // TODO: add services.AddScopedLiquidTelemetry for all Repositories
+                //       It will be something like: "services.AddScopedLiquidTelemetry(typeof(<ILiquidRepository<,>, typeof(MongoRepository<,,>>));"
+                //       For now, the extension method for LiquidTelemetry doesn't support Open Generics
+                //       We are investigating the solution alternatives
+                //       Right now, if you use this extension method, the Telemetry will not be captured
             }
 
             return services;

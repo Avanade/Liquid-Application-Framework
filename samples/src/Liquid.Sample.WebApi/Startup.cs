@@ -25,7 +25,6 @@ namespace Liquid.Sample.WebApi
                 options.ShardKey = "id"; 
             });
 
-            services.AddScoped<ILiquidContext, LiquidContext>();
             services.AddServiceBusProducer<SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleProducer");
 
             services.AddLiquidHttp(typeof(SampleRequest).Assembly);

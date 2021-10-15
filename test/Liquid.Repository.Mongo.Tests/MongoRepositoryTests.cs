@@ -1,4 +1,5 @@
-﻿using Liquid.Repository.Mongo.Configuration;
+﻿using Liquid.Repository.Configuration;
+using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
@@ -33,11 +34,14 @@ namespace Liquid.Repository.Mongo.Tests
                 MockTitle = "test"
             };
 
-            var _options = new MongoEntityOptions()
+            var _options = new MongoEntitySettings()
             {
                 CollectionName = _collectionName,
                 ShardKey = "id",
-                DatabaseName = _databaseName
+                DatabaseSettings = new DatabaseSettings() {
+                    DatabaseName = _databaseName,
+                    ConnectionString = "test connection string"
+                }
             };
 
             _dbDataContext = Substitute.For<IMongoDataContext<TestEntity>>();

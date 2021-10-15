@@ -12,7 +12,7 @@ namespace Liquid.Repository.Mongo
         /// <summary>
         /// Gets configurations set from <typeparamref name="TEntity"/> attribute.
         /// </summary>
-        MongoEntityOptions Settings { get; }
+        MongoEntitySettings Settings { get; }
         /// <summary>
         /// Gets the Mongo Database.
         /// </summary>

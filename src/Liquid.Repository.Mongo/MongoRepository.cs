@@ -20,7 +20,7 @@ namespace Liquid.Repository.Mongo
     /// <seealso cref="ILiquidRepository{TEntity, TIdentifier}" />
     public class MongoRepository<TEntity, TIdentifier> : ILiquidRepository<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>, new()
     {
-        private readonly MongoEntityOptions _settings;
+        private readonly MongoEntitySettings _settings;
 
         ///<inheritdoc/>
         public IMongoDataContext<TEntity> MongoDataContext { get; }
@@ -43,7 +43,7 @@ namespace Liquid.Repository.Mongo
             
             _settings = dataContext.Settings;
 
-            MongoDataContext.SetDatabase(_settings.DatabaseName);            
+            MongoDataContext.SetDatabase(_settings.DatabaseSettings.DatabaseName);            
         }
 
         ///<inheritdoc/>

@@ -1,69 +1,41 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Interfaces;
-using Liquid.Repository.Configuration;
-using Liquid.Repository.Mongo.Configuration;
-using Liquid.Repository.Mongo.Exceptions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Liquid.Repository.Configuration;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Liquid.Repository.Mongo
 {
     ///<inheritdoc/>
     public class MongoClientFactory : IMongoClientFactory
     {
-        private readonly IOptionsSnapshot<DatabaseSettings> _allDatabaseConfigurations;
-
-        private readonly IDictionary<string, IMongoClient> _mongoClients;
+        private readonly IDictionary<int, IMongoClient> _mongoClients;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MongoClientFactory" /> class.
         /// </summary>
-        /// <param name="databaseSettings">An IOptionsSnapshot with database settings.</param>
-        public MongoClientFactory(IOptionsSnapshot<DatabaseSettings> databaseSettings)
+        public MongoClientFactory()
         {
-            if (databaseSettings is null) throw new LiquidDatabaseSettingsDoesNotExistException(nameof(databaseSettings));
-
-            _allDatabaseConfigurations = databaseSettings;
-            _mongoClients = new Dictionary<string, IMongoClient>();
+            _mongoClients = new Dictionary<int, IMongoClient>();
         }
 
         ///<inheritdoc/>
-        public IMongoClient GetClient(string databaseId)
+        public IMongoClient GetClient(DatabaseSettings databaseSettings)
         {
-            if (databaseId is null) throw new ArgumentNullException(nameof(databaseId));
+            if (databaseSettings is null) throw new ArgumentNullException(nameof(databaseSettings));
 
             // Try to get from the created clients collection, otherwise creates a new client
-            IMongoClient mongoClient = _mongoClients.TryGetValue(databaseId, out mongoClient) ? mongoClient : CreateClient(databaseId);
+            IMongoClient mongoClient = _mongoClients.TryGetValue(databaseSettings.GetHashCode(), out mongoClient) ? mongoClient : CreateClient(databaseSettings);
 
             return mongoClient;
         }
 
-        private IMongoClient CreateClient(string databaseId)
+        private IMongoClient CreateClient(DatabaseSettings databaseSettings)
         {
-            var databaseSettings = GetDatabaseSettings(databaseId);
-
             var mongoClient = new MongoClient(databaseSettings.ConnectionString);
 
-            _mongoClients.Add(databaseId, mongoClient);
+            _mongoClients.Add(databaseSettings.GetHashCode(), mongoClient);
 
             return mongoClient;
-        }
-
-        private DatabaseSettings GetDatabaseSettings(string databaseId)
-        {
-            DatabaseSettings databaseSettings = null;
-
-            if (_allDatabaseConfigurations != null)
-                databaseSettings = _allDatabaseConfigurations.Get(databaseId);
-
-            if (databaseSettings is null) 
-                throw new LiquidDatabaseSettingsDoesNotExistException(databaseId);
-
-            return databaseSettings;
         }
     }
 }

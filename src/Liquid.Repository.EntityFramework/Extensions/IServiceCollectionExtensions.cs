@@ -11,7 +11,6 @@ namespace Liquid.Repository.EntityFramework.Extensions
     /// <summary>
     /// Entity Framework Service Collection Extensions Class.
     /// </summary>
-    [ExcludeFromCodeCoverage]
     public static class IServiceCollectionExtensions
     {
         /// <summary>

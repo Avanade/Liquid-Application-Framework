@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using Liquid.Repository.Configuration;
+using MongoDB.Driver;
 
 namespace Liquid.Repository.Mongo
 {
@@ -10,8 +11,7 @@ namespace Liquid.Repository.Mongo
         /// <summary>
         /// Provide a new instance of <see cref="MongoClient"/> with db conection started.
         /// </summary>
-        /// <param name="databaseId">Id of the database. Used to identify database settings and to create unique clients.</param>
-        /// <returns></returns>
-        IMongoClient GetClient(string databaseId);
+        /// <param name="databaseSettings">Database settings used to create unique clients based on DatabaseSettings hash code.</param>
+        IMongoClient GetClient(DatabaseSettings databaseSettings);
     }
 }

@@ -1,15 +1,7 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Interfaces;
-using Liquid.Repository.Configuration;
-using Liquid.Repository.Mongo.Configuration;
-using Liquid.Repository.Mongo.Exceptions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Liquid.Repository.Configuration;
 using Mongo2Go;
-using NSubstitute;
 using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.Mongo.Tests
@@ -20,63 +12,56 @@ namespace Liquid.Repository.Mongo.Tests
         private IMongoClientFactory _sut;
         internal static MongoDbRunner _runner;
         internal const string _databaseName = "TestDatabase";
-        private IOptionsSnapshot<DatabaseSettings> _databaseSettings;
+        private DatabaseSettings _correctDatabaseSettings;
+        private DatabaseSettings _wrongDatabaseSettings;
 
-    [SetUp]
+        [SetUp]
         protected void SetContext()
         {
             _runner = MongoDbRunner.StartForDebugging(singleNodeReplSet: false);
 
-            var options = new DatabaseSettings()
+            _correctDatabaseSettings = new DatabaseSettings()
             {
                 DatabaseName = _databaseName,
                 ConnectionString = _runner.ConnectionString
             };
 
-            _databaseSettings = Substitute.For<IOptionsSnapshot<DatabaseSettings>>();
-            _databaseSettings.Get(_databaseName).Returns(options);
-
-            var options2 = new DatabaseSettings()
+            _wrongDatabaseSettings = new DatabaseSettings()
             {
                 DatabaseName = $"{_databaseName}-2",
-                ConnectionString = _runner.ConnectionString
+                ConnectionString = "incorrect connection string"
             };
-            _databaseSettings.Get($"{_databaseName}-2").Returns(options2);
 
-            _sut = new MongoClientFactory(_databaseSettings);
+            _sut = new MongoClientFactory();
         }
 
 
         [TearDown]
         public void DisposeResources() 
         {
-            _databaseSettings = null;
+            _correctDatabaseSettings = null;
             _sut = null;
             _runner.Dispose();
             _runner = null;
         }
 
         [Test]
-        public void MongoClientFactory_WhenSettingsDoesntExists_ThrowException()
+        public void MongoClientFactory_WhenSettingsIsNull_ThrowException()
         {
-            IOptionsSnapshot<DatabaseSettings> nullConfig = null;
-            Assert.Throws<LiquidDatabaseSettingsDoesNotExistException>(() => new MongoClientFactory(nullConfig));
+            Assert.Throws<ArgumentNullException>(() => _sut.GetClient(null));
         }
 
         [Test]
         public void GetClient_WhenDatabaseIdsExists_ClientCreated()
         {
-            var result = _sut.GetClient(_databaseName);
+            var result = _sut.GetClient(_correctDatabaseSettings);
             Assert.IsNotNull(result.GetDatabase(_databaseName));
-
-            result = _sut.GetClient($"{_databaseName}-2");
-            Assert.IsNotNull(result.GetDatabase($"{_databaseName}-2"));
         }
 
         [Test]
-        public void GetClient_WhenDatabaseIdDoesntExists_ThrowException()
+        public void GetClient_WhenDatabaseSettingsIsWrong_ThrowException()
         {
-            Assert.Throws<LiquidDatabaseSettingsDoesNotExistException>(() => _sut.GetClient("anyDbId"));
+            Assert.Throws<MongoDB.Driver.MongoConfigurationException>(() => _sut.GetClient(_wrongDatabaseSettings));
         }
     }
 }

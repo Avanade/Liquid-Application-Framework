@@ -1,14 +1,8 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Extensions.DependencyInjection;
+﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
-using Liquid.Repository.Configuration;
 using Liquid.Repository.Mongo.Configuration;
-using Liquid.Repository.Mongo.Exceptions;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using System;
-using System.Linq;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Liquid.Repository.Mongo.Extensions
 {
@@ -17,37 +11,21 @@ namespace Liquid.Repository.Mongo.Extensions
     /// </summary>
     public static class IServiceCollectionExtensions
     {
-
         /// <summary>
         /// Registers a <see cref="MongoRepository{TEntity, TIdentifier}"/> for the entity <typeparamref name="TEntity"/>,
         /// and a <see cref="MongoClientFactory"/>  if not previously registered.
-        /// This method also registers <see cref="LiquidTelemetryInterceptor"/> for MongoRepository instance.
+        /// This method may also registers <see cref="LiquidTelemetryInterceptor"/> for MongoRepository instance.
         /// </summary>
         /// <typeparam name="TEntity">Type of entity that the repository should correspond to</typeparam>
         /// <typeparam name="TIdentifier">Entity identifier type.</typeparam>
         /// <param name="services">Extended ServiceCollection object.</param>
-        /// <param name="mongoDatabasesConfigurationSection">Configuration section where databases have their options configured.</param>
-        /// <param name="entityOptions">MongoEntityOptions to configure how the entity will be persisted on Mongo.</param>
+        /// <param name="entitiesConfigurationRootSectionName">Name of the configuration section where all entities have their repository settings configured. Default: "Liquid:RepositorySettings:Entities".</param>
         /// <param name="activateTelemetry">Specifies whether the telemetry should be activated or not for this repository. Default: True.</param>
-        public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services, IConfiguration mongoDatabasesConfigurationSection, Action<MongoEntityOptions> entityOptions, bool activateTelemetry = true)
+        public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services, string entitiesConfigurationRootSectionName = "Liquid:RepositorySettings:Entities", bool activateTelemetry = true)
             where TEntity : LiquidEntity<TIdentifier>, new()
         {
-            if (mongoDatabasesConfigurationSection is null ||
-                !mongoDatabasesConfigurationSection.GetChildren().Any()) throw new LiquidDatabaseSettingsDoesNotExistException(nameof(mongoDatabasesConfigurationSection));
-
-            if (entityOptions is null) throw new MongoEntityOptionsSettingsDoesNotExistException(nameof(entityOptions));
-
-            services.AddOptions();
-
-            foreach (var databaseSettings in mongoDatabasesConfigurationSection.GetChildren())
-            {
-                services.Configure<DatabaseSettings>(databaseSettings.Key, databaseSettings);
-            }
-
-            services.Configure<MongoEntityOptions>(typeof(TEntity).Name, entityOptions);
-
-            if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
-                services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
+            services.TryAddSingleton<IMongoClientFactory, MongoClientFactory>();
+            services.TryAddSingleton<IMongoEntitySettingsFactory>(provider => { return ActivatorUtilities.CreateInstance<MongoEntitySettingsFactory>(provider, entitiesConfigurationRootSectionName); });
 
             services.AddScoped<IMongoDataContext<TEntity>, MongoDataContext<TEntity>>();
 
@@ -62,33 +40,15 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <summary>
         /// Registers a scoped <see cref="MongoRepository{TEntity, TIdentifier}"/> for any entity 
         /// that exists in project and a <see cref="MongoClientFactory"/>  if not previously registered.
+        /// This method may also registers <see cref="LiquidTelemetryInterceptor"/> for MongoRepository instances.
         /// </summary>
         /// <param name="services">Extended ServiceCollection object.</param>
-        /// <param name="mongoDatabasesConfigurationSection">Configuration section where databases have their options configured.</param>
-        /// <param name="mongoEntityConfigurationSection">Configuration section where entities have their options configured.</param>
+        /// <param name="entitiesConfigurationRootSectionName">Name of the configuration section where all entities have their repository settings configured. Default: "Liquid:RepositorySettings:Entities".</param>
         /// <param name="activateTelemetry">Specifies whether the telemetry should be activated or not for this repository. Default: True.</param>
-        public static IServiceCollection AddLiquidMongoRepositories(this IServiceCollection services, IConfiguration mongoDatabasesConfigurationSection, IConfiguration mongoEntityConfigurationSection, bool activateTelemetry = true)
+        public static IServiceCollection AddLiquidMongoRepositories(this IServiceCollection services, string entitiesConfigurationRootSectionName = "Liquid:RepositorySettings:Entities", bool activateTelemetry = true)
         {
-            if (mongoDatabasesConfigurationSection is null ||
-                !mongoDatabasesConfigurationSection.GetChildren().Any()) throw new LiquidDatabaseSettingsDoesNotExistException(nameof(mongoDatabasesConfigurationSection));
-
-            if (mongoEntityConfigurationSection is null || 
-                !mongoEntityConfigurationSection.GetChildren().Any()) throw new MongoEntityOptionsSettingsDoesNotExistException(nameof(mongoEntityConfigurationSection));
-
-            services.AddOptions();
-
-            foreach (var databaseSettings in mongoDatabasesConfigurationSection.GetChildren())
-            {
-                services.Configure<DatabaseSettings>(databaseSettings.Key, databaseSettings);
-            }
-
-            foreach (var entityOptions in mongoEntityConfigurationSection.GetChildren())
-            {
-                services.Configure<MongoEntityOptions>(entityOptions.Key, entityOptions);
-            }
-
-            if (services.FirstOrDefault(x => x.ServiceType == typeof(IMongoClientFactory)) is null)
-                services.AddSingleton<IMongoClientFactory, MongoClientFactory>();
+            services.TryAddSingleton<IMongoClientFactory, MongoClientFactory>();
+            services.TryAddSingleton<IMongoEntitySettingsFactory>(provider => { return ActivatorUtilities.CreateInstance<MongoEntitySettingsFactory>(provider, entitiesConfigurationRootSectionName); });
 
             services.AddScoped(typeof(IMongoDataContext<>), typeof(MongoDataContext<>));
 

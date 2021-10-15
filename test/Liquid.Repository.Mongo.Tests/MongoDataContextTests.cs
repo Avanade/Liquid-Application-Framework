@@ -1,6 +1,6 @@
-﻿using Liquid.Repository.Mongo.Configuration;
+﻿using Liquid.Repository.Configuration;
+using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Tests.Mock;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
@@ -15,34 +15,40 @@ namespace Liquid.Repository.Mongo.Tests
     {
         private MongoDataContext<TestEntity> _sut;
         private IMongoClient _client;
-        private IOptionsSnapshot<MongoEntityOptions> _entityOptions;
+        private IMongoEntitySettingsFactory _settingsFactory;
         private IMongoClientFactory _provider;
+        private IMongoEntitySettings _options;
 
         [SetUp]
         protected void SetContext()
         {
             _client = Substitute.For<IMongoClient>();
 
-            var options = new MongoEntityOptions()
+            _options = new MongoEntitySettings()
             {
                 CollectionName = "TestEntities",
                 ShardKey = "id",
-                DatabaseName = "TestDatabase"
+                DatabaseSettingsSectionName = "Test:Database",
+                DatabaseSettings = new DatabaseSettings() 
+                {
+                    ConnectionString = "test connection string",
+                    DatabaseName = "TestDatabase"
+                }
             };
 
-            _entityOptions = Substitute.For<IOptionsSnapshot<MongoEntityOptions>>();
-            _entityOptions.Get(nameof(TestEntity)).Returns(options);
+            _settingsFactory = Substitute.For<IMongoEntitySettingsFactory>();
+            _settingsFactory.GetSettings<TestEntity>().Returns(_options);
 
             _provider = Substitute.For<IMongoClientFactory>();
-            _provider.GetClient(Arg.Any<string>()).Returns(_client);
+            _provider.GetClient(_options.DatabaseSettings).Returns(_client);
 
-            _sut = new MongoDataContext<TestEntity>(_provider, _entityOptions);
+            _sut = new MongoDataContext<TestEntity>(_provider, _settingsFactory);
         }
 
         [Test]
         public void MongoDataContext_WhenCreatedWithNullArguments_ThrowsException() 
         {
-            Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(null, _entityOptions));
+            Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(null, _settingsFactory));
             Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(_provider, null));
         }
 

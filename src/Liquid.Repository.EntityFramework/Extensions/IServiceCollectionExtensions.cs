@@ -31,7 +31,7 @@ namespace Liquid.Repository.EntityFramework.Extensions
 
             services.AddScoped<EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
 
-            services.AddLiquidTelemetryInterceptor<ILiquidRepository<TEntity, TIdentifier>, EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
+            services.AddScopedLiquidTelemetry<ILiquidRepository<TEntity, TIdentifier>, EntityFrameworkRepository<TEntity, TIdentifier, TContext>>();
 
             return services;
         }

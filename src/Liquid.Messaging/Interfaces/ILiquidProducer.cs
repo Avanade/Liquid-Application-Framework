@@ -21,6 +21,6 @@ namespace Liquid.Messaging.Interfaces
         /// </summary>
         /// <param name="messageBody">Body of message to be sent.</param>
         /// <param name="customProperties">Message header properties.</param>
-        Task SendMessageAsync(TEntity messageBody, IDictionary<string, object> customProperties);
+        Task SendMessageAsync(TEntity messageBody, IDictionary<string, object> customProperties = null);
     }
 }

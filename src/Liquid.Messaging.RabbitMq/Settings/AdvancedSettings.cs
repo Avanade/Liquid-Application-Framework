@@ -1,14 +1,13 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Messaging.RabbitMq.Configuration
+namespace Liquid.Messaging.RabbitMq.Settings
 {
     /// <summary>
     /// RabbitMq Custom Settings Class.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class RabbitMqParameterSettings
+    public class AdvancedSettings
     {
         /// <summary>
         /// Gets or sets the type of the exchange.
@@ -16,7 +15,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The type of the exchange.
         /// </value>
-        [JsonProperty("exchangeType")]
         public string ExchangeType { get; set; }
 
         /// <summary>
@@ -25,7 +23,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         ///   <c>true</c> if [automatic delete]; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("autoDelete")]
         public bool AutoDelete { get; set; }
 
         /// <summary>
@@ -34,7 +31,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         ///   <c>true</c> if durable; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("durable")]
         public bool Durable { get; set; }
 
         /// <summary>
@@ -43,7 +39,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         ///   <c>true</c> if [automatic ack]; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("autoAck")]
         public bool AutoAck { get; set; }
 
         /// <summary>
@@ -52,7 +47,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The expiration.
         /// </value>
-        [JsonProperty("expiration")]
         public string Expiration { get; set; }
 
         /// <summary>
@@ -61,7 +55,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         ///   <c>true</c> if persistent; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("persistent")]
         public bool Persistent { get; set; }
 
         /// <summary>
@@ -70,7 +63,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         ///   <c>true</c> if exclusive; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("exclusive")]
         public bool Exclusive { get; set; }
 
         /// <summary>
@@ -79,7 +71,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The exchange arguments.
         /// </value>
-        [JsonProperty("exchangeArguments")]
         public IDictionary<string, object> ExchangeArguments { get; set; }
 
         /// <summary>
@@ -88,7 +79,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The queue arguments.
         /// </value>
-        [JsonProperty("queueArguments")]
         public IDictionary<string, object> QueueArguments { get; set; }
     }
 }

@@ -1,13 +1,12 @@
-﻿using Liquid.Core.Attributes;
-using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Messaging.RabbitMq.Configuration
+namespace Liquid.Messaging.RabbitMq.Settings
 {
 
     /// <summary>
     /// 
     /// </summary>
-    [LiquidSectionName("liquid:messaging:rabbitMq")]
+    [ExcludeFromCodeCoverage]
     public class RabbitMqSettings
     {
         /// <summary>
@@ -16,7 +15,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The connection string.
         /// </value>
-        [JsonProperty("connectionString")]
         public string ConnectionString { get; set; }
 
         /// <summary>
@@ -25,7 +23,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The request heart beat in seconds.
         /// </value>
-        [JsonProperty("requestHeartBeatInSeconds")]
         public ushort? RequestHeartBeatInSeconds { get; set; }
 
         /// <summary>
@@ -34,7 +31,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The prefetch count.
         /// </value>
-        [JsonProperty("prefetchCount")]
         public ushort? PrefetchCount { get; set; }
 
         /// <summary>
@@ -43,7 +39,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The prefetch.
         /// </value>
-        [JsonProperty("prefetch")]
         public uint? Prefetch { get; set; }
 
         /// <summary>
@@ -52,7 +47,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         ///   <c>true</c> if global; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("global")]
         public bool? Global { get; set; }
 
         /// <summary>
@@ -61,7 +55,6 @@ namespace Liquid.Messaging.RabbitMq.Configuration
         /// <value>
         /// The auto recovery value.
         /// </value>
-        [JsonProperty("autoRecovery")]
         public bool? AutoRecovery { get; set; }
     }
 }

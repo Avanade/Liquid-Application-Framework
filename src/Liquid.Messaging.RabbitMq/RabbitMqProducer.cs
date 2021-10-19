@@ -13,7 +13,6 @@ namespace Liquid.Messaging.RabbitMq
     ///<inheritdoc/>
     public class RabbitMqProducer<TEntity> : ILiquidProducer<TEntity>
     {
-        private readonly IRabbitMqFactory _factory;
         private readonly RabbitMqProducerSettings _settings;
         private readonly IModel _channelModel;
 
@@ -26,10 +25,15 @@ namespace Liquid.Messaging.RabbitMq
         /// <exception cref="MessagingMissingConfigurationException"></exception>
         public RabbitMqProducer(IRabbitMqFactory factory, RabbitMqProducerSettings settings)
         {
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-            _factory = factory ?? throw new ArgumentNullException(nameof(factory));
+            if (factory is null)
+            {
+                throw new ArgumentNullException(nameof(factory));
+            }
 
-            _channelModel = _factory.GetSender(settings);
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            
+
+            _channelModel = factory.GetSender(settings);
         }
 
 

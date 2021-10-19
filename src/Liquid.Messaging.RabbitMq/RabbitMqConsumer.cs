@@ -20,7 +20,7 @@ namespace Liquid.Messaging.RabbitMq
     public class RabbitMqConsumer<TEntity> : ILiquidConsumer<TEntity>
     {
 
-        private bool _autoAck;
+        private readonly bool _autoAck;
         private IModel _channelModel;
         private readonly IRabbitMqFactory _factory;
         private readonly RabbitMqConsumerSettings _settings;

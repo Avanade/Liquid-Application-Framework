@@ -21,16 +21,27 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <typeparam name="TEntity">Type of entity that will be consumed by this service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
-        public static IServiceCollection AddLiquidServiceBusProducer<TEntity>(this IServiceCollection services, string sectionName)
+        /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
+        public static IServiceCollection AddLiquidServiceBusProducer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
         {
             services.TryAddTransient<IServiceBusFactory, ServiceBusFactory>();
 
-            services.AddScoped((provider) =>
+            if (activateTelemetry)
             {
-                return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, sectionName);
-            });
+                services.AddScoped((provider) =>
+                {
+                    return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, sectionName);
+                });
 
-            services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, ServiceBusProducer<TEntity>>();
+                services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, ServiceBusProducer<TEntity>>();
+            }
+            else
+            {
+                services.AddScoped<ILiquidProducer<TEntity>>((provider) =>
+                {
+                    return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, sectionName);
+                });
+            }
 
             return services;
         }
@@ -45,13 +56,17 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <typeparam name="TWorker">Type of implementation from <see cref="ILiquidWorker{TEntity}"/></typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
+        /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
-        public static IServiceCollection AddLiquidServiceBusConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName, params Assembly[] assemblies)
+        public static IServiceCollection AddLiquidServiceBusConsumer<TWorker, TEntity>(this IServiceCollection services
+            , string sectionName
+            , bool activateTelemetry = true
+            , params Assembly[] assemblies)
              where TWorker : class, ILiquidWorker<TEntity>
         {
             services.AddLiquidMessageConsumer<TWorker, TEntity>(assemblies);
 
-            services.AddConsumer<TEntity>(sectionName);
+            services.AddConsumer<TEntity>(sectionName, activateTelemetry);
 
             return services;
         }
@@ -67,26 +82,37 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <typeparam name="TEntity">Type of entity that will be consumed by the service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
-        public static IServiceCollection AddLiquidServiceBusConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName)
+        /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
+        public static IServiceCollection AddLiquidServiceBusConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
             where TWorker : class, ILiquidWorker<TEntity>
         {
             services.AddLiquidWorkerService<TWorker, TEntity>();
 
-            services.AddConsumer<TEntity>(sectionName);
+            services.AddConsumer<TEntity>(sectionName, activateTelemetry);
 
             return services;
         }
 
-        private static IServiceCollection AddConsumer<TEntity>(this IServiceCollection services, string sectionName)
+        private static IServiceCollection AddConsumer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
         {
             services.AddTransient<IServiceBusFactory, ServiceBusFactory>();
 
-            services.AddSingleton((provider) =>
+            if (activateTelemetry)
             {
-                return ActivatorUtilities.CreateInstance<ServiceBusConsumer<TEntity>>(provider, sectionName);
-            });
+                services.AddSingleton((provider) =>
+                {
+                    return ActivatorUtilities.CreateInstance<ServiceBusConsumer<TEntity>>(provider, sectionName);
+                });
 
-            services.AddSingletonLiquidTelemetry<ILiquidConsumer<TEntity>, ServiceBusConsumer<TEntity>>();
+                services.AddSingletonLiquidTelemetry<ILiquidConsumer<TEntity>, ServiceBusConsumer<TEntity>>();
+            }
+            else
+            {
+                services.AddSingleton<ILiquidConsumer<TEntity>>((provider) =>
+                {
+                    return ActivatorUtilities.CreateInstance<ServiceBusConsumer<TEntity>>(provider, sectionName);
+                });
+            }
 
             return services;
         }

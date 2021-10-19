@@ -37,6 +37,18 @@ namespace Liquid.Messaging.RabbitMq.Tests
         }
 
         [Fact]
+        public void AddLiquidRabbitMqProducer_WhenSuccessfullyInjectWhitoutTelemetry_GetServicesSucessfully()
+        {
+            SetCollection();
+            _sut.AddLiquidRabbitMqProducer<MessageMock>("test", false);
+
+            var provider = _sut.BuildServiceProvider();
+
+            Assert.NotNull(provider.GetService<IRabbitMqFactory>());
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidProducer<MessageMock>) && x.Lifetime == ServiceLifetime.Scoped));
+        }
+
+        [Fact]
         public void AddLiquidRabbitMqConsumer_WhenSuccessfullyInjectConsumer_GetServicesSucessfully()
         {
             SetCollection();
@@ -56,7 +68,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
         public void AddLiquidRabbitMqConsumer_WhenSuccessfullyInjectConsumerAndHandlers_GetServicesSucessfully()
         {
             SetCollection();
-            _sut.AddLiquidRabbitMqConsumer<WorkerMediatorMock, MessageMock>("test", typeof(MockRequest).Assembly);
+            _sut.AddLiquidRabbitMqConsumer<WorkerMediatorMock, MessageMock>("test", false, typeof(MockRequest).Assembly);
 
             var provider = _sut.BuildServiceProvider();
 

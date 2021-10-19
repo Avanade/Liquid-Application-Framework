@@ -14,14 +14,14 @@ namespace Liquid.Messaging.RabbitMq.Settings
         /// <value>
         ///   <c>true</c> if [compress message]; otherwise, <c>false</c>.
         /// </value>
-        public bool CompressMessage { get; }
+        public bool CompressMessage { get; set; }
         /// <summary>
         /// Gets the topic exchange.
         /// </summary>
         /// <value>
         /// The topic.
         /// </value>
-        public string Exchange { get; }
+        public string Exchange { get; set; }
 
         /// <summary>
         /// Gets or sets the advanced settings.

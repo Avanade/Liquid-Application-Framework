@@ -22,17 +22,28 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
         /// <typeparam name="TEntity">Type of entity that will be consumed by this service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
-        public static IServiceCollection AddLiquidRabbitMqProducer<TEntity>(this IServiceCollection services, string sectionName)
+        /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
+        public static IServiceCollection AddLiquidRabbitMqProducer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
         {
             services.TryAddTransient<IRabbitMqFactory, RabbitMqFactory>();
-
-            services.AddScoped((provider) =>
+            if (activateTelemetry)
             {
-                var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqProducerSettings>();
-                return ActivatorUtilities.CreateInstance<RabbitMqProducer<TEntity>>(provider, settings);
-            });
+                services.AddScoped((provider) =>
+                {
+                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqProducerSettings>();
+                    return ActivatorUtilities.CreateInstance<RabbitMqProducer<TEntity>>(provider, settings);
+                });
 
-            services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, RabbitMqProducer<TEntity>>();
+                services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, RabbitMqProducer<TEntity>>();
+            }
+            else
+            {
+                services.AddScoped<ILiquidProducer<TEntity>>((provider) =>
+                {
+                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqProducerSettings>();
+                    return ActivatorUtilities.CreateInstance<RabbitMqProducer<TEntity>>(provider, settings);
+                });
+            }
 
             return services;
         }
@@ -47,13 +58,14 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
         /// <typeparam name="TWorker">Type of implementation from <see cref="ILiquidWorker{TEntity}"/></typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
+        /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
-        public static IServiceCollection AddLiquidRabbitMqConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName, params Assembly[] assemblies)
+        public static IServiceCollection AddLiquidRabbitMqConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true, params Assembly[] assemblies)
              where TWorker : class, ILiquidWorker<TEntity>
         {
             services.AddLiquidMessageConsumer<TWorker, TEntity>(assemblies);
 
-            services.AddConsumer<TEntity>(sectionName);
+            services.AddConsumer<TEntity>(sectionName, activateTelemetry);
 
             return services;
         }
@@ -69,27 +81,41 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
         /// <typeparam name="TEntity">Type of entity that will be consumed by the service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
-        public static IServiceCollection AddLiquidRabbitMqConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName)
+        /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
+        public static IServiceCollection AddLiquidRabbitMqConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
             where TWorker : class, ILiquidWorker<TEntity>
         {
             services.AddLiquidWorkerService<TWorker, TEntity>();
 
-            services.AddConsumer<TEntity>(sectionName);
+            services.AddConsumer<TEntity>(sectionName, activateTelemetry);
 
             return services;
         }
 
-        private static IServiceCollection AddConsumer<TEntity>(this IServiceCollection services, string sectionName)
+        private static IServiceCollection AddConsumer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
         {
             services.AddTransient<IRabbitMqFactory, RabbitMqFactory>();
 
-            services.AddSingleton((provider) =>
+            if (activateTelemetry)
             {
-                var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqProducerSettings>();
-                return ActivatorUtilities.CreateInstance<RabbitMqConsumer<TEntity>>(provider, settings);
-            });
+                services.AddSingleton((provider) =>
+                {
+                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqConsumerSettings>();
+                    return ActivatorUtilities.CreateInstance<RabbitMqConsumer<TEntity>>(provider, settings);
+                });
 
-            services.AddSingletonLiquidTelemetry<ILiquidConsumer<TEntity>, RabbitMqConsumer<TEntity>>();
+
+                services.AddSingletonLiquidTelemetry<ILiquidConsumer<TEntity>, RabbitMqConsumer<TEntity>>();
+            }
+            else
+            {
+                services.AddSingleton<ILiquidConsumer<TEntity>>((provider) =>
+                {
+                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqConsumerSettings>();
+                    return ActivatorUtilities.CreateInstance<RabbitMqConsumer<TEntity>>(provider, settings);
+                });
+            }
+
 
             return services;
         }

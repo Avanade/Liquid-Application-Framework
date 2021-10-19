@@ -21,7 +21,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <typeparam name="TEntity">Type of entity that will be consumed by this service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
-        public static IServiceCollection AddServiceBusProducer<TEntity>(this IServiceCollection services, string sectionName)
+        public static IServiceCollection AddLiquidServiceBusProducer<TEntity>(this IServiceCollection services, string sectionName)
         {
             services.TryAddTransient<IServiceBusFactory, ServiceBusFactory>();
 

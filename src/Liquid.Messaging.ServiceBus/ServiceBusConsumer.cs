@@ -42,7 +42,7 @@ namespace Liquid.Messaging.ServiceBus
             if (ProcessMessageAsync is null)
             {
                 throw new NotImplementedException($"The {nameof(ProcessErrorAsync)} action must be added to class.");
-            }                       
+            }
 
             _messageReceiver = _factory.GetReceiver(_settingsName);
 

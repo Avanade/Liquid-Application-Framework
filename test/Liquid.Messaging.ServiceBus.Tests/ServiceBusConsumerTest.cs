@@ -22,8 +22,8 @@ namespace Liquid.Messaging.ServiceBus.Tests
         [Fact]
         public void RegisterMessageHandler_WhenRegisteredSucessfully_RegisterMessageHandlerReceivedCall()
         {
-            var messageReceiver = Substitute.For<IMessageReceiver>();            
-            _factory.GetReceiver(Arg.Any<string>()).Returns(messageReceiver);            
+            var messageReceiver = Substitute.For<IMessageReceiver>();
+            _factory.GetReceiver(Arg.Any<string>()).Returns(messageReceiver);
 
             ProcessMessageAsync += ProcessMessageAsyncMock;
 

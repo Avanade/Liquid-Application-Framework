@@ -6,7 +6,7 @@ namespace Liquid.Messaging.Extensions
     /// Util Extensions Class
     /// </summary>
     public static class CommonExtensions
-    {        
+    {
         /// <summary>
         /// The Gzip content type
         /// </summary>
@@ -30,6 +30,6 @@ namespace Liquid.Messaging.Extensions
             {
                 if (!source.ContainsKey(element.Key)) source.Add(element);
             }
-        }       
+        }
     }
 }

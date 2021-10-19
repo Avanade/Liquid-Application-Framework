@@ -15,7 +15,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
     public class RabbitMqConsumerTest : RabbitMqConsumer<MessageMock>
     {
         public static readonly IRabbitMqFactory _factory = Substitute.For<IRabbitMqFactory>();
-        public RabbitMqConsumerTest() 
+        public RabbitMqConsumerTest()
             : base(_factory, new RabbitMqConsumerSettings())
         {
 

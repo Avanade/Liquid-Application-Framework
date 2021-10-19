@@ -44,7 +44,7 @@ namespace Liquid.Messaging.RabbitMq
                     var messageProperties = GetProperties(customProperties);
 
                     var messageBytes = !_settings.CompressMessage ? messageBody.ToJsonBytes() : messageBody.ToJson().GzipCompress();
-                        
+
                     _channelModel.BasicPublish(_settings.Exchange, string.Empty, messageProperties, messageBytes);
 
                 });

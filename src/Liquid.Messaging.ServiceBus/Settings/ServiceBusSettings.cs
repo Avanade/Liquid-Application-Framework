@@ -1,9 +1,4 @@
-﻿using Liquid.Core.Attributes;
-using Liquid.Messaging.Exceptions;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Liquid.Messaging.ServiceBus.Settings
+﻿namespace Liquid.Messaging.ServiceBus.Settings
 {
     /// <summary>
     /// Service bus configuration properties set.

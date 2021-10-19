@@ -25,7 +25,8 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         {
             services.TryAddTransient<IServiceBusFactory, ServiceBusFactory>();
 
-            services.AddScoped((provider) => {
+            services.AddScoped((provider) =>
+            {
                 return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, sectionName);
             });
 
@@ -45,10 +46,10 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
-        public static IServiceCollection AddLiquidServiceBusConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName,  params Assembly[] assemblies)
+        public static IServiceCollection AddLiquidServiceBusConsumer<TWorker, TEntity>(this IServiceCollection services, string sectionName, params Assembly[] assemblies)
              where TWorker : class, ILiquidWorker<TEntity>
         {
-            services.AddLiquidMessageConsumer<TWorker, TEntity>(assemblies);            
+            services.AddLiquidMessageConsumer<TWorker, TEntity>(assemblies);
 
             services.AddConsumer<TEntity>(sectionName);
 
@@ -80,7 +81,8 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         {
             services.AddTransient<IServiceBusFactory, ServiceBusFactory>();
 
-            services.AddSingleton((provider) => {
+            services.AddSingleton((provider) =>
+            {
                 return ActivatorUtilities.CreateInstance<ServiceBusConsumer<TEntity>>(provider, sectionName);
             });
 

@@ -21,7 +21,7 @@ namespace Liquid.Messaging.RabbitMq
         ///<inheritdoc/>
         public IModel GetReceiver(RabbitMqConsumerSettings settings)
         {
-           try
+            try
             {
                 var connectionFactory = new ConnectionFactory
                 {
@@ -52,9 +52,9 @@ namespace Liquid.Messaging.RabbitMq
 
                 return channelModel;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                throw new MessagingMissingConfigurationException(ex,"for queue '" + settings?.Queue + "'");
+                throw new MessagingMissingConfigurationException(ex, "for queue '" + settings?.Queue + "'");
             }
 
         }

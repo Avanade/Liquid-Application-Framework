@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Messaging.RabbitMq.Tests.Mock

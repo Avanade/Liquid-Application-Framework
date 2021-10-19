@@ -22,7 +22,7 @@ namespace Liquid.Messaging.ServiceBus
 
         ///<inheritdoc/>
         public IMessageReceiver GetReceiver(string settingsName)
-        {   
+        {
             try
             {
                 var config = _configuration.GetSection(settingsName).Get<ServiceBusSettings>();

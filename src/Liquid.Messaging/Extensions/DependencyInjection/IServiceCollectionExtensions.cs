@@ -77,7 +77,7 @@ namespace Liquid.Messaging.Extensions.DependencyInjection
         /// <param name="services">Extended service collection instance.</param>
         public static IServiceCollection AddLiquidPipeline<TEntity>(this IServiceCollection services)
         {
-            services.AddScoped<ILiquidContext,LiquidContext>();
+            services.AddScoped<ILiquidContext, LiquidContext>();
             services.Decorate<ILiquidWorker<TEntity>, LiquidContextDecorator<TEntity>>();
             services.Decorate<ILiquidWorker<TEntity>, LiquidScopedLoggingDecorator<TEntity>>();
             services.Decorate<ILiquidWorker<TEntity>, LiquidCultureDecorator<TEntity>>();

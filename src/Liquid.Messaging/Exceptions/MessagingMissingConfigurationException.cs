@@ -14,7 +14,7 @@ namespace Liquid.Messaging.Exceptions
     public class MessagingMissingConfigurationException : LiquidException
     {
         ///<inheritdoc/>
-        public MessagingMissingConfigurationException(Exception innerException, string settingsName) 
+        public MessagingMissingConfigurationException(Exception innerException, string settingsName)
             : base($"The messaging configuration section {settingsName} is missing. See inner exception for more detail.", innerException)
         {
         }

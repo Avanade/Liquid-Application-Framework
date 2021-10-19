@@ -1,9 +1,7 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Liquid.Messaging.Exceptions
 {

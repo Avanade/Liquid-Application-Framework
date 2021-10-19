@@ -21,8 +21,8 @@ namespace Liquid.Messaging.ServiceBus
         /// <param name="settingsName">Configuration section name for this service instance.</param>
         public ServiceBusProducer(IServiceBusFactory factory, string settingsName)
         {
-            if(settingsName is null) throw new ArgumentNullException(nameof(settingsName));
-            _messageSender = factory?.GetSender(settingsName) ?? throw new ArgumentNullException(nameof(factory));            
+            if (settingsName is null) throw new ArgumentNullException(nameof(settingsName));
+            _messageSender = factory?.GetSender(settingsName) ?? throw new ArgumentNullException(nameof(factory));
         }
 
         ///<inheritdoc/>

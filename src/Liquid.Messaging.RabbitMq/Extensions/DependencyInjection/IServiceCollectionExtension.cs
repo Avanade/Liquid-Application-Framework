@@ -26,7 +26,8 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
         {
             services.TryAddTransient<IRabbitMqFactory, RabbitMqFactory>();
 
-            services.AddScoped<ILiquidProducer<TEntity>>((provider) => {
+            services.AddScoped((provider) =>
+            {
                 var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqProducerSettings>();
                 return ActivatorUtilities.CreateInstance<RabbitMqProducer<TEntity>>(provider, settings);
             });
@@ -82,7 +83,8 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
         {
             services.AddTransient<IRabbitMqFactory, RabbitMqFactory>();
 
-            services.AddSingleton<ILiquidConsumer<TEntity>>((provider) => {
+            services.AddSingleton((provider) =>
+            {
                 var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<RabbitMqProducerSettings>();
                 return ActivatorUtilities.CreateInstance<RabbitMqConsumer<TEntity>>(provider, settings);
             });

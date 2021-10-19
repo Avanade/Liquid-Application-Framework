@@ -3,12 +3,7 @@ using Liquid.Messaging.ServiceBus.Extensions.DependencyInjection;
 using Liquid.Repository.Mongo.Extensions;
 using Liquid.Sample.Domain.Entities;
 using Liquid.Sample.Domain.Handlers.SamplePut;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Liquid.Sample.MessagingConsumer
 {
@@ -24,13 +19,9 @@ namespace Liquid.Sample.MessagingConsumer
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddLiquidConfiguration();
-                    services.AddLiquidMongoWithTelemetry<SampleEntity, int>(options => {
-                        options.DatabaseName = "MySampleDb";
-                        options.CollectionName = "SampleCollection";
-                        options.ShardKey = "id";
-                    });
-                    services.AddServiceBusProducer<SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleProducer");
-                    services.AddLiquidServiceBusConsumer<Worker, SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleConsumer", typeof(PutCommandRequest).Assembly);
+                    services.AddLiquidMongoRepository<SampleEntity, int>("Liquid:MyMongoDbSettings:Entities");
+                    services.AddLiquidServiceBusProducer<SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleProducer");
+                    services.AddLiquidServiceBusConsumer<Worker, SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleConsumer", true, typeof(PutCommandRequest).Assembly);
                 });
     }
 }

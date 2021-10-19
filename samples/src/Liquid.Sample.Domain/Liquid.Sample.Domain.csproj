@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="10.3.3" />
-    <PackageReference Include="Liquid.Messaging.ServiceBus" Version="2.0.0-preview-20211015-06" />
-    <PackageReference Include="Liquid.Repository.Mongo" Version="2.1.0" />
+    <PackageReference Include="Liquid.Messaging.ServiceBus" Version="2.0.0-preview-20211015-09" />
+    <PackageReference Include="Liquid.Repository.Mongo" Version="2.2.0-rc1" />
     <PackageReference Include="MediatR" Version="9.0.0" />
   </ItemGroup>
 

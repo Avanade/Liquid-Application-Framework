@@ -3,11 +3,7 @@ using Liquid.Messaging.Interfaces;
 using Liquid.Sample.Domain.Entities;
 using Liquid.Sample.Domain.Handlers.SamplePut;
 using MediatR;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -37,9 +37,11 @@ namespace Liquid.Messaging.Decorators
         ///<inheritdoc/>
         public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
+            object value = default; 
+
             foreach (var key in _options.Settings.Keys)
             {
-                args.Headers.TryGetValue(key.KeyName, out var value);
+                args.Headers?.TryGetValue(key.KeyName, out value);
 
                 if (value is null && key.Required)
                     throw new MessagingMissingContextKeysException(key.KeyName);

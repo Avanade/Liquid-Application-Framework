@@ -34,7 +34,9 @@ namespace Liquid.Messaging.Decorators
         ///<inheritdoc/>
         public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
-            args.Headers.TryGetValue(_culture, out object cultureCode);
+            object cultureCode = default;
+
+            args.Headers?.TryGetValue(_culture, out cultureCode);
 
             if (cultureCode is null && !string.IsNullOrEmpty(_options.Settings.DefaultCulture))
             {

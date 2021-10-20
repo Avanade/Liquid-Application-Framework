@@ -42,9 +42,11 @@ namespace Liquid.Messaging.Decorators
         {
             var scope = new List<KeyValuePair<string, object>>();
 
+            object value = default;
+
             foreach (var key in _options.Settings.Keys)
             {
-                args.Headers.TryGetValue(key.KeyName, out object value);
+                args.Headers?.TryGetValue(key.KeyName, out value);
 
                 if (value is null && key.Required)
                     throw new MessagingMissingScopedKeysException(key.KeyName);

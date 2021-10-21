@@ -63,7 +63,7 @@ namespace Liquid.Repository.Tests.Mock
 
         public async Task StartTransactionAsync()
         {
-            _inMemoryTempTransactionRepository = await Task.FromResult(cloneRepository(_inMemoryRepository));
+            _inMemoryTempTransactionRepository = await Task.FromResult(CloneRepository(_inMemoryRepository));
         }
 
         public async Task CommitAsync()
@@ -73,7 +73,7 @@ namespace Liquid.Repository.Tests.Mock
 
         public async Task RollbackTransactionAsync()
         {
-            _inMemoryRepository = await Task.FromResult(cloneRepository(_inMemoryTempTransactionRepository));
+            _inMemoryRepository = await Task.FromResult(CloneRepository(_inMemoryTempTransactionRepository));
         }
 
         protected virtual void Dispose(bool disposing)
@@ -96,7 +96,7 @@ namespace Liquid.Repository.Tests.Mock
             GC.SuppressFinalize(this);
         }
 
-        private Dictionary<TIdentifier, TEntity> cloneRepository(Dictionary<TIdentifier, TEntity> repoToClone)
+        private Dictionary<TIdentifier, TEntity> CloneRepository(Dictionary<TIdentifier, TEntity> repoToClone)
         {
             var clone = new Dictionary<TIdentifier, TEntity>();
             foreach(var key in repoToClone.Keys)

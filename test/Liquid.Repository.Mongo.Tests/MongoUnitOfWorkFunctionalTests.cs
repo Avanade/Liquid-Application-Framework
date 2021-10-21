@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 namespace Liquid.Repository.Mongo.Tests
 {
     [ExcludeFromCodeCoverage]
-    class MongoUnitOfWorkFunctionalTests
+    public class MongoUnitOfWorkFunctionalTests
     {
         private IServiceProvider _serviceProvider;
         private ILiquidUnitOfWork _unitOfWork;
@@ -75,11 +75,12 @@ namespace Liquid.Repository.Mongo.Tests
         [TearDown]
         public void DisposeResources()
         {
+            _unitOfWork.Dispose();
+            _runner.Dispose();
+
             _serviceProvider = null;
             _sut = null;
-            _unitOfWork.Dispose();
             _unitOfWork = null;
-            _runner.Dispose();
             _runner = null;
         }
 
@@ -94,8 +95,6 @@ namespace Liquid.Repository.Mongo.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            _runner.Dispose();
-
             Assert.NotNull(result);
         }
 
@@ -109,8 +108,6 @@ namespace Liquid.Repository.Mongo.Tests
             await _unitOfWork.RollbackTransactionAsync();
 
             var result = await _sut.FindByIdAsync(1242);
-
-            _runner.Dispose();
 
             Assert.Null(result);
         }
@@ -128,8 +125,6 @@ namespace Liquid.Repository.Mongo.Tests
 
             var result = await _sut.WhereAsync(e => e.Id.Equals(_entity.Id));
 
-            _runner.Dispose();
-
             Assert.IsFalse(result.Any());
         }
 
@@ -145,8 +140,6 @@ namespace Liquid.Repository.Mongo.Tests
             await _unitOfWork.RollbackTransactionAsync();
 
             var result = await _sut.FindByIdAsync(1242);
-
-            _runner.Dispose();
 
             Assert.NotNull(result);
         }
@@ -164,8 +157,6 @@ namespace Liquid.Repository.Mongo.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            _runner.Dispose();
-
             Assert.AreEqual(_updateEntity.Active, result.Active);
         }
 
@@ -181,8 +172,6 @@ namespace Liquid.Repository.Mongo.Tests
             await _unitOfWork.RollbackTransactionAsync();
 
             var result = await _sut.FindByIdAsync(1242);
-
-            _runner.Dispose();
 
             Assert.AreEqual(_entity.Active, result.Active);
         }

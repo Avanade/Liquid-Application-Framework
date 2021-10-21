@@ -18,7 +18,7 @@ namespace Liquid.Repository.Mongo.Tests
         [SetUp]
         protected void SetContext()
         {
-            _runner = MongoDbRunner.StartForDebugging(singleNodeReplSet: false);
+            _runner = MongoDbRunner.Start(singleNodeReplSet: false);
 
             _correctDatabaseSettings = new DatabaseSettings()
             {
@@ -39,9 +39,10 @@ namespace Liquid.Repository.Mongo.Tests
         [TearDown]
         public void DisposeResources() 
         {
+            _runner.Dispose();
+
             _correctDatabaseSettings = null;
             _sut = null;
-            _runner.Dispose();
             _runner = null;
         }
 

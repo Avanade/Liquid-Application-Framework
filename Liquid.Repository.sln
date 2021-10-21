@@ -32,6 +32,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\liquid-repository-mongodb-cd-nuget-publish.yml = .github\workflows\liquid-repository-mongodb-cd-nuget-publish.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Repository.Tests", "test\Liquid.Repository.Tests\Liquid.Repository.Tests.csproj", "{6CF487B8-302C-40C3-809C-89D1DED813D9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{35EC4C0D-9308-499C-A679-1D1FDDF6286B} = {35EC4C0D-9308-499C-A679-1D1FDDF6286B}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +63,10 @@ Global
 		{857D686E-B7BC-4BC4-A24D-357A75BB9259}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{857D686E-B7BC-4BC4-A24D-357A75BB9259}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{857D686E-B7BC-4BC4-A24D-357A75BB9259}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF487B8-302C-40C3-809C-89D1DED813D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF487B8-302C-40C3-809C-89D1DED813D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF487B8-302C-40C3-809C-89D1DED813D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF487B8-302C-40C3-809C-89D1DED813D9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

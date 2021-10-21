@@ -1,5 +1,6 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
 namespace Liquid.Repository.Exceptions
@@ -7,6 +8,7 @@ namespace Liquid.Repository.Exceptions
     /// <summary>
     /// Occurs when a Repository database throw an error.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     [Serializable]
     public class DatabaseContextException : LiquidException
     {

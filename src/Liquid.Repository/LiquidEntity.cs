@@ -1,9 +1,12 @@
-﻿namespace Liquid.Repository
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Liquid.Repository
 {
     /// <summary>
     /// Represents the repository entity
     /// </summary>
     /// <typeparam name="TIdentifier">The type of the identifier.</typeparam>
+    [ExcludeFromCodeCoverage]
     public class LiquidEntity<TIdentifier>
     {
         /// <summary>

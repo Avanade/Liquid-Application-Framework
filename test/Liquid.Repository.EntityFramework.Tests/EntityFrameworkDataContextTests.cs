@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using NSubstitute;
 using NUnit.Framework;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.EntityFramework.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class EntityFrameworkDataContextTests
     {
         private EntityFrameworkDataContext<DbContext> _sut;

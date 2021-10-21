@@ -5,11 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.EntityFramework.Tests
 {
+    [ExcludeFromCodeCoverage]
     [TestFixture()]
     public class EntityFrameworkRepositoryTest
     {

@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.EntityFramework.Tests
 {
+    [ExcludeFromCodeCoverage]
     public class MockDbContext : DbContext
     {
         public MockDbContext() : base() { }

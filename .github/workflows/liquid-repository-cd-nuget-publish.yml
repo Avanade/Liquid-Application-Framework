@@ -85,3 +85,9 @@ jobs:
       run: |
         dotnet pack --no-build --configuration Release src/Liquid.Repository/Liquid.Repository.csproj --output .
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{secrets.PUBLISH_TO_NUGET_ORG}} --skip-duplicate
+        
+    - name: Publish Test Coverage Reports
+      uses: actions/upload-artifact@v2
+      with:
+        name: SonarQube Coverage Test Reports
+        path: $GITHUB_WORKSPACE/test/coverlet/reports/

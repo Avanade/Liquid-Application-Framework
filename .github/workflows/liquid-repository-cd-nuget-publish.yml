@@ -73,7 +73,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       run: |
-        dotnet sonarscanner begin /k:"Avanade_Liquid.Repository" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths="${{github.workspace}}/test/coverlet/reports" /d:sonar.cs.nunit.reportsPaths="${{github.workspace}}/test/testresults"
+        dotnet sonarscanner begin /k:"Avanade_Liquid.Repository" /o:"avanade-1" /d:sonar.login="${{secrets.SONAR_TOKEN}}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.coverageReportPaths="${{github.workspace}}/test/coverlet/reports/SonarQube.xml" /d:sonar.cs.nunit.reportsPaths="${{github.workspace}}/test/testresults/*.trx"
         dotnet build src/Liquid.Repository/Liquid.Repository.csproj --configuration Release --no-restore
         dotnet test test/Liquid.Repository.Tests/*Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/test/testresults
         reportgenerator -reports:$GITHUB_WORKSPACE/test/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/test/coverlet/reports -reporttypes:"SonarQube"

@@ -90,4 +90,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: SonarQube Coverage Test Reports
-        path: ${{ github.workspace }}/test/coverlet/reports/
+        path: |
+          ${{ github.workspace }}/test/testresults/
+          ${{ github.workspace }}/test/testresults/**/
+          ${{ github.workspace }}/test/coverlet/reports/

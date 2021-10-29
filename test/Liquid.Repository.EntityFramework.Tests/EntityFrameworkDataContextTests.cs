@@ -88,6 +88,9 @@ namespace Liquid.Repository.EntityFramework.Tests
             _sut.Dispose();
 
             _client.Received(1).Dispose();
+
+            // Try to dispose twice to cover all conditions on Dispose method
+            _sut.Dispose();
         }
 
         [Test]
@@ -96,6 +99,25 @@ namespace Liquid.Repository.EntityFramework.Tests
             _client.When(o => o.Dispose()).Do((call) => throw new Exception());
 
             Assert.Throws<Exception>(() => _sut.Dispose());
+        }
+
+        [Test]
+        public void EntityFrameworkDataContext_WhenCreated_DbContextIsValid()
+        {
+            Assert.IsNotNull(_sut.DbClient);
+            Assert.IsInstanceOf<DbContext>(_sut.DbClient);
+        }
+
+        [Test]
+        public void EntityFrameworkDataContext_WhenCreatedWithoutDbContext_ThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new EntityFrameworkDataContext<DbContext>(null));
+        }
+
+        [Test]
+        public void EntityFrameworkDataContext_IdIsAlwaysNull()
+        {
+            Assert.IsNull(_sut.Id);
         }
     }
 }

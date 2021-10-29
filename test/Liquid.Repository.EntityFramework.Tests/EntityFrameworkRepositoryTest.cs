@@ -271,5 +271,32 @@ namespace Liquid.Repository.EntityFramework.Tests
             }
             await dbContext.SaveChangesAsync();
         }
+
+        [Category("ctor")]
+        [Test]
+        public void EntityFrameworkRepository_WhenCreatedWithoutDataContext_ThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new EntityFrameworkRepository<MockEntity, int, MockDbContext>(null));
+        }
+
+        [Category("Members")]
+        [Test]
+        public void EntityFrameworkRepository_WhenCreated_DataContextIsValid()
+        {
+            //Arrange
+            var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
+            var mockRepository = GenerateMockRepository(dbSet);
+
+            //Act
+            var dataContext = mockRepository.DataContext;
+            var entityFrameworkDataContext = mockRepository.EntityDataContext;
+
+            //Assert
+            Assert.IsNotNull(dataContext);
+            Assert.IsInstanceOf<ILiquidDataContext>(dataContext);
+
+            Assert.IsNotNull(entityFrameworkDataContext);
+            Assert.IsInstanceOf<IEntityFrameworkDataContext<MockDbContext>>(entityFrameworkDataContext);
+        }
     }
 }

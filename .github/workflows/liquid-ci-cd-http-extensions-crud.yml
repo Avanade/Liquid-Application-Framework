@@ -1,17 +1,17 @@
 # CI & CD workflow
-name: CI/CD - Liquid.WebApi.Http component for Liquid Application Framework
+name: CI/CD - Liquid.WebApi.Http.Extensions.Crud component for Liquid Application Framework
 
 on:
   push:
     branches: [ main ]
     paths:
-    - 'src/Liquid.WebApi.Http/**'
+    - 'src/Liquid.WebApi.Http.Extensions.Crud/**'
     
   pull_request:
     branches: [ main ]
     types: [opened, synchronize, reopened]
     paths:
-    - 'src/Liquid.WebApi.Http/**'
+    - 'src/Liquid.WebApi.Http.Extensions.Crud/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
   call-reusable-build-workflow:
     uses: Avanade/Liquid-Application-Framework/.github/workflows/base-liquid-ci-and-cd.yml@main
     with:
-      component_name: Liquid.WebApi.Http
+      component_name: Liquid.WebApi.Http.Extensions.Crud
     secrets:
-      sonar_token: ${{ secrets.SONAR_TOKEN_HTTP }}
+      sonar_token: ${{ secrets.SONAR_TOKEN_EXT_CRUD }}
       nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

@@ -10,6 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77065B3E-8299-4B74-8F6A-A063D93F21DC}"
 	ProjectSection(SolutionItems) = preProject
 		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
+		.github\workflows\liquid-ci-cd -extensions-crud.yml = .github\workflows\liquid-ci-cd -extensions-crud.yml
 		.github\workflows\liquid-ci-cd.yml = .github\workflows\liquid-ci-cd.yml
 		logo.png = logo.png
 		nuget.config = nuget.config

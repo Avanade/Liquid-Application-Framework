@@ -22,7 +22,7 @@ namespace Liquid.Repository.EntityFramework.Exceptions
         /// Initializes a new instance of the <see cref="DatabaseDoesNotExistException"/> class.
         /// </summary>
         /// <param name="databaseName">Name of the database.</param>
-        public DatabaseDoesNotExistException(string databaseName) : base($"Database {databaseName} does not exist. Please check name or create a new database")
+        public DatabaseDoesNotExistException(string databaseName) : base($"Database {databaseName} does not exist. Please check name or create a new database.")
         {
         }
 

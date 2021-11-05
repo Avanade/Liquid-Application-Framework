@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Liquid.Services.Grpc.Tests.Server.Services;
+﻿using Liquid.Services.Grpc.Tests.Server.Services;
+using System.Threading.Tasks;
 
 namespace Liquid.Services.Grpc.Tests.Services
 {

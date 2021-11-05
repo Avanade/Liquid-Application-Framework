@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Threading.Tasks;
-using Liquid.Services.Http.Entities;
+﻿using Liquid.Services.Http.Entities;
 using Liquid.Services.Http.Tests.Entities;
 using Liquid.Services.Http.Tests.MockServer;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Threading.Tasks;
 using WireMock.Server;
 
 namespace Liquid.Services.Http.Tests.TestCases

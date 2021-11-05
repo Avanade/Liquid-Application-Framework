@@ -1,13 +1,12 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using System.Threading.Tasks;
-using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
 using Liquid.Services.Attributes;
 using Liquid.Services.Configuration;
 using Liquid.Services.Grpc.Tests.Server.Services;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Liquid.Services.Grpc.Tests.Services
 {
@@ -28,17 +27,12 @@ namespace Liquid.Services.Grpc.Tests.Services
         /// Initializes a new instance of the <see cref="CreditRatingService"/> class.
         /// </summary>
         /// <param name="httpClientFactory">The HTTP client factory.</param>
-        /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
         /// <param name="servicesSettings">The services settings.</param>
         /// <param name="mapperService">The mapper service.</param>
-        public CreditRatingService(IHttpClientFactory httpClientFactory, 
-                                   ILoggerFactory loggerFactory, 
-                                   ILightContextFactory contextFactory, 
-                                   ILightTelemetryFactory telemetryFactory, 
-                                   ILightServiceConfiguration<LightServiceSetting> servicesSettings, 
-                                   IMapper mapperService) : base(httpClientFactory, loggerFactory, contextFactory, telemetryFactory, servicesSettings, mapperService)
+        public CreditRatingService(IHttpClientFactory httpClientFactory,
+                                   ILogger<CreditRatingService> logger,
+                                   ILiquidConfiguration<LightServiceSetting> servicesSettings,
+                                   IMapper mapperService) : base(httpClientFactory, logger, servicesSettings, mapperService)
         {
         }
 

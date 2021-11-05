@@ -1,11 +1,11 @@
-﻿using System;
+﻿using Liquid.Services.Http.ContentTypes;
+using Liquid.Services.Http.Exceptions;
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Liquid.Services.Http.ContentTypes;
-using Liquid.Services.Http.Exceptions;
 
 namespace Liquid.Services.Http.Entities
 {

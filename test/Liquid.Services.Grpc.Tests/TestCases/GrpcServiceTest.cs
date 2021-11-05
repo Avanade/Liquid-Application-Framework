@@ -1,11 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Liquid.Core.Context;
-using Liquid.Core.DependencyInjection;
-using Liquid.Core.Telemetry;
-using Liquid.Services.Grpc.Tests.Server;
+﻿using Liquid.Services.Grpc.Tests.Server;
 using Liquid.Services.Grpc.Tests.Server.Services;
 using Liquid.Services.Grpc.Tests.Services;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +8,10 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.Console;
 using NUnit.Framework;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Liquid.Services.Grpc.Tests.TestCases
 {
@@ -47,8 +44,8 @@ namespace Liquid.Services.Grpc.Tests.TestCases
             services.AddHttpClient();
 
             // this is done to allow test execution without untrusted/invalid certificate issues.
-            services.AddHttpClient("CreditRatingService").ConfigurePrimaryHttpMessageHandler(() => 
-                new HttpClientHandler {ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator});
+            services.AddHttpClient("CreditRatingService").ConfigurePrimaryHttpMessageHandler(() =>
+                new HttpClientHandler { ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator });
 
             services.AddGrpcServices(GetType().Assembly);
             _serviceProvider = services.BuildServiceProvider();
@@ -73,7 +70,7 @@ namespace Liquid.Services.Grpc.Tests.TestCases
             Assert.IsNotNull(result);
             Assert.IsTrue(result.IsAccepted);
 
-            result = await sut.CheckCreditRatingAsync(new CreditRequest {Credit = 100000, CustomerId = "id0201"});
+            result = await sut.CheckCreditRatingAsync(new CreditRequest { Credit = 100000, CustomerId = "id0201" });
 
             Assert.IsNotNull(result);
             Assert.IsFalse(result.IsAccepted);

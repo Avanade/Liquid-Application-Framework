@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Liquid.Core.Attributes;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -10,6 +11,7 @@ namespace Liquid.Services.Configuration
     /// Service client setting class.
     /// </summary>
     [ExcludeFromCodeCoverage]
+    [LiquidSectionName("liquid:services")]
     public class LightServiceSetting
     {
         private int _timeout;
@@ -20,7 +22,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The identifier.
         /// </value>
-        [JsonProperty("id")]
         public string Id { get; set; }
 
         /// <summary>
@@ -29,7 +30,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The url address.
         /// </value>
-        [JsonProperty("address")]
         public string Address { get; set; }
 
         /// <summary>
@@ -38,7 +38,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The timeout.
         /// </value>
-        [JsonProperty("timeout")]
         public int Timeout
         {
             get => _timeout <= 0 ? 1000 : _timeout;
@@ -60,7 +59,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The list of custom parameters.
         /// </value>
-        [JsonProperty("parameters")]
         public List<ServiceParameter> Parameters { get; set; }
 
         /// <summary>
@@ -69,7 +67,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The resilience.
         /// </value>
-        [JsonProperty("resilience")]
         public ResilienceSetting Resilience { get; set; }
     }
 
@@ -85,7 +82,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The key.
         /// </value>
-        [JsonProperty("key")]
         public string Key { get; set; }
 
         /// <summary>
@@ -94,7 +90,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The value.
         /// </value>
-        [JsonProperty("value")]
         public object Value { get; set; }
     }
 
@@ -110,16 +105,14 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The circuit breaker.
         /// </value>
-        [JsonProperty("circuitBreaker")]
         public CircuitBreakerSetting CircuitBreaker { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the retry.
         /// </summary>
         /// <value>
         /// The retry.
         /// </value>
-        [JsonProperty("retry")]
         public RetrySetting Retry { get; set; }
     }
 
@@ -135,7 +128,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         ///   <c>true</c> if enabled; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("enabled")]
         public bool Enabled { get; set; }
 
         /// <summary>
@@ -144,7 +136,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The failure threshold.
         /// </value>
-        [JsonProperty("failureThreshold")]
         public double FailureThreshold { get; set; }
 
         /// <summary>
@@ -153,7 +144,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The duration of the sampling (in seconds).
         /// </value>
-        [JsonProperty("samplingDuration")]
         public int SamplingDuration { get; set; }
 
         /// <summary>
@@ -162,7 +152,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The minimum throughput.
         /// </value>
-        [JsonProperty("minimumThroughput")]
         public int MinimumThroughput { get; set; }
 
         /// <summary>
@@ -171,7 +160,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The duration of break (in seconds).
         /// </value>
-        [JsonProperty("durationOfBreak")]
         public int DurationOfBreak { get; set; }
     }
 
@@ -187,7 +175,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         ///   <c>true</c> if enabled; otherwise, <c>false</c>.
         /// </value>
-        [JsonProperty("enabled")]
         public bool Enabled { get; set; }
 
         /// <summary>
@@ -196,7 +183,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The attempts.
         /// </value>
-        [JsonProperty("attempts")]
         public int Attempts { get; set; }
 
         /// <summary>
@@ -205,7 +191,6 @@ namespace Liquid.Services.Configuration
         /// <value>
         /// The wait duration between attempts (in milliseconds).
         /// </value>
-        [JsonProperty("waitDuration")]
         public int WaitDuration { get; set; }
     }
 

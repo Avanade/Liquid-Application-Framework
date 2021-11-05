@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Grpc.Core;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Grpc.Core;
 
 namespace Liquid.Services.Grpc.Tests.Server.Services
 {

@@ -1,5 +1,5 @@
-﻿using System;
-using Liquid.Core.Exceptions;
+﻿using Liquid.Core.Exceptions;
+using System;
 
 namespace Liquid.Services.Grpc.Exceptions
 {
@@ -7,7 +7,7 @@ namespace Liquid.Services.Grpc.Exceptions
     /// Occurs when a grpc call throws an exception.
     /// </summary>
     /// <seealso cref="Liquid.Core.Exceptions.LightException" />
-    public class GrpcServiceCallException : LightException
+    public class GrpcServiceCallException : LiquidException
     {
         private const string ExceptionMessage = "An error has occurred while executing grpc call {0}.";
 

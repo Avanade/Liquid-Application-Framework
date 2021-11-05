@@ -1,10 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.ServiceModel;
-using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
 using Liquid.Services.Configuration;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics.CodeAnalysis;
+using System.ServiceModel;
 
 namespace Liquid.Services.Wcf
 {
@@ -18,16 +17,12 @@ namespace Liquid.Services.Wcf
         /// <summary>
         /// Initializes a new instance of the <see cref="WcfLightService"/> class.
         /// </summary>
-        /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
+        /// <param name="logger">The logger factory.</param>
         /// <param name="servicesSettings">The services settings.</param>
         /// <param name="mapperService">The mapper service.</param>
-        protected WcfLightService(ILoggerFactory loggerFactory, 
-                                  ILightContextFactory contextFactory, 
-                                  ILightTelemetryFactory telemetryFactory, 
-                                  ILightServiceConfiguration<LightServiceSetting> servicesSettings, 
-                                  IMapper mapperService) : base(loggerFactory, contextFactory, telemetryFactory, servicesSettings, mapperService)
+        protected WcfLightService(ILogger<WcfLightService> logger,
+                                  ILiquidConfiguration<LightServiceSetting> servicesSettings,
+                                  IMapper mapperService) : base(logger, servicesSettings, mapperService)
         {
         }
 

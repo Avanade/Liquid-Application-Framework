@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Liquid.Core.Exceptions;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using Liquid.Core.Exceptions;
 
 namespace Liquid.Services.Http.Exceptions
 {
@@ -9,7 +9,7 @@ namespace Liquid.Services.Http.Exceptions
     /// </summary>
     /// <seealso cref="System.Exception" />
     [ExcludeFromCodeCoverage]
-    public class HttpServiceCallException : LightException
+    public class HttpServiceCallException : LiquidException
     {
         private const string ExceptionMessage = "An error has occurred while accessing http request {0}.";
 

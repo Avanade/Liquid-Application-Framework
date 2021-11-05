@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Core" Version="2.0.2-alpha" />
+    <PackageReference Include="Liquid.Core" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
     <PackageReference Include="Polly" Version="7.2.2" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />

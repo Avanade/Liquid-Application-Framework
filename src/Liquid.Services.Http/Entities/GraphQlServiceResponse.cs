@@ -1,8 +1,8 @@
-﻿using System;
+﻿using Liquid.Services.Http.Exceptions;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Liquid.Services.Http.Exceptions;
-using Newtonsoft.Json.Linq;
 
 namespace Liquid.Services.Http.Entities
 {

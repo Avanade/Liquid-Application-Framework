@@ -1,5 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Services.Http.Tests.Entities
 {

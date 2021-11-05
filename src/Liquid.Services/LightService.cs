@@ -1,14 +1,13 @@
-﻿using Liquid.Services.Configuration;
+﻿using AutoMapper;
+using Liquid.Core.Interfaces;
+using Liquid.Core.Utils;
+using Liquid.Services.Attributes;
+using Liquid.Services.Configuration;
+using Liquid.Services.ResilienceHandlers;
+using Microsoft.Extensions.Logging;
 using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using System.Reflection;
-using AutoMapper;
-using Liquid.Core.Context;
-using Liquid.Core.Telemetry;
-using Liquid.Core.Utils;
-using Liquid.Services.Attributes;
-using Liquid.Services.ResilienceHandlers;
-using Microsoft.Extensions.Logging;
 
 namespace Liquid.Services
 {
@@ -51,22 +50,6 @@ namespace Liquid.Services
         protected IMapper MapperService { get; }
 
         /// <summary>
-        /// Gets the context factory.
-        /// </summary>
-        /// <value>
-        /// The context factory.
-        /// </value>
-        protected ILightContextFactory ContextFactory { get; }
-
-        /// <summary>
-        /// Gets the telemetry factory.
-        /// </summary>
-        /// <value>
-        /// The telemetry factory.
-        /// </value>
-        protected ILightTelemetryFactory TelemetryFactory { get; }
-
-        /// <summary>
         /// Gets the resilience.
         /// </summary>
         /// <value>
@@ -77,37 +60,30 @@ namespace Liquid.Services
         /// <summary>
         /// Initializes a new instance of the <see cref="LightService" /> class.
         /// </summary>
-        /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="contextFactory">The context factory.</param>
-        /// <param name="telemetryFactory">The telemetry factory.</param>
+        /// <param name="logger">The logger factory.</param>
         /// <param name="servicesSettings">The services settings.</param>
         /// <param name="mapperService">The mapper service.</param>
-        protected LightService(ILoggerFactory loggerFactory,
-                               ILightContextFactory contextFactory,
-                               ILightTelemetryFactory telemetryFactory,
-                               ILightServiceConfiguration<LightServiceSetting> servicesSettings,
+        protected LightService(ILogger logger,
+                               ILiquidConfiguration<LightServiceSetting> servicesSettings,
                                IMapper mapperService)
         {
-            ContextFactory = contextFactory;
             MapperService = mapperService;
-            TelemetryFactory = telemetryFactory;
-
-            InitiateService(loggerFactory, servicesSettings);
+            InitiateService(logger, servicesSettings);
         }
 
         /// <summary>
         /// Initiates the service client.
         /// </summary>
-        /// <param name="loggerFactory">The logger factory.</param>
+        /// <param name="logger">The logger factory.</param>
         /// <param name="servicesSettings">The services settings.</param>
-        private void InitiateService(ILoggerFactory loggerFactory, ILightServiceConfiguration<LightServiceSetting> servicesSettings)
+        private void InitiateService(ILogger logger, ILiquidConfiguration<LightServiceSetting> servicesSettings)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             var attribute = GetType().GetCustomAttribute<ServiceIdAttribute>(true);
 
-            ServiceId = attribute?.ServiceId?.IsNotNullOrEmpty() == true ? attribute.ServiceId : GetType().Name; 
-            Logger = loggerFactory.CreateLogger(ServiceId);
-            ServiceSettings = servicesSettings.GetSettings(ServiceId);
+            ServiceId = attribute?.ServiceId?.IsNotNullOrEmpty() == true ? attribute.ServiceId : GetType().Name;
+            Logger = logger;
+            ServiceSettings = servicesSettings.Settings;
             Resilience ??= new ResilienceHandler(ServiceSettings, Logger);
         }
     }

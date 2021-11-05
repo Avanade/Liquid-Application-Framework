@@ -1,7 +1,6 @@
-﻿using System.Linq;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using System.Reflection;
-using Liquid.Services.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Liquid.Services.Http
 {
@@ -15,9 +14,10 @@ namespace Liquid.Services.Http
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="assemblies">The assemblies that contains Http Service Clients declared.</param>
-        public static void AddHttpServices(this IServiceCollection services, params Assembly[] assemblies)
+        public static void AddHttpServices<TInterface, TService>(this IServiceCollection services, params Assembly[] assemblies)
+            where TService : class, TInterface
+            where TInterface : ILightHttpService
         {
-            services.AddSingleton<ILightServiceConfiguration<LightServiceSetting>, ServiceConfiguration>();
             var serviceTypes = assemblies.SelectMany(a => a.ExportedTypes)
                 .Where(t => t.BaseType != null &&
                             t.BaseType.Assembly.FullName.StartsWith("Liquid.Services.Http") &&
@@ -29,6 +29,7 @@ namespace Liquid.Services.Http
                     t.GetInterfaces()
                         .Any(i => i.Assembly.FullName.StartsWith("Liquid.Services.Http") &&
                                   i.Name.StartsWith("ILightHttpService")));
+
                 if (interfaceType != null)
                 {
                     services.AddSingleton(interfaceType, serviceType);

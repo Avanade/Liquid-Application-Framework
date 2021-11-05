@@ -1,7 +1,9 @@
-﻿using System.Linq;
-using System.Reflection;
+﻿using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Liquid.Services.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using System.Reflection;
 
 namespace Liquid.Services.Grpc
 {
@@ -17,7 +19,7 @@ namespace Liquid.Services.Grpc
         /// <param name="assemblies">The assemblies that contains Grpc Service Clients declared.</param>
         public static void AddGrpcServices(this IServiceCollection services, params Assembly[] assemblies)
         {
-            services.AddSingleton<ILightServiceConfiguration<LightServiceSetting>, ServiceConfiguration>();
+            services.AddSingleton<ILiquidConfiguration<LightServiceSetting>, LiquidConfiguration<LightServiceSetting>>();
             var serviceTypes = assemblies.SelectMany(a => a.ExportedTypes)
                 .Where(t => t.BaseType != null &&
                             t.BaseType.Assembly.FullName.StartsWith("Liquid.Services.Grpc") &&

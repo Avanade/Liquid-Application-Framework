@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using Liquid.Services.Http.Entities;
+using Liquid.Services.Http.Enum;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Liquid.Services.Http.Entities;
-using Liquid.Services.Http.Enum;
 
 namespace Liquid.Services.Http
 {
@@ -59,7 +59,7 @@ namespace Liquid.Services.Http
         /// The Http response message with the necessary response.
         /// </returns>
         Task<HttpServiceResponse<TResponse>> DeleteAsync<TResponse>(string endpoint, Dictionary<string, string> customHeaders = null);
-        
+
         /// <summary>
         /// Deletes the specified resource in the url endpoint.
         /// </summary>

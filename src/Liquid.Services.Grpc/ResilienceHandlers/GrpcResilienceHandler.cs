@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Liquid.Services.Configuration;
 using Liquid.Services.ResilienceHandlers;
 using Microsoft.Extensions.Logging;
 using Polly;
+using System;
+using System.Collections.Generic;
 
 namespace Liquid.Services.Grpc.ResilienceHandlers
 {

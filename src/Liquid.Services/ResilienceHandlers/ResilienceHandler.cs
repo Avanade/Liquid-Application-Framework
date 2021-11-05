@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Liquid.Services.Configuration;
+using Microsoft.Extensions.Logging;
+using Polly;
+using Polly.Wrap;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -8,10 +12,6 @@ using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using Liquid.Services.Configuration;
-using Microsoft.Extensions.Logging;
-using Polly;
-using Polly.Wrap;
 
 namespace Liquid.Services.ResilienceHandlers
 {

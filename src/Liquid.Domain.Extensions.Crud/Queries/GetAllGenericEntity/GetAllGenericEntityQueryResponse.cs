@@ -9,14 +9,14 @@ namespace Liquid.Domain.Extensions.Crud.Queries.GetAllGenericEntity
     public class GetAllGenericEntityQueryResponse<TEntity>
     {
         /// <summary>
-        /// Collection of <see cref="TEntity"/>
+        /// Collection of entities of type TEntity
         /// </summary>
         public IEnumerable<TEntity> Data { get; set; }
 
         /// <summary>
         /// Initialize an instance of <see cref="GetAllGenericEntityQueryResponse{TEntity}"/>
         /// </summary>
-        /// <param name="data">Collection of <see cref="TEntity"/></param>
+        /// <param name="data">Collection of entities of type TEntity</param>
         public GetAllGenericEntityQueryResponse(IEnumerable<TEntity> data)
         {
             Data = data;

@@ -4,7 +4,7 @@ using MediatR;
 namespace Liquid.Domain.Extensions.Crud.Notifications.GenericEntityUpdated
 {
     /// <summary>
-    /// Notification of <see cref="GenericEntityUpdated{TEntity, TIdentifier}"/>
+    /// Notification of <see cref="GenericEntityUpdatedNotification{TEntity, TIdentifier}"/>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
     /// <typeparam name="TIdentifier"></typeparam>

@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
+    /// <summary>
+    /// Static extension methods for register CRUD Handlers
+    /// </summary>
     public static class DependencyInjectionExtensions
     {
         /// <summary>

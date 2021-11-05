@@ -25,4 +25,11 @@
     <Description>The Liquid.Domain.Extensions.Crud contains extensions that, used together with Liquid.WebApi.Http.Extensions.Crud, allows you to easily create CRUD applications.</Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
 </Project>

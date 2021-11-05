@@ -13,8 +13,10 @@ namespace Liquid.Domain.Extensions.Crud.Commands.AddGenericEntity
     /// <typeparam name="TIdentifier"></typeparam>
     public class AddGenericEntityCommandHandler<TEntity, TIdentifier> : IRequestHandler<AddGenericEntityCommand<TEntity, TIdentifier>, AddGenericEntityCommandResponse<TEntity>> where TEntity : LiquidEntity<TIdentifier>
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         protected readonly ILiquidRepository<TEntity, TIdentifier> _liquidRepository;
         protected readonly IMediator _mediator;
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Initialize an instance of <see cref="AddGenericEntityCommandHandler{TEntity, TIdentifier}"/>
@@ -27,6 +29,12 @@ namespace Liquid.Domain.Extensions.Crud.Commands.AddGenericEntity
             _mediator = mediator;
         }
 
+        /// <summary>
+        /// Asynchronous virtual method that handles add requests
+        /// </summary>
+        /// <param name="request">Add request to handle of type <see cref="AddGenericEntityCommand{TEntity, TIdentifier}"/></param>
+        /// <param name="cancellationToken"><see cref="CancellationToken"/></param>
+        /// <returns><see cref="AddGenericEntityCommandResponse{TEntity}"/></returns>
         public virtual async Task<AddGenericEntityCommandResponse<TEntity>> Handle(AddGenericEntityCommand<TEntity, TIdentifier> request, CancellationToken cancellationToken)
         {
             await _liquidRepository.AddAsync(request.Data);

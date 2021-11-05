@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.0.31612.314
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Domain", "src\Liquid.Domain\Liquid.Domain.csproj", "{CE75EB47-68D9-46F5-BF91-60D39E52CC54}"
 EndProject
@@ -10,7 +10,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{77065B3E-8299-4B74-8F6A-A063D93F21DC}"
 	ProjectSection(SolutionItems) = preProject
 		test\CodeCoverage.runsettings = test\CodeCoverage.runsettings
-		.github\workflows\liquid-ci-cd -extensions-crud.yml = .github\workflows\liquid-ci-cd -extensions-crud.yml
+		.github\workflows\liquid-ci-cd-extensions-crud.yml = .github\workflows\liquid-ci-cd-extensions-crud.yml
 		.github\workflows\liquid-ci-cd.yml = .github\workflows\liquid-ci-cd.yml
 		logo.png = logo.png
 		nuget.config = nuget.config

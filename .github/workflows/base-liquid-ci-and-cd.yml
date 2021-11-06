@@ -46,6 +46,7 @@ jobs:
 
     # required by sonarcloud scanner
     - name: (CI/CD) Setup Java JDK
+      if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
       uses: actions/setup-java@v1.4.3
       with:
         # The Java version to make available on the path. Takes a whole or semver Java version, or 1.x syntax (e.g. 1.8 => Java 8.x). Early access versions can be specified in the form of e.g. 14-ea, 14.0.0-ea, or 14.0.0-ea.28
@@ -59,6 +60,7 @@ jobs:
 
     # required by sonarcloud scanner
     - name: (CI/CD) Setup Sonar Scanner tool
+      if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
       run: dotnet tool install --global dotnet-sonarscanner
 
     - name: (CI/CD) Install Test Reporting Tool
@@ -71,15 +73,22 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
         SONAR_TOKEN: ${{ secrets.sonar_token }}
+        RUN_SONAR: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}
       run: |
-        dotnet sonarscanner begin /k:"Avanade_${{ inputs.component_name }}" /o:"avanade-1" /d:sonar.login="${{ secrets.sonar_token }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/test/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/test/coverlet/reports/SonarQube.xml
+        if [ "$RUN_SONAR" == "true" ]
+        then
+          dotnet sonarscanner begin /k:"Avanade_${{ inputs.component_name }}" /o:"avanade-1" /d:sonar.login="${{ secrets.sonar_token }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/test/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/test/coverlet/reports/SonarQube.xml
+        fi
         dotnet build src/${{ inputs.component_name }}/${{ inputs.component_name }}.csproj --configuration Release --no-restore
         if [[ -d test/${{ inputs.component_name }}.Tests && -f test/${{ inputs.component_name }}.Tests/${{ inputs.component_name }}.Tests.csproj ]]
         then 
           dotnet test test/${{ inputs.component_name }}.Tests/${{ inputs.component_name }}.Tests.csproj --collect:"XPlat Code Coverage" --logger trx --results-directory $GITHUB_WORKSPACE/test/testresults
           reportgenerator -reports:$GITHUB_WORKSPACE/test/testresults/**/coverage.cobertura.xml -targetdir:$GITHUB_WORKSPACE/test/coverlet/reports -reporttypes:"SonarQube"
         fi
-        dotnet sonarscanner end /d:sonar.login="${{ secrets.sonar_token }}"
+        if [ "$RUN_SONAR" == "true" ]
+        then
+          dotnet sonarscanner end /d:sonar.login="${{ secrets.sonar_token }}"
+        fi
 
     - name: (CD) Nuget Pack & Push to Nuget.org
       if: ${{ github.event_name == 'push' }}

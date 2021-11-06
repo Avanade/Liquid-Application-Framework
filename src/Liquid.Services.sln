@@ -14,15 +14,18 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5B236104-1E1F-46A3-9539-40D05AFB445D}"
 	ProjectSection(SolutionItems) = preProject
 		CodeCoverage.runsettings = CodeCoverage.runsettings
+		..\.github\workflows\liquid-ci-cd-grpc-cartridge.yml = ..\.github\workflows\liquid-ci-cd-grpc-cartridge.yml
+		..\.github\workflows\liquid-ci-cd-http-cartridge.yml = ..\.github\workflows\liquid-ci-cd-http-cartridge.yml
+		..\.github\workflows\liquid-ci-cd.yml = ..\.github\workflows\liquid-ci-cd.yml
 		logo.png = logo.png
 		nuget.config = nuget.config
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapters", "Adapters", "{1BAB949E-1AEB-4060-A3A0-F2C13FC2D02D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Services.Grpc", "Liquid.Services.Grpc\Liquid.Services.Grpc.csproj", "{A95D8BC2-B1C6-4ED9-A600-2B9322195E22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc", "Liquid.Services.Grpc\Liquid.Services.Grpc.csproj", "{A95D8BC2-B1C6-4ED9-A600-2B9322195E22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Services.Grpc.Tests", "Liquid.Services.Grpc.Tests\Liquid.Services.Grpc.Tests.csproj", "{ACF51A49-4E80-44B7-A5D1-4CD2974559E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Services.Grpc.Tests", "Liquid.Services.Grpc.Tests\Liquid.Services.Grpc.Tests.csproj", "{0CD40082-AE0C-4EA8-81D0-D63749F62800}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -46,10 +49,10 @@ Global
 		{A95D8BC2-B1C6-4ED9-A600-2B9322195E22}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A95D8BC2-B1C6-4ED9-A600-2B9322195E22}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A95D8BC2-B1C6-4ED9-A600-2B9322195E22}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ACF51A49-4E80-44B7-A5D1-4CD2974559E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ACF51A49-4E80-44B7-A5D1-4CD2974559E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ACF51A49-4E80-44B7-A5D1-4CD2974559E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ACF51A49-4E80-44B7-A5D1-4CD2974559E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CD40082-AE0C-4EA8-81D0-D63749F62800}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CD40082-AE0C-4EA8-81D0-D63749F62800}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CD40082-AE0C-4EA8-81D0-D63749F62800}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CD40082-AE0C-4EA8-81D0-D63749F62800}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,7 +61,7 @@ Global
 		{1195C83E-028A-42C6-872D-386C84F12EC7} = {1BAB949E-1AEB-4060-A3A0-F2C13FC2D02D}
 		{19BE7AF2-8245-498F-9A59-3C19E3562922} = {C05FB33A-C3A8-4D12-A070-DFF5076F82D0}
 		{A95D8BC2-B1C6-4ED9-A600-2B9322195E22} = {1BAB949E-1AEB-4060-A3A0-F2C13FC2D02D}
-		{ACF51A49-4E80-44B7-A5D1-4CD2974559E7} = {C05FB33A-C3A8-4D12-A070-DFF5076F82D0}
+		{0CD40082-AE0C-4EA8-81D0-D63749F62800} = {C05FB33A-C3A8-4D12-A070-DFF5076F82D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {42151711-26CD-49D0-B547-41204023D7ED}

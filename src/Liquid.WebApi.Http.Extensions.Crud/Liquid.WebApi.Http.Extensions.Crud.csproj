@@ -14,7 +14,23 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>Liquid.WebApi.Http.Extensions.Crud</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Avanade Brazil</Authors>
+    <Company>Avanade Inc.</Company>
+    <Product>Liquid - Modern Application Framework</Product>
+    <Copyright>Avanade 2019</Copyright>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid.WebApi</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
+    <Version>2.0.0-preview20211108-01</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <IsPackable>true</IsPackable>
+    <DebugType>Full</DebugType>
+    <ProjectGuid>{52C452EC-7C53-4177-A0C5-8CCFC6C0D76F}</ProjectGuid>
+    <Description>
+      The Liquid.WebApi.Http.Extensions.Crud implements some extension methods and classes that helps to easily create CRUD APIs.
+      This component is part of Liquid Application Framework.
+    </Description>
   </PropertyGroup>
 
 </Project>

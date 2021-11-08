@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Liquid.Domain.Extensions.Crud" Version="2.0.0-preview-20211105-01" />
+    <PackageReference Include="Liquid.WebApi.Http" Version="2.0.1" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageIcon>logo.png</PackageIcon>
+  </PropertyGroup>
+
+</Project>

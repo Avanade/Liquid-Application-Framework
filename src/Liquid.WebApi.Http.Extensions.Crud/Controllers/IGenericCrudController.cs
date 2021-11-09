@@ -4,33 +4,38 @@ using System.Threading.Tasks;
 
 namespace LiquidCrudExample.WebApi.Controllers
 {
+    /// <summary>
+    /// Interface that exposes generic CRUD actions
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TIdentifier"></typeparam>
     public interface IGenericCrudController<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>
     {
         /// <summary>
-        /// Action to CREATE a new <see cref="TEntity"/>
+        /// Action to CREATE a new TEntity.
         /// </summary>
         /// <param name="entity">Entity to Create</param>
         /// <returns></returns>
         Task<IActionResult> AddAsync(TEntity entity);
         /// <summary>
-        /// Action to LIST ALL <see cref="TEntity"/>
+        /// Action to LIST ALL TEntity
         /// </summary>
         /// <returns></returns>
         Task<IActionResult> GetAllAsync();
         /// <summary>
-        /// Action to GET by ID a <see cref="TEntity"/>
+        /// Action to GET by ID a TEntity
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns></returns>
         Task<IActionResult> GetByIdAsync(TIdentifier id);
         /// <summary>
-        /// Action to DELETE a <see cref="TEntity"/>
+        /// Action to DELETE a TEntity
         /// </summary>
         /// <param name="id">Id</param>
         /// <returns></returns>
         Task<IActionResult> RemoveAsync(TIdentifier id);
         /// <summary>
-        /// Action to UPDATE a <see cref="TEntity"/>
+        /// Action to UPDATE a TEntity
         /// </summary>
         /// <param name="entity">Entity to Update</param>
         /// <returns></returns>

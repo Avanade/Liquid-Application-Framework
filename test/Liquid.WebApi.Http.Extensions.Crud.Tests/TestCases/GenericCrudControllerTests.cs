@@ -3,8 +3,8 @@ using Liquid.Domain.Extensions.Crud.Commands.RemoveGenericEntity;
 using Liquid.Domain.Extensions.Crud.Commands.UpdateGenericEntity;
 using Liquid.Domain.Extensions.Crud.Queries.FindByIdGenericEntity;
 using Liquid.Domain.Extensions.Crud.Queries.GetAllGenericEntity;
+using Liquid.WebApi.Http.Extensions.Crud.Controllers;
 using Liquid.WebApi.Http.Extensions.Crud.Tests.Entities;
-using LiquidCrudExample.WebApi.Controllers;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -18,13 +18,6 @@ namespace Liquid.WebApi.Http.Extensions.Crud.Tests.TestCases
 {
     public class GenericCrudControllerTests
     {
-        /*
-        Task<IActionResult> AddAsync(TEntity entity);
-        Task<IActionResult> GetAllAsync();
-        Task<IActionResult> GetByIdAsync(TIdentifier id);
-        Task<IActionResult> RemoveAsync(TIdentifier id);
-        Task<IActionResult> UpdateAsync(TEntity entity);
-         */
         [Fact]
         public async Task Test_AddAsync_Success()
         {

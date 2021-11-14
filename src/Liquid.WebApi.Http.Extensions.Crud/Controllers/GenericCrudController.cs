@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace LiquidCrudExample.WebApi.Controllers
+namespace Liquid.WebApi.Http.Extensions.Crud.Controllers
 {
     ///<inheritdoc/>
     [ApiController]
@@ -66,9 +66,9 @@ namespace LiquidCrudExample.WebApi.Controllers
         public async Task<IActionResult> RemoveAsync(TIdentifier id)
         {
             var response = await ExecuteAsync(new RemoveGenericEntityCommand<TEntity, TIdentifier>(id));
-            
+
             if (response.Data == null) return NotFound();
-            
+
             return NoContent();
         }
 

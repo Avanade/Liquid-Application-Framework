@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
-namespace LiquidCrudExample.WebApi.Controllers
+namespace Liquid.WebApi.Http.Extensions.Crud.Controllers
 {
     /// <summary>
     /// Interface that exposes generic CRUD actions

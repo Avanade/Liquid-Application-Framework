@@ -42,12 +42,6 @@ namespace Liquid.Messaging.RabbitMq
                         settings.QueueSettings.Global.Value);
                 }
 
-                channelModel.QueueDeclare(settings.Queue,
-                   settings.AdvancedSettings?.Durable ?? false,
-                   settings.AdvancedSettings?.Exclusive ?? true,
-                   settings.AdvancedSettings?.AutoDelete ?? false,
-                   settings.AdvancedSettings?.QueueArguments);
-
                 channelModel.QueueBind(settings.Queue, settings.Exchange, string.Empty);
 
                 return channelModel;
@@ -73,12 +67,7 @@ namespace Liquid.Messaging.RabbitMq
 
                 var connection = connectionFactory.CreateConnection();
                 var channelModel = connection.CreateModel();
-                channelModel.ExchangeDeclare(settings?.Exchange,
-                    settings.AdvancedSettings?.ExchangeType ?? "direct",
-                    settings.AdvancedSettings?.Durable ?? false,
-                    settings.AdvancedSettings?.AutoDelete ?? false,
-                    settings.AdvancedSettings?.ExchangeArguments);
-
+                
                 return channelModel;
             }
             catch (Exception ex)

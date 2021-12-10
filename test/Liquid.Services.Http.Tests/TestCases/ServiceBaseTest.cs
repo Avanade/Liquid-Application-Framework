@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Liquid.Core.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -35,10 +36,9 @@ namespace Liquid.Services.Http.Tests.TestCases
 
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
             IConfiguration configurationRoot = new ConfigurationBuilder().AddJsonFile($"{AppDomain.CurrentDomain.BaseDirectory}appsettings.json").Build();
-            services.AddSingleton(configurationRoot);
 
-            services.AddDefaultTelemetry();
-            services.AddDefaultContext();
+            services.AddSingleton(configurationRoot);
+            services.AddLiquidConfiguration();
             services.AddAutoMapper(GetType().Assembly);
             services.AddHttpClient();
 

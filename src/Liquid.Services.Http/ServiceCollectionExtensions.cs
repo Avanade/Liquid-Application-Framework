@@ -14,9 +14,7 @@ namespace Liquid.Services.Http
         /// </summary>
         /// <param name="services">The services.</param>
         /// <param name="assemblies">The assemblies that contains Http Service Clients declared.</param>
-        public static void AddHttpServices<TInterface, TService>(this IServiceCollection services, params Assembly[] assemblies)
-            where TService : class, TInterface
-            where TInterface : ILightHttpService
+        public static void AddHttpServices(this IServiceCollection services, params Assembly[] assemblies)
         {
             var serviceTypes = assemblies.SelectMany(a => a.ExportedTypes)
                 .Where(t => t.BaseType != null &&

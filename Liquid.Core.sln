@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Core.Tests", "test\Liquid.Core.Tests\Liquid.Core.Tests.csproj", "{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Core.Telemetry.ElasticApm", "src\Liquid.Core.Telemetry.ElasticApm\Liquid.Core.Telemetry.ElasticApm.csproj", "{AD354CF6-C132-4B5D-944D-0DFE21509781}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Core.Telemetry.ElasticApm.Tests", "test\Liquid.Core.Telemetry.ElasticApm.Tests\Liquid.Core.Telemetry.ElasticApm.Tests.csproj", "{8863A92B-E1A3-4203-8C08-C017E5B3D2CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +33,14 @@ Global
 		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD354CF6-C132-4B5D-944D-0DFE21509781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD354CF6-C132-4B5D-944D-0DFE21509781}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD354CF6-C132-4B5D-944D-0DFE21509781}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD354CF6-C132-4B5D-944D-0DFE21509781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8863A92B-E1A3-4203-8C08-C017E5B3D2CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8863A92B-E1A3-4203-8C08-C017E5B3D2CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8863A92B-E1A3-4203-8C08-C017E5B3D2CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8863A92B-E1A3-4203-8C08-C017E5B3D2CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

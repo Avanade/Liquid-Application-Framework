@@ -11,15 +11,15 @@ using Xunit;
 
 namespace Liquid.Core.Telemetry.ElasticApm.Tests
 {
-    public class LiquidPipelineBehaviorTests
+    public class LiquidElasticApmTelemetryBehavior
     {
-        private readonly ILogger<LiquidPipelineBehavior<RequestMock, ResponseMock>> _logger;
+        private readonly ILogger<LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>> _logger;
 
         private readonly ITracer _tracer;
 
-        public LiquidPipelineBehaviorTests()
+        public LiquidElasticApmTelemetryBehavior()
         {
-            _logger = Substitute.For<ILogger<LiquidPipelineBehavior<RequestMock, ResponseMock>>>();
+            _logger = Substitute.For<ILogger<LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>>>();
             _tracer = Substitute.For<ITracer>();
         }
 
@@ -28,7 +28,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
         {
             // Arrange
             var handler = Substitute.For<IRequestHandler<RequestMock, ResponseMock>>();
-            var pipelineBehavior = new LiquidPipelineBehavior<RequestMock, ResponseMock>(_logger, _tracer); 
+            var pipelineBehavior = new LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>(_logger, _tracer); 
 
             // Act
             await pipelineBehavior.Handle(new RequestMock(), CancellationToken.None, () => 
@@ -46,7 +46,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
         {
             // Arrange
             var handler = new CommandHandlerMock();
-            var pipelineBehavior = new LiquidPipelineBehavior<RequestMock, ResponseMock>(_logger, _tracer);
+            var pipelineBehavior = new LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>(_logger, _tracer);
 
             // Act
             await Assert.ThrowsAsync<NotImplementedException>(() => 

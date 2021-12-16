@@ -28,7 +28,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests.Extensions
 
             services.Configure<ElasticApmSettings>(config.GetSection(nameof(ElasticApmSettings)));
 
-            services.AddElasticApmTelemetry(config);
+            services.AddLiquidElasticApmTelemetry(config);
 
             return services;
         }

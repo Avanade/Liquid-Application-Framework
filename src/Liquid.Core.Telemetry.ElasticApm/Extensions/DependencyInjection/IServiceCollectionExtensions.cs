@@ -17,7 +17,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Extensions.DependencyInjection
         /// Register telemetry interceptor <see cref="LiquidElasticApmInterceptor"/> and behaviour <see cref="LoggingBehaviour"/> for Elastic APM. 
         /// </summary>
         /// <param name="services">Extended <see cref="IServiceCollection"/> instance.</param>
-        public static IServiceCollection AddElasticApmTelemetry(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddLiquidElasticApmTelemetry(this IServiceCollection services, IConfiguration configuration)
         {
             if (configuration.HasElasticApmEnabled())
             {
@@ -25,7 +25,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Extensions.DependencyInjection
 
                 services.AddInterceptor<LiquidElasticApmInterceptor>();
 
-                services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LiquidPipelineBehavior<,>));
+                services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LiquidElasticApmTelemetryBehavior<,>));
             }
 
             return services;

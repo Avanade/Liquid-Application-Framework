@@ -21,7 +21,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             var config = new ConfigurationSettings().AddElasticApm();
             services.Configure<ElasticApmSettings>(config.GetSection(nameof(ElasticApmSettings)));
 
-            services.AddElasticApmTelemetry(config);
+            services.AddLiquidElasticApmTelemetry(config);
 
             // Act
             using ServiceProvider serviceprovider = services.BuildServiceProvider();
@@ -40,7 +40,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
 
             var config = new ConfigurationBuilder().Build();
 
-            services.AddElasticApmTelemetry(config);
+            services.AddLiquidElasticApmTelemetry(config);
 
             // Act
             using ServiceProvider serviceprovider = services.BuildServiceProvider();
@@ -60,7 +60,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             var config = new ConfigurationSettings().AddElasticApm(enable: true);
             services.Configure<ElasticApmSettings>(config.GetSection(nameof(ElasticApmSettings)));
 
-            services.AddElasticApmTelemetry(config);
+            services.AddLiquidElasticApmTelemetry(config);
 
             // Act
             using ServiceProvider serviceprovider = services.BuildServiceProvider();
@@ -80,7 +80,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             var config = new ConfigurationSettings().AddElasticApm(enable: false);
             services.Configure<ElasticApmSettings>(config.GetSection(nameof(ElasticApmSettings)));
 
-            services.AddElasticApmTelemetry(config);
+            services.AddLiquidElasticApmTelemetry(config);
 
             // Act
             using ServiceProvider serviceprovider = services.BuildServiceProvider();
@@ -101,7 +101,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             var config = new ConfigurationSettings().AddElasticApm(enable: false);
             services.Configure<ElasticApmSettings>(config.GetSection(nameof(ElasticApmSettings)));
 
-            services.AddElasticApmTelemetry(config);
+            services.AddLiquidElasticApmTelemetry(config);
 
             // Act
             using ServiceProvider serviceprovider = services.BuildServiceProvider();
@@ -122,7 +122,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             var config = new ConfigurationSettings().AddElasticApm();
             services.Configure<ElasticApmSettings>(config.GetSection(nameof(ElasticApmSettings)));
 
-            services.AddElasticApmTelemetry(config);
+            services.AddLiquidElasticApmTelemetry(config);
 
             // Act
             using ServiceProvider serviceprovider = services.BuildServiceProvider();

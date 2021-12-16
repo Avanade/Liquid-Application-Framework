@@ -13,9 +13,9 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
     /// </summary>
     /// <typeparam name="TRequest">The type of request.</typeparam>
     /// <typeparam name="TResponse">Type of response object obtained upon return of request.</typeparam>
-    public sealed class LiquidPipelineBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public sealed class LiquidElasticApmTelemetryBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        private readonly ILogger<LiquidPipelineBehavior<TRequest, TResponse>> _logger;
+        private readonly ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> _logger;
 
         private readonly ITransaction _transaction;
 
@@ -24,7 +24,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
         /// </summary>
         /// <param name="logger"><see cref="ILogger<LoggingBehaviour<TRequest, TResponse>>"/> implementation.</param>
         /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
-        public LiquidPipelineBehavior(ILogger<LiquidPipelineBehavior<TRequest, TResponse>> logger, ITracer tracer)
+        public LiquidElasticApmTelemetryBehavior(ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> logger, ITracer tracer)
         {
             _logger = logger;
             _transaction = tracer?.CurrentTransaction;

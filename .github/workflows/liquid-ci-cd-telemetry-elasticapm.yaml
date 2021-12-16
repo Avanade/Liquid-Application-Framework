@@ -1,0 +1,26 @@
+# CI & CD workflow
+name: CI/CD - Liquid.Core.Telemetry.ElasticApm component for Liquid Application Framework
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'src/Liquid.Core.Telemetry.ElasticApm/**'
+    
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+    paths:
+    - 'src/Liquid.Core.Telemetry.ElasticApm/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  call-reusable-build-workflow:
+    uses: Avanade/Liquid-Application-Framework/.github/workflows/base-liquid-ci-and-cd.yml@main
+    with:
+      component_name: Liquid.Core.Telemetry.ElasticApm
+    secrets:
+      sonar_token: ${{ secrets.SONAR_TOKEN_ELASTICAPM }}
+      nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

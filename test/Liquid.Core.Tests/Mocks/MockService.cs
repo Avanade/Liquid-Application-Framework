@@ -6,7 +6,7 @@ namespace Liquid.Core.UnitTests.Mocks
 {
     public class MockService : IMockService
     {
-        private ILogger<MockService> _logger;
+        private readonly ILogger<MockService> _logger;
         public MockService(ILogger<MockService> logger)
         {
             _logger = logger;

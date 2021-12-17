@@ -14,6 +14,7 @@ namespace Liquid.Core.Tests
         private IServiceCollection _sut;
 
         [Fact]
+        [System.Obsolete("The extension method AddLiquidTelemetryInterceptor<IMockService, MockInterceptService>() is obsolete, so is this!")]
         public void AddLiquidTelemetryInterceptor_WhenSuccessfullyInjectsInterceptor_GetServiceSuccessfully()
         {
             SetCollection();

@@ -1,16 +1,27 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <PackageId>Liquid.Core.Telemetry.ElasticApm</PackageId>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Avanade Brazil</Authors>
+    <Company>Avanade Inc.</Company>
+    <Product>Liquid - Modern Application Framework</Product>
+    <Copyright>Avanade 2021</Copyright>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid.Core</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <Version>2.0.0-preview-20211216-01</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ProjectGuid>{AD354CF6-C132-4B5D-944D-0DFE21509781}</ProjectGuid>
+    <IsPackable>true</IsPackable>
+    <DebugType>Full</DebugType>
+    <Description>This is the Liquid component to collect telemetry and send it to ElasticAPM.</Description>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.12.1" />
+    <PackageReference Include="Liquid.Core" Version="2.1.0" />
     <PackageReference Include="MediatR" Version="9.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Liquid.Core\Liquid.Core.csproj" />
   </ItemGroup>
 
 </Project>

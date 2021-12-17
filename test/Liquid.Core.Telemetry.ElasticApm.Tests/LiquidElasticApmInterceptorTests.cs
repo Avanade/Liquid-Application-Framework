@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Castle.DynamicProxy;
 using Elastic.Apm.Api;
 using Liquid.Core.Telemetry.ElasticApm.Implementations;
-using Liquid.Core.UnitTests.Mocks;
+using Liquid.Core.Telemetry.ElasticApm.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using Xunit;

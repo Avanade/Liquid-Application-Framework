@@ -11,7 +11,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Extensions.DependencyInjection
     public static class IApplicationBuilderExtensions
     {
         /// <summary>
-        /// Adds <see cref="UseAllElasticApm"/> to the application builder.
+        /// Adds <see cref="HostBuilderExtensions.UseAllElasticApm(Microsoft.Extensions.Hosting.IHostBuilder)"/> to the application builder.
         /// </summary>
         /// <param name="builder">Extended application builder.</param>
         /// <param name="configuration"><see cref="IConfiguration"/> implementation.</param>

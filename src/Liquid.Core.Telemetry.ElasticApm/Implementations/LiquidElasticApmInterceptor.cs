@@ -21,7 +21,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Implementations
         /// <summary>
         /// Initialize an instance of <see cref="LiquidElasticApmInterceptor"/>
         /// </summary>
-        /// <param name="logger"><see cref="ILogger<LiquidElasticApmInterceptor>"/> implementation.</param>
+        /// <param name="logger"><see cref="ILogger{LiquidElasticApmInterceptor}"/> implementation.</param>
         /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
         public LiquidElasticApmInterceptor(ILogger<LiquidElasticApmInterceptor> logger, ITracer tracer)
         {

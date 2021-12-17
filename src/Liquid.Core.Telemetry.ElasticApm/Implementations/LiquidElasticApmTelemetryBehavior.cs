@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace Liquid.Core.Telemetry.ElasticApm.MediatR
 {
     /// <summary>
-    /// Implements <see cref="IPipelineBehavior<TRequest, TResponse>"/> for Elastic APM.
+    /// Implements <see cref="IPipelineBehavior{TRequest, TResponse}"/> for Elastic APM.
     /// </summary>
     /// <typeparam name="TRequest">The type of request.</typeparam>
     /// <typeparam name="TResponse">Type of response object obtained upon return of request.</typeparam>
@@ -20,9 +20,9 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
         private readonly ITransaction _transaction;
 
         /// <summary>
-        /// Initialize an instance of <see cref="LiquidPipelineBehavior<TRequest, TResponse>"/>
+        /// Initialize an instance of <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/>
         /// </summary>
-        /// <param name="logger"><see cref="ILogger<LoggingBehaviour<TRequest, TResponse>>"/> implementation.</param>
+        /// <param name="logger"><see cref="ILogger{TCategoryName}"/> implementation where TCategoryName is a <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/> instance.</param>
         /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
         public LiquidElasticApmTelemetryBehavior(ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> logger, ITracer tracer)
         {

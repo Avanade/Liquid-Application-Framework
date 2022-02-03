@@ -1,11 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Avanade Brazil",
-  "classifications": [ "LAF", "WebApi", "Solution" ],
-  "identity": "Liquid.Crud.Solution",
-  "name": "Liquid CRUD WebAPI Solution",
-  "description": "Create a crud webapi solution with webapi and domain projects using Liquid Framework.",
-  "shortName": "liquidcrudsolution",
+  "classifications": [ "LAF", "Library", "Project" ],
+  "identity": "Liquid.Repository.DbContext.Project",
+  "name": "Liquid Repository DB Context Project",
+  "shortName": "liquiddbcontextproject",
   "tags": {
     "language": "C#",
     "type": "project"
@@ -22,11 +21,6 @@
       "replaces": "ENTITYNAME",
       "FileRename": "ENTITYNAME",
       "defaultValue": "MyObject"
-    },
-    "entityIdType": {
-      "type": "parameter",
-      "replaces": "ENTITYIDTYPE",
-      "defaultValue": "int"
     }
   }
 }

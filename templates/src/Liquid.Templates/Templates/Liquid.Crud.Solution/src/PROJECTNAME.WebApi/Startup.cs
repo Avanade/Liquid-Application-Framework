@@ -42,11 +42,12 @@ namespace PROJECTNAME.WebApi
             // 3. edit appsettings.json file to include data base configurations.
             //
             //[EntityFramework Cartrige]
-            // 1. add Liquid Cartridge using CLI : dotnet add package Liquid.Repository.EntityFramework --version 2.X.X
-            // 2. add database dependency using CLI : dotnet add package Microsoft.EntityFrameworkCore.InMemory --version 5.X.X
-            // 3. set database options : void options(DbContextOptionsBuilder opt) => opt.UseInMemoryDatabase(databaseName: "Liquid");
-            // 4. call cartridge DI method : services.AddLiquidEntityFramework<ProjectNameDbContext, SampleEntity, int>(options);
-            // 5. edit appsettings.json file to include data base configurations.
+            // 1. add Liquid Cartridge using CLI command: dotnet add package Liquid.Repository.EntityFramework --version 2.X.X
+            // 2. add database dependency using CLI command: dotnet add package Microsoft.EntityFrameworkCore.InMemory --version 5.X.X
+            // 3. add DbContext using CLI command: dotnet new liquiddbcontextproject --projectName SampleProject --entityName SampleEntity
+            // 4. set database options : void options(DbContextOptionsBuilder opt) => opt.UseInMemoryDatabase(databaseName: "Liquid");
+            // 5. call cartridge DI method : services.AddLiquidEntityFramework<ProjectNameDbContext, SampleEntity, int>(options);
+            // 6. edit appsettings.json file to include data base configurations.
 
             services.AddLiquidHttp(typeof(PostENTITYNAMECommand).Assembly);
 

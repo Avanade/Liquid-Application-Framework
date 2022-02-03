@@ -8,9 +8,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Update
 {
     public class PutENTITYNAMECommandHandler : IRequestHandler<PutENTITYNAMECommand, PutENTITYNAMECommandResponse>
     {
-        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
+        private readonly ILiquidRepository<Entities.ENTITYNAME, int> _repository;
 
-        public PutENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
+        public PutENTITYNAMECommandHandler(ILiquidRepository<Entities.ENTITYNAME, int> repository)
         {
             _repository = repository;
         }

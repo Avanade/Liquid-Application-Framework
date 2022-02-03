@@ -23,10 +23,10 @@ namespace PROJECTNAME.WebApi.Controllers
         public async Task<IActionResult> Get([FromRoute] int id) => await ExecuteAsync(new GetByIdENTITYNAMEQuery(id), HttpStatusCode.Created);
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new PostENTITYNAMECommand(entity), HttpStatusCode.OK);
+        public async Task<IActionResult> Post([FromBody] ENTITYNAME entity) => await ExecuteAsync(new PostENTITYNAMECommand(entity), HttpStatusCode.OK);
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new PutENTITYNAMECommand(entity), HttpStatusCode.OK);
+        public async Task<IActionResult> Put([FromBody] ENTITYNAME entity) => await ExecuteAsync(new PutENTITYNAMECommand(entity), HttpStatusCode.OK);
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id) => await ExecuteAsync(new DeleteENTITYNAMECommand(id), HttpStatusCode.OK);

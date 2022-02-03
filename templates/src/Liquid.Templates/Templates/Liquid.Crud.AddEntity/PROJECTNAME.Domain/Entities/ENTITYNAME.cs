@@ -2,7 +2,7 @@
 
 namespace PROJECTNAME.Domain.Entities
 {
-    public class ENTITYNAMEEntity : LiquidEntity<int>
+    public class ENTITYNAME : LiquidEntity<int>
     {
         //TODO: declare entity properties.
     }

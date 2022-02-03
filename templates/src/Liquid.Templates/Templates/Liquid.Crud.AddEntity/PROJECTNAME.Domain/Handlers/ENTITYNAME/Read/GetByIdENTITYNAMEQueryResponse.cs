@@ -4,9 +4,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Read
 {
     public class GetByIdENTITYNAMEQueryResponse
     {
-        public ENTITYNAMEEntity Data { get; set; }
+        public Entities.ENTITYNAME Data { get; set; }
 
-        public GetByIdENTITYNAMEQueryResponse(ENTITYNAMEEntity data)
+        public GetByIdENTITYNAMEQueryResponse(Entities.ENTITYNAME data)
         {
             Data = data;
         }

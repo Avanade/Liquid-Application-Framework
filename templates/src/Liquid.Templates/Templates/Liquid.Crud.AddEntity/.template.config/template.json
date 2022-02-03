@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Avanade Brazil",
-  "classifications": [ "LAF", "WebApi" ],
+  "classifications": [ "LAF", "Web", "ASP.NET" ],
   "identity": "Liquid.Crud.AddEntity",
   "name": "Liquid CRUD Add Entity",
   "shortName": "liquidcrudaddentity",
@@ -25,7 +25,7 @@
     "entityIdType": {
       "type": "parameter",
       "replaces": "ENTITYIDTYPE",
-      "defaultValue": "int" 
+      "defaultValue": "int"
     }
   }
 }

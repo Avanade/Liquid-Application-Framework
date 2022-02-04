@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace PROJECTNAME.Repository.Configurations
 {
-    public class ENTITYNAMEConfiguration : IEntityTypeConfiguration<ENTITYNAME>
+    public class ENTITYNAMEConfiguration : IEntityTypeConfiguration<ENTITYNAMEEntity>
     {
-        public void Configure(EntityTypeBuilder<ENTITYNAME> builder)
+        public void Configure(EntityTypeBuilder<ENTITYNAMEEntity> builder)
         {
             builder.Property(o => o.Id).ValueGeneratedOnAdd();
 

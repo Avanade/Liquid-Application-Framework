@@ -4,9 +4,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Update
 {
     public class PutENTITYNAMECommandResponse
     {
-        public Entities.ENTITYNAME Data { get; set; }
+        public ENTITYNAMEEntity Data { get; set; }
 
-        public PutENTITYNAMECommandResponse(Entities.ENTITYNAME data)
+        public PutENTITYNAMECommandResponse(ENTITYNAMEEntity data)
         {
             Data = data;
         }

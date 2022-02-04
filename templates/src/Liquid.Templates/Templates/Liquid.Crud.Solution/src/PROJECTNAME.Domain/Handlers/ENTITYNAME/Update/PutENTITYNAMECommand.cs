@@ -5,9 +5,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Update
 {
     public class PutENTITYNAMECommand : IRequest<PutENTITYNAMECommandResponse>
     {
-        public Entities.ENTITYNAME Body { get; set; }
+        public ENTITYNAMEEntity Body { get; set; }
 
-        public PutENTITYNAMECommand(Entities.ENTITYNAME body)
+        public PutENTITYNAMECommand(ENTITYNAMEEntity body)
         {
             Body = body;
         }

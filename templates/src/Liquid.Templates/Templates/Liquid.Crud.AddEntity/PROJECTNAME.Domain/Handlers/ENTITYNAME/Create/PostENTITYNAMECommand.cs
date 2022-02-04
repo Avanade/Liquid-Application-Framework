@@ -5,9 +5,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Create
 {
     public class PostENTITYNAMECommand : IRequest
     {
-        public Entities.ENTITYNAME Body { get; set; }
+        public ENTITYNAMEEntity Body { get; set; }
 
-        public PostENTITYNAMECommand(Entities.ENTITYNAME body)
+        public PostENTITYNAMECommand(ENTITYNAMEEntity body)
         {
             Body = body;
         }

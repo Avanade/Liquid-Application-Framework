@@ -8,9 +8,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Create
 {
     public class PostENTITYNAMECommandHandler : IRequestHandler<PostENTITYNAMECommand>
     {
-        private readonly ILiquidRepository<Entities.ENTITYNAME, int> _repository;
+        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
 
-        public PostENTITYNAMECommandHandler(ILiquidRepository<Entities.ENTITYNAME, int> repository)
+        public PostENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
         {
             _repository = repository;
         }

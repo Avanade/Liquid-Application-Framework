@@ -8,9 +8,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Read
 {
     public class GetByIdENTITYNAMEQueryHandler : IRequestHandler<GetByIdENTITYNAMEQuery, GetByIdENTITYNAMEQueryResponse>
     {
-        private readonly ILiquidRepository<Entities.ENTITYNAME, int> _repository;
+        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
 
-        public GetByIdENTITYNAMEQueryHandler(ILiquidRepository<Entities.ENTITYNAME, int> repository)
+        public GetByIdENTITYNAMEQueryHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
         {
             _repository = repository;
         }

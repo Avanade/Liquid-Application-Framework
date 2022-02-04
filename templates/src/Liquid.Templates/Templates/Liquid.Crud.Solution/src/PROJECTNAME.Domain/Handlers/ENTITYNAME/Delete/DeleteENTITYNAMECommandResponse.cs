@@ -4,9 +4,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Delete
 {
     public class DeleteENTITYNAMECommandResponse
     {
-        public Entities.ENTITYNAME Data { get; set; }
+        public ENTITYNAMEEntity Data { get; set; }
 
-        public DeleteENTITYNAMECommandResponse(Entities.ENTITYNAME data)
+        public DeleteENTITYNAMECommandResponse(ENTITYNAMEEntity data)
         {
             Data = data;
         }

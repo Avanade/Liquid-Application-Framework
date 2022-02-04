@@ -32,7 +32,7 @@ namespace PROJECTNAME.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //TODO: Register and configure repositories for Liquid Cartridge
+            //TODO: Register and configure repository Liquid Cartridge
             //
             // Examples:
             //

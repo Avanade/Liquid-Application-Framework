@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Avanade Brazil",
+  "classifications": [ "LAF", "Worker", "Web" ],
+  "identity": "Liquid.WorkerService.Project",
+  "name": "Liquid Worker Service Project",
+  "description": "Create a worker service project using Liquid Framework.",
+  "shortName": "liquidworkerproject",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "projectName": {
+      "type": "parameter",
+      "replaces": "PROJECTNAME",
+      "FileRename": "PROJECTNAME",
+      "defaultValue": "MyProject"
+    },
+    "entityName": {
+      "type": "parameter",
+      "replaces": "ENTITYNAME",
+      "FileRename": "ENTITYNAME",
+      "defaultValue": "MyObject"
+    },
+    "command": {
+      "type": "parameter",
+      "replaces": "COMMANDNAME",
+      "FileRename": "COMMANDNAME",
+      "defaultValue": "MyCommand"
+    }
+  }
+}

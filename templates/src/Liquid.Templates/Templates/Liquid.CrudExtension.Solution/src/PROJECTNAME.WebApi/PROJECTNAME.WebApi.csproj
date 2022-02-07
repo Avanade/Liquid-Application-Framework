@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Liquid.WebApi.Http" Version="2.0.3" />
+    <PackageReference Include="Liquid.WebApi.Http.Extensions.Crud" Version="2.0.0-preview20211118-01" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PROJECTNAME.Domain\PROJECTNAME.Domain.csproj" />
+  </ItemGroup>
+
+
+</Project>

@@ -4,7 +4,7 @@
   "classifications": [ "LAF", "Web", "ASP.NET" ],
   "identity": "Liquid.Crud.AddEntity",
   "name": "Liquid CRUD Add Entity",
-  "description": "Add entity class and crud handlers using Liquid Framework patterns.",
+  "description": "Add entity class and crud handlers and controller using Liquid Framework.",
   "shortName": "liquidcrudaddentity",
   "tags": {
     "language": "C#",

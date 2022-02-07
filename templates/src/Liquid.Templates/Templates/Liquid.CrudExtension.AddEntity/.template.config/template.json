@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Avande Brazil",
+  "classifications": [ "LAF", "Web", "ASP.NET" ],
+  "name": "Liquid Crud Extension Add Entity",
+  "identity": "Liquid.CrudExtension.AddEntity",
+  "description": "Create a crud webapi solution with webapi and domain projects using Liquid Framework CRUD Extension.",
+  "shortName": "liquidcrudextaddentity",
+  "tags": {
+    "language": "C#",
+    "type": "item"
+  },
+  "symbols": {
+    "projectName": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "Namespace of the projects",
+      "FileRename": "PROJECTNAME",
+      "replaces": "PROJECTNAME",
+      "defaultValue": "MyProject"
+    },
+    "entityName": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "Name of the entity",
+      "FileRename": "ENTITYNAME",
+      "replaces": "ENTITYNAME",
+      "defaultValue": "MyProject"
+    },
+    "entityIdType": {
+      "type": "parameter",
+      "replaces": "ENTITYIDTYPE",
+      "defaultValue": "int"
+    }
+  }
+}

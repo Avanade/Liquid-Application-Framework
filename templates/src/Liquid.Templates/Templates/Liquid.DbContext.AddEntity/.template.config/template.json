@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Avanade Brazil",
-  "classifications": [ "LAF", "Library", "Project" ],
+  "classifications": [ "LAF", "Class" ],
   "identity": "Liquid.DbContext.AddEntity",
   "name": "Liquid Add DbContext Add Entity",
   "description": "Add DbContext configuration class for a new Entity.",

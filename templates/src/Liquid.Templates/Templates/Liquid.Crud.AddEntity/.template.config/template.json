@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Avanade Brazil",
+  "classifications": [ "LAF", "Web", "ASP.NET" ],
+  "identity": "Liquid.Crud.AddEntity",
+  "name": "Liquid CRUD Add Entity",
+  "description": "Add entity class and crud handlers and controller using Liquid Framework.",
+  "shortName": "liquidcrudaddentity",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "projectName": {
+      "type": "parameter",
+      "replaces": "PROJECTNAME",
+      "FileRename": "PROJECTNAME",
+      "defaultValue": "MyProject"
+    },
+    "entityName": {
+      "type": "parameter",
+      "replaces": "ENTITYNAME",
+      "FileRename": "ENTITYNAME",
+      "defaultValue": "MyObject"
+    },
+    "entityIdType": {
+      "type": "parameter",
+      "replaces": "ENTITYIDTYPE",
+      "defaultValue": "int"
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Andre Racz",
+  "classifications": [ "LAF", "WebAPI", "Solution" ],
+  "name": "Liquid Crud Extension Webapi",
+  "identity": "Liquid.CrudExtension.Solution",
+  "shortName": "liquidcrudextsolution",
+  "description": "Add entity class and crud controller using Liquid Framework CRUD Extension package.",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "projectName": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "Namespace of the projects",
+      "FileRename": "PROJECTNAME",
+      "replaces": "PROJECTNAME",
+      "defaultValue": "MyProject"
+    },
+    "entityName": {
+      "type": "parameter",
+      "datatype": "string",
+      "description": "Name of the entity",
+      "FileRename": "ENTITYNAME",
+      "replaces": "ENTITYNAME",
+      "defaultValue": "MyProject"
+    },
+    "entityIdType": {
+      "type": "parameter",
+      "replaces": "ENTITYIDTYPE",
+      "defaultValue": "int"
+    }
+  }
+}

@@ -2,9 +2,8 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "Avande Brazil",
   "classifications": [ "LAF", "Web", "ASP.NET" ],
-  "name": "Liquid Crud Extension Add Entity",
+  "name": "Liquid CRUD Extension entity and controller classes",
   "identity": "Liquid.CrudExtension.AddEntity",
-  "description": "Create a crud webapi solution with webapi and domain projects using Liquid Framework CRUD Extension.",
   "shortName": "liquidcrudextaddentity",
   "tags": {
     "language": "C#",

@@ -3,8 +3,7 @@
   "author": "Avanade Brazil",
   "classifications": [ "LAF", "Class" ],
   "identity": "Liquid.DbContext.AddEntity",
-  "name": "Liquid Add DbContext Add Entity",
-  "description": "Add DbContext configuration class for a new Entity.",
+  "name": "Liquid DbContext entity configuration class (for Entity Framework)",
   "shortName": "liquidbcontextaddentity",
   "tags": {
     "language": "C#",

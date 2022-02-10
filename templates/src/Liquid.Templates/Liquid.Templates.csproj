@@ -1,11 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
     <PackageVersion>1.0.0-rc-01</PackageVersion>
     <PackageId>Liquid.Templates</PackageId>
     <Title>Liquid Templates</Title>
-    <Authors>Avanade Archtecture Team</Authors>
+   <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Authors>Avanade Brazil</Authors>
+    <Company>Avanade BrazilInc.</Company>
+    <Product>Liquid - Modern Application Framework</Product>
+    <Copyright>Avanade2019</Copyright>
+    <PackageProjectUrl></PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
     <Description>Templates to create an application by using Liquid Application Framework.</Description>
     <PackageTags>dotnet-new;templates</PackageTags>
     <TargetFramework>netstandard2.1</TargetFramework>
@@ -13,11 +19,23 @@
     <IncludeContentInPack>true</IncludeContentInPack>
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <ContentTargetFolders>content</ContentTargetFolders>
+    <PackageIcon>logo.png</PackageIcon>
+    <PackageIconUrl />
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Company>Avanade Inc.</Company>
+    <Product>Liquid Application Framework</Product>
   </PropertyGroup>
 
   <ItemGroup>
     <Content Include="Templates\**\*" Exclude="Templates\**\bin\**;Templates\**\obj\**" />
     <Compile Remove="**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

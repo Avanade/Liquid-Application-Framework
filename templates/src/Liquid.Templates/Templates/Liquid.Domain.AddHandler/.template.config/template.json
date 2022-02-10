@@ -3,8 +3,7 @@
   "author": "Avanade Brazil",
   "classifications": [ "LAF", "Library" ],
   "identity": "Liquid.Domain.AddHandler",
-  "name": "Liquid Add Domain Handler",
-  "description": "Add a mediator pattern hanlder using Liquid Framework to a domain project.",
+  "name": "Liquid mediator command handler",
   "shortName": "liquiddomainaddhandler",
   "tags": {
     "language": "C#",

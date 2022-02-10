@@ -3,8 +3,7 @@
   "author": "Avanade Brazil",
   "classifications": [ "LAF", "WebApi", "Solution" ],
   "identity": "Liquid.Crud.Solution",
-  "name": "Liquid CRUD WebAPI Solution",
-  "description": "Create a crud webapi solution with webapi and domain projects using Liquid Framework.",
+  "name": "Liquid WebAPI CRUD Solution (Domain and WebAPI projects)",
   "shortName": "liquidcrudsolution",
   "tags": {
     "language": "C#",

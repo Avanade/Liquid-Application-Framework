@@ -3,8 +3,7 @@
   "author": "Avanade Brazil",
   "classifications": [ "LAF", "Library", "Project" ],
   "identity": "Liquid.Domain.Project",
-  "name": "Liquid Worker Service Solution",
-  "description": "Create a domain project with entity and mediator pattern hanlder using Liquid Framework.",
+  "name": "Liquid Domain project (mediator command handler)",
   "shortName": "liquiddomainproj",
   "tags": {
     "language": "C#",

@@ -3,7 +3,7 @@
   "author": "Avanade Brazil",
   "classifications": [ "LAF", "Library", "Project" ],
   "identity": "Liquid.Repository.DbContext.Project",
-  "name": "Liquid Repository DB Context Project",
+  "name": "Liquid Repository project (EntityFramework DbContext configurations)",
   "shortName": "liquiddbcontextproject",
   "tags": {
     "language": "C#",

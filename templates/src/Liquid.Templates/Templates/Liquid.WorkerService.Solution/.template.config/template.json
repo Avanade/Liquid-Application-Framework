@@ -3,7 +3,7 @@
   "author": "Avanade Brazil",
   "classifications": [ "LAF", "Worker", "Web", "Solution" ],
   "identity": "Liquid.WorkerService.Solution",
-  "name": "Liquid Worker Service Solution",
+  "name": "Liquid WorkerService solution (Domain and WorkerService projects.)",
   "description": "Create a worker service solution with worker and domain projects using Liquid Framework.",
   "shortName": "liquidworkersolution",
   "tags": {

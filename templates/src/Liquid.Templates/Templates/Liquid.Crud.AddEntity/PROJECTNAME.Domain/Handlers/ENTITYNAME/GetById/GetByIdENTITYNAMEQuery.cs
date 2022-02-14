@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Read
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.GetById
 {
     public class GetByIdENTITYNAMEQuery : IRequest<GetByIdENTITYNAMEQueryResponse>
     {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Create
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Post
 {
     class PostENTITYNAMECommandValidator : AbstractValidator<PostENTITYNAMECommand>
     {

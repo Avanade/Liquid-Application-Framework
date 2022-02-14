@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using PROJECTNAME.Domain.Entities;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Update
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Put
 {
     public class PutENTITYNAMECommand : IRequest<PutENTITYNAMECommandResponse>
     {

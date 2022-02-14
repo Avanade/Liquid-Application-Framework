@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using PROJECTNAME.Domain.Entities;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Create
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Post
 {
     public class PostENTITYNAMECommand : IRequest
     {

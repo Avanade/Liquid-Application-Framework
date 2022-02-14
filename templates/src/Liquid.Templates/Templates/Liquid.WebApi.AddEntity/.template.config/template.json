@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Avanade Brazil",
+  "classifications": [ "LAF", "Web", "ASP.NET" ],
+  "identity": "Liquid.WebApi.AddEntity",
+  "name": "Liquid entity class, mediator command handler and CRUD controller",
+  "shortName": "liquidwebapiaddentity",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "projectName": {
+      "type": "parameter",
+      "replaces": "PROJECTNAME",
+      "FileRename": "PROJECTNAME",
+      "defaultValue": "MyProject"
+    },
+    "entityName": {
+      "type": "parameter",
+      "replaces": "ENTITYNAME",
+      "FileRename": "ENTITYNAME",
+      "defaultValue": "MyObject"
+    },
+    "command": {
+      "type": "parameter",
+      "replaces": "COMMANDNAME",
+      "FileRename": "COMMANDNAME",
+      "defaultValue": "MyCommand"
+    },
+    "entityIdType": {
+      "type": "parameter",
+      "replaces": "ENTITYIDTYPE",
+      "defaultValue": "int"
+    }
+  }
+}

@@ -53,7 +53,7 @@ To use it, just install the templates by running the following dotnet CLI comman
 dotnet new --install Liquid.Templates::1.*.*
 ```
 and run dotnet new command with the name and parameters of the following templates: 
-|Description|Name|
+|Name|Description|
 | :-- | :-- |
 |`liquidcrudsolution`       |Liquid WebAPI CRUD Solution (Domain and WebAPI projects)              |
 |`liquidwebapisolution`     |Liquid WebAPI solution (Domain and WebAPI projects)                   |

@@ -55,16 +55,19 @@ dotnet new --install Liquid.Templates::1.*.*
 and run dotnet new command with the name and parameters of the following templates: 
 |Description|Name|
 | :-- | :-- |
-|WebAPI CRUD Solution (Domain and WebAPI projects)              |`liquidcrudsolution`           |  
-|WorkerService solution (Domain and WorkerService projects.)    |`liquidworkersolution`         |  
-|CRUD Extension solution (Domain and WebAPI projects)           |`liquidcrudextsolution`        | 
-|WorkerService project                                          |`liquidworkerproject`          |
-|Repository project (EntityFramework DbContext configurations)  |`liquiddbcontextproject`       |  
-|entity class, CRUD mediator handlers and CRUD controller       |`liquidcrudaddentity`          |      
-|CRUD Extension entity and controller classes                   |`liquidcrudextaddentity`       |
-|DbContext entity configuration class (for Entity Framework)    |`liquidbcontextaddentity`      |
-|mediator command handler                                       |`liquiddomainaddhandler`       |           
-|Domain project (mediator command handler)                      |`liquiddomainproj`             |    
+|`liquidcrudsolution`       |Liquid WebAPI CRUD Solution (Domain and WebAPI projects)              |
+|`liquidwebapisolution`     |Liquid WebAPI solution (Domain and WebAPI projects)                   |
+|`liquidcrudextsolution`    |Liquid CRUD Extension solution (Domain and WebAPI projects)           |
+|`liquidworkersolution`     |Liquid WorkerService solution (Domain and WorkerService projects)     |
+|`liquiddomainaddhandler`   |Liquid mediator command handler                                       |
+|`liquidcrudaddentity`      |Liquid entity class, CRUD mediator handlers and CRUD controller       |
+|`liquidcrudextaddentity`   |Liquid CRUD Extension entity and controller classes                   |
+|`liquidwebapiaddentity`    |Liquid entity class, mediator command handler and CRUD controller     |
+|`liquidbcontextaddentity`  |Liquid DbContext entity configuration class (for Entity Framework)    |
+|`liquiddbcontextproject`   |Liquid Repository project (EntityFramework DbContext configurations)  |
+|`liquidwebapiproject`      |Liquid WebAPI project                                                 |
+|`liquidworkerproject`      |Liquid WorkerService project                                          |
+|`liquiddomainproj`         |Liquid Domain project (mediator command handler)                      |
             
 
 ### Sample:

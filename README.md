@@ -50,24 +50,24 @@ Now you can use Liquid Templates to get your microservice started faster!
 To use it, just install the templates by running the following dotnet CLI command at the PowerShell prompt :
 
 ```Shell
-dotnet new --install Liquid.Templates::1.*
+dotnet new --install Liquid.Templates::1.*.*
 ```
 and run dotnet new command with the name and parameters of the following templates: 
 |Description|Name|
 | :-- | :-- |
-|Liquid WebAPI CRUD Solution (Domain and WebAPI projects)              |liquidcrudsolution           |  
-|Liquid WorkerService solution (Domain and WorkerService projects.)    |liquidworkersolution         |  
-|Liquid CRUD Extension solution (Domain and WebAPI projects)           |liquidcrudextsolution        | 
-|Liquid WorkerService project                                          |liquidworkerproject          |
-|Liquid Repository project (EntityFramework DbContext configurations)  |liquiddbcontextproject       |  
-|Liquid entity class, CRUD mediator handlers and CRUD controller       |liquidcrudaddentity          |      
-|Liquid CRUD Extension entity and controller classes                   |liquidcrudextaddentity       |
-|Liquid DbContext entity configuration class (for Entity Framework)    |liquidbcontextaddentity      |
-|Liquid mediator command handler                                       |liquiddomainaddhandler       |           
-|Liquid Domain project (mediator command handler)                      |liquiddomainproj             |    
+|WebAPI CRUD Solution (Domain and WebAPI projects)              |`liquidcrudsolution`           |  
+|WorkerService solution (Domain and WorkerService projects.)    |`liquidworkersolution`         |  
+|CRUD Extension solution (Domain and WebAPI projects)           |`liquidcrudextsolution`        | 
+|WorkerService project                                          |`liquidworkerproject`          |
+|Repository project (EntityFramework DbContext configurations)  |`liquiddbcontextproject`       |  
+|entity class, CRUD mediator handlers and CRUD controller       |`liquidcrudaddentity`          |      
+|CRUD Extension entity and controller classes                   |`liquidcrudextaddentity`       |
+|DbContext entity configuration class (for Entity Framework)    |`liquidbcontextaddentity`      |
+|mediator command handler                                       |`liquiddomainaddhandler`       |           
+|Domain project (mediator command handler)                      |`liquiddomainproj`             |    
             
 
-## Sample:
+### Sample:
 To create an WebAPI solution with CRUD handlers, you must:
 - execute command :
 ```Shell

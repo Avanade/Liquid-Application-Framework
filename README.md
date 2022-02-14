@@ -76,11 +76,12 @@ dotnet new liquidcrudsolution --projectName "some root namespace" --entityName "
 
 - open the folder where the command was executed, and open the project created in the IDE of your choice:
 
-![](../blob/feature/liquidtemplates/docs/TemplateSampleSolutin.png)
+![TemplateSampleSolution](https://user-images.githubusercontent.com/30960065/153953768-0abf3efd-3586-4c64-8b83-3898c1cd5969.png)
 
 - perform the steps described in the project code TODOs, and run!
 
-![](../blob/feature/liquidtemplates/docs/TemplateSampleTodo.png)
+![TemplateSampleTodo](https://user-images.githubusercontent.com/30960065/153953798-adcc93f6-3c5b-4f23-b778-26e1fbd59e1e.png)
+
 
 > You can make changes in code, add more classes and project if you need, and also using others Liquid templates to do it!
 

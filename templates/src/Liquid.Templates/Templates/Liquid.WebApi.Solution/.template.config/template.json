@@ -3,7 +3,7 @@
   "author": "Avanade Brazil",
   "classifications": [ "LAF", "WebApi", "Solution" ],
   "identity": "Liquid.WebApi.Solution",
-  "name": "Liquid WebAPI solution (Domain and WebAPI projects.)",
+  "name": "Liquid WebAPI solution (Domain and WebAPI projects)",
   "shortName": "liquidwebapisolution",
   "tags": {
     "language": "C#",

@@ -2,10 +2,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PROJECTNAME.Domain.Entities;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Create;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.Post;
 using PROJECTNAME.Domain.Handlers.ENTITYNAME.Delete;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Read;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Update;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.GetById;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.Put;
 using System.Net;
 using System.Threading.Tasks;
 

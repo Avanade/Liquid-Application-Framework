@@ -8,9 +8,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Delete
 {
     public class DeleteENTITYNAMECommandHandler : IRequestHandler<DeleteENTITYNAMECommand, DeleteENTITYNAMECommandResponse>
     {
-        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
+        private readonly ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> _repository;
 
-        public DeleteENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
+        public DeleteENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }

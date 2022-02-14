@@ -43,12 +43,55 @@ And then choose the implementation cartridges you need to your project, for exam
 - You can choose to use MongoDB as your data repository (then install [`Liquid.Repository.MongoDB`](https://www.nuget.org/packages/Liquid.Repository.MongoDB)) or to use  Entity Framework ([`Liquid.Repository.EntityFramework`](https://www.nuget.org/packages/Liquid.Repository.EntityFramework))
 - You can choose to use Azure ServiceBus as your messaging platform (then install [`Liquid.Messaging.Azure`](https://www.nuget.org/packages/Liquid.Messaging.Azure)) or to use AWS SQS ([`Liquid.Messaging.Aws`](https://www.nuget.org/packages/Liquid.Messaging.Aws))
 
+## Liquid Templates  _`new`_ 
+
+Now you can use Liquid Templates to get your microservice started faster!
+
+To use it, just install the templates by running the following dotnet CLI command at the PowerShell prompt :
+
+```Shell
+dotnet new --install Liquid.Templates::1.*.*
+```
+and run dotnet new command with the name and parameters of the following templates: 
+|Name|Description|
+| :-- | :-- |
+|`liquidcrudsolution`       |Liquid WebAPI CRUD Solution (Domain and WebAPI projects)              |
+|`liquidwebapisolution`     |Liquid WebAPI solution (Domain and WebAPI projects)                   |
+|`liquidcrudextsolution`    |Liquid CRUD Extension solution (Domain and WebAPI projects)           |
+|`liquidworkersolution`     |Liquid WorkerService solution (Domain and WorkerService projects)     |
+|`liquiddomainaddhandler`   |Liquid mediator command handler                                       |
+|`liquidcrudaddentity`      |Liquid entity class, CRUD mediator handlers and CRUD controller       |
+|`liquidcrudextaddentity`   |Liquid CRUD Extension entity and controller classes                   |
+|`liquidwebapiaddentity`    |Liquid entity class, mediator command handler and CRUD controller     |
+|`liquidbcontextaddentity`  |Liquid DbContext entity configuration class (for Entity Framework)    |
+|`liquiddbcontextproject`   |Liquid Repository project (EntityFramework DbContext configurations)  |
+|`liquidwebapiproject`      |Liquid WebAPI project                                                 |
+|`liquidworkerproject`      |Liquid WorkerService project                                          |
+|`liquiddomainproj`         |Liquid Domain project (mediator command handler)                      |
+            
+
+### Sample:
+To create an WebAPI solution with CRUD handlers, you must:
+- execute command :
+```Shell
+dotnet new liquidcrudsolution --projectName "some root namespace" --entityName "some entity" --entityIdType "type of your unique ID"
+```
+
+- open the folder where the command was executed, and open the project created in the IDE of your choice:
+
+![template_sample](https://user-images.githubusercontent.com/30960065/153954780-0ec8a6c0-153e-4bbc-8f3a-4ccc9c1e7858.png)
+
+- follow the instructions found in the generated code TODOs, and run!
+
+> You can make changes in code, add more classes and project if you need, and also using others Liquid templates to do it!
+
+
 ## Contribute
 
 Some of the best ways to contribute are to try things out, file issues, and make pull-requests.
 
-- You can provide feedback by filing issues on GitHub. We accept issues, ideas and questions.
-- You can contribute by creating pull requests for the issues that are listed. Look for issues marked as _good first issue_ if you are new to the project.
+- You can provide feedback by filing issues on GitHub or open a discussion in [Discussions tab](https://github.com/Avanade/Liquid-Application-Framework/discussions). We accept issues, ideas and questions.
+- You can contribute by creating pull requests for the issues that are listed. Look for issues marked as _ready_ if you are new to the project.
 
 In any case, be sure to take a look at [the contributing guide](CONTRIBUTING.md) before starting.
 

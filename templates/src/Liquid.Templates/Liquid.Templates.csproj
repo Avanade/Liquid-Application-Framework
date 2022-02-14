@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.0-rc-02</PackageVersion>
+    <PackageVersion>1.0.0-rc-03</PackageVersion>
     <PackageId>Liquid.Templates</PackageId>
     <Title>Liquid Templates</Title>
    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Avanade Brazil</Authors>
-    <Company>Avanade BrazilInc.</Company>
+    <Company>Avanade Brazil Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
-    <Copyright>Avanade2019</Copyright>
+    <Copyright>Avanade</Copyright>
     <PackageProjectUrl></PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
     <Description>Templates to create an application by using Liquid Application Framework.</Description>

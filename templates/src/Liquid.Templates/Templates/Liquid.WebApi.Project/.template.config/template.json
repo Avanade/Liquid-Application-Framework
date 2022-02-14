@@ -1,11 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Avanade Brazil",
-  "classifications": [ "LAF", "Worker", "Web", "Solution" ],
-  "identity": "Liquid.WorkerService.Solution",
-  "name": "Liquid WorkerService solution (Domain and WorkerService projects)",
-  "description": "Create a worker service solution with worker and domain projects using Liquid Framework.",
-  "shortName": "liquidworkersolution",
+  "classifications": [ "LAF", "Web", "WebApi" ],
+  "identity": "Liquid.WebApi.Project",
+  "name": "Liquid WebAPI project",
+  "shortName": "liquidwebapiproject",
   "tags": {
     "language": "C#",
     "type": "project"
@@ -28,11 +27,6 @@
       "replaces": "COMMANDNAME",
       "FileRename": "COMMANDNAME",
       "defaultValue": "MyCommand"
-    },
-    "entityIdType": {
-      "type": "parameter",
-      "replaces": "ENTITYIDTYPE",
-      "defaultValue": "int"
     }
   }
 }

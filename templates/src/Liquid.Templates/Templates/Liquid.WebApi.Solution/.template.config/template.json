@@ -1,11 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Avanade Brazil",
-  "classifications": [ "LAF", "Worker", "Web", "Solution" ],
-  "identity": "Liquid.WorkerService.Solution",
-  "name": "Liquid WorkerService solution (Domain and WorkerService projects)",
-  "description": "Create a worker service solution with worker and domain projects using Liquid Framework.",
-  "shortName": "liquidworkersolution",
+  "classifications": [ "LAF", "WebApi", "Solution" ],
+  "identity": "Liquid.WebApi.Solution",
+  "name": "Liquid WebAPI solution (Domain and WebAPI projects)",
+  "shortName": "liquidwebapisolution",
   "tags": {
     "language": "C#",
     "type": "project"

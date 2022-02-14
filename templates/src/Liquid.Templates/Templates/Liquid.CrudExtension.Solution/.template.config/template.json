@@ -2,7 +2,7 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "Avande Brazil",
   "classifications": [ "LAF", "WebAPI", "Solution" ],
-  "name": "Liquid Crud Extension solution (Domain and WebAPI projects)",
+  "name": "Liquid CRUD Extension solution (Domain and WebAPI projects)",
   "identity": "Liquid.CrudExtension.Solution",
   "shortName": "liquidcrudextsolution",
   "tags": {

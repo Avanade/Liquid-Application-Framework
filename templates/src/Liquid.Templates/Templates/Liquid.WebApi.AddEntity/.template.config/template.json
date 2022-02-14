@@ -1,11 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "Avanade Brazil",
-  "classifications": [ "LAF", "Worker", "Web", "Solution" ],
-  "identity": "Liquid.WorkerService.Solution",
-  "name": "Liquid WorkerService solution (Domain and WorkerService projects)",
-  "description": "Create a worker service solution with worker and domain projects using Liquid Framework.",
-  "shortName": "liquidworkersolution",
+  "classifications": [ "LAF", "Web", "ASP.NET" ],
+  "identity": "Liquid.WebApi.AddEntity",
+  "name": "Liquid entity class, mediator command handler and CRUD controller",
+  "shortName": "liquidwebapiaddentity",
   "tags": {
     "language": "C#",
     "type": "project"

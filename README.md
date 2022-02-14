@@ -67,7 +67,7 @@ and run dotnet new command with the name and parameters of the following templat
 |`liquiddbcontextproject`   |Liquid Repository project (EntityFramework DbContext configurations)  |
 |`liquidwebapiproject`      |Liquid WebAPI project                                                 |
 |`liquidworkerproject`      |Liquid WorkerService project                                          |
-|`liquiddomainproj`         |Liquid Domain project (mediator command handler)                      |
+|`liquiddomainproject`      |Liquid Domain project (mediator command handler)                      |
             
 
 ### Sample:

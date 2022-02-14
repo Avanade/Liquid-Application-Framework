@@ -4,7 +4,7 @@
   "classifications": [ "LAF", "Library", "Project" ],
   "identity": "Liquid.Domain.Project",
   "name": "Liquid Domain project (mediator command handler)",
-  "shortName": "liquiddomainproj",
+  "shortName": "liquiddomainproject",
   "tags": {
     "language": "C#",
     "type": "project"

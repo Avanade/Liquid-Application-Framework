@@ -80,7 +80,7 @@ dotnet new liquidcrudsolution --projectName "some root namespace" --entityName "
 
 - perform the steps described in the project code TODOs, and run!
 
-![TemplateSampleTodo](https://user-images.githubusercontent.com/30960065/153953798-adcc93f6-3c5b-4f23-b778-26e1fbd59e1e.png)
+![TemplateSampleTodo](https://user-images.githubusercontent.com/30960065/153954149-66cc4b2d-9c80-4e96-ae3b-28b047a7a3a3.png)
 
 
 > You can make changes in code, add more classes and project if you need, and also using others Liquid templates to do it!

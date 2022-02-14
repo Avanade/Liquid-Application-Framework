@@ -4,13 +4,13 @@ using PROJECTNAME.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Create
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Post
 {
     public class PostENTITYNAMECommandHandler : IRequestHandler<PostENTITYNAMECommand>
     {
-        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
+        private readonly ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> _repository;
 
-        public PostENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
+        public PostENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }

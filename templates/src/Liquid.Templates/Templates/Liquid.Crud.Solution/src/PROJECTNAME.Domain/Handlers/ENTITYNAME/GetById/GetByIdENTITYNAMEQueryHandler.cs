@@ -4,13 +4,13 @@ using PROJECTNAME.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Read
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.GetById
 {
     public class GetByIdENTITYNAMEQueryHandler : IRequestHandler<GetByIdENTITYNAMEQuery, GetByIdENTITYNAMEQueryResponse>
     {
-        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
+        private readonly ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> _repository;
 
-        public GetByIdENTITYNAMEQueryHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
+        public GetByIdENTITYNAMEQueryHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }

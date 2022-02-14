@@ -1,6 +1,6 @@
 ﻿using PROJECTNAME.Domain.Entities;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Read
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.GetById
 {
     public class GetByIdENTITYNAMEQueryResponse
     {

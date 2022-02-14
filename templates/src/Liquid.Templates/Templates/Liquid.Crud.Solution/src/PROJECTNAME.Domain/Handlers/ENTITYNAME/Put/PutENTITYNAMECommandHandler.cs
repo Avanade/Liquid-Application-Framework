@@ -4,18 +4,18 @@ using PROJECTNAME.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Update
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Put
 {
     public class PutENTITYNAMECommandHandler : IRequestHandler<PutENTITYNAMECommand, PutENTITYNAMECommandResponse>
     {
-        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
+        private readonly ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> _repository;
 
-        public PutENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
+        public PutENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }
 
-       
+
         public async Task<PutENTITYNAMECommandResponse> Handle(PutENTITYNAMECommand request, CancellationToken cancellationToken)
         {
             var data = await _repository.FindByIdAsync(request.Body.Id);

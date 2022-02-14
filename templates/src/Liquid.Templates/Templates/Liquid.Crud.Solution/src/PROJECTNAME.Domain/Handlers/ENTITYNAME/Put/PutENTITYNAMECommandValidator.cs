@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Update
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Put
 {
     class PutENTITYNAMECommandValidator : AbstractValidator<PutENTITYNAMECommand>
     {

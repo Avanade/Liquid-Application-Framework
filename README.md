@@ -78,11 +78,11 @@ dotnet new liquidcrudsolution --projectName "some root namespace" --entityName "
 
 ![]()
 
-- perform the steps described in the project TODO's
+- perform the steps described in the project code TODOs, and run!
 
 ![]()
 
-
+> You can make changes in code, and add more classes and project using other templates if you need!
 
 
 ## Contribute

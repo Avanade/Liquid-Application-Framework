@@ -82,7 +82,7 @@ dotnet new liquidcrudsolution --projectName "some root namespace" --entityName "
 
 ![]()
 
-> You can make changes in code, and add more classes and project using other templates if you need!
+> You can make changes in code, add more classes and project if you need, and also using others Liquid templates to do it!
 
 
 ## Contribute

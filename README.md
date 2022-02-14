@@ -43,7 +43,7 @@ And then choose the implementation cartridges you need to your project, for exam
 - You can choose to use MongoDB as your data repository (then install [`Liquid.Repository.MongoDB`](https://www.nuget.org/packages/Liquid.Repository.MongoDB)) or to use  Entity Framework ([`Liquid.Repository.EntityFramework`](https://www.nuget.org/packages/Liquid.Repository.EntityFramework))
 - You can choose to use Azure ServiceBus as your messaging platform (then install [`Liquid.Messaging.Azure`](https://www.nuget.org/packages/Liquid.Messaging.Azure)) or to use AWS SQS ([`Liquid.Messaging.Aws`](https://www.nuget.org/packages/Liquid.Messaging.Aws))
 
- ## Liquid Templates   _`new `:sparkles:_
+ ## Liquid Templates   _`new`_
 
 Now you can use Liquid Templates to get your microservice started faster!
 

@@ -76,7 +76,8 @@ dotnet new liquidcrudsolution --projectName "some root namespace" --entityName "
 
 - open the folder where the command was executed, and open the project created in the IDE of your choice:
 
-![TemplateSampleSolution](https://user-images.githubusercontent.com/30960065/153953768-0abf3efd-3586-4c64-8b83-3898c1cd5969.png)
+![template_sample](https://user-images.githubusercontent.com/30960065/153954780-0ec8a6c0-153e-4bbc-8f3a-4ccc9c1e7858.png)
+
 
 - perform the steps described in the project generate code TODOs, and run!
 

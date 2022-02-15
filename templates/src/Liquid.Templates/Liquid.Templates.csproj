@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageType>Template</PackageType>
-    <PackageVersion>1.0.0-rc-04</PackageVersion>
+    <PackageVersion>1.0.0</PackageVersion>
     <PackageId>Liquid.Templates</PackageId>
     <Title>Liquid Templates</Title>
    <PackageLicenseExpression>MIT</PackageLicenseExpression>

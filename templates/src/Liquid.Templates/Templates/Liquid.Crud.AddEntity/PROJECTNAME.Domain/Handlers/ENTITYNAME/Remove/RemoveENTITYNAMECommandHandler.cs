@@ -4,19 +4,19 @@ using PROJECTNAME.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Delete
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Remove
 {
-    public class DeleteENTITYNAMECommandHandler : IRequestHandler<DeleteENTITYNAMECommand, DeleteENTITYNAMECommandResponse>
+    public class RemoveENTITYNAMECommandHandler : IRequestHandler<RemoveENTITYNAMECommand, RemoveENTITYNAMECommandResponse>
     {
         private readonly ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> _repository;
 
-        public DeleteENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
+        public RemoveENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }
 
         ///<inheritdoc/>        
-        public async Task<DeleteENTITYNAMECommandResponse> Handle(DeleteENTITYNAMECommand request, CancellationToken cancellationToken)
+        public async Task<RemoveENTITYNAMECommandResponse> Handle(RemoveENTITYNAMECommand request, CancellationToken cancellationToken)
         {
             var data = await _repository.FindByIdAsync(request.Id);
 
@@ -26,7 +26,7 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Delete
                 //await _mediator.Publish(new GenericEntityRemovedNotification<TEntity, TIdentifier>(entity));
             }
 
-            return new DeleteENTITYNAMECommandResponse(data);
+            return new RemoveENTITYNAMECommandResponse(data);
         }
     }
 }

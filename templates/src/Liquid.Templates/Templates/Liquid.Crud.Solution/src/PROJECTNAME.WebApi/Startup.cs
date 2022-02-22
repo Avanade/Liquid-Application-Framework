@@ -38,9 +38,9 @@ namespace PROJECTNAME.WebApi
             //
             // [Mongo Cartrige]
             // 1. add Liquid Cartridge using CLI : dotnet add package Liquid.Repository.Mongo --version 2.X.X
-            // 5. import liquid cartridge reference here: using Liquid.Repository.EntityFramework.Extensions;
-            // 2. call cartridge DI method here : services.AddLiquidMongoRepository<SampleEntity, int>("Liquid:MongoSettings:Entities");
-            // 3. edit appsettings.json file to include data base configurations.
+            // 3. import liquid cartridge reference here: using Liquid.Repository.Mongo.Extensions;
+            // 4. call cartridge DI method here : services.AddLiquidMongoRepository<SampleEntity, int>("Liquid:MongoSettings:Entities");
+            // 5. edit appsettings.json file to include data base configurations.
             //
             //[EntityFramework Cartrige]
             // 1. add DbContext using CLI command: dotnet new liquiddbcontextproject --projectName SampleProject --entityName SampleEntity

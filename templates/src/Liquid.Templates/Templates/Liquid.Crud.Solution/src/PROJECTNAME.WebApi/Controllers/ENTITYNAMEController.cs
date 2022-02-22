@@ -8,6 +8,7 @@ using PROJECTNAME.Domain.Handlers.ENTITYNAME.Read;
 using PROJECTNAME.Domain.Handlers.ENTITYNAME.Update;
 using System.Net;
 using System.Threading.Tasks;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.List;
 
 namespace PROJECTNAME.WebApi.Controllers
 {
@@ -20,10 +21,13 @@ namespace PROJECTNAME.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] int id) => await ExecuteAsync(new ReadENTITYNAMEQuery(id), HttpStatusCode.Created);
+        public async Task<IActionResult> Get([FromRoute] int id) => await ExecuteAsync(new ReadENTITYNAMEQuery(id), HttpStatusCode.OK);
+
+        [HttpGet]
+        public async Task<IActionResult> Get() => await ExecuteAsync(new ListENTITYNAMEQuery(), HttpStatusCode.OK);
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new CreateENTITYNAMECommand(entity), HttpStatusCode.OK);
+        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new CreateENTITYNAMECommand(entity), HttpStatusCode.Created);
 
         [HttpPut]
         public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new UpdateENTITYNAMECommand(entity), HttpStatusCode.OK);

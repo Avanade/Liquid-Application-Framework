@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Post;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.COMMANDNAME;
 
 namespace PROJECTNAME.WebApi
 {

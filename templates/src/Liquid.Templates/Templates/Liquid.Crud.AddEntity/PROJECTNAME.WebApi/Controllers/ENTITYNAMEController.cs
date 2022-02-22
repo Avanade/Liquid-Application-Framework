@@ -21,7 +21,7 @@ namespace PROJECTNAME.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] int id) => await ExecuteAsync(new ReadENTITYNAMEQuery(id), HttpStatusCode.OK);
+        public async Task<IActionResult> Get([FromRoute] ENTITYIDTYPE id) => await ExecuteAsync(new ReadENTITYNAMEQuery(id), HttpStatusCode.OK);
 
         [HttpGet]
         public async Task<IActionResult> Get() => await ExecuteAsync(new ListENTITYNAMEQuery(), HttpStatusCode.OK);
@@ -33,6 +33,6 @@ namespace PROJECTNAME.WebApi.Controllers
         public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new UpdateENTITYNAMECommand(entity), HttpStatusCode.OK);
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id) => await ExecuteAsync(new RemoveENTITYNAMECommand(id), HttpStatusCode.OK);
+        public async Task<IActionResult> Delete([FromRoute] ENTITYIDTYPE id) => await ExecuteAsync(new RemoveENTITYNAMECommand(id), HttpStatusCode.OK);
     }
 }

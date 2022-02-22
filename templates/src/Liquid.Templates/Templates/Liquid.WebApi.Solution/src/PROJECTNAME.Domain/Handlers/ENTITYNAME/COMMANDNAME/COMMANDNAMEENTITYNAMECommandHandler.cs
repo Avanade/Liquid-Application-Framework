@@ -8,9 +8,9 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.COMMANDNAME
 {
     public class COMMANDNAMEENTITYNAMECommandHandler : IRequestHandler<COMMANDNAMEENTITYNAMECommand, COMMANDNAMEENTITYNAMECommandResponse>
     {
-        private readonly ILiquidRepository<ENTITYNAMEEntity, int> _repository;
+        private readonly ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> _repository;
 
-        public COMMANDNAMEENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, int> repository)
+        public COMMANDNAMEENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }

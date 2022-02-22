@@ -2,10 +2,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PROJECTNAME.Domain.Entities;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Post;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Delete;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.GetById;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Put;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.Create;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.Remove;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.Read;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.Update;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -20,15 +20,15 @@ namespace PROJECTNAME.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] int id) => await ExecuteAsync(new GetByIdENTITYNAMEQuery(id), HttpStatusCode.Created);
+        public async Task<IActionResult> Get([FromRoute] int id) => await ExecuteAsync(new ReadENTITYNAMEQuery(id), HttpStatusCode.Created);
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new PostENTITYNAMECommand(entity), HttpStatusCode.OK);
+        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new CreateENTITYNAMECommand(entity), HttpStatusCode.OK);
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new PutENTITYNAMECommand(entity), HttpStatusCode.OK);
+        public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new UpdateENTITYNAMECommand(entity), HttpStatusCode.OK);
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id) => await ExecuteAsync(new DeleteENTITYNAMECommand(id), HttpStatusCode.OK);
+        public async Task<IActionResult> Delete([FromRoute] int id) => await ExecuteAsync(new RemoveENTITYNAMECommand(id), HttpStatusCode.OK);
     }
 }

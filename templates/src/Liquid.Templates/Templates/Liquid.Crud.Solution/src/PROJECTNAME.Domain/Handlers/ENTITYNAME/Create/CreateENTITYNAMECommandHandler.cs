@@ -4,19 +4,19 @@ using PROJECTNAME.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Post
+namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Create
 {
-    public class PostENTITYNAMECommandHandler : IRequestHandler<PostENTITYNAMECommand>
+    public class CreateENTITYNAMECommandHandler : IRequestHandler<CreateENTITYNAMECommand>
     {
         private readonly ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> _repository;
 
-        public PostENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
+        public CreateENTITYNAMECommandHandler(ILiquidRepository<ENTITYNAMEEntity, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }
 
         ///<inheritdoc/>        
-        public async Task<Unit> Handle(PostENTITYNAMECommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateENTITYNAMECommand request, CancellationToken cancellationToken)
         {
             await _repository.AddAsync(request.Body);
 

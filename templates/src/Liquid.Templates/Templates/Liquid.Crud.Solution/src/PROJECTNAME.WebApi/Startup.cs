@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Post;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.Create;
 
 namespace PROJECTNAME.WebApi
 {
@@ -49,7 +49,7 @@ namespace PROJECTNAME.WebApi
             // 5. call cartridge DI method : services.AddLiquidEntityFramework<ProjectNameDbContext, SampleEntity, int>(options);
             // 6. edit appsettings.json file to include data base configurations.
 
-            services.AddLiquidHttp(typeof(PostENTITYNAMECommand).Assembly);
+            services.AddLiquidHttp(typeof(CreateENTITYNAMECommand).Assembly);
 
             services.AddControllers();
 

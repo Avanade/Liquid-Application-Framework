@@ -23,7 +23,6 @@ namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Delete
             if (data != null)
             {
                 await _repository.RemoveByIdAsync(request.Id);
-                //await _mediator.Publish(new GenericEntityRemovedNotification<TEntity, TIdentifier>(entity));
             }
 
             return new DeleteENTITYNAMECommandResponse(data);

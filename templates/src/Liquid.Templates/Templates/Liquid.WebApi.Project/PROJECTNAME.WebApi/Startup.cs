@@ -49,7 +49,7 @@ namespace PROJECTNAME.WebApi
             // 5. call cartridge DI method : services.AddLiquidEntityFramework<ProjectNameDbContext, SampleEntity, int>(options);
             // 6. edit appsettings.json file to include database configurations.
 
-            services.AddLiquidHttp(typeof(PostENTITYNAMECommand).Assembly);
+            services.AddLiquidHttp(typeof(COMMANDNAMEENTITYNAMECommand).Assembly);
 
             services.AddControllers();
 

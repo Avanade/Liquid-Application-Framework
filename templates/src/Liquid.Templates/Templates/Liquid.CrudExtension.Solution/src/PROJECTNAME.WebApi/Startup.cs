@@ -41,7 +41,7 @@ namespace PROJECTNAME.WebApi
 
             services.AddLiquidHttp(typeof(IDomainInjection).Assembly);
 
-            services.RegisterCrud<ENTITYNAMEEntity, int>();
+            services.RegisterCrud<ENTITYNAMEEntity, ENTITYIDTYPE>();
 
             services.AddControllers();
         }

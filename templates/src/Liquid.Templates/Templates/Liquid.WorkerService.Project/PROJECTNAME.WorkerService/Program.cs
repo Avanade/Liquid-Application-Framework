@@ -27,7 +27,7 @@ namespace PROJECTNAME.WorkerService
                     //  services.AddLiquidMongoRepository<SampleEntity, int>("Liquid:MongoSettings:Entities");
                     // 4. call messaging cartridge DI method :
                     //  services.AddLiquidServiceBusConsumer<Worker, SampleEntity>("Liquid:ServiceBus:SampleConsumer", true, typeof(SampleCommand).Assembly);
-                    // 5. edit appsettings.json file to include data base and message queue configurations.
+                    // 5. edit appsettings.json file to include database and message queue configurations.
 
                     services.AddLiquidConfiguration();
                 });

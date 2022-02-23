@@ -20,7 +20,7 @@ namespace PROJECTNAME.WorkerService
                     //
                     // Example:
                     //
-                    // [ServiceBus and Mongo Cartriges]
+                    // [ServiceBus and Mongo Cartridges]
                     // 1. add Liquid Cartridge using CLI : dotnet add package Liquid.Messaging.ServiceBus --version 2.X.X
                     // 2. add Liquid Cartridge using CLI : dotnet add package Liquid.Repository.Mongo --version 2.X.X
                     // 3. import liquid cartridge reference here: using Liquid.Repository.Mongo.Extensions;
@@ -29,7 +29,7 @@ namespace PROJECTNAME.WorkerService
                     //  services.AddLiquidMongoRepository<SampleEntity, int>("Liquid:MongoSettings:Entities");
                     // 6. call messaging cartridge DI method :
                     //  services.AddLiquidServiceBusConsumer<Worker, SampleEntity>("Liquid:ServiceBus:SampleConsumer", true, typeof(SampleCommand).Assembly);
-                    // 7. edit appsettings.json file to include data base and message queue configurations.
+                    // 7. edit appsettings.json file to include database and message queue configurations.
 
                     services.AddLiquidConfiguration();
                 });

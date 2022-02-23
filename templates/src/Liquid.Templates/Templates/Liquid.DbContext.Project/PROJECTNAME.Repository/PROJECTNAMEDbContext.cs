@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Demo.Repository
+namespace PROJECTNAME.Repository
 {
     public class PROJECTNAMEDbContext : DbContext
     {

@@ -50,7 +50,7 @@ Now you can use Liquid Templates to get your microservice started faster!
 To use it, just install the templates by running the following dotnet CLI command at the PowerShell prompt :
 
 ```Shell
-dotnet new --install Liquid.Templates::1.*.*
+dotnet new --install Liquid.Templates
 ```
 and run dotnet new command with the name and parameters of the following templates: 
 |Name|Description|

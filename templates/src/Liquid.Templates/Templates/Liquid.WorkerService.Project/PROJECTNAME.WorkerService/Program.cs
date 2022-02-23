@@ -20,7 +20,7 @@ namespace PROJECTNAME.WorkerService
                     //
                     // Example:
                     //
-                    // [ServiceBus and Mongo Cartrige]
+                    // [ServiceBus and Mongo Cartridge]
                     // 1. add Liquid Cartridge using CLI : dotnet add package Liquid.Messaging.ServiceBus --version 2.X.X
                     // 2. add Liquid Cartridge using CLI : dotnet add package Liquid.Repository.Mongo --version 2.X.X
                     // 3. call repository cartridge DI method :

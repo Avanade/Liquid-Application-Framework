@@ -3,11 +3,11 @@ using System;
 
 namespace PROJECTNAME.Repository
 {
-    public class PROJECTNAMEDbContext : DbContext
+    public class LiquidDbContext : DbContext
     {
-        public PROJECTNAMEDbContext() : base() { }
+        public LiquidDbContext() : base() { }
 
-        public PROJECTNAMEDbContext(DbContextOptions<PROJECTNAMEDbContext> options) : base(options) { }
+        public LiquidDbContext(DbContextOptions<LiquidDbContext> options) : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

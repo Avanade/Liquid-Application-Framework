@@ -1,6 +1,6 @@
 {
   "$schema": "http://json.schemastore.org/template",
-  "author": "Avande Brazil",
+  "author": "Avanade Brazil",
   "classifications": [ "LAF", "WebAPI", "Solution" ],
   "name": "Liquid CRUD Extension solution (Domain and WebAPI projects)",
   "identity": "Liquid.CrudExtension.Solution",

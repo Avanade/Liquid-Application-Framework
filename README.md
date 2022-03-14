@@ -94,17 +94,3 @@ Some of the best ways to contribute are to try things out, file issues, and make
 - You can contribute by creating pull requests for the issues that are listed. Look for issues marked as _ready_ if you are new to the project.
 
 In any case, be sure to take a look at [the contributing guide](CONTRIBUTING.md) before starting.
-
-## Useful Links
-
-| Liquid Application Framework Sources |
-| :-- |
-| [Liquid.Core](https://github.com/Avanade/Liquid.Core) |
-| [Liquid.Domain](https://github.com/Avanade/Liquid.Domain) |
-| [Liquid.Repository](https://github.com/Avanade/Liquid.Repository) |
-| [Liquid.Cache](https://github.com/Avanade/Liquid.Cache) |
-| [Liquid.Messaging](https://github.com/Avanade/Liquid.Messaging) |
-| [Liquid.Services](https://github.com/Avanade/Liquid.Services) |
-| [Liquid.WebApi](https://github.com/Avanade/Liquid.WebApi) |
-| [Liquid.Serverless](https://github.com/Avanade/Liquid.Serverless) |
-| [Liquid.Tests](https://github.com/Avanade/Liquid.Tests) |

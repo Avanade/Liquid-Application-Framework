@@ -22,5 +22,5 @@ jobs:
     with:
       component_name: Liquid.Messaging.RabbitMq
     secrets:
-      sonar_token: ${{ secrets.SONAR_TOKEN_MESSAGING }}
+      sonar_token: ${{ secrets.SONAR_TOKEN_RABBIT }}
       nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

@@ -79,9 +79,9 @@ jobs:
         then
           if [[ -d test/${{ inputs.component_name }}.Tests && -f test/${{ inputs.component_name }}.Tests/${{ inputs.component_name }}.Tests.csproj ]]
           then 
-            dotnet sonarscanner begin /k:"Avanade_${{ inputs.component_name }}" /o:"avanade-1" /d:sonar.login="${{ secrets.sonar_token }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/test/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/test/coverlet/reports/SonarQube.xml
+            dotnet sonarscanner begin /k:"${{ inputs.component_name }}" /o:"avanade-1" /d:sonar.login="${{ secrets.sonar_token }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.vstest.reportsPaths=$GITHUB_WORKSPACE/test/testresults/*.trx /d:sonar.coverageReportPaths=$GITHUB_WORKSPACE/test/coverlet/reports/SonarQube.xml
           else
-            dotnet sonarscanner begin /k:"Avanade_${{ inputs.component_name }}" /o:"avanade-1" /d:sonar.login="${{ secrets.sonar_token }}" /d:sonar.host.url="https://sonarcloud.io"
+            dotnet sonarscanner begin /k:"${{ inputs.component_name }}" /o:"avanade-1" /d:sonar.login="${{ secrets.sonar_token }}" /d:sonar.host.url="https://sonarcloud.io"
           fi
         fi
         

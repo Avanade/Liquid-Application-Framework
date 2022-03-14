@@ -1,0 +1,26 @@
+# CI & CD workflow
+name: CI/CD - Liquid.Messaging component for Liquid Application Framework
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+    - 'src/Liquid.Messaging/**'
+    
+  pull_request:
+    branches: [ main ]
+    types: [opened, synchronize, reopened]
+    paths:
+    - 'src/Liquid.Messaging/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  call-reusable-build-workflow:
+    uses: Avanade/Liquid-Application-Framework/.github/workflows/base-liquid-ci-and-cd.yml@main
+    with:
+      component_name: Liquid.Messaging
+    secrets:
+      sonar_token: ${{ secrets.SONAR_TOKEN_MESSAGING }}
+      nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

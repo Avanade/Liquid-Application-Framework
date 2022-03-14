@@ -22,5 +22,5 @@ jobs:
     with:
       component_name: Liquid.Core
     secrets:
-      sonar_token: ${{ secrets.SONAR_TOKEN_CORE }}
+      sonar_token: ${{ secrets.SONAR_TOKEN }}
       nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

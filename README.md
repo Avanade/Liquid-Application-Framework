@@ -1,6 +1,6 @@
 # Liquid Application Framework
 
-This repository contains Liquid Application Framework [documentation](docs/About-Liquid.md), useful links and sample project
+This repository contains Liquid Application Framework components code, samples, templates and [documentation](docs/About-Liquid.md).
 
 | New Major Version Warning |
 |----|

@@ -1,6 +1,7 @@
 ﻿using PROJECTNAME.Domain.Entities;
 using MediatR;
 using Liquid.WebApi.Http.Extensions.Crud.Controllers;
+using System;
 
 namespace PROJECTNAME.WebApi.Controllers
 {

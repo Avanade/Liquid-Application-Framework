@@ -2,7 +2,7 @@
 
 namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Update
 {
-    class UpdateENTITYNAMECommandValidator : AbstractValidator<UpdateENTITYNAMECommand>
+    public class UpdateENTITYNAMECommandValidator : AbstractValidator<UpdateENTITYNAMECommand>
     {
         public UpdateENTITYNAMECommandValidator()
         {

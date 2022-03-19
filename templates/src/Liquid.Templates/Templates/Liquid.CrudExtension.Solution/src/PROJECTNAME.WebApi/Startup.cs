@@ -31,15 +31,18 @@ namespace PROJECTNAME.WebApi
             // 4. call cartridge DI method here : services.AddLiquidMongoRepository<ENTITYNAMEEntity, ENTITYIDTYPE>("Liquid:MongoSettings:Entities");
             // 5. edit appsettings.json file to include database configurations.
             //
-
             //[EntityFramework Cartridge]
             // 1. add DbContext using CLI command: dotnet new liquiddbcontextproject --projectName PROJECTNAME --entityName ENTITYNAME
-            // 2. add database dependency in this poject using CLI command: dotnet add package Microsoft.EntityFrameworkCore.InMemory --version 5.*
-            // 3. set database options here: void options(DbContextOptionsBuilder opt) => opt.UseInMemoryDatabase(databaseName: "Liquid");
-            // 4. add Liquid Cartridge in this project using CLI command: dotnet add package Liquid.Repository.EntityFramework --version 2.*
-            // 5. import liquid cartridge reference here: using Liquid.Repository.EntityFramework.Extensions;
-            // 6. call cartridge DI method here: services.AddLiquidEntityFramework<MyProjectDbContext, ENTITYNAMEEntity, ENTITYIDTYPE>(options);
-            // 7. edit appsettings.json file to include database configurations.
+            // 2. add PROJECTNAME.Repository to solution: dotnet sln add PROJECTNAME.Repository/PROJECTNAME.Repository.csproj
+            // 3. add PROJECTNAME.Repository project reference to PROJECTNAME.WebApi project: dotnet add reference ../PROJECTNAME.Repository/PROJECTNAME.Repository.csproj
+            // 4. add database dependency in this project using CLI command: dotnet add package Microsoft.EntityFrameworkCore.InMemory --version 5.0.13
+            // 5. import EntityFrameworkCore reference here: using Microsoft.EntityFrameworkCore;
+            // 6. set database options here: Action<DbContextOptionsBuilder> options = (opt) => opt.UseInMemoryDatabase("CRUD");
+            // 7. add Liquid Cartridge in this project using CLI command: dotnet add package Liquid.Repository.EntityFramework --version 2.*
+            // 8. import liquid cartridge reference here: using Liquid.Repository.EntityFramework.Extensions;
+            // 9. import PROJECTNAME.Repository here: using PROJECTNAME.Repository;
+            // 9. call cartridge DI method here: services.AddLiquidEntityFramework<LiquidDbContext, ENTITYNAMEEntity, ENTITYIDTYPE>(options);
+            // 10. edit appsettings.json file to include database configurations if necessary (for InMemory it's not necessary).
 
             services.AddLiquidHttp(typeof(IDomainInjection).Assembly);
 

@@ -5,6 +5,7 @@ using PROJECTNAME.Domain.Entities;
 using PROJECTNAME.Domain.Handlers.ENTITYNAME.COMMANDNAME;
 using System.Net;
 using System.Threading.Tasks;
+using System;
 
 namespace PROJECTNAME.WebApi.Controllers
 {

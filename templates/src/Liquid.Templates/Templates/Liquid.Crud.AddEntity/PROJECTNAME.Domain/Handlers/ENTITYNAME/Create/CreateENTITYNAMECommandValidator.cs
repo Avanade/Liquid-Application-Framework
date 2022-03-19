@@ -2,7 +2,7 @@
 
 namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.Create
 {
-    class CreateENTITYNAMECommandValidator : AbstractValidator<CreateENTITYNAMECommand>
+    public class CreateENTITYNAMECommandValidator : AbstractValidator<CreateENTITYNAMECommand>
     {
         public CreateENTITYNAMECommandValidator()
         {

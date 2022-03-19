@@ -31,7 +31,7 @@ namespace Liquid.WebApi.Http.Extensions.Crud.Tests.TestCases
 
             //Assert
             mediator.Verify(o => o.Send(It.Is<AddGenericEntityCommand<Product, int>>(o => o.Data == product), It.IsAny<CancellationToken>()), Times.Once());
-            Assert.IsAssignableFrom<CreatedAtRouteResult>(result);
+            Assert.IsAssignableFrom<CreatedAtActionResult>(result);
         }
 
         [Fact]

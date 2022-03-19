@@ -6,9 +6,11 @@ using PROJECTNAME.Domain.Handlers.ENTITYNAME.Create;
 using PROJECTNAME.Domain.Handlers.ENTITYNAME.Remove;
 using PROJECTNAME.Domain.Handlers.ENTITYNAME.Read;
 using PROJECTNAME.Domain.Handlers.ENTITYNAME.Update;
+using PROJECTNAME.Domain.Handlers.ENTITYNAME.List;
 using System.Net;
 using System.Threading.Tasks;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.List;
+using Microsoft.AspNetCore.Http;
+using System;
 
 namespace PROJECTNAME.WebApi.Controllers
 {
@@ -21,18 +23,57 @@ namespace PROJECTNAME.WebApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get([FromRoute] ENTITYIDTYPE id) => await ExecuteAsync(new ReadENTITYNAMEQuery(id), HttpStatusCode.OK);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+
+        public async Task<IActionResult> GetById([FromRoute] ENTITYIDTYPE id)
+        {
+            var response = await ExecuteAsync(new ReadENTITYNAMEQuery(id));
+
+            if (response.Data == null) return NotFound();
+
+            return Ok(response.Data);
+        }
 
         [HttpGet]
-        public async Task<IActionResult> Get() => await ExecuteAsync(new ListENTITYNAMEQuery(), HttpStatusCode.OK);
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> Get()
+        {
+            var response = await ExecuteAsync(new ListENTITYNAMEQuery());
+
+            if (response.Data == null) return NotFound();
+
+            return Ok(response.Data);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new CreateENTITYNAMECommand(entity), HttpStatusCode.Created);
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity)
+        {
+            await ExecuteAsync(new CreateENTITYNAMECommand(entity));
+
+            return CreatedAtAction(nameof(GetById), new { id = entity.Id }, entity);
+        }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new UpdateENTITYNAMECommand(entity), HttpStatusCode.OK);
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity)
+        {
+            var response = await ExecuteAsync(new UpdateENTITYNAMECommand(entity));
+
+            if (response.Data == null) return NotFound();
+
+            return NoContent();
+        }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] ENTITYIDTYPE id) => await ExecuteAsync(new RemoveENTITYNAMECommand(id), HttpStatusCode.OK);
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> Delete([FromRoute] ENTITYIDTYPE id)
+        {
+            var response = await ExecuteAsync(new RemoveENTITYNAMECommand(id));
+
+            if (response.Data == null) return NotFound();
+
+            return NoContent();
+        }
     }
 }

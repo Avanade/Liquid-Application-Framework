@@ -2,7 +2,7 @@
 
 namespace PROJECTNAME.Domain.Handlers.ENTITYNAME.COMMANDNAME
 {
-    class COMMANDNAMEENTITYNAMECommandValidator : AbstractValidator<COMMANDNAMEENTITYNAMECommand>
+    public class COMMANDNAMEENTITYNAMECommandValidator : AbstractValidator<COMMANDNAMEENTITYNAMECommand>
     {
         public COMMANDNAMEENTITYNAMECommandValidator()
         {

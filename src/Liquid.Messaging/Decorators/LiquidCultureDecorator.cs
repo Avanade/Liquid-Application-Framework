@@ -45,8 +45,8 @@ namespace Liquid.Messaging.Decorators
 
             if (cultureCode != null)
             {
-                CultureInfo.CurrentCulture = new CultureInfo(cultureCode.ToString());
-                CultureInfo.CurrentUICulture = new CultureInfo(cultureCode.ToString());
+                CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(cultureCode.ToString());
+                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(cultureCode.ToString());
             }
 
             await _inner.ProcessMessageAsync(args, cancellationToken);

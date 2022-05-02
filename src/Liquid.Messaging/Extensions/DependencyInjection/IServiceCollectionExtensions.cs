@@ -7,7 +7,6 @@ using Liquid.Messaging.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -16,7 +15,6 @@ namespace Liquid.Messaging.Extensions.DependencyInjection
     /// <summary>
     /// Startup extension methods. Used to configure the startup application.
     /// </summary>
-    [ExcludeFromCodeCoverage]
     public static class IServiceCollectionExtensions
     {
         /// <summary>

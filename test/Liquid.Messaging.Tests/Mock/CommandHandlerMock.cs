@@ -8,6 +8,7 @@ namespace Liquid.Messaging.Tests.Mock
     {
         public async Task<Unit> Handle(CommandRequestMock request, CancellationToken cancellationToken)
         {
+            await Task.CompletedTask;
             return new Unit();
         }
     }

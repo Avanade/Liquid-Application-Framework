@@ -11,7 +11,7 @@ namespace Liquid.Messaging.Gcp.Tests.UnitTests
     [ExcludeFromCodeCoverage]
     public class ProducerConsumerTest
     {
-        private IServiceProvider _serviceProvider;
+        //private IServiceProvider _serviceProvider;
 
         /// <summary>
         /// Initialize dependency injection before test
@@ -47,7 +47,7 @@ namespace Liquid.Messaging.Gcp.Tests.UnitTests
         [TearDown]
         public void TearDown()
         {
-            _serviceProvider = null;
+            //_serviceProvider = null;
         }
 
         /// <summary>
@@ -71,6 +71,7 @@ namespace Liquid.Messaging.Gcp.Tests.UnitTests
             //    Assert.IsNotNull(PubSubTestMessage.Self);
             //    Assert.AreEqual(message.CreatedDate, PubSubTestMessage.Self.CreatedDate);
             //}
+            await Task.CompletedTask;
         }
 
         /// <summary>

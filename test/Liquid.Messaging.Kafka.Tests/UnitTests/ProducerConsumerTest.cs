@@ -11,7 +11,7 @@ namespace Liquid.Messaging.Kafka.Tests.UnitTests
     [ExcludeFromCodeCoverage]
     public class ProducerConsumerTest
     {
-        private IServiceProvider _serviceProvider;
+        //private IServiceProvider _serviceProvider;
 
         /// <summary>
         /// Initialize dependency injection before test
@@ -46,7 +46,7 @@ namespace Liquid.Messaging.Kafka.Tests.UnitTests
         [TearDown]
         public void TearDown()
         {
-            _serviceProvider = null;
+            //_serviceProvider = null;
         }
 
         /// <summary>
@@ -70,6 +70,7 @@ namespace Liquid.Messaging.Kafka.Tests.UnitTests
             //    Assert.IsNotNull(KafkaTestMessage.Self);
             //    Assert.AreEqual(message.CreatedDate, KafkaTestMessage.Self.CreatedDate);
             //}
+            await Task.CompletedTask;
         }
 
         /// <summary>

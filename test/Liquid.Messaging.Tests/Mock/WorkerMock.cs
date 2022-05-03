@@ -13,7 +13,7 @@ namespace Liquid.Messaging.Tests.Mock
 
         public Task ProcessMessageAsync(ProcessMessageEventArgs<EntityMock> args, CancellationToken cancellationToken)
         {
-           return Task.CompletedTask;
+            return Task.CompletedTask;
         }
     }
 

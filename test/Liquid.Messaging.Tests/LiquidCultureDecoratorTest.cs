@@ -49,7 +49,7 @@ namespace Liquid.Messaging.Tests
 
             await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>(), new CancellationToken());
 
-           Assert.NotEqual(currentculture, CultureInfo.CurrentCulture.Name);
+            Assert.NotEqual(currentculture, CultureInfo.CurrentCulture.Name);
         }
     }
 }

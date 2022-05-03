@@ -1,17 +1,16 @@
 ﻿using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
 using Liquid.Messaging.Decorators;
+using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.Tests.Mock;
 using Microsoft.Extensions.Logging;
+using NSubstitute;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using NSubstitute;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using System.Threading;
-using Liquid.Messaging.Exceptions;
 
 namespace Liquid.Messaging.Tests
 {
@@ -25,12 +24,12 @@ namespace Liquid.Messaging.Tests
         public LiquidScopedLoggingDecoratorTest()
         {
             _logger = Substitute.For<ILogger<LiquidScopedLoggingDecorator<EntityMock>>>();
-            _options = Substitute.For<ILiquidConfiguration<ScopedLoggingSettings>>(); 
+            _options = Substitute.For<ILiquidConfiguration<ScopedLoggingSettings>>();
             _inner = Substitute.For<ILiquidWorker<EntityMock>>();
 
             var settings = new ScopedLoggingSettings();
             settings.Keys.Add(new ScopedKey() { KeyName = "test", Required = true });
-            
+
             _options.Settings.Returns(settings);
         }
 
@@ -43,13 +42,13 @@ namespace Liquid.Messaging.Tests
             var sut = new LiquidScopedLoggingDecorator<EntityMock>(_inner, _options, _logger);
             await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>() { Headers = headers }, new CancellationToken());
 
-           _logger.Received().BeginScope(Arg.Any<Array>());
+            _logger.Received().BeginScope(Arg.Any<Array>());
         }
 
         [Fact]
         public async Task ProcessMessageAsync_WhenHeaderHasntRequiredScopedLoggingKey_ThrowMessagingException()
         {
-            
+
             var sut = new LiquidScopedLoggingDecorator<EntityMock>(_inner, _options, _logger);
 
             await Assert.ThrowsAsync<MessagingMissingScopedKeysException>(() =>

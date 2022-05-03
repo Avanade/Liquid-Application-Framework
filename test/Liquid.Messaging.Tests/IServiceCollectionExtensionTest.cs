@@ -1,18 +1,18 @@
-﻿using Liquid.Messaging.Tests.Mock;
-using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using Xunit;
+﻿using Liquid.Core.Interfaces;
+using Liquid.Core.Settings;
+using Liquid.Messaging.Decorators;
 using Liquid.Messaging.Extensions.DependencyInjection;
 using Liquid.Messaging.Interfaces;
+using Liquid.Messaging.Tests.Mock;
 using MediatR;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NSubstitute;
-using Liquid.Core.Interfaces;
-using Liquid.Core.Settings;
-using Liquid.Core.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using NSubstitute;
+using System;
+using Xunit;
 
 namespace Liquid.Messaging.Tests
 {
@@ -20,6 +20,8 @@ namespace Liquid.Messaging.Tests
     {
         private IServiceCollection _services;
         private IServiceProvider _serviceProvider;
+        private IConfiguration _configProvider = Substitute.For<IConfiguration>();
+        private IConfigurationSection _configurationSection = Substitute.For<IConfigurationSection>();
 
         public IServiceCollectionExtensionTest()
         {
@@ -49,18 +51,45 @@ namespace Liquid.Messaging.Tests
         }
 
         [Fact]
-        public void AddLiquidPipeline_WhenAdded_ServiceProviderCanResolveMediatorService()
+        public void AddLiquidPipeline_WhenAdded_ServiceProviderCanResolveLiquidWorkerService()
         {
-            _services.AddLiquidConfiguration();
-            _services.AddSingleton(typeof(IOptions<>));
+            ConfigureServices();
+
             _services.AddSingleton<ILiquidWorker<EntityMock>, WorkerMock>();
             _services.AddSingleton(Substitute.For<ILiquidConsumer<EntityMock>>());
+
             _services.AddLiquidPipeline<EntityMock>();
             _serviceProvider = _services.BuildServiceProvider();
 
             Assert.NotNull(_serviceProvider.GetService<ILiquidWorker<EntityMock>>());
         }
+        [Fact]
+        public void AddLiquidMessageConsumer_WhenAdded_ServiceProviderCanResolveLiquidMessagingConsumerServices()
+        {
+            ConfigureServices();
 
+            _services.AddSingleton(Substitute.For<ILiquidConsumer<EntityMock>>());
 
+            _services.AddLiquidMessageConsumer<WorkerMock, EntityMock>(typeof(CommandRequestMock).Assembly);
+
+            _serviceProvider = _services.BuildServiceProvider();
+
+            Assert.NotNull(_serviceProvider.GetService<ILiquidWorker<EntityMock>>());
+            Assert.NotNull(_serviceProvider.GetService<IHostedService>());
+            Assert.NotNull(_serviceProvider.GetService<IMediator>());
+        }
+
+        private void ConfigureServices()
+        {
+            _configProvider.GetSection(Arg.Any<string>()).Returns(_configurationSection);
+            _services.AddSingleton(_configProvider);
+            _services.AddSingleton(Substitute.For<IOptions<ScopedContextSettings>>());
+            _services.AddSingleton(Substitute.For<IOptions<ScopedLoggingSettings>>());
+            _services.AddSingleton(Substitute.For<IOptions<CultureSettings>>());
+            _services.AddSingleton(Substitute.For<ILiquidConfiguration<ScopedContextSettings>>());
+            _services.AddSingleton(Substitute.For<ILiquidConfiguration<ScopedLoggingSettings>>());
+            _services.AddSingleton(Substitute.For<ILiquidConfiguration<CultureSettings>>());
+            _services.AddSingleton(Substitute.For<ILogger<LiquidScopedLoggingDecorator<EntityMock>>>());
+        }
     }
 }

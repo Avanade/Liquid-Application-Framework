@@ -1,4 +1,5 @@
-﻿using Elastic.Apm;
+﻿using Castle.DynamicProxy;
+using Elastic.Apm;
 using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Telemetry.ElasticApm.Implementations;
 using Liquid.Core.Telemetry.ElasticApm.MediatR;
@@ -24,7 +25,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Extensions.DependencyInjection
             {
                 services.AddSingleton(s => Agent.Tracer);
 
-                services.AddInterceptor<LiquidElasticApmInterceptor>();
+                services.AddTransient<IAsyncInterceptor, LiquidElasticApmInterceptor>();
 
                 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LiquidElasticApmTelemetryBehavior<,>));
             }

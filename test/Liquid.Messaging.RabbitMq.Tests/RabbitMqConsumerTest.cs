@@ -2,6 +2,7 @@
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.RabbitMq.Settings;
 using Liquid.Messaging.RabbitMq.Tests.Mock;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -15,8 +16,10 @@ namespace Liquid.Messaging.RabbitMq.Tests
     public class RabbitMqConsumerTest : RabbitMqConsumer<MessageMock>
     {
         public static readonly IRabbitMqFactory _factory = Substitute.For<IRabbitMqFactory>();
+        public static readonly ILogger<RabbitMqConsumer<MessageMock>> _logger = Substitute.For<ILogger<RabbitMqConsumer<MessageMock>>>();
+
         public RabbitMqConsumerTest()
-            : base(_factory, new RabbitMqConsumerSettings())
+            : base(_factory, new RabbitMqConsumerSettings(), _logger)
         {
 
         }
@@ -62,7 +65,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
         }
 
         [Fact]
-        public async Task MessageHandler_WhenProcessExecutionFail_ThrowException()
+        public void MessageHandler_WhenProcessExecutionFail_LogException()
         {
             var message = new BasicDeliverEventArgs();
 
@@ -77,7 +80,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
 
             var task = MessageHandler(message, new CancellationToken());
 
-            await Assert.ThrowsAsync<MessagingConsumerException>(() => task);
+            _logger.Received(1);
 
         }
 

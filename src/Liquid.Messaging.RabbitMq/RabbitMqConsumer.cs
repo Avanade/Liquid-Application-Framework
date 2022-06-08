@@ -3,6 +3,7 @@ using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.RabbitMq.Settings;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -24,7 +25,7 @@ namespace Liquid.Messaging.RabbitMq
         private IModel _channelModel;
         private readonly IRabbitMqFactory _factory;
         private readonly RabbitMqConsumerSettings _settings;
-
+        private ILogger<RabbitMqConsumer<TEntity>> _logger;
 
         ///<inheritdoc/>
         public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
@@ -37,11 +38,13 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         /// <param name="factory">RabbitMq client factory.</param>
         /// <param name="settings">Configuration properties set.</param>
-        public RabbitMqConsumer(IRabbitMqFactory factory, RabbitMqConsumerSettings settings)
+        /// <param name="logger">Logger service instance.</param>
+        public RabbitMqConsumer(IRabbitMqFactory factory, RabbitMqConsumerSettings settings, ILogger<RabbitMqConsumer<TEntity>> logger)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
+            _logger = logger;
             _autoAck = _settings.AdvancedSettings?.AutoAck ?? true;
         }
 
@@ -83,7 +86,7 @@ namespace Liquid.Messaging.RabbitMq
                 if (!_autoAck)
                     _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
 
-                throw new MessagingConsumerException(ex);
+                _logger.LogError(ex, ex.Message);
             }
         }
 

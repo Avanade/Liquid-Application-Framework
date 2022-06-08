@@ -1,6 +1,7 @@
 ﻿using Liquid.Messaging.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,14 +55,16 @@ namespace Liquid.Messaging
         /// </summary>
         /// <param name="args"></param>
         /// <param name="cancellationToken"></param>
-        public Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
+
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {
                 var worker = scope.ServiceProvider.GetRequiredService<ILiquidWorker<TEntity>>();
 
-                return worker.ProcessMessageAsync(args, cancellationToken);
+                await worker.ProcessMessageAsync(args, cancellationToken);
             }
+
         }
     }
 }

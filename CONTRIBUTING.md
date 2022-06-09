@@ -1,6 +1,29 @@
 # How to contribute
 
+This project welcomes contributions and suggestions. By contributing, you confirm that you have the right to, and actually do, grant us the rights to use your contribution. More information below.
+
+Please feel free to contribute code, ideas, improvements, and patches - we've added some general guidelines and information below, and you can propose changes to this document in a pull request.
+
+This project has adopted the [Contributor Covenant Code of Conduct](https://avanade.github.io/code-of-conduct/).
+
 One of the easiest ways to contribute is to participate in discussions on GitHub issues. You can also contribute by submitting pull requests with code changes.
+
+## Rights to your contributions
+By contributing to this project, you:
+- Agree that you have authored 100% of the content
+- Agree that you have the necessary rights to the content
+- Agree that you have received the necessary permissions from your employer to make the contributions (if applicable)
+- Agree that the content you contribute may be provided under the Project license(s)
+- Agree that, if you did not author 100% of the content, the appropriate licenses and copyrights have been added along with any other necessary attribution.
+
+## Code of Conduct
+This project, and people participating in it, are governed by our [code of conduct](https://avanade.github.io/code-of-conduct/). By taking part, we expect you to try your best to uphold this code of conduct. If you have concerns about unacceptable behaviour, please contact the community leaders responsible for enforcement at
+[ospo@avanade.com](ospo@avanade.com).
+
+## Developer Certificate of Origin (DCO)
+Avanade asks that all commits sign the [Developer Certificate of Origin](https://developercertificate.org/), to ensure that every developer is confirming that they have the right to upload the code they submit.
+
+Sign-offs are added to the commit. Git has a  `-s` command line option to append this automatically to your commit message, and [sign offs can be added through the web interface](https://github.blog/changelog/2022-06-08-admins-can-require-sign-off-on-web-based-commits/).
 
 ## General feedback and discussions?
 
@@ -12,7 +35,7 @@ For non-security related bugs, log a new issue in the GitHub repository.
 
 ## Reporting security issues and bugs
 
-Security issues and bugs should be reported privately, via email, to a repository admin. You should receive a response within 24 hours.
+Security issues and bugs should be reported privately, via email, to a repository admin. You should receive a response within 24 hours. We also ask you to file via our [security disclosure](https://github.com/Avanade/avanade-template/blob/main/SECURITY.md) policy.
 
 ## Contributing code and content
 
@@ -41,7 +64,7 @@ We try to hold our code to the higher standards. Every pull request must and wil
 
 We follow coding best practices to make sure the codebase is clean and newcomers and seniors alike will understand the code. This document provides a guideline that should make most of our practices clear, but gray areas may arise and we might make a judgment call on your code, so, when in doubt, question ahead. Issues are a wonderful tool that should be used by every contributor to help us drive the project.
 
-All the rules here are mandatory; however, we do not claim to hold all the answers - you can raise a question over any rule any time (through issues) and we'll discuss it. 
+All the rules here are mandatory; however, we do not claim to hold all the answers - you can raise a question over any rule any time (through issues) and we'll discuss it.
 
 Finally, this is a new project and we are still learning how to work on a Open Source project. Please bear with us while we learn how to do it best.
 
@@ -75,7 +98,7 @@ We use NUnit for all unit testing. Additionally, you can use NSubstitute for moc
 
 ### General
 
-The most general guideline is that we use all the VS default settings in terms of code formatting, except that we put System namespaces before other namespaces (this used to be the default in VS, but it changed in a more recent version of VS). Also, we are leveraging StyleCop to add to code standardization. 
+The most general guideline is that we use all the VS default settings in terms of code formatting, except that we put System namespaces before other namespaces (this used to be the default in VS, but it changed in a more recent version of VS). Also, we are leveraging StyleCop to add to code standardization.
 
 1. Use four spaces of indentation (no tabs)
 1. Use `_camelCase` for private fields
@@ -149,7 +172,7 @@ OS's use different variable names to represent similar settings. Code should con
 For example, when looking for the user's home directory, on Windows the variable is USERPROFILE but on most Linux systems it is HOME.
 
 ```csharp
-var homeDir = Environment.GetEnvironmentVariable("USERPROFILE") 
+var homeDir = Environment.GetEnvironmentVariable("USERPROFILE")
                   ?? Environment.GetEnvironmentVariable("HOME");
 ```
 
@@ -233,7 +256,7 @@ All public members must be documented. Documentation should clarify the purpose 
 
 Try to use examples and such in classes to enable users to understand them more easily.
 
-If you don't believe that a class or method deserves to be documents, ask yourself if it can be marked as non-public. 
+If you don't believe that a class or method deserves to be documents, ask yourself if it can be marked as non-public.
 
 If should comment every non-public class or member that is complex enough.
 
@@ -285,9 +308,9 @@ GetData
 The contents of every unit test should be split into three distinct stages, optionally separated by these comments:
 
 ```csharp
-// Arrange  
-// Act  
-// Assert 
+// Arrange
+// Act
+// Assert
 ```
 
 The crucial thing here is that the Act stage is exactly one statement. That one statement is nothing more than a call to the one method that you are trying to test. Keeping that one statement as simple as possible is also very important. For example, this is not ideal:

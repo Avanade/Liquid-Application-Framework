@@ -16,10 +16,9 @@ namespace Liquid.Messaging.RabbitMq.Tests
     public class RabbitMqConsumerTest : RabbitMqConsumer<MessageMock>
     {
         public static readonly IRabbitMqFactory _factory = Substitute.For<IRabbitMqFactory>();
-        public static readonly ILogger<RabbitMqConsumer<MessageMock>> _logger = Substitute.For<ILogger<RabbitMqConsumer<MessageMock>>>();
 
         public RabbitMqConsumerTest()
-            : base(_factory, new RabbitMqConsumerSettings(), _logger)
+            : base(_factory, new RabbitMqConsumerSettings())
         {
 
         }
@@ -62,26 +61,6 @@ namespace Liquid.Messaging.RabbitMq.Tests
             ProcessMessageAsync += ProcessMessageAsyncMock;
 
             await MessageHandler(message, new CancellationToken());
-        }
-
-        [Fact]
-        public void MessageHandler_WhenProcessExecutionFail_LogException()
-        {
-            var message = new BasicDeliverEventArgs();
-
-            var entity = new MessageMock() { TestMessageId = 2 };
-
-            message.Body = entity.ToJsonBytes();
-
-            var messageReceiver = Substitute.For<IModel>();
-            _factory.GetReceiver(Arg.Any<RabbitMqConsumerSettings>()).Returns(messageReceiver);
-
-            ProcessMessageAsync += ProcessMessageAsyncMock;
-
-            var task = MessageHandler(message, new CancellationToken());
-
-            _logger.Received(1);
-
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously

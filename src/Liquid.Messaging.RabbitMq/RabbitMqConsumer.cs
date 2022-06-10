@@ -25,7 +25,6 @@ namespace Liquid.Messaging.RabbitMq
         private IModel _channelModel;
         private readonly IRabbitMqFactory _factory;
         private readonly RabbitMqConsumerSettings _settings;
-        private ILogger<RabbitMqConsumer<TEntity>> _logger;
 
         ///<inheritdoc/>
         public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
@@ -38,13 +37,11 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         /// <param name="factory">RabbitMq client factory.</param>
         /// <param name="settings">Configuration properties set.</param>
-        /// <param name="logger">Logger service instance.</param>
-        public RabbitMqConsumer(IRabbitMqFactory factory, RabbitMqConsumerSettings settings, ILogger<RabbitMqConsumer<TEntity>> logger)
+        public RabbitMqConsumer(IRabbitMqFactory factory, RabbitMqConsumerSettings settings)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
-            _logger = logger;
             _autoAck = _settings.AdvancedSettings?.AutoAck ?? true;
         }
 
@@ -53,7 +50,7 @@ namespace Liquid.Messaging.RabbitMq
         {
             if (ProcessMessageAsync is null)
             {
-                throw new NotImplementedException($"The {nameof(ProcessErrorAsync)} action must be added to class.");
+                throw new NotImplementedException($"The {nameof(ProcessMessageAsync)} action must be added to class.");
             }
 
             _channelModel = _factory.GetReceiver(_settings);
@@ -81,12 +78,12 @@ namespace Liquid.Messaging.RabbitMq
                     _channelModel.BasicAck(deliverEvent.DeliveryTag, false);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (!_autoAck)
+                {
                     _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
-
-                _logger.LogError(ex, ex.Message);
+                }
             }
         }
 

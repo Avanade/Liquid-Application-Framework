@@ -1,5 +1,11 @@
 # Liquid Application Framework
 
+![GitHub issues](https://img.shields.io/github/issues/Avanade/Liquid-Application-Framework)
+![GitHub](https://img.shields.io/github/license/Avanade/Liquid-Application-Framework)
+![GitHub Repo stars](https://img.shields.io/github/stars/Avanade/Liquid-Application-Framework?style=social)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](https://avanade.github.io/code-of-conduct/)
+[![Ready Ava Maturity](https://img.shields.io/badge/Ready-Ava--Maturity-%23FF5800?labelColor=green)](https://avanade.github.io/maturity-model/)
+
 This repository contains Liquid Application Framework full code, samples, templates and [documentation](docs/About-Liquid.md).
 
 | New Major Version Warning |
@@ -43,7 +49,7 @@ And then choose the implementation cartridges you need to your project, for exam
 - You can choose to use MongoDB as your data repository (then install [`Liquid.Repository.MongoDB`](https://www.nuget.org/packages/Liquid.Repository.MongoDB)) or to use  Entity Framework ([`Liquid.Repository.EntityFramework`](https://www.nuget.org/packages/Liquid.Repository.EntityFramework))
 - You can choose to use Azure ServiceBus as your messaging platform (then install [`Liquid.Messaging.Azure`](https://www.nuget.org/packages/Liquid.Messaging.Azure)) or to use AWS SQS ([`Liquid.Messaging.Aws`](https://www.nuget.org/packages/Liquid.Messaging.Aws))
 
-## Liquid Templates  _`new`_ 
+## Liquid Templates  _`new`_
 
 Now you can use Liquid Templates to get your microservice started faster!
 
@@ -52,7 +58,7 @@ To use it, just install the templates by running the following dotnet CLI comman
 ```Shell
 dotnet new --install Liquid.Templates
 ```
-and run dotnet new command with the name and parameters of the following templates: 
+and run dotnet new command with the name and parameters of the following templates:
 |Name|Description|
 | :-- | :-- |
 |`liquidcrudsolution`       |Liquid WebAPI CRUD Solution (Domain and WebAPI projects)              |
@@ -68,7 +74,7 @@ and run dotnet new command with the name and parameters of the following templat
 |`liquidwebapiproject`      |Liquid WebAPI project                                                 |
 |`liquidworkerproject`      |Liquid WorkerService project                                          |
 |`liquiddomainproject`      |Liquid Domain project (mediator command handler)                      |
-            
+
 
 ### Sample:
 To create an WebAPI solution with CRUD handlers, you must:
@@ -92,5 +98,24 @@ Some of the best ways to contribute are to try things out, file issues, and make
 
 - You can provide feedback by filing issues on GitHub or open a discussion in [Discussions tab](https://github.com/Avanade/Liquid-Application-Framework/discussions). We accept issues, ideas and questions.
 - You can contribute by creating pull requests for the issues that are listed. Look for issues marked as _ready_ if you are new to the project.
+- Avanade asks that all commits sign the [Developer Certificate of Origin](https://developercertificate.org/).
 
-In any case, be sure to take a look at [the contributing guide](CONTRIBUTING.md) before starting.
+In any case, be sure to take a look at [the contributing guide](CONTRIBUTING.md) before starting, and see our [security disclosure](https://github.com/Avanade/avanade-template/blob/main/SECURITY.md) policy.
+
+## Useful Links
+
+| Liquid Application Framework Old Repositories |
+| :-- |
+| [Liquid.Core](https://github.com/Avanade/Liquid.Core) |
+| [Liquid.Domain](https://github.com/Avanade/Liquid.Domain) |
+| [Liquid.Repository](https://github.com/Avanade/Liquid.Repository) |
+| [Liquid.Cache](https://github.com/Avanade/Liquid.Cache) |
+| [Liquid.Messaging](https://github.com/Avanade/Liquid.Messaging) |
+| [Liquid.Services](https://github.com/Avanade/Liquid.Services) |
+| [Liquid.WebApi](https://github.com/Avanade/Liquid.WebApi) |
+| [Liquid.Serverless](https://github.com/Avanade/Liquid.Serverless) |
+| [Liquid.Tests](https://github.com/Avanade/Liquid.Tests) |
+
+## Who is Avanade?
+
+[Avanade](https://www.avanade.com) is the leading provider of innovative digital, cloud and advisory services, industry solutions and design-led experiences across the Microsoft ecosystem.

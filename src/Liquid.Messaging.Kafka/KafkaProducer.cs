@@ -1,12 +1,9 @@
 ﻿using Confluent.Kafka;
-using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Extensions;
-using Liquid.Messaging.Kafka.Configuration;
+using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.Kafka.Extensions;
-using Liquid.Messaging.Kafka.Parameters;
-using Microsoft.Extensions.Logging;
+using Liquid.Messaging.Kafka.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,100 +11,65 @@ using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Kafka
 {
-    /// <summary>
-    /// Google Cloud Pub/Sub Producer Class.
-    /// </summary>
-    /// <typeparam name="TMessage">The type of the object.</typeparam>
-    /// <seealso cref="ILightProducer{TMessage}" />
-    /// <seealso cref="IDisposable" />
-    public class KafkaProducer<TMessage> : ILightProducer<TMessage>
+    ///<inheritdoc/>
+    public class KafkaProducer<TEntity> : ILiquidProducer<TEntity>
     {
-        private readonly ILogger _logger;
-        private readonly ILiquidContext _context;
-        private readonly KafkaSettings _messagingSettings;
-        private readonly KafkaProducerParameter _kafkaProducerParameter;
-        private IProducer<Null, string> _client;
+        private readonly IProducer<Null, string> _client;
+        private readonly KafkaSettings _settings;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="KafkaProducer{TMessage}" /> class.
-        /// </summary>
-        /// <param name="context">The context factory.</param>
-        /// <param name="loggerFactory">The logger factory.</param>
-        /// <param name="messagingConfiguration">The messaging configuration.</param>
-        /// <param name="kafkaProducerParameter">The kafka producer parameter.</param>
-        /// <exception cref="MessagingMissingConfigurationException"></exception>
-        public KafkaProducer(ILiquidContext context,
-                                ILoggerFactory loggerFactory,
-                                ILiquidConfiguration<KafkaSettings> messagingConfiguration,
-                                KafkaProducerParameter kafkaProducerParameter)
+        public KafkaProducer(KafkaSettings settings, IKafkaFactory factory)
         {
-            _kafkaProducerParameter = kafkaProducerParameter;
-            _context = context;
-            _messagingSettings = messagingConfiguration?.Settings ??
-                    throw new MessagingMissingConfigurationException(_kafkaProducerParameter.ConnectionId);
-            _logger = loggerFactory.CreateLogger(typeof(KafkaProducer<TMessage>).FullName);
-            InitializeClient();
-        }
-
-        /// <summary>
-        /// Initializes the Azure Service Bus Client.
-        /// </summary>
-        private void InitializeClient()
-        {
-            //TODO: Review connection parameters with kafka.
-            var config = new ProducerConfig
+            if (factory is null)
             {
-                SocketKeepaliveEnable = _messagingSettings.SocketKeepAlive,
-                SocketTimeoutMs = _messagingSettings.Timeout,
-                BootstrapServers = _messagingSettings.ConnectionString,
-                ClientId = _kafkaProducerParameter.ConnectionId
-            };
+                throw new ArgumentNullException(nameof(factory));
+            }
 
-            _client = new ProducerBuilder<Null, string>(config).Build();
+            _settings = settings;
+
+            _client = factory.GetProducer(settings);
         }
 
-        /// <summary>
-        /// Sends the message asynchronous.
-        /// </summary>
-        /// <param name="message">The message object.</param>
-        /// <param name="customHeaders">The message custom headers.</param>
-        /// <exception cref="ArgumentNullException">message</exception>
-        /// <exception cref="MessagingProducerException"></exception>
-        public async Task SendMessageAsync(TMessage message, IDictionary<string, object> customHeaders = null)
+        ///<inheritdoc/>
+        public async Task SendMessagesAsync(IEnumerable<TEntity> messageBodies)
         {
-            if (message == null) throw new ArgumentNullException(nameof(message));
-
-            if (customHeaders == null) customHeaders = new Dictionary<string, object>();
-
             try
             {
-                var context = _context;
-                var telemetryKey = $"PubSubProducer_{_kafkaProducerParameter.Topic}";
-
-                var messageId = Guid.NewGuid().ToString();
-
-                context.Upsert("MessageId", messageId);
-
-                foreach (var item in context.current)
+                foreach (var message in messageBodies)
                 {
-                    customHeaders.TryAdd(item.Key, item.Value);
+                    await SendMessageAsync(message);
                 }
-
-                if (_kafkaProducerParameter.CompressMessage) { customHeaders.TryAdd(CommonExtensions.ContentTypeHeader, CommonExtensions.GZipContentType); }
-
-
-                var messageBody = !_kafkaProducerParameter.CompressMessage ? message.ToJson() : Encoding.UTF8.GetString(message.ToJson().GzipCompress());
-
-                var request = new Message<Null, string> { Value = messageBody, Headers = new Headers().AddCustomHeaders(customHeaders) };
-
-                await _client.ProduceAsync(_kafkaProducerParameter.Topic, request);
-
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, ex.Message);
                 throw new MessagingProducerException(ex);
             }
+        }
+
+        ///<inheritdoc/>
+        public async Task SendMessageAsync(TEntity messageBody, IDictionary<string, object>? customProperties = null)
+        {            
+            try
+            {
+                var message = GetMessage(messageBody, customProperties);
+
+                await _client.ProduceAsync(_settings.Topic, message);
+            }
+            catch (Exception ex)
+            {
+                throw new MessagingProducerException(ex);
+            }
+        }
+
+        private Message<Null, string> GetMessage(TEntity messageBody, IDictionary<string, object>? customProperties)
+        {
+            var message = !_settings.CompressMessage ? messageBody.ToJson() : Encoding.UTF8.GetString(messageBody.ToJson().GzipCompress());
+
+            var request = new Message<Null, string>
+            {
+                Value = message,
+                Headers = customProperties is null ? null : new Headers().AddCustomHeaders(customProperties)
+            };
+            return request;
         }
     }
 }

@@ -80,7 +80,7 @@ namespace Liquid.Messaging.Kafka
         {
             var headers = deliverEvent.Message.Headers.GetCustomHeaders();
 
-            var data = headers["ContentType"]?.ToString() == CommonExtensions.GZipContentType
+            var data = headers.Count > 0 && headers["ContentType"]?.ToString() == CommonExtensions.GZipContentType
                 ? Encoding.UTF8.GetBytes(deliverEvent.Message.Value).GzipDecompress().ParseJson<TEntity>()
                 : deliverEvent.Message.Value.ParseJson<TEntity>();
 

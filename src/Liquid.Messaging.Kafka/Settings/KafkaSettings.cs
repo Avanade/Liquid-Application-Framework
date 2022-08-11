@@ -11,7 +11,7 @@ namespace Liquid.Messaging.Kafka.Settings
         /// <summary>
         /// Bootstrap server connection string.
         /// </summary>
-        public string? ConnectionString { get; set; }
+        public string ConnectionString { get; set; }
 
         /// <summary>
         /// Socket keep alive flag.
@@ -21,13 +21,13 @@ namespace Liquid.Messaging.Kafka.Settings
         /// <summary>
         /// Client identifier.
         /// </summary>
-        public string? ConnectionId { get; set; }
+        public string ConnectionId { get; set; }
 
         /// <summary>
         /// Topic to consumer subscribe to. A regex can be specified to subscribe to the set of
         /// all matching topics.
         /// </summary>
-        public string? Topic { get; set; }
+        public string Topic { get; set; }
 
         /// <summary>
         /// Default timeout for network requests.Producer: ProduceRequests will use the 

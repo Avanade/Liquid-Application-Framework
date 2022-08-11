@@ -15,8 +15,8 @@ namespace Liquid.Messaging.Kafka
     ///<inheritdoc/>
     public class KafkaConsumer<TEntity> : ILiquidConsumer<TEntity>
     {
-        private IKafkaFactory _factory;
-        private KafkaSettings _settings;
+        private readonly IKafkaFactory _factory;
+        private readonly KafkaSettings _settings;
         private IConsumer<Ignore, string> _client;
 
 

@@ -17,6 +17,12 @@ namespace Liquid.Messaging.Kafka
         private readonly IProducer<Null, string> _client;
         private readonly KafkaSettings _settings;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="KafkaProducer{TEntity}"/> class.
+        /// </summary>
+        /// <param name="settings"></param>
+        /// <param name="factory"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public KafkaProducer(KafkaSettings settings, IKafkaFactory factory)
         {
             if (factory is null)
@@ -46,7 +52,7 @@ namespace Liquid.Messaging.Kafka
         }
 
         ///<inheritdoc/>
-        public async Task SendMessageAsync(TEntity messageBody, IDictionary<string, object>? customProperties = null)
+        public async Task SendMessageAsync(TEntity messageBody, IDictionary<string, object> customProperties = null)
         {            
             try
             {
@@ -60,7 +66,7 @@ namespace Liquid.Messaging.Kafka
             }
         }
 
-        private Message<Null, string> GetMessage(TEntity messageBody, IDictionary<string, object>? customProperties)
+        private Message<Null, string> GetMessage(TEntity messageBody, IDictionary<string, object> customProperties)
         {
             var message = !_settings.CompressMessage ? messageBody.ToJson() : Encoding.UTF8.GetString(messageBody.ToJson().GzipCompress());
 

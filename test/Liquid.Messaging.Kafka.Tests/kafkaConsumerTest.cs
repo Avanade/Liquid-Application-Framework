@@ -61,7 +61,11 @@ namespace Liquid.Messaging.Kafka.Tests
 
             ProcessMessageAsync += ProcessMessageAsyncMock;
 
-            await MessageHandler(message, new CancellationToken());
+            var sut =  MessageHandler(message, new CancellationToken());
+
+            await sut;
+
+            Assert.True(sut.IsCompletedSuccessfully);
         }
 
         [Fact]

@@ -1,5 +1,6 @@
 ﻿using Confluent.Kafka;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 namespace Liquid.Messaging.Kafka.Extensions
@@ -7,7 +8,8 @@ namespace Liquid.Messaging.Kafka.Extensions
     /// <summary>
     /// Kafka Extensions Class.
     /// </summary>
-    internal static class KafkaExtensions
+    [ExcludeFromCodeCoverage]
+    internal static class HeadersExtension
     {
         /// <summary>
         /// Adds the custom headers.

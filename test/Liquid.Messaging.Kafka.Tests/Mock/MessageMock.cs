@@ -1,31 +1,20 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Messaging.Azure.Tests.Messages
+namespace Liquid.Messaging.Kafka.Tests.Mock
 {
     /// <summary>
     /// Test Message Class.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class ServiceBusTestMessage
+    public class MessageMock
     {
-        /// <summary>
-        /// Gets or sets the self.
-        /// </summary>
-        /// <value>
-        /// The self.
-        /// </value>
-        [JsonIgnore]
-        public static ServiceBusTestMessage Self { get; set; }
-
         /// <summary>
         /// Gets or sets the test message identifier.
         /// </summary>
         /// <value>
         /// The test message identifier.
         /// </value>
-        [JsonProperty("testMessageId")]
         public int TestMessageId { get; set; }
 
         /// <summary>
@@ -34,7 +23,6 @@ namespace Liquid.Messaging.Azure.Tests.Messages
         /// <value>
         /// The name.
         /// </value>
-        [JsonProperty("name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -43,7 +31,6 @@ namespace Liquid.Messaging.Azure.Tests.Messages
         /// <value>
         /// The created date.
         /// </value>
-        [JsonProperty("createdDate")]
         public DateTime CreatedDate { get; set; }
 
         /// <summary>
@@ -52,7 +39,6 @@ namespace Liquid.Messaging.Azure.Tests.Messages
         /// <value>
         /// The amount.
         /// </value>
-        [JsonProperty("amount")]
         public double Amount { get; set; }
     }
 }

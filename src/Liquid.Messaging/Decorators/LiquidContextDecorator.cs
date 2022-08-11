@@ -3,7 +3,6 @@ using Liquid.Core.Settings;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,7 +13,6 @@ namespace Liquid.Messaging.Decorators
     /// Inserts configured context keys in LiquidContext service.
     /// Includes its behavior in worker service before process execution.
     /// </summary>
-    [ExcludeFromCodeCoverage]
     public class LiquidContextDecorator<TEntity> : ILiquidWorker<TEntity>
     {
         private readonly ILiquidWorker<TEntity> _inner;

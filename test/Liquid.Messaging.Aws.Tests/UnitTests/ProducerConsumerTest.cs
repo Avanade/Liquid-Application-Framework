@@ -11,7 +11,7 @@ namespace Liquid.Messaging.Aws.Tests.UnitTests
     [ExcludeFromCodeCoverage]
     public class ProducerConsumerTest
     {
-        private IServiceProvider _serviceProvider;
+        //private IServiceProvider _serviceProvider;
 
         /// <summary>
         /// Initialize dependency injection before test
@@ -48,7 +48,7 @@ namespace Liquid.Messaging.Aws.Tests.UnitTests
         [TearDown]
         public void TearDown()
         {
-            _serviceProvider = null;
+            //_serviceProvider = null;
         }
 
         /// <summary>
@@ -72,6 +72,7 @@ namespace Liquid.Messaging.Aws.Tests.UnitTests
             //    Assert.IsNotNull(SqsTestMessage.Self);
             //    Assert.AreEqual(message.Name, SqsTestMessage.Self.Name);
             //}
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -89,6 +90,7 @@ namespace Liquid.Messaging.Aws.Tests.UnitTests
             //    await producer.SendMessageAsync(message, new Dictionary<string, object> { { "headerTest", "value" } });
             //    Assert.IsNotNull(message);
             //}
+            await Task.CompletedTask;
         }
 
         /// <summary>

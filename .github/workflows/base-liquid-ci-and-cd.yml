@@ -99,7 +99,7 @@ jobs:
         fi
 
     - name: (CD) Nuget Pack & Push to Nuget.org
-      if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
       run: |
         dotnet pack --no-build --configuration Release src/${{ inputs.component_name }}/${{ inputs.component_name }}.csproj --output .
         dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.nuget_token }} --skip-duplicate

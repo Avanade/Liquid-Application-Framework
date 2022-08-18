@@ -26,6 +26,63 @@ namespace Liquid.Core.Utils
         }
 
         /// <summary>
+        /// This method validate if arrayByte is UTF8.
+        /// </summary>
+        /// <param name="receivedArrayByte">byte[] Received</param>
+        /// <returns>true => UTF8</returns>
+        public static bool IsUTF8(this byte[] receivedArrayByte)
+        {
+
+            int expectedSize = 0;
+
+            for (int i = 0; i < receivedArrayByte.Length; i++)
+            {
+                if ((receivedArrayByte[i] & 0b10000000) == 0b00000000)
+                {
+                    expectedSize = 1;
+                }
+                else if ((receivedArrayByte[i] & 0b11100000) == 0b11000000)
+                {
+                    expectedSize = 2;
+                }
+                else if ((receivedArrayByte[i] & 0b11110000) == 0b11100000)
+                {
+                    expectedSize = 3;
+                }
+                else if ((receivedArrayByte[i] & 0b11111000) == 0b11110000)
+                {
+                    expectedSize = 4;
+                }
+                else if ((receivedArrayByte[i] & 0b11111100) == 0b11111000)
+                {
+                    expectedSize = 5;
+                }
+                else if ((receivedArrayByte[i] & 0b11111110) == 0b11111100)
+                {
+                    expectedSize = 6;
+                }
+                else
+                {
+                    return false;
+                }
+
+                while (--expectedSize > 0)
+                {
+                    if (++i >= receivedArrayByte.Length)
+                    {
+                        return false;
+                    }
+                    if ((receivedArrayByte[i] & 0b11000000) != 0b10000000)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Gets the string from ASCII stream.
         /// </summary>
         /// <param name="source">The stream source.</param>

@@ -119,7 +119,7 @@ namespace Liquid.Core.Localization
 
                     using var fileReader = new StreamReader(fileName);
                     var json = fileReader.ReadToEnd();
-                    var localizationItems = json.ParseJson<LocalizationCollection>();
+                    var localizationItems = json.ParseTypedOject<LocalizationCollection>();
                     items.TryAdd(new CultureInfo(culture), localizationItems);
                 }
             }

@@ -22,7 +22,7 @@ namespace Liquid.Core.Tests
             //Assert
             Assert.NotNull(result);
             Assert.Equal(exectedJsonString, result);
-        }
+        } 
 
         [Fact]
         public void ShouldSerialize_WhenSerializeObject_ReturnJsonArrayBytes()

@@ -1,8 +1,7 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using System;
+﻿using System;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Liquid.Core.Utils
 {
@@ -11,129 +10,87 @@ namespace Liquid.Core.Utils
     /// </summary>
     public static class JsonUtils
     {
-        private static readonly UTF8Encoding Utf8NoBom = new UTF8Encoding(false);
-
-        private static readonly JsonSerializerSettings JsonSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions()
         {
-            ContractResolver = new CamelCasePropertyNamesContractResolver(),
-            DateFormatHandling = DateFormatHandling.IsoDateFormat,
-            NullValueHandling = NullValueHandling.Ignore,
-            DefaultValueHandling = DefaultValueHandling.Ignore,
-            MissingMemberHandling = MissingMemberHandling.Ignore,
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-            TypeNameHandling = TypeNameHandling.None,
-            Converters = new JsonConverter[] { new StringEnumConverter() }
+            PropertyNameCaseInsensitive = true,
+            WriteIndented = false,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         };
+        /// <summary>
+        /// Converts the object to json string using specific serializer options.
+        /// </summary>
+        /// <typeparam name="T">Type of source to serialize.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="jsonSerializerOptions">Options to control serialization.</param>
+        /// <returns>Json string</returns>
+        public static string ToJson<T>(this T source, JsonSerializerOptions jsonSerializerOptions = null)
+        {
+            jsonSerializerOptions = jsonSerializerOptions ?? _jsonSerializerOptions;
+            return JsonSerializer.Serialize(source, jsonSerializerOptions);
+        }
 
         /// <summary>
         /// Converts the object to json bytes.
         /// </summary>
+        /// <typeparam name="T">Type of source.</typeparam>
         /// <param name="source">The source.</param>
-        /// <returns></returns>
-        public static byte[] ToJsonBytes(this object source)
+        /// <param name="encoderShouldEmitUTF8Identifier"> true to specify that the System.Text.UTF8Encoding.GetPreamble method returns
+        /// a Unicode byte order mark; otherwise, false.</param>
+        /// <param name="jsonSerializerOptions">Options to control serialization.</param>
+        /// <returns>Json array of byte </returns>
+        public static byte[] ToJsonBytes<T>(this T source, bool encoderShouldEmitUTF8Identifier = false, JsonSerializerOptions jsonSerializerOptions = null)
         {
+            
             if (source == null)
                 return new byte[0];
-            var instring = JsonConvert.SerializeObject(source, Formatting.Indented, JsonSettings);
-            return Utf8NoBom.GetBytes(instring);
-        }
-
-        /// <summary>
-        /// Converts the object to json string.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <returns>The string json representation of object.</returns>
-        public static string ToJson(this object source)
-        {
-            return source == null ? null : JsonConvert.SerializeObject(source, Formatting.None, JsonSettings);
-        }
-
-        /// <summary>
-        /// Converts the object to json string using specific serializer options.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <param name="jsonSettings">The json serializer settings.</param>
-        /// <returns>The string json representation of object.</returns>
-        /// <exception cref="ArgumentNullException">jsonSettings</exception>
-        public static string ToJson(this object source, JsonSerializerSettings jsonSettings)
-        {
-            if (source == null) return null;
-            if (jsonSettings == null) throw new ArgumentNullException(nameof(jsonSettings));
-            return JsonConvert.SerializeObject(source, jsonSettings);
-        }
-
-        /// <summary>
-        /// Converts the object to indented json string.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <returns>The string json representation of object.</returns>
-        public static string ToIndentedJson(this object source)
-        {
-            return source == null
-                ? null
-                : JsonConvert.SerializeObject(source, Formatting.Indented, JsonSettings);
+            jsonSerializerOptions = jsonSerializerOptions ?? _jsonSerializerOptions;
+            var instring = source.ToJson(jsonSerializerOptions);
+            
+            return new UTF8Encoding(encoderShouldEmitUTF8Identifier).GetBytes(instring);
         }
 
         /// <summary>
         /// Parses a string json to a specific object.
         /// </summary>
-        /// <typeparam name="T">type of object to be parsed.</typeparam>
+        /// <typeparam name="T">Type of object to be parsed.</typeparam>
         /// <param name="json">The json string.</param>
-        /// <returns>the object parsed from json.</returns>
-        public static T ParseJson<T>(this string json)
+        /// <param name="jsonSerializerOptions">Options to control deserialization.</param>
+        /// <returns>Typed object</returns>
+        public static T ParseTypedOject<T>(this string json, JsonSerializerOptions jsonSerializerOptions = null)
         {
-            if (string.IsNullOrEmpty(json)) return default;
-            var result = JsonConvert.DeserializeObject<T>(json, JsonSettings);
-            return result;
+            if (string.IsNullOrWhiteSpace(json)) return default;
+            jsonSerializerOptions = jsonSerializerOptions ?? _jsonSerializerOptions;
+            return JsonSerializer.Deserialize<T>(json, jsonSerializerOptions);
         }
 
         /// <summary>
-        /// Parses a string json to a specific object.
+        /// 
         /// </summary>
-        /// <typeparam name="T">type of object to be parsed.</typeparam>
-        /// <param name="json">The json string.</param>
-        /// <param name="settings">The settings.</param>
-        /// <returns>
-        /// the object parsed from json.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">settings</exception>
-        public static T ParseJson<T>(this string json, JsonSerializerSettings settings)
-        {
-            if (string.IsNullOrEmpty(json)) return default;
-            if (settings == null) throw new ArgumentNullException(nameof(settings));
-            var result = JsonConvert.DeserializeObject<T>(json, settings);
-            return result;
-        }
-
-        /// <summary>
-        /// Parses a Utf8 byte json to a specific object.
-        /// </summary>
-        /// <typeparam name="T">type of object to be parsed.</typeparam>
+        /// <typeparam name="T">Type of object to be parsed.</typeparam>
         /// <param name="json">The json bytes.</param>
-        /// <returns>the object parsed from json.</returns>
-        public static T ParseJson<T>(this byte[] json)
+        /// <param name="useUtf8">Define use UTF8 or not</param>
+        /// <param name="jsonSerializerOptions">Options to control deserialization.</param>
+        /// <returns></returns>
+        public static T ParseTypedOject<T>(this byte[] json, bool useUtf8 = false, JsonSerializerOptions jsonSerializerOptions = null)
         {
-            if (json == null || json.Length == 0) return default;
-            var result = JsonConvert.DeserializeObject<T>(Utf8NoBom.GetString(json), JsonSettings);
-            return result;
+            var awaiter = json.ParseTypedOjectAsync<T>(useUtf8, jsonSerializerOptions).ConfigureAwait(false).GetAwaiter();
+            return awaiter.GetResult();
         }
 
         /// <summary>
-        /// Parses a Utf8 byte json to a specific object.
+        /// 
         /// </summary>
-        /// <typeparam name="T">type of object to be parsed.</typeparam>
+        /// <typeparam name="T">Type of object to be parsed.</typeparam>
         /// <param name="json">The json bytes.</param>
-        /// <param name="settings">The settings.</param>
-        /// <returns>
-        /// the object parsed from json.
-        /// </returns>
-        /// <exception cref="ArgumentNullException">settings</exception>
-        public static T ParseJson<T>(this byte[] json, JsonSerializerSettings settings)
+        /// <param name="useUtf8">Define use UTF8 or not</param>
+        /// <param name="jsonSerializerOptions">Options to control deserialization.</param>
+        /// <returns></returns>
+        public static async Task<T> ParseTypedOjectAsync<T>(this byte[] json, bool useUtf8 = false, JsonSerializerOptions jsonSerializerOptions = null)
         {
-            if (json == null || json.Length == 0) return default;
-            if (settings == null) throw new ArgumentNullException(nameof(settings));
-            var result = JsonConvert.DeserializeObject<T>(Utf8NoBom.GetString(json), settings);
-            return result;
+            if (json == null || json.Length == 0) return default(T);
+            jsonSerializerOptions = jsonSerializerOptions ?? _jsonSerializerOptions;
+
+            return await JsonSerializer.DeserializeAsync<T>(new UTF8Encoding(useUtf8).GetString(json).ToStreamUtf8(), jsonSerializerOptions).ConfigureAwait(false);
         }
     }
 }

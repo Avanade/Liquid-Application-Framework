@@ -29,6 +29,8 @@
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="1.9.2" />
     <PackageReference Include="Liquid.Messaging" Version="2.0.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
 </Project>

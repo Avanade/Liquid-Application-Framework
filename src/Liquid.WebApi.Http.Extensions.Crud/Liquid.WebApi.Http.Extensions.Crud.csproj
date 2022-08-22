@@ -10,6 +10,8 @@
   <ItemGroup>
     <PackageReference Include="Liquid.Domain.Extensions.Crud" Version="2.0.0-preview-20211105-01" />
     <PackageReference Include="Liquid.WebApi.Http" Version="2.0.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.Encodings.Web" Version="5.0.1" />
   </ItemGroup>
 
   <PropertyGroup>

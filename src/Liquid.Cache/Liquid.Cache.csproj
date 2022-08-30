@@ -16,25 +16,24 @@
     <DebugType>Full</DebugType>
     <ProjectGuid>{16EEF504-D7B3-4F07-B7C0-53EB3975904B}</ProjectGuid>
     <Description>
-      The Liquid.Cache applies the concept of cache to store and retrieve data, so future requests for that data can be served faster. This only contain the interfaces for using caching.
-      This component is part of Liquid Application Framework.
-    </Description>
+		Distributed cache extension of Microsoft.Extensions.Caching.Distributed.IDistributedCache compatible InMemory, Redis, SqlServer and NCache.
+		This component is part of Liquid Application Framework.
+	</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Core" Version="2.0.2-alpha" />
+    <PackageReference Include="Liquid.Core" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="6.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.8" />
+    <PackageReference Include="NCache.Microsoft.Extensions.Caching.OpenSource" Version="5.0.5" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="config.ncconf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

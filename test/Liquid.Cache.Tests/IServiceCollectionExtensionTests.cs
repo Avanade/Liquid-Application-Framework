@@ -1,25 +1,56 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Liquid.Cache.DistributedCache.Extensions.DependencyInjection;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Liquid.Cache.Tests
 {
     public class IServiceCollectionExtensionTests
     {
-        private Microsoft.Extensions.DependencyInjection.IServiceCollection _sut;
+        private IServiceCollection _sut;
         private IConfiguration _configProvider = Substitute.For<IConfiguration>();
         private IConfigurationSection _configurationSection = Substitute.For<IConfigurationSection>();
         private readonly IDistributedCache _distributedCache = Substitute.For<IDistributedCache>();
 
-        public IServiceCollectionExtensionTests()
+        private void SetCollection()
         {
             _configProvider.GetSection(Arg.Any<string>()).Returns(_configurationSection);
-            _sut = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+            _sut = new ServiceCollection();
+            _sut.AddSingleton(_configProvider);
         }
+
+        [Fact]
+        public async Task AddLiquidDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
+        {
+            SetCollection();
+            _sut.AddSingleton(_distributedCache);
+            _sut.AddLogging();
+            _sut.AddLiquidDistributedCache(true);
+
+            var provider = _sut.BuildServiceProvider();
+
+            Assert.NotNull(provider.GetService<ILiquidCache>());
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
+
+        }
+
+        [Fact]
+        public async Task AddLiquidDistributedCache_WhenWithTelemetryfalse_GetServicesReturnLiqudCache()
+        {
+            SetCollection();
+            _sut.AddSingleton(_distributedCache);
+            _sut.AddLiquidDistributedCache(false);
+
+            var provider = _sut.BuildServiceProvider();
+
+            Assert.NotNull(provider.GetService<ILiquidCache>());
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
+
+        }
+
     }
 }

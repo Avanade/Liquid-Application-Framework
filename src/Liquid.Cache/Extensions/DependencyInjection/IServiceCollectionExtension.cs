@@ -1,49 +1,22 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
+using Liquid.Core.Implementations;
 using Microsoft.Extensions.DependencyInjection;
-
 
 namespace Liquid.Cache.DistributedCache.Extensions.DependencyInjection
 {
     /// <summary>
-    /// 
+    /// LiquidCache <see cref="IServiceCollection"/> extensions class.
     /// </summary>
     public static class IServiceCollectionExtension
     {
-        public static IServiceCollection AddLiquidMemoryDistributedCache(this IServiceCollection services, IConfiguration configuration,
-            string section, bool withTelemetry)
-        {
-
-            services.AddDistributedMemoryCache(options => configuration.GetSection(section));
-
-            return AddLiquidDistributedCache(services, withTelemetry);
-        }
-
-        public static IServiceCollection AddLiquidSqlServerDistributedCache(this IServiceCollection services, IConfiguration configuration,
-            string section, bool withTelemetry)
-        {
-            services.AddDistributedSqlServerCache(options => configuration.GetSection(section));
-
-            return AddLiquidDistributedCache(services, withTelemetry);
-        }
-
-        public static IServiceCollection AddLiquidRedisDistributedCache(this IServiceCollection services, IConfiguration configuration,
-            string section, bool withTelemetry)
-        {
-            services.AddStackExchangeRedisCache(options => configuration.GetSection(section));
-
-            return AddLiquidDistributedCache(services, withTelemetry);
-        }
-
-        //public static IServiceCollection AddLiquidNCacheDistributedCache(this IServiceCollection services, IConfiguration configuration,
-        //    string section, bool withTelemetry)
-        //{
-        //    services.AddNCacheDistributedCache(options => configuration.GetSection(section));
-
-        //    return AddLiquidDistributedCache(services, withTelemetry);
-        //}
-
-        private static IServiceCollection AddLiquidDistributedCache(IServiceCollection services, bool withTelemetry)
+        /// <summary>
+        /// Registers a <see cref="LiquidCache"/> service and its <see cref="LiquidTelemetryInterceptor"/> 
+        /// depending on the value of <paramref name="withTelemetry"/>.
+        /// </summary>
+        /// <param name="services">Extended IServiceCollection.</param>
+        /// <param name="withTelemetry">indicates if this method must register a <see cref="LiquidTelemetryInterceptor"/></param>
+        /// <returns></returns>
+        public static IServiceCollection AddLiquidDistributedCache(this IServiceCollection services, bool withTelemetry)
         {
             if (withTelemetry)
             {
@@ -55,5 +28,6 @@ namespace Liquid.Cache.DistributedCache.Extensions.DependencyInjection
 
             return services;
         }
+
     }
 }

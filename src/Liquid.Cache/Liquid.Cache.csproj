@@ -16,7 +16,7 @@
     <DebugType>Full</DebugType>
     <ProjectGuid>{16EEF504-D7B3-4F07-B7C0-53EB3975904B}</ProjectGuid>
     <Description>
-		Distributed cache extension of Microsoft.Extensions.Caching.Distributed.IDistributedCache compatible InMemory, Redis, SqlServer and NCache.
+		Base Implementation of Distributed Cache by extending Microsoft.Extensions.Caching.Distributed.IDistributedCache.
 		This component is part of Liquid Application Framework.
 	</Description>
   </PropertyGroup>
@@ -24,9 +24,6 @@
   <ItemGroup>
     <PackageReference Include="Liquid.Core" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="6.0.8" />
-    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.8" />
   </ItemGroup>
 
   <ItemGroup>

@@ -16,6 +16,11 @@ namespace Liquid.Cache.Tests
         {
             _sut = new LiquidCache(_distributedCache);
         }
+        [Fact]
+        public void Ctor_WhenIDistributedCacheIsNull_ThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new LiquidCache(null));
+        }
 
         [Fact]
         public void GetByteArray_WhenKeyExists_ThenReturnByteArray()

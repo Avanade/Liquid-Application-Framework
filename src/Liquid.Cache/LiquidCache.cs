@@ -1,7 +1,6 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
+﻿using Liquid.Core.Utils;
+using Microsoft.Extensions.Caching.Distributed;
 using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -74,50 +73,26 @@ namespace Liquid.Cache
         public T Get<T>(string key)
         {
             var response = _distributedCache.Get(key);
-            return FromByteArray<T>(response);
+            return response.ParseJson<T>();
         }
 
         ///<inheritdoc/>
         public async Task<T> GetAsync<T>(string key, CancellationToken token = default)
         {
             var response = await _distributedCache.GetAsync(key);
-            return FromByteArray<T>(response);
+            return response.ParseJson<T>();
         }
 
         ///<inheritdoc/>
-        public void Set<T>(string key, T value, DistributedCacheEntryOptions options)
+        public void Set<T>(string key, T value, DistributedCacheEntryOptions options = default)
         {
-            _distributedCache.Set(key, ToByteArray(value), options);
+            _distributedCache.Set(key, value.ToJsonBytes(), options);
         }
 
         ///<inheritdoc/>
-        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
+        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options = default, CancellationToken token = default)
         {
-            await _distributedCache.SetAsync(key, ToByteArray(value), options);
-        }
-
-        private byte[] ToByteArray<T>(T obj)
-        {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream())
-            {
-                bf.Serialize(ms, obj);
-                return ms.ToArray();
-            }
-        }
-
-        private T FromByteArray<T>(byte[] data)
-        {
-            if (data == null)
-                return default(T);
-            BinaryFormatter bf = new BinaryFormatter();
-            using (MemoryStream ms = new MemoryStream(data))
-            {
-                object obj = bf.Deserialize(ms);
-                return (T)obj;
-            }
+            await _distributedCache.SetAsync(key, value.ToJsonBytes(), options);
         }
     }
 }

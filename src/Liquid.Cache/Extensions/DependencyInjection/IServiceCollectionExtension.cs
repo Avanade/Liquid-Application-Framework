@@ -1,5 +1,4 @@
-﻿using Alachisoft.NCache.Caching.Distributed;
-using Liquid.Core.Extensions.DependencyInjection;
+﻿using Liquid.Core.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -36,13 +35,13 @@ namespace Liquid.Cache.DistributedCache.Extensions.DependencyInjection
             return AddLiquidDistributedCache(services, withTelemetry);
         }
 
-        public static IServiceCollection AddLiquidNCacheDistributedCache(this IServiceCollection services, IConfiguration configuration,
-            string section, bool withTelemetry)
-        {
-            services.AddNCacheDistributedCache(options => configuration.GetSection(section));
+        //public static IServiceCollection AddLiquidNCacheDistributedCache(this IServiceCollection services, IConfiguration configuration,
+        //    string section, bool withTelemetry)
+        //{
+        //    services.AddNCacheDistributedCache(options => configuration.GetSection(section));
 
-            return AddLiquidDistributedCache(services, withTelemetry);
-        }
+        //    return AddLiquidDistributedCache(services, withTelemetry);
+        //}
 
         private static IServiceCollection AddLiquidDistributedCache(IServiceCollection services, bool withTelemetry)
         {

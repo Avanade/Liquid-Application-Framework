@@ -27,7 +27,6 @@
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.SqlServer" Version="6.0.8" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.8" />
-    <PackageReference Include="NCache.Microsoft.Extensions.Caching.OpenSource" Version="5.0.5" />
   </ItemGroup>
 
   <ItemGroup>

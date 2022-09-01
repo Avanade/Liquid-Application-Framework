@@ -1,12 +1,12 @@
 ﻿using System.IO;
 using System.Text;
 
-namespace Liquid.Core.Utils
+namespace Liquid.Core.Extensions
 {
     /// <summary>
     /// Stream extensions class.
     /// </summary>
-    public static class StreamUtils
+    public static class StreamExtension
     {
         /// <summary>
         /// Gets the string from UTF8 stream.
@@ -56,42 +56,6 @@ namespace Liquid.Core.Utils
                 documentContents = readStream.ReadToEnd();
             }
             return documentContents;
-        }
-
-        /// <summary>
-        /// Gets the stream from string using UTF8 encoding.
-        /// </summary>
-        /// <param name="source">The string source.</param>
-        /// <returns>UTF8 encoded stream.</returns>
-        public static Stream ToStreamUtf8(this string source)
-        {
-            if (source == null) return null;
-            var stream = new MemoryStream(Encoding.UTF8.GetBytes(source));
-            return stream;
-        }
-
-        /// <summary>
-        /// Gets the stream from string using ASCII encoding.
-        /// </summary>
-        /// <param name="source">The string source.</param>
-        /// <returns>ASCII encoded stream.</returns>
-        public static Stream ToStreamAscii(this string source)
-        {
-            if (source == null) return null;
-            var stream = new MemoryStream(Encoding.ASCII.GetBytes(source));
-            return stream;
-        }
-
-        /// <summary>
-        /// Gets the stream from string using UTF8 encoding.
-        /// </summary>
-        /// <param name="source">The string source.</param>
-        /// <returns>Unicode encoded stream.</returns>
-        public static Stream ToStreamUnicode(this string source)
-        {
-            if (source == null) return null;
-            var stream = new MemoryStream(Encoding.Unicode.GetBytes(source));
-            return stream;
         }
 
         /// <summary>

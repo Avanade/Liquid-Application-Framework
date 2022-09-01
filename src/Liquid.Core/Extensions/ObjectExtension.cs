@@ -1,60 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using Liquid.Core.Utils;
+using System;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
+using System.Text.Json;
 
-namespace Liquid.Core.Utils
+namespace Liquid.Core.Extensions
 {
     /// <summary>
     /// Object extensions class.
     /// </summary>
-    public static class ObjectUtils
+    public static class ObjectExtension
     {
-        /// <summary>
-        /// Converts object to dictionary.
-        /// </summary>
-        /// <param name="source">The source.</param>
-        /// <returns></returns>
-        public static IDictionary<string, object> ToDictionary(this object source)
-        {
-            return source.ToDictionary<object>();
-        }
-
-        /// <summary>
-        /// Converts object to dictionary.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source">The source.</param>
-        /// <returns></returns>
-        public static IDictionary<string, T> ToDictionary<T>(this object source)
-        {
-            if (source == null)
-                throw new ArgumentNullException(nameof(source), "Unable to convert object to a dictionary. The source object is null.");
-
-            var dictionary = new Dictionary<string, T>();
-            foreach (PropertyDescriptor property in TypeDescriptor.GetProperties(source))
-                AddPropertyToDictionary(property, source, dictionary);
-            return dictionary;
-        }
-
-        /// <summary>
-        /// Adds the property to dictionary.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="property">The property.</param>
-        /// <param name="source">The source.</param>
-        /// <param name="dictionary">The dictionary.</param>
-        private static void AddPropertyToDictionary<T>(PropertyDescriptor property, object source, Dictionary<string, T> dictionary)
-        {
-            var value = property.GetValue(source);
-            if (value.IsOfType<T>())
-                dictionary.Add(property.Name, (T)value);
-        }
-
         /// <summary>
         /// Determines whether [is of type] [the specified value].
         /// </summary>
@@ -338,47 +297,110 @@ namespace Liquid.Core.Utils
         /// </returns>
         public static bool IsPrimitiveType(this object obj)
         {
-            return obj.GetType().IsPrimitiveType();
+            return obj.GetType().IsPrimitive;
         }
 
         /// <summary>
-        /// Determines whether [is primitive type].
+        /// Converts the object to json string.
         /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>
-        ///   <c>true</c> if [is primitive type] [the specified object]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsPrimitiveType(this Type type)
+        /// <param name="source"></param>
+        /// <param name="options">Provides options to be used with System.Text.Json.JsonSerializer.</param>
+        public static string ToJsonString(this object source, JsonSerializerOptions options = null)
         {
-            return type.IsPrimitive ||
-                   new[] {
-                       typeof(Enum),
-                       typeof(String),
-                       typeof(Decimal),
-                       typeof(DateTime),
-                       typeof(DateTimeOffset),
-                       typeof(TimeSpan),
-                       typeof(Guid),
-                       typeof(char?),
-                       typeof(Guid?),
-                       typeof(bool?),
-                       typeof(byte?),
-                       typeof(short?),
-                       typeof(int?),
-                       typeof(long?),
-                       typeof(float?),
-                       typeof(double?),
-                       typeof(decimal?),
-                       typeof(sbyte?),
-                       typeof(ushort?),
-                       typeof(uint?),
-                       typeof(ulong?),
-                       typeof(DateTime?),
-                       typeof(DateTimeOffset?),
-                       typeof(TimeSpan?)
-                   }.Contains(type) ||
-                   Convert.GetTypeCode(type) != TypeCode.Object ||
-                   type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>) && IsPrimitiveType((object)type.GetGenericArguments()[0]);
+            return source == null ? null : JsonSerializer.Serialize(source, options);
+        }
+
+        /// <summary>
+        /// Converts the object to json bytes.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="options">Provides options to be used with System.Text.Json.JsonSerializer.</param>
+        public static byte[] ToJsonBytes(this object source, JsonSerializerOptions options = null)
+        {
+            if (source == null)
+                return new byte[0];
+            var instring = JsonSerializer.Serialize(source, options);
+
+            return Encoding.Default.GetBytes(instring);
+        }
+        /// <summary>
+        /// Gets the field value.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">obj</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Couldn't find field {fieldName} in type {objType.FullName}</exception>
+        public static object GetFieldValue(this object obj, string fieldName)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            Type objType = obj.GetType();
+            var fieldInfo = TypeUtils.GetFieldInfo(objType, fieldName);
+            if (fieldInfo == null)
+                throw new ArgumentOutOfRangeException(fieldName,
+                    $"Couldn't find field {fieldName} in type {objType.FullName}");
+            return fieldInfo.GetValue(obj);
+        }
+
+        /// <summary>
+        /// Sets the field value.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="fieldName">Name of the field.</param>
+        /// <param name="val">The value.</param>
+        /// <exception cref="ArgumentNullException">obj</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Couldn't find field {fieldName} in type {objType.FullName}</exception>
+        public static void SetFieldValue(this object obj, string fieldName, object val)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            Type objType = obj.GetType();
+            var fieldInfo =TypeUtils.GetFieldInfo(objType, fieldName);
+            if (fieldInfo == null)
+                throw new ArgumentOutOfRangeException(fieldName,
+                    $"Couldn't find field {fieldName} in type {objType.FullName}");
+            fieldInfo.SetValue(obj, val);
+        }
+
+        /// <summary>
+        /// Gets the property value.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException">obj</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Couldn't find property {propertyName} in type {objType.FullName}</exception>
+        public static object GetPropertyValue(this object obj, string propertyName)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            Type objType = obj.GetType();
+            var propertyInfo = TypeUtils.GetPropertyInfo(objType, propertyName);
+            if (propertyInfo == null)
+                throw new ArgumentOutOfRangeException(propertyName,
+                    $"Couldn't find property {propertyName} in type {objType.FullName}");
+            return propertyInfo.GetValue(obj, null);
+        }
+
+        /// <summary>
+        /// Sets the property value.
+        /// </summary>
+        /// <param name="obj">The object.</param>
+        /// <param name="propertyName">Name of the property.</param>
+        /// <param name="val">The value.</param>
+        /// <exception cref="ArgumentNullException">obj</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Couldn't find property {propertyName} in type {objType.FullName}</exception>
+        public static void SetPropertyValue(this object obj, string propertyName, object val)
+        {
+            if (obj == null)
+                throw new ArgumentNullException(nameof(obj));
+            Type objType = obj.GetType();
+            var propertyInfo = TypeUtils.GetPropertyInfo(objType, propertyName);
+            if (propertyInfo == null)
+                throw new ArgumentOutOfRangeException(propertyName,
+                    $"Couldn't find property {propertyName} in type {objType.FullName}");
+            propertyInfo.SetValue(obj, val, null);
         }
     }
 }

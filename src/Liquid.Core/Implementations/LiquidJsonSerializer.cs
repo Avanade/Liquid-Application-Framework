@@ -1,5 +1,5 @@
 ﻿using Liquid.Core.Interfaces;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace Liquid.Core.Implementations
 {
@@ -15,7 +15,7 @@ namespace Liquid.Core.Implementations
         /// <returns></returns>
         public string Serialize<T>(T content)
         {
-            return JsonConvert.SerializeObject(content);
+            return JsonSerializer.Serialize(content);
         }
     }
 }

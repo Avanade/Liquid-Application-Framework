@@ -2,12 +2,12 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace Liquid.Core.Utils
+namespace Liquid.Core.Extensions
 {
     /// <summary>
     /// Enum Extensions Class.
     /// </summary>
-    public static class EnumUtils
+    public static class EnumExtension
     {
         /// <summary>
         /// Gets the description from enum value.
@@ -38,17 +38,6 @@ namespace Liquid.Core.Utils
                 .GetCustomAttributes(false)
                 .OfType<T>()
                 .SingleOrDefault();
-        }
-
-        /// <summary>
-        /// Converts string to enum object
-        /// </summary>
-        /// <typeparam name="T">Type of enum</typeparam>
-        /// <param name="value">String value to convert</param>
-        /// <returns>Returns enum object</returns>
-        public static T ToEnum<T>(this string value) where T : struct
-        {
-            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }

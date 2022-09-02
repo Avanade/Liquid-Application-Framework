@@ -1,4 +1,4 @@
-using Liquid.Core.Utils;
+using Liquid.Core.Extensions;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;
 using System;

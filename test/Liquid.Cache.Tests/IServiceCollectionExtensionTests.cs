@@ -24,7 +24,7 @@ namespace Liquid.Cache.Tests
         }
 
         [Fact]
-        public async Task AddLiquidDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
+        public void AddLiquidDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
         {
             SetCollection();
             _sut.AddSingleton(_distributedCache);
@@ -39,7 +39,7 @@ namespace Liquid.Cache.Tests
         }
 
         [Fact]
-        public async Task AddLiquidDistributedCache_WhenWithTelemetryfalse_GetServicesReturnLiqudCache()
+        public void AddLiquidDistributedCache_WhenWithTelemetryfalse_GetServicesReturnLiqudCache()
         {
             SetCollection();
             _sut.AddSingleton(_distributedCache);

@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Core" Version="2.1.0" />
+    <PackageReference Include="Liquid.Core" Version="2.2.0-preview-20220901-01" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
   </ItemGroup>
 

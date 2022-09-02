@@ -10,31 +10,26 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Cache</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.3-alpha</Version>
+    <Version>2.0.0-preview-2022090901-01</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <DebugType>Full</DebugType>
     <ProjectGuid>{16EEF504-D7B3-4F07-B7C0-53EB3975904B}</ProjectGuid>
     <Description>
-      The Liquid.Cache applies the concept of cache to store and retrieve data, so future requests for that data can be served faster. This only contain the interfaces for using caching.
-      This component is part of Liquid Application Framework.
-    </Description>
+		Base Implementation of Distributed Cache by extending Microsoft.Extensions.Caching.Distributed.IDistributedCache.
+		This component is part of Liquid Application Framework.
+	</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Core" Version="2.0.2-alpha" />
+    <PackageReference Include="Liquid.Core" Version="2.2.0-preview-20220901-01" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\logo.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="config.ncconf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

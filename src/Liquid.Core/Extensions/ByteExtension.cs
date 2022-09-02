@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using System.Text.Json;
 
@@ -7,6 +8,7 @@ namespace Liquid.Core.Extensions
     /// <summary>
     /// Byte Extensions Class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class ByteExtension
     {
         /// <summary>

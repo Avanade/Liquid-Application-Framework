@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Extensions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 
@@ -9,6 +10,7 @@ namespace Liquid.Core.Utils
     /// <summary>
     /// Type Helper Extensions Class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class TypeUtils
     {
         /// <summary>
@@ -47,7 +49,7 @@ namespace Liquid.Core.Utils
                     return true;
             }
             return false;
-        } 
+        }
 
         /// <summary>
         /// Gets the field information.
@@ -65,7 +67,7 @@ namespace Liquid.Core.Utils
             } while (fieldInfo == null && type != null);
 
             return fieldInfo;
-        }       
+        }
 
         /// <summary>
         /// Gets the property information.
@@ -83,6 +85,6 @@ namespace Liquid.Core.Utils
             } while (propertyInfo == null && type != null);
 
             return propertyInfo;
-        }       
+        }
     }
 }

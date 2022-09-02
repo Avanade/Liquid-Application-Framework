@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -9,6 +10,7 @@ namespace Liquid.Core.Extensions
     /// <summary>
     /// Extensions for IEnumerable class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class IEnumerableExtension
     {
         /// <summary>

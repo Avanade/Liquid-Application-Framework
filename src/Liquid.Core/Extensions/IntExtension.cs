@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Core.Utils
 {
     /// <summary>
     /// Number Extensions Class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class IntExtension
     {
         /// <summary>

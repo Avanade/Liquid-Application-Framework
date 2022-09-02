@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Liquid.Core.Extensions
@@ -7,6 +8,7 @@ namespace Liquid.Core.Extensions
     /// <summary>
     /// Enum Extensions Class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class EnumExtension
     {
         /// <summary>

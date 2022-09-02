@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.IO;
 using System.Text;
 
 namespace Liquid.Core.Extensions
@@ -6,6 +7,7 @@ namespace Liquid.Core.Extensions
     /// <summary>
     /// Stream extensions class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class StreamExtension
     {
         /// <summary>

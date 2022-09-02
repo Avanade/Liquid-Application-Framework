@@ -4,7 +4,6 @@ using Liquid.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace Liquid.Core.Extensions.DependencyInjection
@@ -33,7 +32,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <param name="services">Extended IServiceCollection instance.</param>
         [Obsolete("This method will be removed in the next release. " +
             "Please use AddScopedLiquidTelemetry, AddTransientLiquidTelemetry or AddSingletonLiquidTelemetry.")]
-        public static IServiceCollection AddLiquidTelemetryInterceptor<TInterface, TService>(this IServiceCollection services) 
+        public static IServiceCollection AddLiquidTelemetryInterceptor<TInterface, TService>(this IServiceCollection services)
             where TInterface : class where TService : TInterface
         {
             services.TryAddTransient(typeof(IAsyncInterceptor), typeof(LiquidTelemetryInterceptor));
@@ -55,7 +54,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <typeparam name="TInterface">Interface type of service that should be intercepted.</typeparam>
         /// <typeparam name="TService">Type of service that should be intercepted.</typeparam>
         /// <param name="services">Extended IServiceCollection instance.</param>
-        public static IServiceCollection AddScopedLiquidTelemetry<TInterface, TService>(this IServiceCollection services) 
+        public static IServiceCollection AddScopedLiquidTelemetry<TInterface, TService>(this IServiceCollection services)
             where TInterface : class where TService : TInterface
         {
             services.AddInterceptor<LiquidTelemetryInterceptor>();

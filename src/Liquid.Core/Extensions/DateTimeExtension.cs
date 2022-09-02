@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Liquid.Core.Extensions
@@ -6,6 +7,7 @@ namespace Liquid.Core.Extensions
     /// <summary>
     /// Date time extensions class.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class DateTimeExtension
     {
         /// <summary>

@@ -31,6 +31,17 @@ namespace Liquid.Core.Extensions
         public static bool IsGenericType(this Type type, Type genericType)
             => type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == genericType;
 
+        /// <summary>
+        /// Determines whether [is generic type].
+        /// </summary>
+        /// <param name="type">The type.</param>
+        /// <returns>
+        ///   <c>true</c> if [is generic type] [the specified type]; otherwise, <c>false</c>.
+        /// </returns>
+        public static bool IsGenericType(this Type type)
+        {
+            return type.GetTypeInfo().IsGenericType;
+        }
 
         /// <summary>
         /// Determines whether [is concrete type].
@@ -66,19 +77,7 @@ namespace Liquid.Core.Extensions
         public static bool IsGenericTypeDefinitionOf(this Type genericTypeDefinition, Type typeToCheck)
         {
             return typeToCheck.IsGenericType() && typeToCheck.GetGenericTypeDefinition() == genericTypeDefinition;
-        }
-
-        /// <summary>
-        /// Determines whether [is generic type].
-        /// </summary>
-        /// <param name="type">The type.</param>
-        /// <returns>
-        ///   <c>true</c> if [is generic type] [the specified type]; otherwise, <c>false</c>.
-        /// </returns>
-        public static bool IsGenericType(this Type type)
-        {
-            return type.GetTypeInfo().IsGenericType;
-        }
+        }        
 
         /// <summary>
         /// Determines whether [is generic implementation of] [the specified type].

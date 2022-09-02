@@ -53,10 +53,10 @@ jobs:
         java-version: 11.x
         
     - name: (CI/CD) Setup .NET Core SDK
-      uses: actions/setup-dotnet@v1.7.2
+      uses: actions/setup-dotnet@v2
       with:
         # SDK version to use. Examples: 2.2.104, 3.1, 3.1.x
-        dotnet-version: 3.1.x, 5.x, 6.x 
+        dotnet-version: 3.1.x, 5.0.x, 6.0.x 
 
     # required by sonarcloud scanner
     - name: (CI/CD) Setup Sonar Scanner tool

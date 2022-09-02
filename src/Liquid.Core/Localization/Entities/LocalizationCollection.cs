@@ -1,6 +1,6 @@
-﻿using Newtonsoft.Json;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace Liquid.Core.Localization.Entities
 {
@@ -16,7 +16,7 @@ namespace Liquid.Core.Localization.Entities
         /// <value>
         /// The resources.
         /// </value>
-        [JsonProperty("items")]
+        [JsonPropertyName("items")]
         public IEnumerable<LocalizationItem> Items { get; set; }
 
         /// <summary>

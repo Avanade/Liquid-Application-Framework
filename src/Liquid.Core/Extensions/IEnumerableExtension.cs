@@ -1,15 +1,17 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
-namespace Liquid.Core.Utils
+namespace Liquid.Core.Extensions
 {
     /// <summary>
     /// Extensions for IEnumerable class.
     /// </summary>
-    public static class EnumerableUtils
+    [ExcludeFromCodeCoverage]
+    public static class IEnumerableExtension
     {
         /// <summary>
         /// Executes the action in each specified item in enumerable.
@@ -88,7 +90,7 @@ namespace Liquid.Core.Utils
         /// <param name="list">The list.</param>
         /// <param name="sortExpression">The sort expression.</param>
         /// <returns></returns>
-        /// <exception cref="System.Exception">No property '" + property + "' in + " + typeof(T).Name + "'</exception>
+        /// <exception cref="Exception">No property '" + property + "' in + " + typeof(T).Name + "'</exception>
         public static IEnumerable<T> OrderBy<T>(this IEnumerable<T> list, string sortExpression)
         {
             sortExpression += "";

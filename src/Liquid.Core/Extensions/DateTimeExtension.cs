@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace Liquid.Core.Utils
+namespace Liquid.Core.Extensions
 {
     /// <summary>
     /// Date time extensions class.
     /// </summary>
-    public static class DateTimeUtils
+    [ExcludeFromCodeCoverage]
+    public static class DateTimeExtension
     {
         /// <summary>
         /// Converts datetime to Iso 8601 format.

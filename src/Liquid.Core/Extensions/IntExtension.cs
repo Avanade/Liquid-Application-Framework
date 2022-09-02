@@ -1,11 +1,13 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Core.Utils
 {
     /// <summary>
     /// Number Extensions Class.
     /// </summary>
-    public static class NumberUtils
+    [ExcludeFromCodeCoverage]
+    public static class IntExtension
     {
         /// <summary>
         /// Determines whether a number is is prime number.

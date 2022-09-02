@@ -231,7 +231,7 @@ namespace Liquid.Cache.Tests
             var values = new Guid();
 
             //Act
-            _sut.Set("test", values);
+            _sut.Set("test", values, default);
 
             //Assert
 
@@ -245,7 +245,7 @@ namespace Liquid.Cache.Tests
             var values = new Guid();
 
             //Act
-            await _sut.SetAsync("test", values);
+            await _sut.SetAsync("test", values, default);
 
             //Assert
             await _distributedCache.Received(1).SetAsync("test", Arg.Any<byte[]>(), Arg.Any<DistributedCacheEntryOptions>());

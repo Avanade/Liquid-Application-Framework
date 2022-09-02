@@ -84,13 +84,13 @@ namespace Liquid.Cache
         }
 
         ///<inheritdoc/>
-        public void Set<T>(string key, T value, DistributedCacheEntryOptions options = null)
+        public void Set<T>(string key, T value, DistributedCacheEntryOptions options)
         {
             _distributedCache.Set(key, value.ToJsonBytes(), options);
         }
 
         ///<inheritdoc/>
-        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options = null, CancellationToken token = default)
+        public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
         {
             await _distributedCache.SetAsync(key, value.ToJsonBytes(), options);
         }

@@ -1,6 +1,0 @@
-<tls-info>
-	<certificate-name>certificate-name</certificate-name>	
-	<certificate-thumbprint>your-thumbprint</certificate-thumbprint>	
-	<enabled>false</enabled>	
-	<require-client-certificate>false</require-client-certificate>
-</tls-info>

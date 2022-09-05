@@ -29,7 +29,11 @@ namespace Liquid.Cache.Redis.Tests
             SetCollection();
             _sut.AddSingleton(_distributedCache);
             _sut.AddLogging();
-            _sut.AddLiquidRedisDistributedCache(options => new RedisCacheOptions(), true);
+            _sut.AddLiquidRedisDistributedCache(options =>
+            {
+                options.Configuration = _configProvider.GetConnectionString("Test");
+                options.InstanceName = "TestInstance";
+            }, true);
 
             var provider = _sut.BuildServiceProvider();
 
@@ -44,7 +48,11 @@ namespace Liquid.Cache.Redis.Tests
         {
             SetCollection();
             _sut.AddSingleton(_distributedCache);
-            _sut.AddLiquidRedisDistributedCache(options => new RedisCacheOptions(), false);
+            _sut.AddLiquidRedisDistributedCache(options =>
+            {
+                options.Configuration = _configProvider.GetConnectionString("Test");
+                options.InstanceName = "TestInstance";
+            }, false);
 
             var provider = _sut.BuildServiceProvider();
 

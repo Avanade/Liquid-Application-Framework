@@ -21,6 +21,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="..\..\logo.png" Link="logo.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Liquid.Cache" Version="2.0.0-preview-2022090901-01" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.8" />
   </ItemGroup>

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Liquid.Cache\Liquid.Cache.csproj" />
+    <ProjectReference Include="..\..\src\Liquid.Cache.Redis\Liquid.Cache.Redis.csproj" />
   </ItemGroup>
 
 </Project>

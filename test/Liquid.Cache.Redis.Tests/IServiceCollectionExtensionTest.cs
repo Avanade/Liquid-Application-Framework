@@ -1,14 +1,15 @@
-﻿using Liquid.Cache.Extensions.DependencyInjection;
+using Liquid.Cache.Redis.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using System.Linq;
 using Xunit;
 
-namespace Liquid.Cache.Tests
+namespace Liquid.Cache.Redis.Tests
 {
-    public class IServiceCollectionExtensionTests
+    public class IServiceCollectionExtensionTest
     {
         private IServiceCollection _sut;
         private IConfiguration _configProvider = Substitute.For<IConfiguration>();
@@ -23,17 +24,18 @@ namespace Liquid.Cache.Tests
         }
 
         [Fact]
-        public void AddLiquidDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
+        public void AddLiquidRedisDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
         {
             SetCollection();
             _sut.AddSingleton(_distributedCache);
             _sut.AddLogging();
-            _sut.AddLiquidDistributedCache(true);
+            _sut.AddLiquidRedisDistributedCache(options => new RedisCacheOptions(), true);
 
             var provider = _sut.BuildServiceProvider();
 
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
 
         }
 
@@ -42,14 +44,14 @@ namespace Liquid.Cache.Tests
         {
             SetCollection();
             _sut.AddSingleton(_distributedCache);
-            _sut.AddLiquidDistributedCache(false);
+            _sut.AddLiquidRedisDistributedCache(options => new RedisCacheOptions(), false);
 
             var provider = _sut.BuildServiceProvider();
 
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
 
         }
-
     }
 }

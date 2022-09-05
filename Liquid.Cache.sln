@@ -20,6 +20,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.Redis", "src\L
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.Redis.Tests", "test\Liquid.Cache.Redis.Tests\Liquid.Cache.Redis.Tests.csproj", "{7C472ACA-4FAA-4A7E-9314-B01D1559A917}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Memory", "Memory", "{3DEA6AB0-831F-4AE9-84BA-0D363C8629DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.Memory", "src\Liquid.Cache.Memory\Liquid.Cache.Memory.csproj", "{30B92095-0C03-4FE5-A363-6BAF13C38A3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.Memory.Tests", "test\Liquid.Cache.Memory.Tests\Liquid.Cache.Memory.Tests.csproj", "{983C0073-F73C-425D-A239-A8C5C1E2E5F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +48,14 @@ Global
 		{7C472ACA-4FAA-4A7E-9314-B01D1559A917}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C472ACA-4FAA-4A7E-9314-B01D1559A917}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C472ACA-4FAA-4A7E-9314-B01D1559A917}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30B92095-0C03-4FE5-A363-6BAF13C38A3E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30B92095-0C03-4FE5-A363-6BAF13C38A3E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30B92095-0C03-4FE5-A363-6BAF13C38A3E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30B92095-0C03-4FE5-A363-6BAF13C38A3E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{983C0073-F73C-425D-A239-A8C5C1E2E5F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{983C0073-F73C-425D-A239-A8C5C1E2E5F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{983C0073-F73C-425D-A239-A8C5C1E2E5F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{983C0073-F73C-425D-A239-A8C5C1E2E5F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -49,6 +63,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{971BD9C2-A125-4A19-BF9C-BF3696D20D15} = {CB7FB409-466C-4315-B6B8-19645456CB0F}
 		{7C472ACA-4FAA-4A7E-9314-B01D1559A917} = {CB7FB409-466C-4315-B6B8-19645456CB0F}
+		{30B92095-0C03-4FE5-A363-6BAF13C38A3E} = {3DEA6AB0-831F-4AE9-84BA-0D363C8629DA}
+		{983C0073-F73C-425D-A239-A8C5C1E2E5F9} = {3DEA6AB0-831F-4AE9-84BA-0D363C8629DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC45FBB9-D2C3-4E3F-8668-5AA9146BBE4C}

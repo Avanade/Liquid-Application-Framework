@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+	  <PackageId>Liquid.Cache.Memory</PackageId>
+	<Nullable>enable</Nullable>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <Authors>Avanade Brazil</Authors>
+	  <Company>Avanade Inc.</Company>
+	  <Product>Liquid Application Framework</Product>
+	  <Copyright>Avanade 2019</Copyright>
+	  <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
+	  <PackageIcon>logo.png</PackageIcon>
+	  <Version>2.0.0-preview-2022090901-01</Version>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <IsPackable>true</IsPackable>
+	  <DebugType>Full</DebugType>
+	  <Description>
+		  Distributed cache extension of Microsoft.Extensions.Caching.Memory.
+		  This component is part of Liquid Application Framework.
+	  </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png" Link="logo.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Liquid.Cache" Version="2.0.0-preview-2022090901-02" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+  </ItemGroup>
+
+</Project>

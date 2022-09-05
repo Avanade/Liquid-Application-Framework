@@ -1,12 +1,12 @@
-using Liquid.Cache.Redis.Extensions.DependencyInjection;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
+using Liquid.Cache.Memory.Extensions.DependencyInjection;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using System.Linq;
 using Xunit;
 
-namespace Liquid.Cache.Redis.Tests
+namespace Liquid.Cache.Memory.Tests
 {
     public class IServiceCollectionExtensionTest
     {
@@ -22,39 +22,37 @@ namespace Liquid.Cache.Redis.Tests
         }
 
         [Fact]
-        public void AddLiquidRedisDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
+        public void AddLiquidMemoryDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
         {
             SetCollection();
             _sut.AddLogging();
-            _sut.AddLiquidRedisDistributedCache(options =>
+            _sut.AddLiquidMemoryDistributedCache(options =>
             {
-                options.Configuration = _configProvider.GetConnectionString("Test");
-                options.InstanceName = "TestInstance";
+                options.SizeLimit = 3000;
             }, true);
 
             var provider = _sut.BuildServiceProvider();
 
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(MemoryDistributedCache)));
 
         }
 
         [Fact]
-        public void AddLiquidRedisDistributedCache_WhenWithTelemetryfalse_GetServicesReturnLiqudCache()
+        public void AddLiquidMemoryDistributedCache_WhenWithTelemetryfalse_GetServicesReturnLiqudCache()
         {
             SetCollection();
-            _sut.AddLiquidRedisDistributedCache(options =>
+            _sut.AddLiquidMemoryDistributedCache(options =>
             {
-                options.Configuration = _configProvider.GetConnectionString("Test");
-                options.InstanceName = "TestInstance";
+                options.SizeLimit = 3000;
             }, false);
 
             var provider = _sut.BuildServiceProvider();
 
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(MemoryDistributedCache)));
 
         }
     }

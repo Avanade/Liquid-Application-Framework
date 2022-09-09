@@ -28,9 +28,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.Memory.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NCache", "NCache", "{7F52BA22-BE38-497D-A02C-7FB3725ECC82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.NCache", "src\Liquid.Cache.NCache\Liquid.Cache.NCache.csproj", "{B288A6CF-96FD-4EF9-BB09-ADBD04FCF751}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.NCache", "src\Liquid.Cache.NCache\Liquid.Cache.NCache.csproj", "{B288A6CF-96FD-4EF9-BB09-ADBD04FCF751}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.NCache.Tests", "test\Liquid.Cache.NCache.Tests\Liquid.Cache.NCache.Tests.csproj", "{5AE4C741-AC54-449F-BEE2-501036EE22E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.NCache.Tests", "test\Liquid.Cache.NCache.Tests\Liquid.Cache.NCache.Tests.csproj", "{5AE4C741-AC54-449F-BEE2-501036EE22E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SqlServer", "SqlServer", "{E382C506-ECA9-4DD5-9F1B-587ABD126C38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.SqlServer", "src\Liquid.Cache.SqlServer\Liquid.Cache.SqlServer.csproj", "{9FC090C1-866F-4566-B52D-25688C0B3063}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Cache.SqlServer.Tests", "test\Liquid.Cache.SqlServer.Tests\Liquid.Cache.SqlServer.Tests.csproj", "{D4CC98D6-ACAF-4593-B41E-31D9E5C85F54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +76,14 @@ Global
 		{5AE4C741-AC54-449F-BEE2-501036EE22E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5AE4C741-AC54-449F-BEE2-501036EE22E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5AE4C741-AC54-449F-BEE2-501036EE22E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9FC090C1-866F-4566-B52D-25688C0B3063}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9FC090C1-866F-4566-B52D-25688C0B3063}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9FC090C1-866F-4566-B52D-25688C0B3063}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9FC090C1-866F-4566-B52D-25688C0B3063}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4CC98D6-ACAF-4593-B41E-31D9E5C85F54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4CC98D6-ACAF-4593-B41E-31D9E5C85F54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4CC98D6-ACAF-4593-B41E-31D9E5C85F54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4CC98D6-ACAF-4593-B41E-31D9E5C85F54}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,6 +95,8 @@ Global
 		{983C0073-F73C-425D-A239-A8C5C1E2E5F9} = {3DEA6AB0-831F-4AE9-84BA-0D363C8629DA}
 		{B288A6CF-96FD-4EF9-BB09-ADBD04FCF751} = {7F52BA22-BE38-497D-A02C-7FB3725ECC82}
 		{5AE4C741-AC54-449F-BEE2-501036EE22E5} = {7F52BA22-BE38-497D-A02C-7FB3725ECC82}
+		{9FC090C1-866F-4566-B52D-25688C0B3063} = {E382C506-ECA9-4DD5-9F1B-587ABD126C38}
+		{D4CC98D6-ACAF-4593-B41E-31D9E5C85F54} = {E382C506-ECA9-4DD5-9F1B-587ABD126C38}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC45FBB9-D2C3-4E3F-8668-5AA9146BBE4C}

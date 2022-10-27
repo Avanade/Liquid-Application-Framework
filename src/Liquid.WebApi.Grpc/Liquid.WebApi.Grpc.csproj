@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>netcoreapp3.1</TargetFramework>
 		<PackageId>Liquid.WebApi.Grpc</PackageId>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<Authors>Avanade Brazil</Authors>
@@ -24,7 +24,7 @@
 	<ItemGroup>
 		<PackageReference Include="Liquid.Core" Version="2.0.2-alpha" />
 		<PackageReference Include="Liquid.Domain" Version="2.0.2-alpha" />
-		<PackageReference Include="Grpc.AspNetCore" Version="2.49.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.37.0" />
 	</ItemGroup>
 
 	<ItemGroup>

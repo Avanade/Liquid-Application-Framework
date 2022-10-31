@@ -10,7 +10,7 @@
     <Copyright>Avanade 2021</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Core</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.0-preview-20211216-01</Version>
+    <Version>6.0.0-preview-20221201-01</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ProjectGuid>{AD354CF6-C132-4B5D-944D-0DFE21509781}</ProjectGuid>
     <IsPackable>true</IsPackable>

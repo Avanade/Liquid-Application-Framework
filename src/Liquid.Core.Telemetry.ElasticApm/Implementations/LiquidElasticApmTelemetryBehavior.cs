@@ -13,7 +13,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
     /// </summary>
     /// <typeparam name="TRequest">The type of request.</typeparam>
     /// <typeparam name="TResponse">Type of response object obtained upon return of request.</typeparam>
-    public sealed class LiquidElasticApmTelemetryBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public sealed class LiquidElasticApmTelemetryBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> _logger;
 
@@ -37,7 +37,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
         /// <param name="cancellationToken">Notification about operation to be cancelled.</param>
         /// <param name="next">Mext operation to be performed.</param>
         /// <returns></returns>
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var methodInfo = next.GetMethodInfo();
 

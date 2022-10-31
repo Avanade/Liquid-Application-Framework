@@ -19,9 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.12.1" />
-    <PackageReference Include="Liquid.Core" Version="2.1.0" />
-    <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.18.0" />
+    <PackageReference Include="Liquid.Core" Version="2.2.0-preview-20220901-01" />
+    <PackageReference Include="MediatR" Version="11.0.0" />
   </ItemGroup>
 
   <ItemGroup>

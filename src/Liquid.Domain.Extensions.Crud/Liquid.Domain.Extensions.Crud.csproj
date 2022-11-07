@@ -17,7 +17,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Domain</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.0-preview-20211105-01</Version>
+	<Version>6.0.0-preview-20221201-01</Version>
     <ProjectGuid>{90E8D24B-E7A8-44E1-A1D4-E917F8130002}</ProjectGuid>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>

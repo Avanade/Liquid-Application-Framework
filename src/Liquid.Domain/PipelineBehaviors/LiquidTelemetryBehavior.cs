@@ -13,7 +13,7 @@ namespace Liquid.Domain.PipelineBehaviors
     /// </summary>
     /// <typeparam name="TRequest"></typeparam>
     /// <typeparam name="TResponse"></typeparam>
-    public class LiquidTelemetryBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    public class LiquidTelemetryBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
         private readonly ILogger<LiquidTelemetryBehavior<TRequest, TResponse>> _logger;
         private readonly Stopwatch _stopwatch;
@@ -35,7 +35,7 @@ namespace Liquid.Domain.PipelineBehaviors
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="next"> Awaitable delegate for the next action in the pipeline. Eventually this delegate 
         /// represents the handler.</param>
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             var methodInfo = next.GetMethodInfo();
 

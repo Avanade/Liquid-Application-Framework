@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <PackageReference Include="Liquid.Domain" Version="2.0.1" />
-    <PackageReference Include="Liquid.Repository" Version="2.0.0" />
+    <PackageReference Include="Liquid.Repository" Version="2.0.1" />
   </ItemGroup>
   
   <PropertyGroup>

@@ -1,5 +1,5 @@
-﻿using Liquid.Core.Extensions.DependencyInjection;
-using Liquid.Core.Utils;
+﻿using Liquid.Core.Extensions;
+using Liquid.Core.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -22,7 +22,7 @@ namespace Liquid.Messaging.Extensions
 
             var types = services.Where(sd => sd.Key.Assembly.FullName.StartsWith("Liquid.Messaging") &&
                                               (sd.Key.Name.StartsWith("ILightConsumer") || sd.Key.Name.StartsWith("ILightProducer")));
-
+            
             types.Each(type => serviceProvider.GetService(type.Key));
 
             return serviceProvider;

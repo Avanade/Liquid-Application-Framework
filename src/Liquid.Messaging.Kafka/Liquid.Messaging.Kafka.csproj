@@ -10,7 +10,7 @@
 	  <Copyright>Avanade 2019</Copyright>
 	  <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
 	  <PackageIcon>logo.png</PackageIcon>
-	  <Version>2.0.0-preview-20220811-01</Version>
+	  <Version>6.0.0-preview-20221201-01</Version>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <Description>
 		  The Liquid.Messaging.Kafka provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
@@ -27,8 +27,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Confluent.Kafka" Version="1.9.2" />
-    <PackageReference Include="Liquid.Messaging" Version="2.0.0" />
+    <PackageReference Include="Confluent.Kafka" Version="1.9.3" />
+    <PackageReference Include="Liquid.Messaging" Version="2.0.2" />
   </ItemGroup>
 
 </Project>

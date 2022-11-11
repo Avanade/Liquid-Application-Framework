@@ -67,7 +67,7 @@ namespace Liquid.Messaging.Kafka
         }
 
         private Message<Null, string> GetMessage(TEntity messageBody, IDictionary<string, object> customProperties)
-        {
+        {            
             var message = !_settings.CompressMessage ? messageBody.ToJson() : Encoding.UTF8.GetString(messageBody.ToJson().GzipCompress());
 
             var request = new Message<Null, string>

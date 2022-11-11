@@ -42,7 +42,7 @@ namespace Liquid.Messaging.ServiceBus
         public async Task SendMessageAsync(TEntity messageBody, IDictionary<string, object> customProperties = null)
         {
             try
-            {
+            {                
                 await _messageSender.SendAsync(ToMessage(messageBody, customProperties));
             }
             catch (Exception ex)

@@ -1,4 +1,5 @@
-﻿using Liquid.Core.Utils;
+﻿using Liquid.Core.Extensions;
+using Liquid.Core.Utils; 
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using Liquid.Messaging.Interfaces;
@@ -47,7 +48,7 @@ namespace Liquid.Messaging.RabbitMq
                 {
                     var messageProperties = GetProperties(customProperties);
 
-                    var messageBytes = !_settings.CompressMessage ? messageBody.ToJsonBytes() : messageBody.ToJson().GzipCompress();
+                    var messageBytes = !_settings.CompressMessage ? messageBody.ToJsonBytes() : messageBody.ToJsonString().GzipCompress();
 
                     _channelModel.BasicPublish(_settings.Exchange, string.Empty, messageProperties, messageBytes);
 

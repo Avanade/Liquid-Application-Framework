@@ -36,6 +36,12 @@ namespace Liquid.Messaging.RabbitMq
             _channelModel = factory.GetSender(settings);
         }
 
+        /// <inheritdoc/>
+        public Task ScheduleMessageAsync(DateTimeOffset scheduleEnqueueTimeUtc, TEntity messageBody, IDictionary<string, object> customProperties = null)
+        {
+            throw new NotImplementedException();
+        }
+
 
         ///<inheritdoc/>
         public async Task SendMessageAsync(TEntity messageBody, IDictionary<string, object> customProperties = null)

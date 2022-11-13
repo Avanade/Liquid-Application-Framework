@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Liquid.Messaging.Interfaces
@@ -22,5 +23,14 @@ namespace Liquid.Messaging.Interfaces
         /// <param name="messageBody">Body of message to be sent.</param>
         /// <param name="customProperties">Message header properties.</param>
         Task SendMessageAsync(TEntity messageBody, IDictionary<string, object> customProperties = null);
+
+        /// <summary>
+        /// Structures and processes sending a <typeparamref name="TEntity"/> message with
+        /// its headers <paramref name="customProperties"/>.
+        /// </summary>
+        /// <param name="scheduleEnqueueTimeUtc">Scheduled Time to Enqueue a message.</param>
+        /// <param name="messageBody">Body of message to be sent.</param>
+        /// <param name="customProperties">Message header properties.</param>
+        Task ScheduleMessageAsync(DateTimeOffset scheduleEnqueueTimeUtc, TEntity messageBody, IDictionary<string, object> customProperties = null);
     }
 }

@@ -54,6 +54,19 @@ namespace Liquid.Messaging.ServiceBus.Tests
         }
 
         [Fact]
+        public async Task ScheduleMessageAsync_WhenSingleEntitySendedSuccessfully_ClientReceivedCall()
+        {
+            var customProperties = new Dictionary<string, object>();
+            customProperties.Add("test", 123);
+            var scheduledTime = DateTimeOffset.Now.AddMinutes(2);
+
+            await _sut.ScheduleMessageAsync(scheduledTime, _message, customProperties);
+
+            await _client.Received(1).ScheduleMessageAsync(Arg.Any<Message>(), scheduledTime);
+
+        }
+
+        [Fact]
         public async Task SendAsync_WhenSingleEntitySendFailed_ThrowError()
         {
             _client.When(x => x.SendAsync(Arg.Any<Message>())).Do((call) => throw new Exception());
@@ -75,6 +88,16 @@ namespace Liquid.Messaging.ServiceBus.Tests
             await Assert.ThrowsAsync<MessagingProducerException>(() => sut);
         }
 
+        [Fact]
+        public async Task ScheduleMessageAsync_WhenSingleEntitySendFailed_ThrowError()
+        {
+            var scheduledTime = DateTimeOffset.Now.AddMinutes(2);
+            _client.When(x => x.ScheduleMessageAsync(Arg.Any<Message>(), scheduledTime)).Do((call) => throw new Exception());
+
+            var sut = _sut.ScheduleMessageAsync(scheduledTime, _message, new Dictionary<string, object>());
+
+            await Assert.ThrowsAsync<MessagingProducerException>(() => sut);
+        }
 
     }
 }

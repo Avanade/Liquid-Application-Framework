@@ -50,6 +50,18 @@ namespace Liquid.Messaging.ServiceBus
                 throw new MessagingProducerException(ex);
             }
         }
+        ///<inheritdoc/>
+        public async Task ScheduleMessageAsync(DateTimeOffset scheduleEnqueueTimeUtc, TEntity messageBody, IDictionary<string, object> customProperties = null)
+        {
+            try
+            {
+                await _messageSender.ScheduleMessageAsync(ToMessage(messageBody, customProperties), scheduleEnqueueTimeUtc);
+            }
+            catch (Exception ex)
+            {
+                throw new MessagingProducerException(ex);
+            }
+        }
 
         private Message ToMessage(TEntity messageBody, IDictionary<string, object> customProperties = null)
         {
@@ -65,5 +77,7 @@ namespace Liquid.Messaging.ServiceBus
 
             return message;
         }
+
+        
     }
 }

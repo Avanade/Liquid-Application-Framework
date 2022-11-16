@@ -40,7 +40,6 @@ namespace Liquid.Messaging.ServiceBus.Tests
             await _sut.SendMessageAsync(_message, customProperties);
 
             await _client.Received(1).SendAsync(Arg.Any<Message>());
-
         }
 
         [Fact]
@@ -63,7 +62,6 @@ namespace Liquid.Messaging.ServiceBus.Tests
             await _sut.ScheduleMessageAsync(scheduledTime, _message, customProperties);
 
             await _client.Received(1).ScheduleMessageAsync(Arg.Any<Message>(), scheduledTime);
-
         }
 
         [Fact]

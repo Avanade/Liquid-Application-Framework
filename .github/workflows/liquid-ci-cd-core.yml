@@ -8,7 +8,7 @@ on:
     - 'src/Liquid.Core/**'
     
   pull_request:
-    branches: [ main ]
+    branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
     - 'src/Liquid.Core/**'

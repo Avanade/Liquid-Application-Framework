@@ -32,7 +32,7 @@ namespace Liquid.Domain.PipelineBehaviors
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <param name="next"> Awaitable delegate for the next action in the pipeline. Eventually this delegate 
         /// represents the handler.</param>
-        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
             if (_validators.Any())
             {

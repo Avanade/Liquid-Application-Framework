@@ -2,7 +2,6 @@
 using Liquid.Core.Settings;
 using Liquid.Messaging.Interfaces;
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +12,6 @@ namespace Liquid.Messaging.Decorators
     /// Configures the culture in the current thread.
     /// Includes its behavior in worker service before process execution.
     /// </summary>
-    [ExcludeFromCodeCoverage]
     public class LiquidCultureDecorator<TEntity> : ILiquidWorker<TEntity>
     {
         private const string _culture = "culture";
@@ -45,8 +43,8 @@ namespace Liquid.Messaging.Decorators
 
             if (cultureCode != null)
             {
-                CultureInfo.CurrentCulture = new CultureInfo(cultureCode.ToString());
-                CultureInfo.CurrentUICulture = new CultureInfo(cultureCode.ToString());
+                CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(cultureCode.ToString());
+                CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(cultureCode.ToString());
             }
 
             await _inner.ProcessMessageAsync(args, cancellationToken);

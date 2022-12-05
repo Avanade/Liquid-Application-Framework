@@ -1,8 +1,6 @@
 ﻿using Liquid.Core.Attributes;
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
 namespace Liquid.Core.Settings
 {
@@ -18,5 +16,5 @@ namespace Liquid.Core.Settings
         /// </summary>
         public List<ScopedKey> Keys { get; set; } = new List<ScopedKey>();
     }
-   
+
 }

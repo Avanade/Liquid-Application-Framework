@@ -1,7 +1,7 @@
-﻿using Liquid.Core.Interfaces;
+﻿using Liquid.Core.Extensions;
+using Liquid.Core.Interfaces;
 using Liquid.Core.Localization.Entities;
 using Liquid.Core.Settings;
-using Liquid.Core.Utils;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;

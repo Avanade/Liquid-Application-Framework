@@ -1,14 +1,14 @@
 <configuration>
-  <cache-config cache-name="myCache" alias="" config-id="e097c2c0-88af-4aa2-8a8a-c6432eeaa3fe" config-version="0">
+  <cache-config cache-name="myCache" alias="" config-id="e097c2c0-88af-4aa2-8a8a-c6432eeaa3fe" config-version="0" store-type="distributed-cache">
     <cache-settings inproc="True" last-modified="" auto-start="False" data-format="Binary">
       <logging enable-logs="True" trace-errors="True" trace-notices="False" trace-warnings="False" trace-debug="False" log-path=""/>
       <performance-counters enable-counters="True" snmp-port="0"/>
       <data-load-balancing enabled="False" auto-balancing-threshold="60%" auto-balancing-interval="30sec"/>
       <compression enable-compression="False" threshold="100kb"/>
       <client-death-detection/>
-      <client-activity-notification enabled="False" retention-period="2sec"/>
+      <client-activity-notification enabled="False" retention-period="5sec"/>
       <cache-notifications item-remove="False" item-add="False" item-update="False"/>
-      <cleanup interval="3sec"/>
+      <cleanup interval="15sec"/>
       <storage type="heap" cache-size="1024mb"/>
       <eviction-policy enabled-eviction="True" default-priority="normal" policy="lru" eviction-ratio="5%"/>
       <expiration-policy enabled="False">

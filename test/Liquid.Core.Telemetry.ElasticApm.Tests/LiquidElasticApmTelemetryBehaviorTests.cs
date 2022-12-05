@@ -31,10 +31,10 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             var pipelineBehavior = new LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>(_logger, _tracer); 
 
             // Act
-            await pipelineBehavior.Handle(new RequestMock(), CancellationToken.None, () => 
+            await pipelineBehavior.Handle(new RequestMock(), () => 
             { 
                 return handler.Handle(new RequestMock(), CancellationToken.None); 
-            });
+            }, CancellationToken.None);
 
             // Assert
             _logger.Received(2);
@@ -50,10 +50,10 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
 
             // Act
             await Assert.ThrowsAsync<NotImplementedException>(() => 
-                pipelineBehavior.Handle(new RequestMock(), CancellationToken.None, () =>
+                pipelineBehavior.Handle(new RequestMock(), () =>
                 {
                     return handler.Handle(new RequestMock(), CancellationToken.None);
-                })
+                }, CancellationToken.None)
             );
 
             // Assert

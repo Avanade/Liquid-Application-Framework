@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.0.0</Version>
+    <Version>6.0.0-preview-20221201-01</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>
       The Liquid.Messaging.Azure provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.

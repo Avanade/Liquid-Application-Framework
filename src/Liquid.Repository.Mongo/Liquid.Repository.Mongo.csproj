@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Repository</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>2.2.0</Version>
+    <Version>6.0.0-preview-20221201-01</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <DebugType>Full</DebugType>
@@ -25,9 +25,10 @@
   
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Repository" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
+    <PackageReference Include="Liquid.Repository" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.14.0" />
   </ItemGroup>
 
@@ -36,5 +37,9 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Repository\Liquid.Repository.csproj" />
   </ItemGroup>
 </Project>

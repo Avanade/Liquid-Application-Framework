@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Implementations;
-using Liquid.Repository.Mongo.Tests.Mock;
 using Liquid.Repository.Mongo.Extensions;
+using Liquid.Repository.Mongo.Tests.Mock;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Mongo2Go;
@@ -9,7 +10,6 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Configuration;
 
 namespace Liquid.Repository.Mongo.Tests
 {
@@ -53,8 +53,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _configuration = new ConfigurationBuilder()
                                         .AddInMemoryCollection(mongoDatabaseConfiguration)
-                                        .AddInMemoryCollection(mongoEntityConfiguration)
-                                        .Build();
+                                        .AddInMemoryCollection(mongoEntityConfiguration).Build();
 
             _services.AddSingleton<IConfiguration>(_configuration);
         }

@@ -111,7 +111,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             Assert.Null(result);
         }
-        
+
         [Test]
         public async Task RemoveByIdAsync_WhenCommitTransaction_ItemDeleted()
         {

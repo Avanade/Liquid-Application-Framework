@@ -76,7 +76,7 @@ namespace Liquid.Repository.Mongo.Tests
         public void DisposeResources()
         {
             _unitOfWork.Dispose();
-            _runner.Dispose();
+            //_runner.Dispose();
 
             _serviceProvider = null;
             _sut = null;

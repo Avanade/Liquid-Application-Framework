@@ -37,10 +37,8 @@ namespace Liquid.Repository.Mongo.Tests
 
 
         [TearDown]
-        public void DisposeResources() 
+        public void DisposeResources()
         {
-            _runner.Dispose();
-
             _correctDatabaseSettings = null;
             _sut = null;
             _runner = null;

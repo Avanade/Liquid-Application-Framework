@@ -1,5 +1,5 @@
 ﻿using Liquid.Repository.Configuration;
-using Mongo2Go;
+using EphemeralMongo;
 using NUnit.Framework;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -10,7 +10,7 @@ namespace Liquid.Repository.Mongo.Tests
     public class MongoClientFactoryTests
     {
         private IMongoClientFactory _sut;
-        internal static MongoDbRunner _runner;
+        internal static IMongoRunner _runner;
         internal const string _databaseName = "TestDatabase";
         private DatabaseSettings _correctDatabaseSettings;
         private DatabaseSettings _wrongDatabaseSettings;
@@ -18,7 +18,13 @@ namespace Liquid.Repository.Mongo.Tests
         [SetUp]
         protected void SetContext()
         {
-            _runner = MongoDbRunner.Start(singleNodeReplSet: false);
+            var options = new MongoRunnerOptions
+            {
+                AdditionalArguments = "--quiet", 
+                KillMongoProcessesWhenCurrentProcessExits = true
+            };
+
+            _runner = MongoRunner.Run(options);
 
             _correctDatabaseSettings = new DatabaseSettings()
             {
@@ -41,6 +47,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             _correctDatabaseSettings = null;
             _sut = null;
+            _runner.Dispose();
             _runner = null;
         }
 

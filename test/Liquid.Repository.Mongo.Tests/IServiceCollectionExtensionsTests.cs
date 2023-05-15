@@ -4,7 +4,7 @@ using Liquid.Repository.Mongo.Tests.Mock;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Mongo2Go;
+using EphemeralMongo;
 using NSubstitute;
 using NUnit.Framework;
 using System;
@@ -23,12 +23,19 @@ namespace Liquid.Repository.Mongo.Tests
         private IServiceCollection _services;
         private IServiceProvider _serviceProvider;
         private IConfiguration _configuration;
-        private MongoDbRunner _runner;
+        private IMongoRunner _runner;
 
         [SetUp]
         public void Setup()
         {
-            _runner = MongoDbRunner.Start(singleNodeReplSet: true);
+            var options = new MongoRunnerOptions
+            {
+                UseSingleNodeReplicaSet = true,
+                AdditionalArguments = "--quiet",
+                KillMongoProcessesWhenCurrentProcessExits = true
+            };
+
+            _runner = MongoRunner.Run(options);
 
             _services = new ServiceCollection();
 
@@ -64,6 +71,7 @@ namespace Liquid.Repository.Mongo.Tests
             _configuration = null;
             _serviceProvider = null;
             _services = null;
+            _runner.Dispose();
             _runner = null;
         }
 

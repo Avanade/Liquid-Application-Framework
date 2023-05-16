@@ -25,6 +25,7 @@
   
 
   <ItemGroup>
+	<PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20221201-01" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
@@ -38,7 +39,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Liquid.Repository\Liquid.Repository.csproj" />
-  </ItemGroup>
 </Project>

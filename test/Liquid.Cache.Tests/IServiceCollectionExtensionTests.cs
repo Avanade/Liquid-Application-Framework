@@ -1,10 +1,9 @@
-﻿using Liquid.Cache.DistributedCache.Extensions.DependencyInjection;
+﻿using Liquid.Cache.Extensions.DependencyInjection;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Liquid.Cache.Tests

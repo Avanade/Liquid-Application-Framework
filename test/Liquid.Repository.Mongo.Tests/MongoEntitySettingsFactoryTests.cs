@@ -1,13 +1,8 @@
 ﻿using Liguid.Repository.Configuration;
-using Liquid.Core.Interfaces;
-using Liquid.Repository.Configuration;
 using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Exceptions;
 using Liquid.Repository.Mongo.Tests.Mock;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
-using Mongo2Go;
-using NSubstitute;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;

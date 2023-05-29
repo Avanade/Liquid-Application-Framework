@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Liquid.Core.Extensions;
 using Liquid.Core.Utils;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -22,7 +23,7 @@ namespace Liquid.WebApi.Http.Filters.Swagger
         {
             var paths = swaggerDoc.Paths.OrderBy(e => e.Key);
             swaggerDoc.Paths = new OpenApiPaths();
-            paths.Each(path => swaggerDoc.Paths.Add(path.Key, path.Value));
+            paths.AsEnumerable().Each(path => swaggerDoc.Paths.Add(path.Key, path.Value));
         }
     }
 }

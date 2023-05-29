@@ -1,5 +1,5 @@
-﻿using Liquid.Core.Extensions.DependencyInjection;
-using Liquid.Core.Utils;
+﻿using Liquid.Core.Extensions;
+using Liquid.Core.Extensions.DependencyInjection;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;

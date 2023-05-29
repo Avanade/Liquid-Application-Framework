@@ -39,7 +39,6 @@ To use Liquid, you create a new base ASP.Net Core application and then download 
 | [`Liquid.Messaging`](https://www.nuget.org/packages/Liquid.Messaging) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging) |
 | [`Liquid.Services`](https://www.nuget.org/packages/Liquid.Services) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Services) |
 | [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi.Http) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Http) |
-| [`Liquid.WebApi.Grpc`](https://www.nuget.org/packages/Liquid.WebApi.Grpc) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Grpc) |
 
 And then choose the implementation cartridges you need to your project, for example:
 

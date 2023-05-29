@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <Nullable>enable</Nullable>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <Authors>Avanade Brazil</Authors>
+	  <Company>Avanade Inc.</Company>
+	  <Product>Liquid Application Framework</Product>
+	  <Copyright>Avanade 2019</Copyright>
+	  <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
+	  <PackageIcon>logo.png</PackageIcon>
+	  <Version>2.0.0-preview-2022090901-01</Version>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <IsPackable>true</IsPackable>
+	  <DebugType>Full</DebugType>
+	  <Description>
+		  Distributed cache extension of Microsoft.Extensions.Caching.StackExchangeRedis.
+		  This component is part of Liquid Application Framework.
+	  </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\logo.png" Link="logo.png">
+      <PackagePath></PackagePath>
+      <Pack>True</Pack>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Liquid.Cache" Version="2.0.0-preview-2022090901-02" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="6.0.8" />
+  </ItemGroup>
+
+</Project>

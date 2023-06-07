@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Elastic.Apm.NetCoreAll;
+using Liquid.Core.Telemetry.ElasticApm.Implementations;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 
@@ -20,6 +21,8 @@ namespace Liquid.Core.Telemetry.ElasticApm.Extensions.DependencyInjection
             if (configuration.HasElasticApmEnabled())
             {
                 builder.UseAllElasticApm(configuration);
+
+                builder.UseMiddleware<LiquidElasticApmMiddleware>();
             }
 
             return builder;

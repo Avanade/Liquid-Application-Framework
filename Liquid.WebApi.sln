@@ -11,11 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Grpc.Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{7B0BC311-679F-4D1F-BE49-DF3E49863792}"
 	ProjectSection(SolutionItems) = preProject
-		.github\workflows\liquid-ci-cd-grpc-cartridge.yml = .github\workflows\liquid-ci-cd-grpc-cartridge.yml
-		.github\workflows\liquid-ci-cd-http-cartridge.yml = .github\workflows\liquid-ci-cd-http-cartridge.yml
+		.github\workflows\liquid-ci-cd-http-extensions-crud.yml = .github\workflows\liquid-ci-cd-http-extensions-crud.yml
+		.github\workflows\liquid-ci-cd-http.yml = .github\workflows\liquid-ci-cd-http.yml
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grcp", "Grcp", "{15BED263-E56A-45B2-A647-7D44500383E1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grpc", "Grpc", "{15BED263-E56A-45B2-A647-7D44500383E1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Http", "Http", "{13C213E0-722A-4CD5-9209-21E12FDA0CA8}"
 EndProject

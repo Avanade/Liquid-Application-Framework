@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
+using System.Linq;
 using System.Text;
+using Liquid.Core.Extensions;
 using Liquid.Core.Utils;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -24,7 +26,7 @@ namespace Liquid.WebApi.Http.Filters.Swagger
             if (operation.Parameters == null) return;
 
             var builder = new StringBuilder($"{context?.ApiDescription?.HttpMethod}_{context?.MethodInfo.Name}_{context?.ApiDescription?.RelativePath?.Replace("/", "_")}_{operation.OperationId}By");
-            operation.Parameters.Each(parameter => builder.Append(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameter.Name)));
+            operation.Parameters.AsEnumerable().Each(parameter => builder.Append(CultureInfo.CurrentCulture.TextInfo.ToTitleCase(parameter.Name)));
             operation.OperationId = builder.ToString();
         }
     }

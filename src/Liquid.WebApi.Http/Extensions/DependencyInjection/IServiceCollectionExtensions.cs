@@ -1,4 +1,5 @@
 ﻿using Liquid.Core.Exceptions;
+using Liquid.Core.Extensions;
 using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
@@ -11,6 +12,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 
 namespace Liquid.WebApi.Http.Extensions.DependencyInjection
@@ -70,7 +72,7 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
                 options.OperationFilter<DefaultResponseFilter>();
                 options.OperationFilter<OverloadMethodsSameVerb>();
 
-                Directory.GetFiles(AppContext.BaseDirectory, "*.xml").Each(file => options.IncludeXmlComments(file));
+                Directory.GetFiles(AppContext.BaseDirectory, "*.xml").AsEnumerable().Each(file => options.IncludeXmlComments(file));
 
                 options.CustomSchemaIds(x => x.FullName);
             });

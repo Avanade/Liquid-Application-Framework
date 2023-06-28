@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31005.135
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository", "src\Liquid.Repository\Liquid.Repository.csproj", "{35EC4C0D-9308-499C-A679-1D1FDDF6286B}"
 EndProject
@@ -32,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\liquid-repository-mongodb-cd-nuget-publish.yml = .github\workflows\liquid-repository-mongodb-cd-nuget-publish.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Repository.Tests", "test\Liquid.Repository.Tests\Liquid.Repository.Tests.csproj", "{6CF487B8-302C-40C3-809C-89D1DED813D9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.Tests", "test\Liquid.Repository.Tests\Liquid.Repository.Tests.csproj", "{6CF487B8-302C-40C3-809C-89D1DED813D9}"
 	ProjectSection(ProjectDependencies) = postProject
 		{35EC4C0D-9308-499C-A679-1D1FDDF6286B} = {35EC4C0D-9308-499C-A679-1D1FDDF6286B}
 	EndProjectSection

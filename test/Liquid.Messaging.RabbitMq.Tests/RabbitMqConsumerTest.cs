@@ -1,4 +1,4 @@
-﻿using Liquid.Core.Utils;
+﻿using Liquid.Core.Extensions;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.RabbitMq.Settings;
 using Liquid.Messaging.RabbitMq.Tests.Mock;

@@ -30,7 +30,7 @@ namespace Liquid.WebApi.Http.Extensions.Crud.Controllers
         {
             await ExecuteAsync(new AddGenericEntityCommand<TEntity, TIdentifier>(entity));
 
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = entity.Id }, entity);
+            return CreatedAtAction("GetById", new { id = entity.Id }, entity);
         }
 
         ///<inheritdoc/>

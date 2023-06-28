@@ -8,14 +8,18 @@ namespace Liquid.Messaging.RabbitMq
 {
     ///<inheritdoc/>
     [ExcludeFromCodeCoverage]
-    public class RabbitMqFactory : IRabbitMqFactory
+    public class RabbitMqFactory : IRabbitMqFactory, IDisposable
     {
+
+        private IConnection _connection;
+        private IModel _model;
+        private bool _disposed;
+
         /// <summary>
         /// Initialize a new instace of <see cref="RabbitMqFactory"/>
         /// </summary>
         public RabbitMqFactory()
         {
-
         }
 
         ///<inheritdoc/>
@@ -23,28 +27,31 @@ namespace Liquid.Messaging.RabbitMq
         {
             try
             {
-                var connectionFactory = new ConnectionFactory
+                if (_connection == null && _model == null)
                 {
-                    Uri = new Uri(settings.QueueSettings.ConnectionString),
-                    RequestedHeartbeat = TimeSpan.FromSeconds(settings.QueueSettings?.RequestHeartBeatInSeconds ?? 60),
-                    AutomaticRecoveryEnabled = settings.QueueSettings?.AutoRecovery ?? true
-                };
+                    var connectionFactory = new ConnectionFactory
+                    {
+                        Uri = new Uri(settings.QueueSettings.ConnectionString),
+                        RequestedHeartbeat = TimeSpan.FromSeconds(settings.QueueSettings?.RequestHeartBeatInSeconds ?? 60),
+                        AutomaticRecoveryEnabled = settings.QueueSettings?.AutoRecovery ?? true
+                    };
 
-                var connection = connectionFactory.CreateConnection();
-                var channelModel = connection.CreateModel();
+                    _connection = connectionFactory.CreateConnection(settings.QueueSettings.ConnectionName);
+                    _model = _connection.CreateModel();
+                }
 
                 if (settings.QueueSettings.Prefetch.HasValue &&
                     settings.QueueSettings.PrefetchCount.HasValue &&
                     settings.QueueSettings.Global.HasValue)
                 {
-                    channelModel.BasicQos(settings.QueueSettings.Prefetch.Value,
+                    _model.BasicQos(settings.QueueSettings.Prefetch.Value,
                         settings.QueueSettings.PrefetchCount.Value,
                         settings.QueueSettings.Global.Value);
                 }
 
-                channelModel.QueueBind(settings.Queue, settings.Exchange, string.Empty);
+                _model.QueueBind(settings.Queue, settings.Exchange, string.Empty);
 
-                return channelModel;
+                return _model;
             }
             catch (Exception ex)
             {
@@ -58,22 +65,53 @@ namespace Liquid.Messaging.RabbitMq
         {
             try
             {
-                var connectionFactory = new ConnectionFactory
+                if (_connection == null && _model == null)
                 {
-                    Uri = new Uri(settings.QueueSettings.ConnectionString),
-                    RequestedHeartbeat = TimeSpan.FromSeconds(settings.QueueSettings?.RequestHeartBeatInSeconds ?? 60),
-                    AutomaticRecoveryEnabled = settings.QueueSettings?.AutoRecovery ?? true
-                };
+                    var connectionFactory = new ConnectionFactory
+                    {
+                        Uri = new Uri(settings.QueueSettings.ConnectionString),
+                        RequestedHeartbeat = TimeSpan.FromSeconds(settings.QueueSettings?.RequestHeartBeatInSeconds ?? 60),
+                        AutomaticRecoveryEnabled = settings.QueueSettings?.AutoRecovery ?? true
+                    };
 
-                var connection = connectionFactory.CreateConnection();
-                var channelModel = connection.CreateModel();
-                
-                return channelModel;
+                    _connection = connectionFactory.CreateConnection(settings.QueueSettings.ConnectionName);
+                    _model = _connection.CreateModel();
+                }
+
+                return _model;
             }
             catch (Exception ex)
             {
                 throw new MessagingMissingConfigurationException(ex, "for exange '" + settings?.Exchange + "'");
             }
         }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <param name="disposing">Indicates if method should perform dispose.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    _connection?.Dispose();
+                    _model?.Dispose();
+                }
+
+                _disposed = true;
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
     }
 }

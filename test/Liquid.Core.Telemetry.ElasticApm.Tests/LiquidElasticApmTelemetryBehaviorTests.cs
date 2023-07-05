@@ -13,13 +13,10 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
 {
     public class LiquidElasticApmTelemetryBehavior
     {
-        private readonly ILogger<LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>> _logger;
-
         private readonly ITracer _tracer;
 
         public LiquidElasticApmTelemetryBehavior()
         {
-            _logger = Substitute.For<ILogger<LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>>>();
             _tracer = Substitute.For<ITracer>();
         }
 
@@ -28,7 +25,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
         {
             // Arrange
             var handler = Substitute.For<IRequestHandler<RequestMock, ResponseMock>>();
-            var pipelineBehavior = new LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>(_logger, _tracer); 
+            var pipelineBehavior = new LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>(_tracer); 
 
             // Act
             await pipelineBehavior.Handle(new RequestMock(), () => 
@@ -37,7 +34,6 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             }, CancellationToken.None);
 
             // Assert
-            _logger.Received(2);
             _tracer.Received(1);
         }
 
@@ -46,7 +42,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
         {
             // Arrange
             var handler = new CommandHandlerMock();
-            var pipelineBehavior = new LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>(_logger, _tracer);
+            var pipelineBehavior = new LiquidElasticApmTelemetryBehavior<RequestMock, ResponseMock>(_tracer);
 
             // Act
             await Assert.ThrowsAsync<NotImplementedException>(() => 
@@ -57,7 +53,6 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
             );
 
             // Assert
-            _logger.Received(3);
             _tracer.Received(1);
         }
     }

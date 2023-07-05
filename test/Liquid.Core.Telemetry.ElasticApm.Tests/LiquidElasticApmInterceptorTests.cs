@@ -16,17 +16,13 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
 
         private readonly IMockService _service;
 
-        private readonly ILogger<LiquidElasticApmInterceptor> _logger;
-
         private readonly ITracer _tracer;
 
         public LiquidElasticApmInterceptorTests()
         {
-            _logger = Substitute.For<ILogger<LiquidElasticApmInterceptor>>();
-
             _tracer = Substitute.For<ITracer>();
 
-            _sut = new LiquidElasticApmInterceptor(_logger, _tracer);
+            _sut = new LiquidElasticApmInterceptor(_tracer);
 
             var generator = new ProxyGenerator();
 
@@ -42,8 +38,6 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
         {
             await _service.Get();
 
-            _logger.Received(0);
-
             _tracer.Received(1);
         }
 
@@ -51,8 +45,6 @@ namespace Liquid.Core.Telemetry.ElasticApm.Tests
         public async Task Intercept_WhenMethodExecutionThrowsException_TracerStartsLogsException()
         {
             await Assert.ThrowsAsync<NotImplementedException>(() => _service.GetError());
-
-            _logger.Received(1);
 
             _tracer.Received(1);
         }

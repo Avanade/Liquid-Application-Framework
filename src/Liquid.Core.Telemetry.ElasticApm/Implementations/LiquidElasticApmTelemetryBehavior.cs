@@ -15,18 +15,15 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
     /// <typeparam name="TResponse">Type of response object obtained upon return of request.</typeparam>
     public sealed class LiquidElasticApmTelemetryBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
-        private readonly ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> _logger;
-
         private readonly ITransaction _transaction;
+        private ISpan _span;
 
         /// <summary>
         /// Initialize an instance of <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/>
         /// </summary>
-        /// <param name="logger"><see cref="ILogger{TCategoryName}"/> implementation where TCategoryName is a <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/> instance.</param>
         /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
-        public LiquidElasticApmTelemetryBehavior(ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> logger, ITracer tracer)
+        public LiquidElasticApmTelemetryBehavior(ITracer tracer)
         {
-            _logger = logger;
             _transaction = tracer?.CurrentTransaction;
         }
 
@@ -43,21 +40,14 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
 
             TResponse response = default;
 
-            var span = _transaction?.StartSpan(methodInfo.Name, methodInfo.ReflectedType.Name);
             try
             {
                 await BeforeRequest(methodInfo);
                 response = await next();
             }
-            catch (Exception ex)
-            {
-                await OnExceptionResponse(methodInfo, ex);
-                throw;
-            }
             finally
             {
                 await AfterResponse(methodInfo);
-                span?.End();
             }
 
             return response;
@@ -65,19 +55,13 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
 
         private Task AfterResponse(MethodInfo methodInfo)
         {
-            _logger?.LogInformation($"Execution of {methodInfo.Name} from {methodInfo.ReflectedType.Name} has ended.");
-            return Task.CompletedTask;
-        }
-
-        private Task OnExceptionResponse(MethodInfo methodInfo, Exception exception)
-        {
-            _logger?.LogError(exception, $"Execution of {methodInfo.Name} from {methodInfo.ReflectedType.Name} has thrown an exception.");
+            _span?.End();
             return Task.CompletedTask;
         }
 
         private Task BeforeRequest(MethodInfo methodInfo)
         {
-            _logger?.LogInformation($"Starting execution of {methodInfo.Name} from {methodInfo.ReflectedType.Name}.");
+            _span = _transaction?.StartSpan(methodInfo.Name, methodInfo.ReflectedType.Name);
             return Task.CompletedTask;
         }
     }

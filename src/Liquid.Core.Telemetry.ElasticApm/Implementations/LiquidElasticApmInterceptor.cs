@@ -16,16 +16,14 @@ namespace Liquid.Core.Telemetry.ElasticApm.Implementations
 
         private readonly ITracer _tracer;
 
-        private ISpan span;
+        private ISpan _span;
 
         /// <summary>
         /// Initialize an instance of <see cref="LiquidElasticApmInterceptor"/>
         /// </summary>
-        /// <param name="logger"><see cref="ILogger{LiquidElasticApmInterceptor}"/> implementation.</param>
         /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
-        public LiquidElasticApmInterceptor(ILogger<LiquidElasticApmInterceptor> logger, ITracer tracer)
+        public LiquidElasticApmInterceptor(ITracer tracer)
         {
-            _logger = logger;
             _tracer = tracer;
         }
 
@@ -38,7 +36,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Implementations
         /// <param name="result">Result object.</param>
         protected override Task AfterInvocation<TResult>(IInvocation invocation, IInvocationProceedInfo proceedInfo, TResult result)
         {
-            span?.End();
+            _span?.End();
             return Task.CompletedTask;
         }
 
@@ -49,7 +47,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Implementations
         /// <param name="proceedInfo"> The Castle.DynamicProxy.IInvocationProceedInfo.</param>
         protected override Task BeforeInvocation(IInvocation invocation, IInvocationProceedInfo proceedInfo)
         {
-            span = _tracer?.CurrentTransaction?.StartSpan(invocation.TargetType.Name, invocation.Method.Name);
+            _span = _tracer?.CurrentTransaction?.StartSpan($"{invocation.TargetType.Name}.{invocation.Method.Name}", invocation.TargetType.Name);
             return Task.CompletedTask;
         }
 
@@ -61,9 +59,7 @@ namespace Liquid.Core.Telemetry.ElasticApm.Implementations
         /// <param name="exception">The <see cref="Exception"/> object.</param>
         protected override Task OnExceptionInvocation(IInvocation invocation, IInvocationProceedInfo proceedInfo, Exception exception)
         {
-            span?.End();
-
-            _logger?.LogError(exception, $"Execution of {invocation.Method.Name} from {invocation.TargetType.Name} has thrown an exception.");
+            _span.Outcome = Outcome.Failure;
             return Task.CompletedTask;
         }
     }

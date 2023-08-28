@@ -4,6 +4,7 @@ using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
 using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.RabbitMq.Settings;
+using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -25,7 +26,6 @@ namespace Liquid.Messaging.RabbitMq
         private IModel _channelModel;
         private readonly IRabbitMqFactory _factory;
         private readonly RabbitMqConsumerSettings _settings;
-
 
         ///<inheritdoc/>
         public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
@@ -51,7 +51,7 @@ namespace Liquid.Messaging.RabbitMq
         {
             if (ProcessMessageAsync is null)
             {
-                throw new NotImplementedException($"The {nameof(ProcessErrorAsync)} action must be added to class.");
+                throw new NotImplementedException($"The {nameof(ProcessMessageAsync)} action must be added to class.");
             }
 
             _channelModel = _factory.GetReceiver(_settings);
@@ -79,12 +79,12 @@ namespace Liquid.Messaging.RabbitMq
                     _channelModel.BasicAck(deliverEvent.DeliveryTag, false);
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 if (!_autoAck)
+                {
                     _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
-
-                throw new MessagingConsumerException(ex);
+                }
             }
         }
 

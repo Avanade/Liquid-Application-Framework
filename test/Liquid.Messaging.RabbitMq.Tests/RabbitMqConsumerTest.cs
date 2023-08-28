@@ -2,6 +2,7 @@
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.RabbitMq.Settings;
 using Liquid.Messaging.RabbitMq.Tests.Mock;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -15,6 +16,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
     public class RabbitMqConsumerTest : RabbitMqConsumer<MessageMock>
     {
         public static readonly IRabbitMqFactory _factory = Substitute.For<IRabbitMqFactory>();
+
         public RabbitMqConsumerTest()
             : base(_factory, new RabbitMqConsumerSettings())
         {
@@ -59,26 +61,6 @@ namespace Liquid.Messaging.RabbitMq.Tests
             ProcessMessageAsync += ProcessMessageAsyncMock;
 
             await MessageHandler(message, new CancellationToken());
-        }
-
-        [Fact]
-        public async Task MessageHandler_WhenProcessExecutionFail_ThrowException()
-        {
-            var message = new BasicDeliverEventArgs();
-
-            var entity = new MessageMock() { TestMessageId = 2 };
-
-            message.Body = entity.ToJsonBytes();
-
-            var messageReceiver = Substitute.For<IModel>();
-            _factory.GetReceiver(Arg.Any<RabbitMqConsumerSettings>()).Returns(messageReceiver);
-
-            ProcessMessageAsync += ProcessMessageAsyncMock;
-
-            var task = MessageHandler(message, new CancellationToken());
-
-            await Assert.ThrowsAsync<MessagingConsumerException>(() => task);
-
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously

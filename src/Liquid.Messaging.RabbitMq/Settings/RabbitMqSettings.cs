@@ -18,6 +18,14 @@ namespace Liquid.Messaging.RabbitMq.Settings
         public string ConnectionString { get; set; }
 
         /// <summary>
+        /// Gets or sets the name of the connection.
+        /// </summary>
+        /// <value>
+        /// The connection string.
+        /// </value>
+        public string ConnectionName { get; set; }
+
+        /// <summary>
         /// Gets or sets the request heart beat in seconds.
         /// </summary>
         /// <value>

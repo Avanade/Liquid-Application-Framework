@@ -26,6 +26,7 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
         public static IServiceCollection AddLiquidRabbitMqProducer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
         {
             services.TryAddTransient<IRabbitMqFactory, RabbitMqFactory>();
+
             if (activateTelemetry)
             {
                 services.AddScoped((provider) =>
@@ -94,7 +95,7 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
 
         private static IServiceCollection AddConsumer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
         {
-            services.AddTransient<IRabbitMqFactory, RabbitMqFactory>();
+            services.AddSingleton<IRabbitMqFactory, RabbitMqFactory>();
 
             if (activateTelemetry)
             {

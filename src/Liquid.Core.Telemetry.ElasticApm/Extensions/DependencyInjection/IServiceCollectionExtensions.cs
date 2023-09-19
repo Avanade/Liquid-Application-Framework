@@ -25,8 +25,6 @@ namespace Liquid.Core.Telemetry.ElasticApm.Extensions.DependencyInjection
             {
                 services.AddSingleton(s => Agent.Tracer);
 
-                services.AddTransient<LiquidElasticApmMiddleware>();
-
                 services.AddTransient<IAsyncInterceptor, LiquidElasticApmInterceptor>();
 
                 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LiquidElasticApmTelemetryBehavior<,>));

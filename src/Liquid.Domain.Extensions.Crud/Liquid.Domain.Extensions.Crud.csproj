@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Domain" Version="6.0.0-preview-20221201-01" />
-    <PackageReference Include="Liquid.Repository" Version="2.0.1" />
+    <PackageReference Include="Liquid.Domain" Version="6.0.0-preview-20230201-02" />
+    <PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20221201-01" />
   </ItemGroup>
   
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>Liquid.Domain.Extensions.Crud</AssemblyName>
     <RootNamespace>Liquid.Domain.Extensions.Crud</RootNamespace>
     <PackageId>Liquid.Domain.Extensions.Crud</PackageId>
@@ -17,7 +17,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Domain</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20230201-02</Version>
+    <Version>6.0.0-preview-20231131-1</Version>
     <ProjectGuid>{90E8D24B-E7A8-44E1-A1D4-E917F8130002}</ProjectGuid>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>

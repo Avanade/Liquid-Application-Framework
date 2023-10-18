@@ -79,7 +79,7 @@ namespace Liquid.Cache
         ///<inheritdoc/>
         public async Task<T> GetAsync<T>(string key, CancellationToken token = default)
         {
-            var response = await _distributedCache.GetAsync(key);
+            var response = await _distributedCache.GetAsync(key, token);
             return response.ParseJson<T>();
         }
 
@@ -92,7 +92,7 @@ namespace Liquid.Cache
         ///<inheritdoc/>
         public async Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default)
         {
-            await _distributedCache.SetAsync(key, value.ToJsonBytes(), options);
+            await _distributedCache.SetAsync(key, value.ToJsonBytes(), options, token);
         }
     }
 }

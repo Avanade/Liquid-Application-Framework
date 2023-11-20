@@ -1,8 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Liquid.Adapter.Dataverse
 {
     [Serializable]
+    [ExcludeFromCodeCoverage]
     internal class DataMappingException : Exception
     {
         public DataMappingException()

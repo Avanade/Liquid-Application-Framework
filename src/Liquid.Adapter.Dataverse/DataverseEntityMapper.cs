@@ -1,11 +1,10 @@
-﻿using Liquid.Adapter.Dataverse;
-using Microsoft.Xrm.Sdk;
+﻿using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CustomerRegistration.Infra.Dataverse
+namespace Liquid.Adapter.Dataverse
 {
     /// <summary>
     /// Implementation of <see cref="LiquidMapper{TFrom, TTo}"/> that

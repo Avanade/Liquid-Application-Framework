@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Adapter.Dataverse
 {
@@ -21,6 +16,7 @@ namespace Liquid.Adapter.Dataverse
         {
             _mapperName = mapperName;
         }
+        ///<inheritdoc/>
         public async Task<TTo> Map(TFrom dataObject, string? entityName = null)
         {
             if (dataObject is null)
@@ -39,7 +35,12 @@ namespace Liquid.Adapter.Dataverse
                 throw new DataMappingException(msg, e);
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dataObject"></param>
+        /// <param name="entityName"></param>
+        /// <returns></returns>
         protected abstract Task<TTo> MapImpl(TFrom dataObject, string? entityName = null);
     }
 }

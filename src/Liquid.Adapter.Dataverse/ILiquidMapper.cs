@@ -1,18 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Liquid.Adapter.Dataverse
+﻿namespace Liquid.Adapter.Dataverse
 {
     /// <summary>
     /// Defines object that map data between two instance types.
     /// </summary>
     /// <typeparam name="TFrom">type of data source object.</typeparam>
     /// <typeparam name="TTo">results object type.</typeparam>
-    public interface ILiquidMapper<TFrom,TTo>
+    public interface ILiquidMapper<TFrom, TTo>
     {
         /// <summary>
         /// Create a new instance of <see cref="TTo"/>

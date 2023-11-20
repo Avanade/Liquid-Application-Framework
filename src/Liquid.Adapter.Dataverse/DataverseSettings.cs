@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace CustomerRegistration.Infra.Dataverse
+namespace Liquid.Adapter.Dataverse
 {
     /// <summary>
     /// Set of dataverse connection configs.

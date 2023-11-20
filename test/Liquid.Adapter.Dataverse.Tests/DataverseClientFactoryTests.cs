@@ -1,4 +1,3 @@
-using CustomerRegistration.Infra.Dataverse;
 using Microsoft.Extensions.Options;
 using Microsoft.PowerPlatform.Dataverse.Client;
 using NSubstitute;

@@ -12,7 +12,6 @@ namespace Liquid.Adapter.Dataverse
     /// </summary>
     /// <typeparam name="TFrom">type of data source object.</typeparam>
     /// <typeparam name="TTo">results object type.</typeparam>
-    [ExcludeFromCodeCoverage]
     public interface ILiquidMapper<TFrom,TTo>
     {
         /// <summary>

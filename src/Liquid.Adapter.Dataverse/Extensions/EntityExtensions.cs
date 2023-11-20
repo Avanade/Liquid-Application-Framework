@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
-namespace CustomerRegistration.Infra.Dataverse
+namespace Liquid.Adapter.Dataverse.Extensions
 {
     /// <summary>
     /// Extension methods of <see cref="Entity"/>.

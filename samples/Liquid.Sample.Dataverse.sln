@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.34202.202
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Sample.Dataverse.Function", "src\Liquid.Sample.Dataverse.Function\Liquid.Sample.Dataverse.Function.csproj", "{577C7D6D-566D-4EA2-8C32-039C2C4E17DF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Sample.Dataverse.Domain", "src\Liquid.Sample.Dataverse.Domain\Liquid.Sample.Dataverse.Domain.csproj", "{7C47775D-45C7-463E-84DA-5B5B264D55F0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{577C7D6D-566D-4EA2-8C32-039C2C4E17DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{577C7D6D-566D-4EA2-8C32-039C2C4E17DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{577C7D6D-566D-4EA2-8C32-039C2C4E17DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{577C7D6D-566D-4EA2-8C32-039C2C4E17DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C47775D-45C7-463E-84DA-5B5B264D55F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C47775D-45C7-463E-84DA-5B5B264D55F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C47775D-45C7-463E-84DA-5B5B264D55F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C47775D-45C7-463E-84DA-5B5B264D55F0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FB41E555-2F25-4D02-8513-7EDC443A17D4}
+	EndGlobalSection
+EndGlobal

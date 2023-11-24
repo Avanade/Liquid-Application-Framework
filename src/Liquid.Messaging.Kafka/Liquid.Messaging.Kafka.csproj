@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
 	  <PackageId>Liquid.Messaging.Kafka</PackageId>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <Authors>Avanade Brazil</Authors>
@@ -29,6 +29,10 @@
   <ItemGroup>
     <PackageReference Include="Confluent.Kafka" Version="1.9.2" />
     <PackageReference Include="Liquid.Messaging" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Messaging\Liquid.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

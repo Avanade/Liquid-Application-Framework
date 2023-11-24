@@ -15,7 +15,7 @@ namespace Liquid.Messaging.Kafka.Tests.Mock
             _mediator = mediator;
         }
 
-        public async Task ProcessMessageAsync(ProcessMessageEventArgs<MessageMock> args, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ConsumerMessageEventArgs<MessageMock> args, CancellationToken cancellationToken)
         {
             await _mediator.Send(new MockRequest(args.Data));
         }

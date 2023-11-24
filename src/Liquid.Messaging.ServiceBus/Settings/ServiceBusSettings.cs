@@ -1,9 +1,23 @@
-﻿namespace Liquid.Messaging.ServiceBus.Settings
+﻿using System;
+using System.Collections.Generic;
+
+namespace Liquid.Messaging.ServiceBus.Settings
 {
     /// <summary>
     /// Service bus configuration properties set.
     /// </summary>
+    
     public class ServiceBusSettings
+    {
+        /// <summary>
+        /// Properties set list of service bus configurations.
+        /// </summary>
+        public List<ServiceBusEntitySettings> Settings { get; set; }
+    }
+    /// <summary>
+    /// Properties set of Service Bus entity configuration.
+    /// </summary>
+    public class ServiceBusEntitySettings
     {
         /// <summary>
         /// Connection string of Service Bus resource.
@@ -30,5 +44,4 @@
         /// </summary>
         public bool PeekLockMode { get; set; } = true;
     }
-
 }

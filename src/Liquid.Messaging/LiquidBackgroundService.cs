@@ -38,7 +38,7 @@ namespace Liquid.Messaging
         /// is called.</param>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _consumer.ProcessMessageAsync += ProcessMessageAsync;
+            _consumer.ConsumeMessageAsync += ProcessMessageAsync;
             _consumer.RegisterMessageHandler();
 
             await Task.CompletedTask;
@@ -51,7 +51,7 @@ namespace Liquid.Messaging
         /// </summary>
         /// <param name="args"></param>
         /// <param name="cancellationToken"></param>
-        public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ConsumerMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
             using (IServiceScope scope = _serviceProvider.CreateScope())
             {

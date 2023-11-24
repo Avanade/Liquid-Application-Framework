@@ -1,10 +1,12 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Messaging.Extensions.DependencyInjection;
 using Liquid.Messaging.Interfaces;
+using Liquid.Messaging.ServiceBus.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 
 namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
 {
@@ -21,16 +23,24 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <typeparam name="TEntity">Type of entity that will be consumed by this service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
+        /// <param name="entityPath">Entity path to configure this producer.</param>
         /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
-        public static IServiceCollection AddLiquidServiceBusProducer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
+        public static IServiceCollection AddLiquidServiceBusProducer<TEntity>(this IServiceCollection services, 
+            string sectionName, string entityPath, bool activateTelemetry = true)
         {
+            services.AddOptions<ServiceBusSettings>()
+             .Configure<IConfiguration>((settings, configuration) =>
+             {
+                 configuration.GetSection(sectionName).Bind(settings);
+             });
+
             services.TryAddTransient<IServiceBusFactory, ServiceBusFactory>();
 
             if (activateTelemetry)
             {
                 services.AddScoped((provider) =>
                 {
-                    return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, sectionName);
+                    return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, entityPath);
                 });
 
                 services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, ServiceBusProducer<TEntity>>();
@@ -39,7 +49,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
             {
                 services.AddScoped<ILiquidProducer<TEntity>>((provider) =>
                 {
-                    return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, sectionName);
+                    return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, entityPath);
                 });
             }
 
@@ -56,17 +66,24 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <typeparam name="TWorker">Type of implementation from <see cref="ILiquidWorker{TEntity}"/></typeparam>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="sectionName">Configuration section name.</param>
+        /// <param name="entityPath">Entity name to configure for this worker.</param>
         /// <param name="activateTelemetry">Indicates if telemetry interceptor must be registered.</param>
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
         public static IServiceCollection AddLiquidServiceBusConsumer<TWorker, TEntity>(this IServiceCollection services
             , string sectionName
+            , string entityPath
             , bool activateTelemetry = true
             , params Assembly[] assemblies)
              where TWorker : class, ILiquidWorker<TEntity>
         {
+            services.AddOptions<ServiceBusSettings>()
+             .Configure<IConfiguration>((settings, configuration) =>
+             {
+                 configuration.GetSection(sectionName).Bind(settings);
+             });
             services.AddLiquidMessageConsumer<TWorker, TEntity>(assemblies);
 
-            services.AddConsumer<TEntity>(sectionName, activateTelemetry);
+            services.AddConsumer<TEntity>(entityPath, activateTelemetry);
 
             return services;
         }

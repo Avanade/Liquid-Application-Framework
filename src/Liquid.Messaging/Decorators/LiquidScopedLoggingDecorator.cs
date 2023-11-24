@@ -36,7 +36,7 @@ namespace Liquid.Messaging.Decorators
         }
 
         ///<inheritdoc/>
-        public async Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ConsumerMessageEventArgs<TEntity> args, CancellationToken cancellationToken)
         {
             var scope = new List<KeyValuePair<string, object>>();
 

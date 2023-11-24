@@ -1,8 +1,8 @@
-﻿using Liquid.Messaging.Exceptions;
+﻿using Azure.Messaging.ServiceBus;
+using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
-using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.ServiceBus.Core;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
@@ -13,17 +13,17 @@ namespace Liquid.Messaging.ServiceBus
     ///<inheritdoc/>
     public class ServiceBusConsumer<TEntity> : ILiquidConsumer<TEntity>
     {
-        private IMessageReceiver _messageReceiver;
+        private ServiceBusProcessor _messageProcessor;
 
         private readonly IServiceBusFactory _factory;
 
         private readonly string _settingsName;
 
         ///<inheritdoc/>
-        public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
+        public event Func<ConsumerMessageEventArgs<TEntity>, CancellationToken, Task> ConsumeMessageAsync;
 
         ///<inheritdoc/>
-        public event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
+        public event Func<ConsumerErrorEventArgs, Task> ProcessErrorAsync;
 
         /// <summary>
         /// Initilize an instance of <see cref="ServiceBusConsumer{TEntity}"/>
@@ -39,50 +39,53 @@ namespace Liquid.Messaging.ServiceBus
         ///<inheritdoc/>
         public void RegisterMessageHandler()
         {
-            if (ProcessMessageAsync is null)
+            if (ConsumeMessageAsync is null)
             {
                 throw new NotImplementedException($"The {nameof(ProcessErrorAsync)} action must be added to class.");
             }
 
-            _messageReceiver = _factory.GetReceiver(_settingsName);
+            _messageProcessor = _factory.GetProcessor(_settingsName);
 
             ProcessErrorAsync += ProcessError;
 
-            _messageReceiver.RegisterMessageHandler(MessageHandler, new MessageHandlerOptions(ErrorHandler));
+            _messageProcessor.ProcessMessageAsync += MessageHandler;
+            _messageProcessor.ProcessErrorAsync += ErrorHandler;
+
+            _messageProcessor.StartProcessingAsync().GetAwaiter();
+
         }
 
         /// <summary>
         /// Process incoming messages.
         /// </summary>
         /// <param name="message">Message to be processed.</param>
-        /// <param name="cancellationToken"> Propagates notification that operations should be canceled.</param>
-        protected async Task MessageHandler(Message message, CancellationToken cancellationToken)
+        protected async Task MessageHandler(ProcessMessageEventArgs message)
         {
-            await ProcessMessageAsync(GetEventArgs(message), cancellationToken);
+            await ConsumeMessageAsync(GetEventArgs(message.Message), new CancellationToken());
         }
 
         /// <summary>
         /// Process exception from message handler.
         /// </summary>
         /// <param name="args"></param>
-        protected async Task ErrorHandler(ExceptionReceivedEventArgs args)
+        protected async Task ErrorHandler(ProcessErrorEventArgs args)
         {
-            await ProcessErrorAsync(new ProcessErrorEventArgs()
+            await ProcessErrorAsync(new ConsumerErrorEventArgs()
             {
-                Exception = args.Exception
+                Exception = args.Exception 
             });
         }
 
-        private ProcessMessageEventArgs<TEntity> GetEventArgs(Message message)
+        private ConsumerMessageEventArgs<TEntity> GetEventArgs(ServiceBusReceivedMessage message)
         {
             var data = JsonSerializer.Deserialize<TEntity>(Encoding.UTF8.GetString(message.Body));
 
-            var headers = message.UserProperties;
+            var headers = (IDictionary<string,object>)message.ApplicationProperties;
 
-            return new ProcessMessageEventArgs<TEntity> { Data = data, Headers = headers };
+            return new ConsumerMessageEventArgs<TEntity> { Data = data, Headers = headers };
         }
 
-        private Task ProcessError(ProcessErrorEventArgs args)
+        protected Task ProcessError(ConsumerErrorEventArgs args)
         {
             throw new MessagingConsumerException(args.Exception);
         }

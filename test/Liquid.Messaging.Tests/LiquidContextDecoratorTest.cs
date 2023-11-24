@@ -40,7 +40,7 @@ namespace Liquid.Messaging.Tests
             headers.Add("test", "sucess");
 
             var sut = new LiquidContextDecorator<EntityMock>(_inner, _context, _options);
-            await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>() { Headers = headers }, new CancellationToken());
+            await sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>() { Headers = headers }, new CancellationToken());
 
             Assert.Equal(headers["test"].ToString(), _context.current["test"]);
         }
@@ -52,7 +52,7 @@ namespace Liquid.Messaging.Tests
             var sut = new LiquidContextDecorator<EntityMock>(_inner, _context, _options);
 
             await Assert.ThrowsAsync<MessagingMissingContextKeysException>(() =>
-            sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>(), new CancellationToken()));
+            sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>(), new CancellationToken()));
         }
 
         [Fact]
@@ -62,7 +62,7 @@ namespace Liquid.Messaging.Tests
             headers.Add("test", "sucess");
 
             var sut = new LiquidContextDecorator<EntityMock>(_inner, _context, _options);
-            await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>() { Headers = headers }, new CancellationToken());
+            await sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>() { Headers = headers }, new CancellationToken());
 
             Assert.Equal(_context.current["culture"].ToString(), CultureInfo.CurrentCulture.Name);
         }

@@ -40,7 +40,7 @@ namespace Liquid.Messaging.Tests
             headers.Add("test", "sucess");
 
             var sut = new LiquidScopedLoggingDecorator<EntityMock>(_inner, _options, _logger);
-            await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>() { Headers = headers }, new CancellationToken());
+            await sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>() { Headers = headers }, new CancellationToken());
 
             _logger.Received().BeginScope(Arg.Any<Array>());
         }
@@ -52,7 +52,7 @@ namespace Liquid.Messaging.Tests
             var sut = new LiquidScopedLoggingDecorator<EntityMock>(_inner, _options, _logger);
 
             await Assert.ThrowsAsync<MessagingMissingScopedKeysException>(() =>
-           sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>(), new CancellationToken()));
+           sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>(), new CancellationToken()));
         }
     }
 }

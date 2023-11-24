@@ -10,16 +10,16 @@ namespace Liquid.Messaging.ServiceBus
         /// <summary>
         /// Initialize and return a new instance of <see cref="ServiceBusSender"/>.
         /// </summary>
-        ServiceBusSender GetSender(string sectionName);
+        ServiceBusSender GetSender(string entityPath);
 
         /// <summary>
         /// Initialize and return a new instance of <see cref="ServiceBusProcessor"/>
         /// </summary>
-        ServiceBusProcessor GetProcessor(string sectionName);
+        ServiceBusProcessor GetProcessor(string entityPath);
 
         /// <summary>
         /// Initialize and return a new instance of <see cref="ServiceBusReceiver"/>
         /// </summary>
-        ServiceBusReceiver GetReceiver(string sectionName);
+        ServiceBusReceiver GetReceiver(string entityPath);
     }
 }

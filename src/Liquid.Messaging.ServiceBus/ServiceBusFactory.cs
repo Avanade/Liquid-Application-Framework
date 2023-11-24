@@ -1,23 +1,26 @@
 ﻿using Azure.Messaging.ServiceBus;
+using Liquid.Core.Attributes;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.ServiceBus.Settings;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
+using System.Linq;
 
 namespace Liquid.Messaging.ServiceBus
 {
     ///<inheritdoc/>
     public class ServiceBusFactory : IServiceBusFactory
     {
-        private readonly IConfiguration _configuration;
+        private readonly ServiceBusSettings _options;
 
         /// <summary>
         /// Initialize a new instace of <see cref="ServiceBusFactory"/>
         /// </summary>
-        /// <param name="configuration">Configuration Providers</param>
-        public ServiceBusFactory(IConfiguration configuration)
+        /// <param name="settings">Configuration Providers</param>
+        public ServiceBusFactory(IOptions<ServiceBusSettings> settings)
         {
-            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+            _options = settings.Value ?? throw new ArgumentNullException(nameof(settings));
         }
 
         ///<inheritdoc/>
@@ -25,11 +28,17 @@ namespace Liquid.Messaging.ServiceBus
         {
             try
             {
-                var config = _configuration.GetSection(settingsName).Get<ServiceBusSettings>();
+                var config = _options.Settings.FirstOrDefault(x => x.EntityPath == settingsName);
 
-                var serviceBusClient = new ServiceBusClient(config.ConnectionString);
+                var options = new ServiceBusProcessorOptions();
 
-                var processor = serviceBusClient.CreateProcessor(config.EntityPath);
+                options.ReceiveMode = config.PeekLockMode ? ServiceBusReceiveMode.PeekLock : ServiceBusReceiveMode.ReceiveAndDelete;
+
+                options.MaxConcurrentCalls = config.MaxConcurrentCalls;
+
+                var serviceBusClient = new ServiceBusClient(config.ConnectionString);                
+
+                var processor = serviceBusClient.CreateProcessor(config.EntityPath, options);
 
                 return processor;
             }
@@ -42,7 +51,7 @@ namespace Liquid.Messaging.ServiceBus
         ///<inheritdoc/>
         public ServiceBusSender GetSender(string settingsName)
         {
-            var config = _configuration.GetSection(settingsName).Get<ServiceBusSettings>();
+            var config = _options.Settings.FirstOrDefault(x => x.EntityPath == settingsName);
 
             try
             {
@@ -60,12 +69,16 @@ namespace Liquid.Messaging.ServiceBus
         ///<inheritdoc/>
         public ServiceBusReceiver GetReceiver(string settingsName)
         {
-            var config = _configuration.GetSection(settingsName).Get<ServiceBusSettings>();
+            var config = _options.Settings.FirstOrDefault(x => x.EntityPath == settingsName);
 
             try
             {
                 var serviceBusClient = new ServiceBusClient(config.ConnectionString);
-                var receiver = serviceBusClient.CreateReceiver(config.EntityPath);
+                var options = new ServiceBusReceiverOptions();
+
+                options.ReceiveMode = config.PeekLockMode ? ServiceBusReceiveMode.PeekLock : ServiceBusReceiveMode.ReceiveAndDelete;
+                
+                var receiver = serviceBusClient.CreateReceiver(config.EntityPath, options);                
 
                 return receiver;
             }

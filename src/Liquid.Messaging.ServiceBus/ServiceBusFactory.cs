@@ -1,8 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Liquid.Core.Attributes;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.ServiceBus.Settings;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
@@ -73,10 +71,11 @@ namespace Liquid.Messaging.ServiceBus
 
             try
             {
-                var serviceBusClient = new ServiceBusClient(config.ConnectionString);
                 var options = new ServiceBusReceiverOptions();
 
                 options.ReceiveMode = config.PeekLockMode ? ServiceBusReceiveMode.PeekLock : ServiceBusReceiveMode.ReceiveAndDelete;
+                
+                var serviceBusClient = new ServiceBusClient(config.ConnectionString);                
                 
                 var receiver = serviceBusClient.CreateReceiver(config.EntityPath, options);                
 

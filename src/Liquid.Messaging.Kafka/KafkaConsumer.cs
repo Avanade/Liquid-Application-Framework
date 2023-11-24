@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Liquid.Core.Extensions;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Extensions;
@@ -21,10 +22,10 @@ namespace Liquid.Messaging.Kafka
 
 
         ///<inheritdoc/>
-        public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
+        public event Func<ConsumerMessageEventArgs<TEntity>, CancellationToken, Task> ConsumeMessageAsync;
 
         ///<inheritdoc/>
-        public event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
+        public event Func<ConsumerErrorEventArgs, Task> ProcessErrorAsync;
 
         /// <summary>
         /// Initialize a new instance of <see cref="KafkaConsumer{TEntity}"/>
@@ -41,7 +42,7 @@ namespace Liquid.Messaging.Kafka
         ///<inheritdoc/>
         public void RegisterMessageHandler()
         {
-            if (ProcessMessageAsync is null)
+            if (ConsumeMessageAsync is null)
             {
                 throw new NotImplementedException($"The {nameof(ProcessErrorAsync)} action must be added to class.");
             }
@@ -63,7 +64,7 @@ namespace Liquid.Messaging.Kafka
         {
             try
             {
-                await ProcessMessageAsync(GetEventArgs(deliverEvent), cancellationToken);
+                await ConsumeMessageAsync(GetEventArgs(deliverEvent), cancellationToken);
 
                 if (!_settings.EnableAutoCommit)
                 {
@@ -76,7 +77,7 @@ namespace Liquid.Messaging.Kafka
             }
         }
 
-        private ProcessMessageEventArgs<TEntity> GetEventArgs(ConsumeResult<Ignore, string> deliverEvent)
+        private ConsumerMessageEventArgs<TEntity> GetEventArgs(ConsumeResult<Ignore, string> deliverEvent)
         {
             var headers = deliverEvent.Message.Headers.GetCustomHeaders();
 
@@ -84,7 +85,7 @@ namespace Liquid.Messaging.Kafka
                 ? Encoding.UTF8.GetBytes(deliverEvent.Message.Value).GzipDecompress().ParseJson<TEntity>()
                 : deliverEvent.Message.Value.ParseJson<TEntity>();
 
-            return new ProcessMessageEventArgs<TEntity> { Data = data, Headers = headers };
+            return new ConsumerMessageEventArgs<TEntity> { Data = data, Headers = headers };
         }
     }
 }

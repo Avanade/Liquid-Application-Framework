@@ -1,7 +1,6 @@
-﻿using Liquid.Messaging.Exceptions;
+﻿using Azure.Messaging.ServiceBus;
+using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
-using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.ServiceBus.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ namespace Liquid.Messaging.ServiceBus
     ///<inheritdoc/>
     public class ServiceBusProducer<TEntity> : ILiquidProducer<TEntity>
     {
-        private readonly IMessageSender _messageSender;
+        private readonly ServiceBusSender _messageSender;
         /// <summary>
         /// Initialize a new instance of <see cref="ServiceBusConsumer{TEntity}"/>.
         /// </summary>
@@ -30,7 +29,7 @@ namespace Liquid.Messaging.ServiceBus
         {
             try
             {
-                await _messageSender.SendAsync(messageBodies.Select(e => ToMessage(e)).ToList());
+                await _messageSender.SendMessagesAsync(messageBodies.Select(e => ToMessage(e)).ToList());
             }
             catch (Exception ex)
             {
@@ -43,7 +42,7 @@ namespace Liquid.Messaging.ServiceBus
         {
             try
             {
-                await _messageSender.SendAsync(ToMessage(messageBody, customProperties));
+                await _messageSender.SendMessageAsync(ToMessage(messageBody, customProperties));
             }
             catch (Exception ex)
             {
@@ -51,15 +50,15 @@ namespace Liquid.Messaging.ServiceBus
             }
         }
 
-        private Message ToMessage(TEntity messageBody, IDictionary<string, object> customProperties = null)
+        private ServiceBusMessage ToMessage(TEntity messageBody, IDictionary<string, object> customProperties = null)
         {
-            var message = new Message(JsonSerializer.SerializeToUtf8Bytes(messageBody));
+            var message = new ServiceBusMessage(JsonSerializer.SerializeToUtf8Bytes(messageBody));
 
             if (customProperties != null)
             {
                 foreach (var property in customProperties)
                 {
-                    message.UserProperties.Add(property);
+                    message.ApplicationProperties.Add(property);
                 }
             }
 

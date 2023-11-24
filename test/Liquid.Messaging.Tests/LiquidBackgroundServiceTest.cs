@@ -46,21 +46,21 @@ namespace Liquid.Messaging.Tests
 
             var sut = new LiquidBackgroundService<EntityMock>(GetProvider(worker), _consumer);
 
-            await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>(), new CancellationToken());
+            await sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>(), new CancellationToken());
 
-            await worker.Received(1).ProcessMessageAsync(Arg.Any<ProcessMessageEventArgs<EntityMock>>(), Arg.Any<CancellationToken>());
+            await worker.Received(1).ProcessMessageAsync(Arg.Any<ConsumerMessageEventArgs<EntityMock>>(), Arg.Any<CancellationToken>());
         }
 
         [Fact]
         public async Task ProcessMessageAsync_WhenMessageProcessedWithError_ThrowException()
         {
             var worker = Substitute.For<ILiquidWorker<EntityMock>>();
-            worker.When(x => x.ProcessMessageAsync(Arg.Any<ProcessMessageEventArgs<EntityMock>>(), Arg.Any<CancellationToken>()))
+            worker.When(x => x.ProcessMessageAsync(Arg.Any<ConsumerMessageEventArgs<EntityMock>>(), Arg.Any<CancellationToken>()))
                 .Do((call) => throw new Exception());
 
             var sut = new LiquidBackgroundService<EntityMock>(GetProvider(worker), _consumer);
 
-            await Assert.ThrowsAsync<Exception>(() => sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>(), new CancellationToken()));
+            await Assert.ThrowsAsync<Exception>(() => sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>(), new CancellationToken()));
         }
         private static ServiceProvider GetProvider(ILiquidWorker<EntityMock> worker)
         {

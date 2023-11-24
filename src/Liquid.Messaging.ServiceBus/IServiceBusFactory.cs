@@ -1,4 +1,4 @@
-﻿using Microsoft.Azure.ServiceBus.Core;
+﻿using Azure.Messaging.ServiceBus;
 
 namespace Liquid.Messaging.ServiceBus
 {
@@ -8,13 +8,18 @@ namespace Liquid.Messaging.ServiceBus
     public interface IServiceBusFactory
     {
         /// <summary>
-        /// Initialize and return a new instance of <see cref="MessageSender"/>.
+        /// Initialize and return a new instance of <see cref="ServiceBusSender"/>.
         /// </summary>
-        IMessageSender GetSender(string sectionName);
+        ServiceBusSender GetSender(string sectionName);
 
         /// <summary>
-        /// Initialize and return a new instance of <see cref="MessageReceiver"/>
+        /// Initialize and return a new instance of <see cref="ServiceBusProcessor"/>
         /// </summary>
-        IMessageReceiver GetReceiver(string sectionName);
+        ServiceBusProcessor GetProcessor(string sectionName);
+
+        /// <summary>
+        /// Initialize and return a new instance of <see cref="ServiceBusReceiver"/>
+        /// </summary>
+        ServiceBusReceiver GetReceiver(string sectionName);
     }
 }

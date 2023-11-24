@@ -18,11 +18,11 @@ namespace Liquid.Messaging.Interfaces
         /// <summary>
         /// Defining the message processing function.
         /// </summary>
-        event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
+        event Func<ConsumerMessageEventArgs<TEntity>, CancellationToken, Task> ConsumeMessageAsync;
 
         /// <summary>
         /// Definition of the error handling process.
         /// </summary>
-        event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
+        event Func<ConsumerErrorEventArgs, Task> ProcessErrorAsync;
     }
 }

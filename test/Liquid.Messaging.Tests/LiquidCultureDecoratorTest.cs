@@ -32,7 +32,7 @@ namespace Liquid.Messaging.Tests
 
             var sut = new LiquidCultureDecorator<EntityMock>(_inner, _options);
 
-            await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>(), new CancellationToken());
+            await sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>(), new CancellationToken());
 
             Assert.Equal(currentculture, CultureInfo.CurrentCulture.Name);
         }
@@ -47,7 +47,7 @@ namespace Liquid.Messaging.Tests
 
             var sut = new LiquidCultureDecorator<EntityMock>(_inner, _options);
 
-            await sut.ProcessMessageAsync(new ProcessMessageEventArgs<EntityMock>(), new CancellationToken());
+            await sut.ProcessMessageAsync(new ConsumerMessageEventArgs<EntityMock>(), new CancellationToken());
 
             Assert.NotEqual(currentculture, CultureInfo.CurrentCulture.Name);
         }

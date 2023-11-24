@@ -17,6 +17,6 @@ namespace Liquid.Messaging.Interfaces
         /// </summary>
         /// <param name="args"></param>
         /// <param name="cancellationToken"></param>
-        Task ProcessMessageAsync(ProcessMessageEventArgs<TEntity> args, CancellationToken cancellationToken);
+        Task ProcessMessageAsync(ConsumerMessageEventArgs<TEntity> args, CancellationToken cancellationToken);
     }
 }

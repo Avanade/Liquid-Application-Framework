@@ -1,8 +1,7 @@
-﻿using Liquid.Messaging.Exceptions;
+﻿using Azure.Messaging.ServiceBus;
+using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Interfaces;
 using Liquid.Messaging.ServiceBus.Tests.Mock;
-using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.ServiceBus.Core;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -15,12 +14,12 @@ namespace Liquid.Messaging.ServiceBus.Tests
     {
         private readonly ILiquidProducer<EntityMock> _sut;
         private readonly IServiceBusFactory _serviceBusFactory;
-        private readonly IMessageSender _client;
+        private readonly ServiceBusSender _client;
         private readonly EntityMock _message;
 
         public ServiceBusProducerTest()
         {
-            _client = Substitute.For<IMessageSender>();
+            _client = Substitute.For<ServiceBusSender>();
 
             _serviceBusFactory = Substitute.For<IServiceBusFactory>();
 
@@ -39,7 +38,7 @@ namespace Liquid.Messaging.ServiceBus.Tests
 
             await _sut.SendMessageAsync(_message, customProperties);
 
-            await _client.Received(1).SendAsync(Arg.Any<Message>());
+            await _client.Received(1).SendMessageAsync(Arg.Any<ServiceBusMessage>());
 
         }
 
@@ -50,13 +49,13 @@ namespace Liquid.Messaging.ServiceBus.Tests
 
             await _sut.SendMessagesAsync(entities);
 
-            await _client.Received(1).SendAsync(Arg.Any<IList<Message>>());
+            await _client.Received(1).SendMessagesAsync(Arg.Any<IList<ServiceBusMessage>>());
         }
 
         [Fact]
         public async Task SendAsync_WhenSingleEntitySendFailed_ThrowError()
         {
-            _client.When(x => x.SendAsync(Arg.Any<Message>())).Do((call) => throw new Exception());
+            _client.When(x => x.SendMessageAsync(Arg.Any<ServiceBusMessage>())).Do((call) => throw new Exception());
 
             var sut = _sut.SendMessageAsync(_message, new Dictionary<string, object>());
 
@@ -68,7 +67,7 @@ namespace Liquid.Messaging.ServiceBus.Tests
         {
             var entities = new List<EntityMock>() { _message };
 
-            _client.When(x => x.SendAsync(Arg.Any<IList<Message>>())).Do((call) => throw new Exception());
+            _client.When(x => x.SendMessagesAsync(Arg.Any<IList<ServiceBusMessage>>())).Do((call) => throw new Exception());
 
             var sut = _sut.SendMessagesAsync(entities);
 

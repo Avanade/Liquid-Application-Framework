@@ -25,7 +25,7 @@
   
 
   <ItemGroup>
-	<PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20221201-02" />
+	<PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20231130-02" />
 	<PackageReference Include="MongoDB.Driver" Version="2.19.0" />
   </ItemGroup>
 

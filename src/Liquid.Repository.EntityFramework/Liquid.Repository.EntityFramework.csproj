@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>Liquid.Repository.EntityFramework</PackageId>
     <Version>6.0.0-preview-20221201-01</Version>
     <Authors>Avanade Brazil</Authors>
@@ -18,8 +18,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20221201-01" />
-	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.17" />
+	  <PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20231130-02" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.25" />
   </ItemGroup>
 
   <ItemGroup>

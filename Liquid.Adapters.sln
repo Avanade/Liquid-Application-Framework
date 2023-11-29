@@ -5,7 +5,15 @@ VisualStudioVersion = 17.6.34202.202
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Adapter.Dataverse", "src\Liquid.Adapter.Dataverse\Liquid.Adapter.Dataverse.csproj", "{02191AB8-D13C-4CCC-8455-08813FB0C9C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Adapter.Dataverse.Tests", "test\Liquid.Adapter.Dataverse.Tests\Liquid.Adapter.Dataverse.Tests.csproj", "{90D60966-6004-4705-907D-780503EBC141}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Adapter.Dataverse.Tests", "test\Liquid.Adapter.Dataverse.Tests\Liquid.Adapter.Dataverse.Tests.csproj", "{90D60966-6004-4705-907D-780503EBC141}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dataverse", "Dataverse", "{0E973865-5B87-43F2-B513-CD1DA96A2A3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureStorage", "AzureStorage", "{81CB75D9-FC31-4533-9A2D-C9277DD4A33E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Adapter.AzureStorage", "src\Liquid.Adapter.AzureStorage\Liquid.Adapter.AzureStorage.csproj", "{E21AF05A-738E-4DA2-AEEE-9900D7534F7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Adapter.AzureStorage.Tests", "test\Liquid.Adapter.AzureStorage.Tests\Liquid.Adapter.AzureStorage.Tests.csproj", "{A2A7E164-98DF-4953-9679-B35E109E8990}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +29,23 @@ Global
 		{90D60966-6004-4705-907D-780503EBC141}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90D60966-6004-4705-907D-780503EBC141}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90D60966-6004-4705-907D-780503EBC141}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E21AF05A-738E-4DA2-AEEE-9900D7534F7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E21AF05A-738E-4DA2-AEEE-9900D7534F7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E21AF05A-738E-4DA2-AEEE-9900D7534F7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E21AF05A-738E-4DA2-AEEE-9900D7534F7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A7E164-98DF-4953-9679-B35E109E8990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A7E164-98DF-4953-9679-B35E109E8990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A7E164-98DF-4953-9679-B35E109E8990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A7E164-98DF-4953-9679-B35E109E8990}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{02191AB8-D13C-4CCC-8455-08813FB0C9C3} = {0E973865-5B87-43F2-B513-CD1DA96A2A3A}
+		{90D60966-6004-4705-907D-780503EBC141} = {0E973865-5B87-43F2-B513-CD1DA96A2A3A}
+		{E21AF05A-738E-4DA2-AEEE-9900D7534F7C} = {81CB75D9-FC31-4533-9A2D-C9277DD4A33E}
+		{A2A7E164-98DF-4953-9679-B35E109E8990} = {81CB75D9-FC31-4533-9A2D-C9277DD4A33E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8105640B-39D2-4FFE-8BBD-D8E37F2A070D}

@@ -33,12 +33,12 @@ namespace Liquid.Adapter.AzureStorage
 
             foreach (var tag in tags)
             {
-                stringFilter = stringFilter + @$"""{tag.Key}"" = '{tag.Value}' AND ";
+                stringFilter += @$"""{tag.Key}"" = '{tag.Value}' AND ";
             }
 
-            var filter = stringFilter.Substring(0, stringFilter.Length - 4);
+            stringFilter = stringFilter.Substring(0, stringFilter.Length - 4);
 
-            await foreach (TaggedBlobItem blobItem in client.FindBlobsByTagsAsync(filter))
+            await foreach (TaggedBlobItem blobItem in client.FindBlobsByTagsAsync(stringFilter))
             {
                 var blockBlob = client.GetBlockBlobClient(blobItem.BlobName);
 
@@ -87,9 +87,10 @@ namespace Liquid.Adapter.AzureStorage
             var stringFilter = string.Empty;
             foreach (var tag in tags)
             {
-                stringFilter = stringFilter + @$"""{tag.Key}"" = '{tag.Value}' AND ";
+                stringFilter += @$"""{tag.Key}"" = '{tag.Value}' AND ";
             }
             stringFilter = stringFilter.Substring(0, stringFilter.Length - 4);
+
             var results = new List<LiquidBlob>();
             await foreach (TaggedBlobItem blobItem in client.FindBlobsByTagsAsync(stringFilter))
             {

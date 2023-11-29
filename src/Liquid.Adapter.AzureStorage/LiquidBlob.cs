@@ -1,8 +1,11 @@
-﻿namespace Liquid.Adapter.AzureStorage
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Liquid.Adapter.AzureStorage
 {
     /// <summary>
     /// Set de propriedades referentes à um item do BlobStorage.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public class LiquidBlob
     {
         /// <summary>

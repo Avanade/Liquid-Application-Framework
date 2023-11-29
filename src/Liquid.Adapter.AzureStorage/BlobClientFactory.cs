@@ -18,7 +18,7 @@ namespace Liquid.Adapter.AzureStorage
         /// </summary>
         /// <param name="options">Configurations set.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public BlobClientFactory(IOptions<StorageSettings> options)
+        public BlobClientFactory(IOptions<StorageSettings>? options)
         {
             _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
         }

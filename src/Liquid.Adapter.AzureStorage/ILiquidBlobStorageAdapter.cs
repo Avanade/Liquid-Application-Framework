@@ -12,6 +12,7 @@ namespace Liquid.Adapter.AzureStorage
         /// </summary>
         /// <param name="data">Blob content.</param>
         /// <param name="name">Blob path.</param>
+        /// <param name="containerName">Blob container name.</param>
         /// <param name="tags">Blob list of tags.</param>
         Task UploadBlob(string data, string name, string containerName, IDictionary<string, string>? tags = null);
 
@@ -19,17 +20,20 @@ namespace Liquid.Adapter.AzureStorage
         /// Remove blob by id.
         /// </summary>
         /// <param name="id">blob name.</param>
+        /// <param name="containerName">Blob container name.</param>
         Task Delete(string id, string containerName);
 
         /// <summary>
         /// Filter blob by tags and remove them.
         /// </summary>
         /// <param name="tags">Tags for filter.</param>
+        /// <param name="containerName">Blob container name.</param>
         Task DeleteByTags(IDictionary<string, string> tags, string containerName);
 
         /// <summary>
         /// Get all blobs from a container.
         /// </summary>
+        /// <param name="containerName">Blob container name.</param>
         /// <returns>List of <see cref="LiquidBlob"/>.</returns>
         Task<List<LiquidBlob>> GetAllBlobs(string containerName);
 
@@ -37,6 +41,7 @@ namespace Liquid.Adapter.AzureStorage
         /// Filter blobs by tags.
         /// </summary>
         /// <param name="tags">Tags for filter.</param>
+        /// <param name="containerName">Blob container name.</param>
         /// <returns>List of <see cref="LiquidBlob"/>.</returns>
         Task<List<LiquidBlob>> ReadBlobsByTags(IDictionary<string, string> tags, string containerName);
 
@@ -44,6 +49,7 @@ namespace Liquid.Adapter.AzureStorage
         /// Dowload a specific blob.
         /// </summary>
         /// <param name="blobName">Blob Id.</param>
+        /// <param name="containerName">Blob container name.</param>
         /// <returns><see cref="LiquidBlob"/>.</returns>
         Task<LiquidBlob> ReadBlobsByName(string blobName, string containerName);
 

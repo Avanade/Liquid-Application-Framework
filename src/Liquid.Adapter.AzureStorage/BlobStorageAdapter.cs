@@ -12,7 +12,11 @@ namespace Liquid.Adapter.AzureStorage
     {
         private readonly IBlobClientFactory _factory;
 
-
+        /// <summary>
+        /// Initialize a new instance of <see cref="BlobStorageAdapter"/>
+        /// </summary>
+        /// <param name="factory"></param>
+        /// <exception cref="ArgumentNullException"></exception>
         public BlobStorageAdapter(IBlobClientFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
@@ -32,9 +36,9 @@ namespace Liquid.Adapter.AzureStorage
                 stringFilter = stringFilter + @$"""{tag.Key}"" = '{tag.Value}' AND ";
             }
 
-            stringFilter.Substring(0, stringFilter.Length - 4);
+            var filter = stringFilter.Substring(0, stringFilter.Length - 4);
 
-            await foreach (TaggedBlobItem blobItem in client.FindBlobsByTagsAsync(stringFilter))
+            await foreach (TaggedBlobItem blobItem in client.FindBlobsByTagsAsync(filter))
             {
                 var blockBlob = client.GetBlockBlobClient(blobItem.BlobName);
 

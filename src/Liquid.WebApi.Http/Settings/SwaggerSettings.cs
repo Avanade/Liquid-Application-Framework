@@ -1,5 +1,5 @@
 ﻿using Liquid.Core.Attributes;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.WebApi.Http.Settings
@@ -17,7 +17,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The name.
         /// </value>
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The host.
         /// </value>
-        [JsonProperty("host")]
+        [JsonPropertyName("host")]
         public string Host { get; set; }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// Schemes.
         /// </value>
-        [JsonProperty("schemes")]
+        [JsonPropertyName("schemes")]
         public string[] Schemes { get; set; }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The title.
         /// </value>
-        [JsonProperty("title")]
+        [JsonPropertyName("title")]
         public string Title { get; set; }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The version.
         /// </value>
-        [JsonProperty("version")]
+        [JsonPropertyName("version")]
         public string Version { get; set; }
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The description.
         /// </value>
-        [JsonProperty("description")]
+        [JsonPropertyName("description")]
         public string Description { get; set; }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The swagger endpoint.
         /// </value>
-        [JsonProperty("endpoint")]
+        [JsonPropertyName("endpoint")]
         public SwaggerEndpoint SwaggerEndpoint { get; set; }
     }
 
@@ -87,7 +87,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The URL.
         /// </value>
-        [JsonProperty("url")]
+        [JsonPropertyName("url")]
         public string Url { get; set; }
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Liquid.WebApi.Http.Settings
         /// <value>
         /// The name.
         /// </value>
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
     }
 }

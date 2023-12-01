@@ -17,7 +17,7 @@ namespace Liquid.Adapter.AzureStorage
         /// for each container on the <see cref="StorageSettings"/> and 
         /// add to <see cref="Clients"/>.
         /// </summary>
-        List<BlobContainerClient> SetContainerClients();
+        void SetContainerClients();
 
         /// <summary>
         /// Get an instance of <see cref="BlobContainerClient"/>

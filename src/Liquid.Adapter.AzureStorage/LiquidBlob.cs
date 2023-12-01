@@ -16,7 +16,7 @@ namespace Liquid.Adapter.AzureStorage
         /// <summary>
         /// Conteúdo do blob.
         /// </summary>
-        public string? Blob { get; set; }
+        public byte[]? Blob { get; set; }
 
         /// <summary>
         /// Nome do arquivo no Storage.

@@ -60,7 +60,7 @@ namespace Liquid.Adapter.AzureStorage
 
                 var item = new LiquidBlob
                 {
-                    Blob = Encoding.UTF8.GetString(blob.Value.Content.ToArray()),
+                    Blob = blob.Value.Content.ToArray(),
                     Name = blobItem.Name
                 };
                 results.Add(item);
@@ -98,7 +98,7 @@ namespace Liquid.Adapter.AzureStorage
                 var blob = await blockBlob.DownloadContentAsync();
                 var item = new LiquidBlob
                 {
-                    Blob = Encoding.UTF8.GetString(blob.Value.Content.ToArray()),
+                    Blob = blob.Value.Content.ToArray(),
                     Tags = blockBlob.GetTags().Value.Tags,
                     Name = blobItem.BlobName
                 };
@@ -108,7 +108,7 @@ namespace Liquid.Adapter.AzureStorage
         }
 
         ///<inheritdoc/>
-        public async Task UploadBlob(string data, string name, string containerName, IDictionary<string, string>? tags = null)
+        public async Task UploadBlob(byte[] data, string name, string containerName, IDictionary<string, string>? tags = null)
         {
             var client = _factory.GetContainerClient(containerName);
 
@@ -118,7 +118,7 @@ namespace Liquid.Adapter.AzureStorage
             {
                 Tags = tags
             };
-            await blockBlob.UploadAsync(new MemoryStream(Encoding.UTF8.GetBytes(data)), options);
+            await blockBlob.UploadAsync(new MemoryStream(data), options);
         }
 
         ///<inheritdoc/>
@@ -130,7 +130,7 @@ namespace Liquid.Adapter.AzureStorage
             var blob = await blockBlob.DownloadContentAsync();
             var item = new LiquidBlob
             {
-                Blob = Encoding.UTF8.GetString(blob.Value.Content.ToArray()),
+                Blob = blob.Value.Content.ToArray(),
                 Tags = blockBlob.GetTags().Value.Tags,
                 Name = blobName
             };

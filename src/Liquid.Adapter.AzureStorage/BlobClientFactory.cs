@@ -24,21 +24,17 @@ namespace Liquid.Adapter.AzureStorage
         }
 
         ///<inheritdoc/>
-        public List<BlobContainerClient> SetContainerClients()
+        public void SetContainerClients()
         {
             if(_options.Containers.Count  == 0)
-                throw new ArgumentNullException(nameof(_options));
-
-            var clients = new List<BlobContainerClient>();           
+                throw new ArgumentNullException(nameof(_options));        
 
             foreach(var container in _options.Containers)
             {
                 var client = new BlobContainerClient(container.ConnectionString,container.ContainerName);
 
-                clients.Add(client);
+                _clients.Add(client);
             }
-
-            return clients;
         }
 
         ///<inheritdoc/>

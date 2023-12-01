@@ -14,7 +14,7 @@ namespace Liquid.Adapter.AzureStorage
         /// <param name="name">Blob path.</param>
         /// <param name="containerName">Blob container name.</param>
         /// <param name="tags">Blob list of tags.</param>
-        Task UploadBlob(string data, string name, string containerName, IDictionary<string, string>? tags = null);
+        Task UploadBlob(byte[] data, string name, string containerName, IDictionary<string, string>? tags = null);
 
         /// <summary>
         /// Remove blob by id.

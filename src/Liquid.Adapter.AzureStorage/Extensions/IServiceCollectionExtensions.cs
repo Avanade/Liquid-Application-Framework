@@ -26,9 +26,9 @@ namespace Liquid.Adapter.AzureStorage.Extensions
                 configuration.GetSection(configSection).Bind(settings);
             });
 
-            services.AddTransient<IBlobClientFactory, BlobClientFactory>();
+            services.AddSingleton<IBlobClientFactory, BlobClientFactory>();
 
-            services.AddSingleton<ILiquidBlobStorageAdapter, BlobStorageAdapter>();
+            services.AddScoped<ILiquidBlobStorageAdapter, BlobStorageAdapter>();
 
             return services;
         }

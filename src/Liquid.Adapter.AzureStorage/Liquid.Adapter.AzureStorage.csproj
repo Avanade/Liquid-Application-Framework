@@ -8,7 +8,7 @@
 	  <Company>Avanade Inc.</Company>
 	  <Product>Liquid - Modern Application Framework</Product>
 	  <Copyright>Avanade 2019</Copyright>
-	  <Version>6.0.0-preview-20221201-01</Version>
+	  <Version>6.0.0-preview-20221201-02</Version>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <IsPackable>true</IsPackable>
 	  <Description>

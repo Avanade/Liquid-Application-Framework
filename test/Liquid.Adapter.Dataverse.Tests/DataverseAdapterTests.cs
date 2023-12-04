@@ -140,5 +140,41 @@ namespace Liquid.Adapter.Dataverse.Tests
 
             await _client.Received(1).ExecuteAsync(Arg.Any<UpsertRequest>());
         }
-    }
+
+        // Marcos
+		[Fact]
+		public async Task Update_WhenClientCallResultSucessfully_UpdateAsyncMethodCalled()
+		{
+			_client.UpdateAsync(Arg.Any<Entity>()).Returns(Task.CompletedTask);
+
+			var updatedEntity = new Entity();
+
+            // use optimistic concurrency use 
+			await _sut.Update(updatedEntity, true, true);
+
+			await _client.Received(1).UpdateAsync(updatedEntity);
+		}
+
+		[Fact]
+		public async Task Create_WhenClientCallResultSucessfully_ReturnGuid()
+		{
+			_client.Create(Arg.Any<Entity>()).Returns(Guid.NewGuid());
+
+			var result = await _sut.Create(new Entity());
+
+			Assert.IsType<Guid>(result);
+		}
+
+		[Fact]
+		public async Task DeleteById_WhenClientCallResultSucessfully_DeleteMethodCalled()
+		{
+			_client.DeleteAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(Task.CompletedTask);
+
+			var guidId = Guid.NewGuid();
+
+			await _sut.DeleteById(guidId, "entityname");
+
+			await _client.Received(1).DeleteAsync("entityname", guidId);
+		}
+	}
 }

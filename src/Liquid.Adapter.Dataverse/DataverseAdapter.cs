@@ -177,7 +177,7 @@ namespace Liquid.Adapter.Dataverse
 		/// <param name="suppressPowerAutomateTrigger"></param>
 		/// <param name="suppressDuplicateDetectionRules"></param>
 		/// <returns></returns>
-		public async Task Update(Entity entity, bool useOptimisticConcurrency, bool bypassSynchronousCustomLogic, bool suppressPowerAutomateTrigger, bool suppressDuplicateDetectionRules = true)
+		public async Task Update(Entity entity, bool useOptimisticConcurrency = false, bool bypassSynchronousCustomLogic = false, bool suppressPowerAutomateTrigger = false, bool suppressDuplicateDetectionRules = true)
 		{
 			var updateRequest = new UpdateRequest
 			{
@@ -203,7 +203,7 @@ namespace Liquid.Adapter.Dataverse
 		/// <param name="bypassSynchronousLogic"></param>
 		/// <param name="useOptimisticConcurrency"></param>
 		/// <returns></returns>
-		public async Task Delete(Guid id, string entityName, bool bypassSynchronousLogic, bool useOptimisticConcurrency)
+		public async Task Delete(Guid id, string entityName, bool bypassSynchronousLogic = false, bool useOptimisticConcurrency = false)
 		{
 			var deleteRequest = new DeleteRequest
 			{

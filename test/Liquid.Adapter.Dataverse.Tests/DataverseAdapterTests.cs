@@ -141,40 +141,52 @@ namespace Liquid.Adapter.Dataverse.Tests
             await _client.Received(1).ExecuteAsync(Arg.Any<UpsertRequest>());
         }
 
-        // Marcos
 		[Fact]
-		public async Task Update_WhenClientCallResultSucessfully_UpdateAsyncMethodCalled()
+		public async Task Update_WithOptions_UseRightOrganizationRequestType_RequestParameters()
 		{
 			_client.UpdateAsync(Arg.Any<Entity>()).Returns(Task.CompletedTask);
 
 			var updatedEntity = new Entity();
 
-            // use optimistic concurrency use 
-			await _sut.Update(updatedEntity, true, true);
+			await _sut.Update(updatedEntity, true, true, true);
 
-			await _client.Received(1).UpdateAsync(updatedEntity);
+			await _client.Received(1).ExecuteAsync(Arg.Is<UpdateRequest>(ur => 
+            ur.Parameters.ContainsKey("BypassCustomPluginExecution")
+            && ur.Parameters.ContainsKey("SuppressCallbackRegistrationExpanderJob")
+			&& ur.Parameters.ContainsKey("SuppressDuplicateDetection")
+			));
 		}
 
 		[Fact]
-		public async Task Create_WhenClientCallResultSucessfully_ReturnGuid()
+		public async Task DeleteById_WithOptions_UseRightOrganizationRequestType_RequestParameters()
 		{
-			_client.Create(Arg.Any<Entity>()).Returns(Guid.NewGuid());
-
-			var result = await _sut.Create(new Entity());
-
-			Assert.IsType<Guid>(result);
-		}
-
-		[Fact]
-		public async Task DeleteById_WhenClientCallResultSucessfully_DeleteMethodCalled()
-		{
-			_client.DeleteAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(Task.CompletedTask);
+            _client.DeleteAsync(Arg.Any<string>(), Arg.Any<Guid>()).Returns(Task.CompletedTask);
 
 			var guidId = Guid.NewGuid();
 
-			await _sut.DeleteById(guidId, "entityname");
+			await _sut.Delete(guidId, "entityname", true, true);
 
-			await _client.Received(1).DeleteAsync("entityname", guidId);
+			await _client.Received(1).ExecuteAsync(Arg.Is<DeleteRequest>(dr => 
+            dr.Parameters.ContainsKey("BypassCustomPluginExecution")
+            ));
 		}
-	}
+
+        [Fact]
+        public async Task Create_WithOptions_UseRightOrganizationRequestType_RequestParameters()
+        {
+            _client.Execute(Arg.Any<CreateRequest>()).Returns(new CreateResponse());
+
+            var result = await _sut.Create(new Entity(), false, false, true);
+
+            _client.Received(1).Execute(Arg.Is<CreateRequest>(cr =>   
+            cr.Parameters.ContainsKey("BypassCustomPluginExecution") 
+            && cr.Parameters.ContainsKey("SuppressCallbackRegistrationExpanderJob")
+            && cr.Parameters.ContainsKey("SuppressDuplicateDetection")
+            ));
+
+            Assert.IsType<Guid>(result);
+        }
+
+
+    }
 }

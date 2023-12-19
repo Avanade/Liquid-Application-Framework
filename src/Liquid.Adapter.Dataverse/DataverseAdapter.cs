@@ -25,20 +25,6 @@ namespace Liquid.Adapter.Dataverse
 			_client = _serviceFactory.GetClient();
 		}
 
-	
-		///<inheritdoc/>
-		public Task<Guid> Create(Entity entity)
-		{
-			var result = _client.Create(entity);
-			return Task.FromResult(result);
-		}
-
-		///<inheritdoc/>
-		public async Task DeleteById(Guid id, string entityName)
-		{
-			await _client.DeleteAsync(entityName, id);
-		}
-
 		public async Task<Entity> GetById(Guid id, string entityName, ColumnSet? columns = null)
 		{
 			if (columns == null)
@@ -98,12 +84,6 @@ namespace Liquid.Adapter.Dataverse
 		}
 
 		///<inheritdoc/>
-		public async Task Update(Entity entity)
-		{
-			await _client.UpdateAsync(entity);
-		}
-
-		///<inheritdoc/>
 		public async Task<EntityMetadata> GetMetadata(string entityName)
 		{
 			var retrieveEntityRequest = new RetrieveEntityRequest
@@ -143,15 +123,8 @@ namespace Liquid.Adapter.Dataverse
 
 			await _client.ExecuteAsync(request);
 		}
-		
-		/// <summary>
-		/// Create record using additional parameters to prevent custom synchronous logic execution and duplicate detection rules evaluation.
-		/// </summary>
-		/// <param name="targetEntity"></param>
-		/// <param name="bypassSynchronousCustomLogic"></param>
-		/// <param name="suppressPowerAutomateTrigger"></param>
-		/// <param name="suppressDuplicateDetectionRules"></param>
-		/// <returns></returns>
+
+		///<inheritdoc/>
 		public Task<Guid> Create(Entity targetEntity, bool bypassSynchronousCustomLogic = false, bool suppressPowerAutomateTrigger = false, bool suppressDuplicateDetectionRules = true)
 		{
 			var createRequest = new CreateRequest
@@ -168,15 +141,7 @@ namespace Liquid.Adapter.Dataverse
 			return Task.FromResult(resultCreate.id);
 		}
 
-		/// <summary>
-		/// Update record using parameters to enforce optimistic concurrency and choose duplicate detection rules strategy.
-		/// </summary>
-		/// <param name="entity"></param>
-		/// <param name="useOptimisticConcurrency"></param>
-		/// <param name="bypassSynchronousCustomLogic"></param>
-		/// <param name="suppressPowerAutomateTrigger"></param>
-		/// <param name="suppressDuplicateDetectionRules"></param>
-		/// <returns></returns>
+		///<inheritdoc/>
 		public async Task Update(Entity entity, bool useOptimisticConcurrency = false, bool bypassSynchronousCustomLogic = false, bool suppressPowerAutomateTrigger = false, bool suppressDuplicateDetectionRules = true)
 		{
 			var updateRequest = new UpdateRequest
@@ -195,14 +160,7 @@ namespace Liquid.Adapter.Dataverse
 			await _client.ExecuteAsync(updateRequest);
 		}
 
-		/// <summary>
-		/// Delete record using parameters to prevent custom synchronous logic execution and enforce optimistic concurrency.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="entityName"></param>
-		/// <param name="bypassSynchronousLogic"></param>
-		/// <param name="useOptimisticConcurrency"></param>
-		/// <returns></returns>
+		///<inheritdoc/>
 		public async Task Delete(Guid id, string entityName, bool bypassSynchronousLogic = false, bool useOptimisticConcurrency = false)
 		{
 			var deleteRequest = new DeleteRequest

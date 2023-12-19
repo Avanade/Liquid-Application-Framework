@@ -35,28 +35,6 @@ namespace Liquid.Adapter.Dataverse.Tests
         }
 
         [Fact]
-        public async Task Create_WhenClientCallResultSucessfully_ReturnGuid()
-        {
-            _client.Create(Arg.Any<Entity>()).Returns(Guid.NewGuid());
-
-            var result = await _sut.Create(new Entity());
-
-            Assert.IsType<Guid>(result);
-        }
-
-        [Fact]
-        public async Task DeleteById_WhenClientCallResultSucessfully_DeleteMethodCalled()
-        {
-            _client.DeleteAsync(Arg.Any<string>(),Arg.Any<Guid>()).Returns(Task.CompletedTask);
-
-            var guidId = Guid.NewGuid();
-
-             await _sut.DeleteById(guidId,"entityname");
-
-            await _client.Received(1).DeleteAsync("entityname",guidId);
-        }
-
-        [Fact]
         public async Task GetById_WhenClientReturnResults_ReturnEntity()
         {
             _client.RetrieveAsync(Arg.Any<string>(), Arg.Any<Guid>(),Arg.Any<ColumnSet>()).Returns(new Entity());
@@ -90,18 +68,6 @@ namespace Liquid.Adapter.Dataverse.Tests
 
             Assert.NotNull(result);
             Assert.IsType<List<Entity>>(result);
-        }
-
-        [Fact]
-        public async Task Update_WhenClientCallResultSucessfully_UpdateAsyncMethodCalled()
-        {
-            _client.UpdateAsync(Arg.Any<Entity>()).Returns(Task.CompletedTask);
-
-            var updatedEntity = new Entity();
-
-            await _sut.Update(updatedEntity);
-
-            await _client.Received(1).UpdateAsync(updatedEntity);
         }
 
         [Fact]
@@ -186,7 +152,6 @@ namespace Liquid.Adapter.Dataverse.Tests
 
             Assert.IsType<Guid>(result);
         }
-
 
     }
 }

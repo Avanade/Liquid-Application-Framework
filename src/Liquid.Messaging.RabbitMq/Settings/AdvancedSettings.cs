@@ -80,5 +80,10 @@ namespace Liquid.Messaging.RabbitMq.Settings
         /// The queue arguments.
         /// </value>
         public IDictionary<string, object> QueueArguments { get; set; }
+
+        /// <summary>
+        /// Queue Ack Mode Settings
+        /// </summary>
+        public QueueAckModeSettings QueueAckModeSettings { get; set; }
     }
 }

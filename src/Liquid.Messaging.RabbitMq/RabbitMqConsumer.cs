@@ -83,7 +83,21 @@ namespace Liquid.Messaging.RabbitMq
             {
                 if (!_autoAck)
                 {
-                    _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
+                    var queueAckMode = _settings.AdvancedSettings.QueueAckModeSettings ?? new QueueAckModeSettings() { QueueAckMode = QueueAckModeEnum.BasicAck, Requeue = true };
+
+                    switch (queueAckMode.QueueAckMode)
+                    {
+                        case QueueAckModeEnum.BasicAck:
+                            _channelModel.BasicNack(deliverEvent.DeliveryTag, false, queueAckMode.Requeue);
+                            break;
+                        case QueueAckModeEnum.BasicReject:
+                            _channelModel.BasicReject(deliverEvent.DeliveryTag, queueAckMode.Requeue);
+                            break;
+                        default:
+                            _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
+                            break;
+                    }
+
                 }
             }
         }

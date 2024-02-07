@@ -61,7 +61,9 @@ namespace Liquid.Adapter.AzureStorage
                 var item = new LiquidBlob
                 {
                     Blob = blob.Value.Content.ToArray(),
-                    Name = blobItem.Name
+                    Tags = blockBlob.GetTags().Value.Tags,
+                    Name = blobItem.Name,
+                    AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
                 results.Add(item);
             }
@@ -100,7 +102,8 @@ namespace Liquid.Adapter.AzureStorage
                 {
                     Blob = blob.Value.Content.ToArray(),
                     Tags = blockBlob.GetTags().Value.Tags,
-                    Name = blobItem.BlobName
+                    Name = blobItem.BlobName,
+                    AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
                 results.Add(item);
             }
@@ -108,7 +111,7 @@ namespace Liquid.Adapter.AzureStorage
         }
 
         ///<inheritdoc/>
-        public async Task UploadBlob(byte[] data, string name, string containerName, IDictionary<string, string>? tags = null)
+        public async Task<string> UploadBlob(byte[] data, string name, string containerName, IDictionary<string, string>? tags = null)
         {
             var client = _factory.GetContainerClient(containerName);
 
@@ -119,6 +122,8 @@ namespace Liquid.Adapter.AzureStorage
                 Tags = tags
             };
             await blockBlob.UploadAsync(new MemoryStream(data), options);
+
+            return blockBlob.Uri.AbsoluteUri;
         }
 
         ///<inheritdoc/>
@@ -132,7 +137,8 @@ namespace Liquid.Adapter.AzureStorage
             {
                 Blob = blob.Value.Content.ToArray(),
                 Tags = blockBlob.GetTags().Value.Tags,
-                Name = blobName
+                Name = blobName,
+                AbsoluteUri = blockBlob.Uri.AbsoluteUri
             };
 
             return item;
@@ -143,6 +149,8 @@ namespace Liquid.Adapter.AzureStorage
         {
             var blobClient = _factory.GetContainerClient(containerName);
 
+            var blockBlob = blobClient.GetBlockBlobClient(blobName);
+
             if (!blobClient.CanGenerateSasUri)
             {
                 return null;
@@ -152,15 +160,15 @@ namespace Liquid.Adapter.AzureStorage
             {
                 BlobContainerName = blobClient.Name,
                 BlobName = blobName,
-                Resource = "b"
+                Resource = "b",
             };
 
             sasBuilder.ExpiresOn = expiresOn;
             sasBuilder.SetPermissions(permissions);
 
-            var sasURI = blobClient.GenerateSasUri(sasBuilder);
+            var sasURI = blockBlob.GenerateSasUri(sasBuilder);
 
-            return sasURI.AbsolutePath;
+            return sasURI.AbsoluteUri;
         }
     }
 }

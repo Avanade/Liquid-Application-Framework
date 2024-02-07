@@ -22,5 +22,11 @@ namespace Liquid.Adapter.AzureStorage
         /// Nome do arquivo no Storage.
         /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// Caminho do blob.
+        /// </summary>
+        public string AbsoluteUri { get; set; }
+
     }
 }

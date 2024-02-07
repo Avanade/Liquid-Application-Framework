@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs.Models;
+﻿using Azure;
+using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
 using System.Diagnostics.CodeAnalysis;
@@ -129,19 +130,31 @@ namespace Liquid.Adapter.AzureStorage
         ///<inheritdoc/>
         public async Task<LiquidBlob> ReadBlobsByName(string blobName, string containerName)
         {
-            var client = _factory.GetContainerClient(containerName);
-
-            var blockBlob = client.GetBlockBlobClient(blobName);
-            var blob = await blockBlob.DownloadContentAsync();
-            var item = new LiquidBlob
+            try
             {
-                Blob = blob.Value.Content.ToArray(),
-                Tags = blockBlob.GetTags().Value.Tags,
-                Name = blobName,
-                AbsoluteUri = blockBlob.Uri.AbsoluteUri
-            };
+                var client = _factory.GetContainerClient(containerName);
+                var blockBlob = client.GetBlockBlobClient(blobName);
+                var blob = await blockBlob.DownloadContentAsync();
+                var item = new LiquidBlob
+                {
+                    Blob = blob.Value.Content.ToArray(),
+                    Tags = blockBlob.GetTags().Value.Tags,
+                    Name = blobName,
+                    AbsoluteUri = blockBlob.Uri.AbsoluteUri
+                };
 
-            return item;
+                return item;
+            }
+            catch (RequestFailedException storageRequestFailedException)
+                when (storageRequestFailedException.ErrorCode == BlobErrorCode.BlobNotFound)
+            {
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
         }
 
         ///<inheritdoc/>

@@ -34,9 +34,17 @@ namespace Liquid.Messaging.ServiceBus
 
                 options.MaxConcurrentCalls = config.MaxConcurrentCalls;
 
-                var serviceBusClient = new ServiceBusClient(config.ConnectionString);                
+                var serviceBusClient = new ServiceBusClient(config.ConnectionString);
 
-                var processor = serviceBusClient.CreateProcessor(config.EntityPath, options);
+                ServiceBusProcessor processor;
+                if (config.Subscription is null)
+                {
+                    processor = serviceBusClient.CreateProcessor(config.EntityPath, options);
+                }
+                else
+                {                    
+                    processor = serviceBusClient.CreateProcessor(config.EntityPath, config.Subscription, options);
+                }
 
                 return processor;
             }

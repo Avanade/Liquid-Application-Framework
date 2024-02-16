@@ -30,6 +30,11 @@ namespace Liquid.Messaging.ServiceBus.Settings
         public string EntityPath { get; set; }
 
         /// <summary>
+        /// Topic subscription path.
+        /// </summary>
+        public string Subscription { get; set; }
+
+        /// <summary>
         /// Indicates max number of concurrent consumer calls.
         /// The default value is 1.
         /// </summary>

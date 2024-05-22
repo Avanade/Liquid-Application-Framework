@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageId>Liquid.Core.Telemetry.ElasticApm</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Avanade Brazil</Authors>
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
-    <Copyright>Avanade 2021</Copyright>
+    <Copyright>Avanade 2024</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Core</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20231131-01</Version>
+    <Version>8.0.0-preview-20240521-01</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ProjectGuid>{AD354CF6-C132-4B5D-944D-0DFE21509781}</ProjectGuid>
     <IsPackable>true</IsPackable>
@@ -19,9 +19,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.18.0" />
+    <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.27.1" />
     <PackageReference Include="Liquid.Core" Version="2.2.0-preview-20220901-01" />
-    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
   <ItemGroup>

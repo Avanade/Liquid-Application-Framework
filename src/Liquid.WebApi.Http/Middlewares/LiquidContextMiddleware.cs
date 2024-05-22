@@ -15,22 +15,16 @@ namespace Liquid.WebApi.Http.Middlewares
     /// Inserts configured context keys in LiquidContext service.
     /// Includes its behavior in netcore pipelines before request execution.
     /// </summary>
+    /// <remarks>
+    /// Initialize a instance of <see cref="LiquidContextMiddleware"/>
+    /// </remarks>
+    /// <param name="next">Invoked request.</param>
+    /// <param name="options">Context keys configuration.</param>
     [ExcludeFromCodeCoverage]
-    public class LiquidContextMiddleware
+    public class LiquidContextMiddleware(RequestDelegate next, ILiquidConfiguration<ScopedContextSettings> options)
     {
-        private readonly RequestDelegate _next;
-        private readonly ILiquidConfiguration<ScopedContextSettings> _options;
-
-        /// <summary>
-        /// Initialize a instance of <see cref="LiquidContextMiddleware"/>
-        /// </summary>
-        /// <param name="next">Invoked request.</param>
-        /// <param name="options">Context keys configuration.</param>
-        public LiquidContextMiddleware(RequestDelegate next, ILiquidConfiguration<ScopedContextSettings> options)
-        {
-            _next = next;
-            _options = options;
-        }
+        private readonly RequestDelegate _next = next;
+        private readonly ILiquidConfiguration<ScopedContextSettings> _options = options;
 
         /// <summary>
         /// Obtains the value of configured keys from HttpContext and inserts them in LiquidContext service.

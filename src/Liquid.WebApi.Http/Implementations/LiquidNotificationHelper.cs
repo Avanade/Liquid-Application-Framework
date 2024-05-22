@@ -5,19 +5,14 @@ using System;
 namespace Liquid.WebApi.Http.Implementations
 {
     ///<inheritdoc/>
-    public class LiquidNotificationHelper : ILiquidNotificationHelper
+    /// <summary>
+    /// Inicialize a new instace of <see cref="LiquidNotificationHelper"/>
+    /// </summary>
+    /// <param name="contextNotifications"></param>
+    public class LiquidNotificationHelper(ILiquidContextNotifications contextNotifications) : ILiquidNotificationHelper
     {
-        private readonly ILiquidContextNotifications _contextNotifications;
+        private readonly ILiquidContextNotifications _contextNotifications = contextNotifications ?? throw new ArgumentNullException(nameof(contextNotifications));
 
-        /// <summary>
-        /// Inicialize a new instace of <see cref="LiquidNotificationHelper"/>
-        /// </summary>
-        /// <param name="contextNotifications"></param>
-        public LiquidNotificationHelper(ILiquidContextNotifications contextNotifications)
-        {
-            _contextNotifications = contextNotifications ?? throw new ArgumentNullException(nameof(contextNotifications));
-        }
-        
         ///<inheritdoc/>
         public object IncludeMessages<TResponse>(TResponse response)
         {

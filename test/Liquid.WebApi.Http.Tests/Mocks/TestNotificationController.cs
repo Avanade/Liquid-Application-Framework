@@ -12,14 +12,9 @@ using System.Threading.Tasks;
 namespace Liquid.WebApi.Http.UnitTests.Mocks
 {
     [ExcludeFromCodeCoverage]
-    public class TestNotificationController : LiquidControllerBase
+    public class TestNotificationController(IMediator mediator, ILiquidNotificationHelper liquidNotification) : LiquidControllerBase(mediator)
     {
-        private readonly ILiquidNotificationHelper _liquidNotification;
-        public TestNotificationController(IMediator mediator, ILiquidNotificationHelper liquidNotification) : base(mediator)
-        {
-            _liquidNotification = liquidNotification;
-        }
-
+        private readonly ILiquidNotificationHelper _liquidNotification = liquidNotification;
 
         public async Task<IActionResult> GetCase2() => Ok(await ExecuteAsync(new TestCaseRequest()));
 

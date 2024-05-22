@@ -5,19 +5,14 @@ using System.Collections.Generic;
 namespace Liquid.Core.Implementations
 {
     ///<inheritdoc/>
-    public class LiquidContextNotifications : ILiquidContextNotifications
+    /// <summary>
+    /// Initialize an instance of <seealso cref="LiquidContextNotifications"/>
+    /// </summary>
+    /// <param name="liquidContext"></param>
+    public class LiquidContextNotifications(ILiquidContext liquidContext) : ILiquidContextNotifications
     {
         private readonly string _notificationKey = "notification_" + Guid.NewGuid();
-        private readonly ILiquidContext _liquidContext;
-
-        /// <summary>
-        /// Initialize an instance of <seealso cref="LiquidContextNotifications"/>
-        /// </summary>
-        /// <param name="liquidContext"></param>
-        public LiquidContextNotifications(ILiquidContext liquidContext)
-        {
-            _liquidContext = liquidContext;
-        }
+        private readonly ILiquidContext _liquidContext = liquidContext;
 
         ///<inheritdoc/>
         public void InsertNotification(string message)

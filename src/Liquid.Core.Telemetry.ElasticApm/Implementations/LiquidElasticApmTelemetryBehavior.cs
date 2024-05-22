@@ -13,22 +13,16 @@ namespace Liquid.Core.Telemetry.ElasticApm.MediatR
     /// </summary>
     /// <typeparam name="TRequest">The type of request.</typeparam>
     /// <typeparam name="TResponse">Type of response object obtained upon return of request.</typeparam>
-    public sealed class LiquidElasticApmTelemetryBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+    /// <remarks>
+    /// Initialize an instance of <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/>
+    /// </remarks>
+    /// <param name="logger"><see cref="ILogger{TCategoryName}"/> implementation where TCategoryName is a <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/> instance.</param>
+    /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
+    public sealed class LiquidElasticApmTelemetryBehavior<TRequest, TResponse>(ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> logger, ITracer tracer) : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
-        private readonly ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> _logger;
+        private readonly ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> _logger = logger;
 
-        private readonly ITransaction _transaction;
-
-        /// <summary>
-        /// Initialize an instance of <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/>
-        /// </summary>
-        /// <param name="logger"><see cref="ILogger{TCategoryName}"/> implementation where TCategoryName is a <see cref="LiquidElasticApmTelemetryBehavior{TRequest, TResponse}"/> instance.</param>
-        /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
-        public LiquidElasticApmTelemetryBehavior(ILogger<LiquidElasticApmTelemetryBehavior<TRequest, TResponse>> logger, ITracer tracer)
-        {
-            _logger = logger;
-            _transaction = tracer?.CurrentTransaction;
-        }
+        private readonly ITransaction _transaction = tracer?.CurrentTransaction;
 
         /// <summary>
         /// Handles MediatR pipeline operation.

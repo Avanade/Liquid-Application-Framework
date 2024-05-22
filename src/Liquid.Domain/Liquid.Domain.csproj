@@ -1,16 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageId>Liquid.Domain</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Avanade Brazil</Authors>
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
-    <Copyright>Avanade 2019</Copyright>
+    <Copyright>Avanade 2024</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Domain</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-	<Version>6.0.0-preview-20231131-01</Version>
+	<Version>8.0.0-preview-20240521-01</Version>
     <ProjectGuid>{CE75EB47-68D9-46F5-BF91-60D39E52CC54}</ProjectGuid>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
@@ -19,10 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.4.0" />
-    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
+    <PackageReference Include="FluentValidation" Version="11.9.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.1" />
     <PackageReference Include="Liquid.Core" Version="6.0.0-preview-20231131-01" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,7 @@ using Liquid.Repository.Mongo.Exceptions;
 using Liquid.Repository.Mongo.Tests.Mock;
 using Microsoft.Extensions.Configuration;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -93,26 +94,26 @@ namespace Liquid.Repository.Mongo.Tests
         public void GetSettings_WhenSettingsAreOk_SettingsCreated()
         {
             var result = _sutCustomConfiguration.GetSettings<TestEntity>();
-            Assert.IsNotNull(result);
-            Assert.AreEqual("TestEntities", result.CollectionName);
-            Assert.AreEqual("id", result.ShardKey);
-            Assert.AreEqual(_databaseName, result.DatabaseSettings.DatabaseName);
-            Assert.AreEqual(_connectionString, result.DatabaseSettings.ConnectionString);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.AreEqual("TestEntities", result.CollectionName);
+            ClassicAssert.AreEqual("id", result.ShardKey);
+            ClassicAssert.AreEqual(_databaseName, result.DatabaseSettings.DatabaseName);
+            ClassicAssert.AreEqual(_connectionString, result.DatabaseSettings.ConnectionString);
 
             result = _sutCustomConfiguration.GetSettings<AnotherTestEntity>();
-            Assert.IsNotNull(result);
-            Assert.AreEqual("AnotherTestEntities", result.CollectionName);
-            Assert.AreEqual("id", result.ShardKey);
-            Assert.AreEqual($"{_databaseConfigurationSectionName}:{_databaseName}", result.DatabaseSettingsSectionName);
-            Assert.AreEqual(_databaseName, result.DatabaseSettings.DatabaseName);
-            Assert.AreEqual(_connectionString, result.DatabaseSettings.ConnectionString);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.AreEqual("AnotherTestEntities", result.CollectionName);
+            ClassicAssert.AreEqual("id", result.ShardKey);
+            ClassicAssert.AreEqual($"{_databaseConfigurationSectionName}:{_databaseName}", result.DatabaseSettingsSectionName);
+            ClassicAssert.AreEqual(_databaseName, result.DatabaseSettings.DatabaseName);
+            ClassicAssert.AreEqual(_connectionString, result.DatabaseSettings.ConnectionString);
 
             result = _sutStandardConfiguration.GetSettings<TestEntity>();
-            Assert.IsNotNull(result);
-            Assert.AreEqual("TestEntities", result.CollectionName);
-            Assert.AreEqual("id", result.ShardKey);
-            Assert.AreEqual(_databaseName, result.DatabaseSettings.DatabaseName);
-            Assert.AreEqual(_connectionString, result.DatabaseSettings.ConnectionString);
+            ClassicAssert.IsNotNull(result);
+            ClassicAssert.AreEqual("TestEntities", result.CollectionName);
+            ClassicAssert.AreEqual("id", result.ShardKey);
+            ClassicAssert.AreEqual(_databaseName, result.DatabaseSettings.DatabaseName);
+            ClassicAssert.AreEqual(_connectionString, result.DatabaseSettings.ConnectionString);
         }
     }
 }

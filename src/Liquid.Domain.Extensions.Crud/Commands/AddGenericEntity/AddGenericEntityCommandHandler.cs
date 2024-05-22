@@ -39,7 +39,7 @@ namespace Liquid.Domain.Extensions.Crud.Commands.AddGenericEntity
         {
             await _liquidRepository.AddAsync(request.Data);
 
-            await _mediator.Publish(new GenericEntityAddedNotification<TEntity, TIdentifier>(request.Data));
+            await _mediator.Publish(new GenericEntityAddedNotification<TEntity, TIdentifier>(request.Data), cancellationToken);
 
             return new AddGenericEntityCommandResponse<TEntity>(request.Data);
         }

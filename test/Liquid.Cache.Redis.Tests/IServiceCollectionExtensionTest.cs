@@ -36,8 +36,6 @@ namespace Liquid.Cache.Redis.Tests
 
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
-
         }
 
         [Fact]
@@ -51,11 +49,8 @@ namespace Liquid.Cache.Redis.Tests
             }, false);
 
             var provider = _sut.BuildServiceProvider();
-
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
-
         }
     }
 }

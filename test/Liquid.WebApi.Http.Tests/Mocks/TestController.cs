@@ -11,13 +11,8 @@ using System.Threading.Tasks;
 namespace Liquid.WebApi.Http.UnitTests.Mocks
 {
     [ExcludeFromCodeCoverage]
-    public class TestController : LiquidControllerBase
+    public class TestController(IMediator mediator) : LiquidControllerBase(mediator)
     {
-        public TestController(IMediator mediator) : base(mediator)
-        {
-        }
-
-        
         public async Task<IActionResult> GetCase1() => await ExecuteAsync(new TestCaseRequest(), HttpStatusCode.OK);
 
         public async Task<IActionResult> GetCase2() => Ok(await ExecuteAsync(new TestCaseRequest()));

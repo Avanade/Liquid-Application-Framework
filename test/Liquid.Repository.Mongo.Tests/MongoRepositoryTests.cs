@@ -4,6 +4,7 @@ using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -115,8 +116,8 @@ namespace Liquid.Repository.Mongo.Tests
 
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(result.FirstOrDefault(), _entity);
+            ClassicAssert.NotNull(result);
+            ClassicAssert.AreEqual(result.FirstOrDefault(), _entity);
 
         }
 
@@ -138,7 +139,7 @@ namespace Liquid.Repository.Mongo.Tests
 
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
-            Assert.IsTrue(result == _entity);
+            ClassicAssert.IsTrue(result == _entity);
 
         }
 
@@ -203,8 +204,8 @@ namespace Liquid.Repository.Mongo.Tests
 
             _dbDataContext.Database.Received().GetCollection<TestEntity>(_collectionName);
 
-            Assert.NotNull(result);
-            Assert.AreEqual(result.FirstOrDefault(), _entity);
+            ClassicAssert.NotNull(result);
+            ClassicAssert.AreEqual(result.FirstOrDefault(), _entity);
         }
 
         [Test]

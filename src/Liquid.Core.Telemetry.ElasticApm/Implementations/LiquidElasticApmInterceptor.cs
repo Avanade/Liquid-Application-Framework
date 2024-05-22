@@ -10,24 +10,18 @@ namespace Liquid.Core.Telemetry.ElasticApm.Implementations
     /// <summary>
     /// Implement interceptors for Elastic APM with actions after, before and on exception.
     /// </summary>
-    public sealed class LiquidElasticApmInterceptor : LiquidInterceptorBase
+    /// <remarks>
+    /// Initialize an instance of <see cref="LiquidElasticApmInterceptor"/>
+    /// </remarks>
+    /// <param name="logger"><see cref="ILogger{LiquidElasticApmInterceptor}"/> implementation.</param>
+    /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
+    public sealed class LiquidElasticApmInterceptor(ILogger<LiquidElasticApmInterceptor> logger, ITracer tracer) : LiquidInterceptorBase
     {
-        private readonly ILogger<LiquidElasticApmInterceptor> _logger;
+        private readonly ILogger<LiquidElasticApmInterceptor> _logger = logger;
 
-        private readonly ITracer _tracer;
+        private readonly ITracer _tracer = tracer;
 
         private ISpan span;
-
-        /// <summary>
-        /// Initialize an instance of <see cref="LiquidElasticApmInterceptor"/>
-        /// </summary>
-        /// <param name="logger"><see cref="ILogger{LiquidElasticApmInterceptor}"/> implementation.</param>
-        /// <param name="tracer">Elastic APM <see cref="ITracer"/> implementation.</param>
-        public LiquidElasticApmInterceptor(ILogger<LiquidElasticApmInterceptor> logger, ITracer tracer)
-        {
-            _logger = logger;
-            _tracer = tracer;
-        }
 
         /// <summary>
         /// Generates log information from the end of method execution with metrics.

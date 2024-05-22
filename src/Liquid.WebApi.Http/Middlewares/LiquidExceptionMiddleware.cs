@@ -15,27 +15,20 @@ namespace Liquid.WebApi.Http.Middlewares
     /// Generates a log and serialize a formated Json response object for generic exceptions.
     /// Includes its behavior in netcore pipelines after request execution when thows error.
     /// </summary>
+    /// <remarks>
+    /// Initialize a new instance of <see cref="LiquidExceptionMiddleware"/>
+    /// </remarks>
+    /// <param name="logger"></param>
+    /// <param name="serializerProvider"></param>
+    /// <param name="next"></param>
     [ExcludeFromCodeCoverage]
-    public class LiquidExceptionMiddleware
-    {
-        private readonly ILogger<LiquidExceptionMiddleware> _logger;
-        private readonly RequestDelegate _next;
-        private readonly ILiquidSerializerProvider _serializerProvider;
-
-        /// <summary>
-        /// Initialize a new instance of <see cref="LiquidExceptionMiddleware"/>
-        /// </summary>
-        /// <param name="logger"></param>
-        /// <param name="serializerProvider"></param>
-        /// <param name="next"></param>
-        public LiquidExceptionMiddleware(RequestDelegate next
+    public class LiquidExceptionMiddleware(RequestDelegate next
             , ILogger<LiquidExceptionMiddleware> logger
             , ILiquidSerializerProvider serializerProvider)
-        {
-            _logger = logger;
-            _next = next;
-            _serializerProvider = serializerProvider;
-        }
+    {
+        private readonly ILogger<LiquidExceptionMiddleware> _logger = logger;
+        private readonly RequestDelegate _next = next;
+        private readonly ILiquidSerializerProvider _serializerProvider = serializerProvider;
 
         /// <summary>
         /// Generates a log and serialize a formated Json response object for exceptions.

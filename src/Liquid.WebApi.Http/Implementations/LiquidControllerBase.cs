@@ -11,7 +11,11 @@ namespace Liquid.WebApi.Http.Controllers
     /// Base Controller Class.
     /// </summary>
     /// <seealso cref="ControllerBase" />
-    public abstract class LiquidControllerBase : ControllerBase
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="LiquidControllerBase" /> class.
+    /// </remarks>
+    /// <param name="mediator">The mediator service.</param>
+    public abstract class LiquidControllerBase(IMediator mediator) : ControllerBase
     {
         /// <summary>
         /// Gets or sets the mediator service.
@@ -20,17 +24,8 @@ namespace Liquid.WebApi.Http.Controllers
         /// The mediator service.
         /// </value>
         [ExcludeFromCodeCoverage]
-        protected IMediator Mediator { get; }
+        protected IMediator Mediator { get; } = mediator ?? throw new ArgumentNullException(nameof(mediator));
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LiquidControllerBase" /> class.
-        /// </summary>
-        /// <param name="mediator">The mediator service.</param>
-        protected LiquidControllerBase(IMediator mediator)
-        {
-            Mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-        }
-        
 
         /// <summary>
         /// Executes the action <see cref="Mediator.Send{TResponse}(IRequest{TResponse}, System.Threading.CancellationToken)"/>.

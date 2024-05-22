@@ -1,17 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	  <PackageId>Liquid.Cache.NCache</PackageId>
 		<Nullable>enable</Nullable>
 	   <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <Authors>Avanade Brazil</Authors>
 	  <Company>Avanade Inc.</Company>
 	  <Product>Liquid Application Framework</Product>
-	  <Copyright>Avanade 2019</Copyright>
+	  <Copyright>Avanade 2024</Copyright>
 	  <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
 	  <PackageIcon>logo.png</PackageIcon>
-	  <Version>6.0.0-preview-20231130-01</Version>
+	  <Version>8.0.0-preview-20240521-01</Version>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <IsPackable>true</IsPackable>
 	  <DebugType>Full</DebugType>
@@ -30,8 +30,8 @@
 
   <ItemGroup>
     <PackageReference Include="Liquid.Cache" Version="6.0.0-preview-20231130-02" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="NCache.Microsoft.Extensions.Caching" Version="5.3.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
+    <PackageReference Include="NCache.Microsoft.Extensions.Caching" Version="5.3.3" />
   </ItemGroup>
 
   <ItemGroup>

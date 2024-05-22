@@ -7,8 +7,13 @@ namespace Liquid.Core.Exceptions
     /// Contains Exceptions Custom Codes to be processed and converted to custom error codes.
     /// </summary>
     /// <seealso cref="Liquid.Core.Base.Enumeration" />
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="ExceptionCustomCodes"/> class.
+    /// </remarks>
+    /// <param name="value">The value.</param>
+    /// <param name="displayName">The display name.</param>
     [ExcludeFromCodeCoverage]
-    public class ExceptionCustomCodes : Enumeration
+    public class ExceptionCustomCodes(int value, string displayName) : Enumeration(value, displayName)
     {
         /// <summary>
         /// Indicates that the item is not found.
@@ -44,14 +49,5 @@ namespace Liquid.Core.Exceptions
         /// Indicates the item is not authorized.
         /// </summary>
         public static readonly ExceptionCustomCodes Unauthorized = new ExceptionCustomCodes(401, "Unauthorized");
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ExceptionCustomCodes"/> class.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="displayName">The display name.</param>
-        public ExceptionCustomCodes(int value, string displayName) : base(value, displayName)
-        {
-        }
     }
 }

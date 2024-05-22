@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -59,8 +60,8 @@ namespace Liquid.Repository.EntityFramework.Tests
             await mockRepository.AddAsync(entity);
 
             //Assert
-            Assert.NotNull(entity);
-            Assert.AreNotEqual(default, entity.MockId);
+            ClassicAssert.NotNull(entity);
+            ClassicAssert.AreNotEqual(default, entity.MockId);
         }
 
         [Category("AddAsync")]
@@ -93,8 +94,8 @@ namespace Liquid.Repository.EntityFramework.Tests
             var entity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.NotNull(entity);
-            Assert.AreEqual(mockId, entity.MockId);
+            ClassicAssert.NotNull(entity);
+            ClassicAssert.AreEqual(mockId, entity.MockId);
         }
         [Category("FindByIdAsync")]
         [Test]
@@ -124,9 +125,9 @@ namespace Liquid.Repository.EntityFramework.Tests
             var result = await mockRepository.WhereAsync(o => o.MockTitle.Equals(mockTitle));
 
             //Assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.IsTrue(result.All(o => o.MockTitle.Equals(mockTitle)));
+            ClassicAssert.NotNull(result);
+            ClassicAssert.IsNotEmpty(result);
+            ClassicAssert.IsTrue(result.All(o => o.MockTitle.Equals(mockTitle)));
         }
 
         [Category("WhereAsync")]
@@ -157,9 +158,9 @@ namespace Liquid.Repository.EntityFramework.Tests
             var result = await mockRepository.FindAllAsync();
 
             //Assert
-            Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(100, result.Count());
+            ClassicAssert.NotNull(result);
+            ClassicAssert.IsNotEmpty(result);
+            ClassicAssert.AreEqual(100, result.Count());
         }
 
         [Category("FindAllAsync")]
@@ -175,7 +176,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var result = await mockRepository.FindAllAsync();
 
             //Assert
-            Assert.IsEmpty(result);
+            ClassicAssert.IsEmpty(result);
         }             
 
         [Category("RemoveByIdAsync")]
@@ -191,7 +192,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var anotherEntity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.IsNull(anotherEntity);
+            ClassicAssert.IsNull(anotherEntity);
         }
 
         [Category("RemoveByIdAsync")]
@@ -207,7 +208,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             var anotherEntity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.IsNull(anotherEntity);
+            ClassicAssert.IsNull(anotherEntity);
         }
 
         [Category("RemoveByIdAsync")]
@@ -241,8 +242,8 @@ namespace Liquid.Repository.EntityFramework.Tests
             var anotherEntity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.NotNull(anotherEntity);
-            Assert.AreEqual("TITLE_001_UPDATED", anotherEntity.MockTitle);
+            ClassicAssert.NotNull(anotherEntity);
+            ClassicAssert.AreEqual("TITLE_001_UPDATED", anotherEntity.MockTitle);
         }
 
         [Category("UpdateAsync")]
@@ -292,11 +293,11 @@ namespace Liquid.Repository.EntityFramework.Tests
             var entityFrameworkDataContext = mockRepository.EntityDataContext;
 
             //Assert
-            Assert.IsNotNull(dataContext);
-            Assert.IsInstanceOf<ILiquidDataContext>(dataContext);
+            ClassicAssert.IsNotNull(dataContext);
+            ClassicAssert.IsInstanceOf<ILiquidDataContext>(dataContext);
 
-            Assert.IsNotNull(entityFrameworkDataContext);
-            Assert.IsInstanceOf<IEntityFrameworkDataContext<MockDbContext>>(entityFrameworkDataContext);
+            ClassicAssert.IsNotNull(entityFrameworkDataContext);
+            ClassicAssert.IsInstanceOf<IEntityFrameworkDataContext<MockDbContext>>(entityFrameworkDataContext);
         }
     }
 }

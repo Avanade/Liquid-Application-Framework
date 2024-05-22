@@ -6,18 +6,13 @@ using System.Linq;
 namespace Liquid.Core.Implementations
 {
     ///<inheritdoc/>
-    public class LiquidSerializerProvider : ILiquidSerializerProvider
+    /// <summary>
+    /// Initilize a new instance of <see cref="LiquidSerializerProvider"/>
+    /// </summary>
+    /// <param name="serializers"></param>
+    public class LiquidSerializerProvider(IEnumerable<ILiquidSerializer> serializers) : ILiquidSerializerProvider
     {
-        private readonly IEnumerable<ILiquidSerializer> _serializers;
-
-        /// <summary>
-        /// Initilize a new instance of <see cref="LiquidSerializerProvider"/>
-        /// </summary>
-        /// <param name="serializers"></param>
-        public LiquidSerializerProvider(IEnumerable<ILiquidSerializer> serializers)
-        {
-            _serializers = serializers ?? throw new ArgumentNullException(nameof(serializers));
-        }
+        private readonly IEnumerable<ILiquidSerializer> _serializers = serializers ?? throw new ArgumentNullException(nameof(serializers));
 
         ///<inheritdoc/>
         public ILiquidSerializer GetSerializerByType(Type serializerType)

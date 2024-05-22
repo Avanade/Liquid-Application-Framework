@@ -6,7 +6,7 @@
   </ItemGroup>
   
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>Liquid.Domain.Extensions.Crud</AssemblyName>
     <RootNamespace>Liquid.Domain.Extensions.Crud</RootNamespace>
     <PackageId>Liquid.Domain.Extensions.Crud</PackageId>
@@ -14,10 +14,10 @@
     <Authors>Avanade Brazil</Authors>
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
-    <Copyright>Avanade 2019</Copyright>
+    <Copyright>Avanade 2024</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Domain</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20231131-1</Version>
+    <Version>8.0.0-preview-20240521-01</Version>
     <ProjectGuid>{90E8D24B-E7A8-44E1-A1D4-E917F8130002}</ProjectGuid>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>

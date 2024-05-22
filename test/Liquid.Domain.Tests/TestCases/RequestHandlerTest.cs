@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging.Configuration;
 using Microsoft.Extensions.Logging.Console;
 using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -41,7 +42,6 @@ namespace Liquid.Domain.Tests.TestCases
             LoggerProviderOptions.RegisterProviderOptions<ConsoleLoggerOptions, ConsoleLoggerProvider>(services);
 #pragma warning disable CS0618
             services.Configure(new Action<ConsoleLoggerOptions>(options => options.DisableColors = false));
-
 #pragma warning restore CS0618
             services.AddSingleton(LoggerFactory.Create(builder => { builder.AddConsole(); }));
 
@@ -69,8 +69,7 @@ namespace Liquid.Domain.Tests.TestCases
             var response = await mediator.Send(new Test1Command());
 
             _logger.Received(2);
-
-            Assert.IsNotNull(response);
+            Assert.That(response, Is.Not.Null);
         }
 
         [Test]
@@ -81,7 +80,7 @@ namespace Liquid.Domain.Tests.TestCases
             using var scopedTransaction2 = _serviceProvider.CreateScope();
             var response2 = await mediator.Send(new Test2Command { Id = 1 });
 
-            Assert.IsNotNull(response2);
+            Assert.That(response2, Is.Not.Null);
             _logger2.Received(2);
         }
 

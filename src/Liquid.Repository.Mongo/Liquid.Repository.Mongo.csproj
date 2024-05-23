@@ -25,7 +25,6 @@
   
 
   <ItemGroup>
-	<PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20231130-02" />
 	<PackageReference Include="MongoDB.Driver" Version="2.25.0" />
   </ItemGroup>
 
@@ -34,6 +33,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Repository\Liquid.Repository.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,7 +18,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-	  <PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20231130-02" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.5" />
   </ItemGroup>
 
@@ -27,6 +26,10 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Repository\Liquid.Repository.csproj" />
   </ItemGroup>
 
 </Project>

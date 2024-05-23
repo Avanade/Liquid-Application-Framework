@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.27.1" />
-    <PackageReference Include="Liquid.Core" Version="2.2.0-preview-20220901-01" />
     <PackageReference Include="MediatR" Version="12.2.0" />
   </ItemGroup>
 
@@ -29,5 +28,9 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Core\Liquid.Core.csproj" />
   </ItemGroup>
 </Project>

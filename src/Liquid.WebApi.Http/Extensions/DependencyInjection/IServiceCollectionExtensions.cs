@@ -3,7 +3,6 @@ using Liquid.Core.Extensions;
 using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
-using Liquid.Core.Utils;
 using Liquid.Domain.Extensions.DependencyInjection;
 using Liquid.WebApi.Http.Filters.Swagger;
 using Liquid.WebApi.Http.Settings;
@@ -37,7 +36,7 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
             services.AddScoped<ILiquidContext, LiquidContext>();
             services.AddLiquidSerializers();
             services.AddLiquidConfiguration();
-            services.AddAutoMapper(assemblies);
+            services.AddLiquidAutoMapper(assemblies);
             services.AddLiquidHandlers(true, true, assemblies);
 
             services.AddLiquidSwagger();

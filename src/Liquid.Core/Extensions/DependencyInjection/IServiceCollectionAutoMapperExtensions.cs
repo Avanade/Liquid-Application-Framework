@@ -34,7 +34,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <param name="services">The services.</param>
         /// <param name="assemblies">The assemblies.</param>
         /// <returns></returns>
-        public static IServiceCollection AddAutoMapper(this IServiceCollection services, params Assembly[] assemblies)
+        public static IServiceCollection AddLiquidAutoMapper(this IServiceCollection services, params Assembly[] assemblies)
             => AddAutoMapperClasses(services, null, assemblies);
 
         /// <summary>

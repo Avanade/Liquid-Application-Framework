@@ -1,9 +1,4 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-  <ItemGroup>
-    <PackageReference Include="Liquid.Domain" Version="6.0.0-preview-20230201-02" />
-    <PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20221201-01" />
-  </ItemGroup>
   
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -30,6 +25,11 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Domain\Liquid.Domain.csproj" />
+    <ProjectReference Include="..\Liquid.Repository\Liquid.Repository.csproj" />
   </ItemGroup>
 
 </Project>

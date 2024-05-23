@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
     <None Include="..\..\logo.png">
@@ -8,8 +8,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Domain.Extensions.Crud" Version="6.0.0-preview-20230201-02" />
-    <PackageReference Include="Liquid.WebApi.Http" Version="6.0.0-preview-20230517-01" />
+    <ProjectReference Include="..\Liquid.Domain.Extensions.Crud\Liquid.Domain.Extensions.Crud.csproj" />
+    <ProjectReference Include="..\Liquid.WebApi.Http\Liquid.WebApi.Http.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

@@ -6,8 +6,12 @@ namespace Liquid.Core.Attributes
     /// Defines which configuration section, the custom configuration will read from json file.
     /// </summary>
     /// <seealso cref="Attribute" />
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="LiquidSectionNameAttribute"/> class.
+    /// </remarks>
+    /// <param name="sectionName">Name of the section.</param>
     [AttributeUsage(AttributeTargets.Class)]
-    public class LiquidSectionNameAttribute : Attribute
+    public class LiquidSectionNameAttribute(string sectionName) : Attribute
     {
         /// <summary>
         /// Gets the name of the section.
@@ -15,15 +19,6 @@ namespace Liquid.Core.Attributes
         /// <value>
         /// The name of the section.
         /// </value>
-        public string SectionName { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LiquidSectionNameAttribute"/> class.
-        /// </summary>
-        /// <param name="sectionName">Name of the section.</param>
-        public LiquidSectionNameAttribute(string sectionName)
-        {
-            SectionName = sectionName;
-        }
+        public string SectionName { get; } = sectionName;
     }
 }

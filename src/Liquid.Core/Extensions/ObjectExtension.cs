@@ -200,11 +200,11 @@ namespace Liquid.Core.Extensions
         /// <returns></returns>
         public static byte[] ToBytes(this object obj)
         {
-            if (obj == null) return Array.Empty<byte>();
+            if (obj == null) return [];
 
             using var memoryStream = new MemoryStream();
-            var binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Serialize(memoryStream, obj);
+
+            JsonSerializer.Serialize(memoryStream, obj);
             return memoryStream.ToArray();
         }
 

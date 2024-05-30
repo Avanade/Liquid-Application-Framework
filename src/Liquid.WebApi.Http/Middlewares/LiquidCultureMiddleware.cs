@@ -12,23 +12,17 @@ namespace Liquid.WebApi.Http.Middlewares
     /// Configures the culture in the current thread.
     /// Includes its behavior in netcore pipelines before request execution.
     /// </summary>
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="LiquidCultureMiddleware" /> class.
+    /// </remarks>
+    /// <param name="next">The next.</param>
+    /// <param name="options"></param>
     [ExcludeFromCodeCoverage]
-    public sealed class LiquidCultureMiddleware
+    public sealed class LiquidCultureMiddleware(RequestDelegate next, ILiquidConfiguration<CultureSettings> options)
     {
         private const string _culture = "culture";
-        private readonly ILiquidConfiguration<CultureSettings> _options;
-        private readonly RequestDelegate _next;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="LiquidCultureMiddleware" /> class.
-        /// </summary>
-        /// <param name="next">The next.</param>
-        /// <param name="options"></param>
-        public LiquidCultureMiddleware(RequestDelegate next, ILiquidConfiguration<CultureSettings> options)
-        {
-            _next = next;
-            _options = options;
-        }
+        private readonly ILiquidConfiguration<CultureSettings> _options = options;
+        private readonly RequestDelegate _next = next;
 
         /// <summary>
         /// Configures the culture in the current thread as set on request or in appsettings, prioritizing request informations.

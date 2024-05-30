@@ -14,25 +14,18 @@ namespace Liquid.WebApi.Http.Middlewares
     /// Inserts configured context keys in ILogger service scope.
     /// Includes its behavior in netcore pipelines before request execution.
     /// </summary>
+    /// <remarks>
+    /// Initialize a new instance of <see cref="LiquidScopedLoggingMiddleware"/>
+    /// </remarks>
+    /// <param name="next">Invoked request.</param>
+    /// <param name="logger">Logger service instance.</param>
+    /// <param name="options">Context keys set.</param>
     [ExcludeFromCodeCoverage]
-    public class LiquidScopedLoggingMiddleware
+    public class LiquidScopedLoggingMiddleware(RequestDelegate next, ILogger<LiquidScopedLoggingMiddleware> logger, ILiquidConfiguration<ScopedLoggingSettings> options)
     {
-        private readonly RequestDelegate _next;
-        private readonly ILogger<LiquidScopedLoggingMiddleware> _logger;
-        private readonly ILiquidConfiguration<ScopedLoggingSettings> _options;
-
-        /// <summary>
-        /// Initialize a new instance of <see cref="LiquidScopedLoggingMiddleware"/>
-        /// </summary>
-        /// <param name="next">Invoked request.</param>
-        /// <param name="logger">Logger service instance.</param>
-        /// <param name="options">Context keys set.</param>
-        public LiquidScopedLoggingMiddleware(RequestDelegate next, ILogger<LiquidScopedLoggingMiddleware> logger, ILiquidConfiguration<ScopedLoggingSettings> options)
-        {
-            _next = next;
-            _logger = logger;
-            _options = options;
-        }
+        private readonly RequestDelegate _next = next;
+        private readonly ILogger<LiquidScopedLoggingMiddleware> _logger = logger;
+        private readonly ILiquidConfiguration<ScopedLoggingSettings> _options = options;
 
         /// <summary>
         /// Obtains the value of configured keys from HttpContext and inserts them in ILogger service scope.

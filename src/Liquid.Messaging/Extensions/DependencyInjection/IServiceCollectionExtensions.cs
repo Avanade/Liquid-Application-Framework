@@ -60,7 +60,7 @@ namespace Liquid.Messaging.Extensions.DependencyInjection
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
         public static IServiceCollection AddLiquidDomain(this IServiceCollection services, params Assembly[] assemblies)
         {
-            services.AddAutoMapper(assemblies);
+            services.AddLiquidAutoMapper(assemblies);
             services.AddLiquidHandlers(withTelemetry: true, withValidators: true, assemblies);
 
             return services;

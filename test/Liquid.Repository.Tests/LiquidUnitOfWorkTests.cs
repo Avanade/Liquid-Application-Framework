@@ -1,16 +1,15 @@
 using Liquid.Core.Implementations;
-using Microsoft.Extensions.Configuration;
+using Liquid.Repository.Exceptions;
+using Liquid.Repository.Tests.Mock;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Liquid.Repository.Tests.Mock;
-using Liquid.Repository.Exceptions;
 
 namespace Liquid.Repository.Tests
 {
@@ -85,7 +84,7 @@ namespace Liquid.Repository.Tests
 
             var unitOfWorkWithRepository = new LiquidUnitOfWork(serviceProvider); 
 
-            Assert.IsInstanceOf<ILiquidRepository<TestEntity, int>>(unitOfWorkWithRepository.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>());
+            ClassicAssert.IsInstanceOf<ILiquidRepository<TestEntity, int>>(unitOfWorkWithRepository.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>());
 
             unitOfWorkWithRepository.Dispose();
         }
@@ -101,7 +100,7 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            Assert.NotNull(result);
+            ClassicAssert.NotNull(result);
         }
 
         [Test]
@@ -115,7 +114,7 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            Assert.Null(result);
+            ClassicAssert.Null(result);
         }
 
         [Test]
@@ -131,7 +130,7 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.WhereAsync(e => e.Id.Equals(_entity.Id));
 
-            Assert.IsFalse(result.Any());
+            ClassicAssert.IsFalse(result.Any());
         }
 
         [Test]
@@ -147,7 +146,7 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            Assert.NotNull(result);
+            ClassicAssert.NotNull(result);
         }
 
         [Test]
@@ -163,7 +162,7 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            Assert.AreEqual(_updateEntity.Active, result.Active);
+            ClassicAssert.AreEqual(_updateEntity.Active, result.Active);
         }
 
         [Test]
@@ -179,7 +178,7 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            Assert.AreEqual(_entity.Active, result.Active);
+            ClassicAssert.AreEqual(_entity.Active, result.Active);
         }
 
         [Test]

@@ -42,7 +42,7 @@ namespace Liquid.Domain.Extensions.Crud.Commands.RemoveGenericEntity
             if (entity != null)
             {
                 await _liquidRepository.RemoveByIdAsync(request.Id);
-                await _mediator.Publish(new GenericEntityRemovedNotification<TEntity, TIdentifier>(entity));
+                await _mediator.Publish(new GenericEntityRemovedNotification<TEntity, TIdentifier>(entity), cancellationToken);
             }
 
             return new RemoveGenericEntityCommandResponse<TEntity>(entity);

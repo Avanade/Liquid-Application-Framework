@@ -1,6 +1,7 @@
-﻿using Liquid.Repository.Configuration;
-using EphemeralMongo;
+﻿using EphemeralMongo;
+using Liquid.Repository.Configuration;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Diagnostics.CodeAnalysis;
 
@@ -61,7 +62,7 @@ namespace Liquid.Repository.Mongo.Tests
         public void GetClient_WhenDatabaseIdsExists_ClientCreated()
         {
             var result = _sut.GetClient(_correctDatabaseSettings);
-            Assert.IsNotNull(result.GetDatabase(_databaseName));
+            ClassicAssert.IsNotNull(result.GetDatabase(_databaseName));
         }
 
         [Test]

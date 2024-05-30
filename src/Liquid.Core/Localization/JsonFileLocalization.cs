@@ -16,20 +16,15 @@ namespace Liquid.Core.Localization
     /// Resource file catalog class.
     /// </summary>
     /// <seealso cref="ILocalization" />
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="JsonFileLocalization" /> class.
+    /// </remarks>
+    /// <param name="configuration">The configuration.</param>
     [Obsolete("This class will be removed or refactored in the next release.")]
     [ExcludeFromCodeCoverage]
-    public class JsonFileLocalization : ILocalization
+    public class JsonFileLocalization(ILiquidConfiguration<CultureSettings> configuration) : ILocalization
     {
-        private readonly IDictionary<CultureInfo, LocalizationCollection> _localizationItems;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="JsonFileLocalization" /> class.
-        /// </summary>
-        /// <param name="configuration">The configuration.</param>
-        public JsonFileLocalization(ILiquidConfiguration<CultureSettings> configuration)
-        {
-            _localizationItems = ReadLocalizationFiles(configuration);
-        }
+        private readonly IDictionary<CultureInfo, LocalizationCollection> _localizationItems = ReadLocalizationFiles(configuration);
 
         /// <summary>
         /// Gets the specified string according to culture.

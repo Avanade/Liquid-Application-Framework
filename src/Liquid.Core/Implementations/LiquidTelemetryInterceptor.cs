@@ -10,20 +10,14 @@ namespace Liquid.Core.Implementations
     /// <summary>
     /// Telemetry interceptor implementation.
     /// </summary>
-    public class LiquidTelemetryInterceptor : LiquidInterceptorBase
+    /// <remarks>
+    /// Initialize an instance of <see cref="LiquidTelemetryInterceptor"/>
+    /// </remarks>
+    /// <param name="logger"></param>
+    public class LiquidTelemetryInterceptor(ILogger<LiquidTelemetryInterceptor> logger) : LiquidInterceptorBase
     {
-        private readonly ILogger<LiquidTelemetryInterceptor> _logger;
-        private readonly Stopwatch _stopwatch;
-
-        /// <summary>
-        /// Initialize an instance of <see cref="LiquidTelemetryInterceptor"/>
-        /// </summary>
-        /// <param name="logger"></param>
-        public LiquidTelemetryInterceptor(ILogger<LiquidTelemetryInterceptor> logger)
-        {
-            _logger = logger;
-            _stopwatch = new Stopwatch();
-        }
+        private readonly ILogger<LiquidTelemetryInterceptor> _logger = logger;
+        private readonly Stopwatch _stopwatch = new Stopwatch();
 
         /// <summary>
         /// Generates log information from the end of method execution with metrics.

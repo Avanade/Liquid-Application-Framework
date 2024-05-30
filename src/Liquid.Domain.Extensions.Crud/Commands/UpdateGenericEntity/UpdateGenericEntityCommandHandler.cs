@@ -42,7 +42,7 @@ namespace Liquid.Domain.Extensions.Crud.Commands.UpdateGenericEntity
             if (entity != null)
             {
                 await _liquidRepository.UpdateAsync(request.Data);
-                await _mediator.Publish(new GenericEntityUpdatedNotification<TEntity, TIdentifier>(request.Data));
+                await _mediator.Publish(new GenericEntityUpdatedNotification<TEntity, TIdentifier>(request.Data), cancellationToken);
             }
 
             return new UpdateGenericEntityCommandResponse<TEntity>(entity);

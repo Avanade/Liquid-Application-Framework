@@ -1,12 +1,13 @@
-﻿using Liquid.Core.Implementations;
+﻿using EphemeralMongo;
+using Liquid.Core.Implementations;
 using Liquid.Repository.Mongo.Extensions;
 using Liquid.Repository.Mongo.Tests.Mock;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using EphemeralMongo;
 using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
@@ -80,8 +81,8 @@ namespace Liquid.Repository.Mongo.Tests
         {
             _services.AddLiquidMongoRepository<TestEntity, int>(_entityConfigurationSectionName);
             _serviceProvider = _services.BuildServiceProvider();
-            Assert.IsNotNull(_serviceProvider.GetService<IMongoDataContext<TestEntity>>());
-            Assert.IsNotNull(_serviceProvider.GetService<ILiquidRepository<TestEntity, int>>());
+            ClassicAssert.IsNotNull(_serviceProvider.GetService<IMongoDataContext<TestEntity>>());
+            ClassicAssert.IsNotNull(_serviceProvider.GetService<ILiquidRepository<TestEntity, int>>());
         }
         
     }

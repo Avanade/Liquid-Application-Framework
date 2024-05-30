@@ -11,19 +11,14 @@ namespace Liquid.Core.Base
     /// Enumeration Base Class.
     /// </summary>
     /// <seealso cref="System.IComparable" />
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="Enumeration"/> class.
+    /// </remarks>
+    /// <param name="value">The value.</param>
+    /// <param name="displayName">The display name.</param>
     [ExcludeFromCodeCoverage]
-    public abstract class Enumeration : IComparable
+    public abstract class Enumeration(int value, string displayName) : IComparable
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Enumeration"/> class.
-        /// </summary>
-        /// <param name="value">The value.</param>
-        /// <param name="displayName">The display name.</param>
-        protected Enumeration(int value, string displayName)
-        {
-            Value = value;
-            DisplayName = displayName;
-        }
 
         /// <summary>
         /// Gets the value.
@@ -31,7 +26,7 @@ namespace Liquid.Core.Base
         /// <value>
         /// The value.
         /// </value>
-        public int Value { get; }
+        public int Value { get; } = value;
 
         /// <summary>
         /// Gets the display name.
@@ -39,7 +34,7 @@ namespace Liquid.Core.Base
         /// <value>
         /// The display name.
         /// </value>
-        public string DisplayName { get; }
+        public string DisplayName { get; } = displayName;
 
         /// <summary>
         /// Converts to string.

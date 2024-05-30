@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using NSubstitute;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -104,8 +105,8 @@ namespace Liquid.Repository.EntityFramework.Tests
         [Test]
         public void EntityFrameworkDataContext_WhenCreated_DbContextIsValid()
         {
-            Assert.IsNotNull(_sut.DbClient);
-            Assert.IsInstanceOf<DbContext>(_sut.DbClient);
+            ClassicAssert.IsNotNull(_sut.DbClient);
+            ClassicAssert.IsInstanceOf<DbContext>(_sut.DbClient);
         }
 
         [Test]
@@ -117,7 +118,7 @@ namespace Liquid.Repository.EntityFramework.Tests
         [Test]
         public void EntityFrameworkDataContext_IdIsAlwaysNull()
         {
-            Assert.IsNull(_sut.Id);
+            ClassicAssert.IsNull(_sut.Id);
         }
     }
 }

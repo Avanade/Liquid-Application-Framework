@@ -14,13 +14,12 @@ using System.Threading.Tasks;
 namespace Liquid.WebApi.Http.Extensions.Crud.Controllers
 {
     ///<inheritdoc/>
+    ///<inheritdoc/>
     [ApiController]
     [SwaggerCultureHeader]
     [Route("api/[controller]")]
-    public class GenericCrudController<TEntity, TIdentifier> : LiquidControllerBase, IGenericCrudController<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>
+    public class GenericCrudController<TEntity, TIdentifier>(IMediator mediator) : LiquidControllerBase(mediator), IGenericCrudController<TEntity, TIdentifier> where TEntity : LiquidEntity<TIdentifier>
     {
-        ///<inheritdoc/>
-        public GenericCrudController(IMediator mediator) : base(mediator) { }
 
         ///<inheritdoc/>
         [HttpPost("")]

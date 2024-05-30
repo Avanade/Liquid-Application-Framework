@@ -7,18 +7,15 @@ namespace Liquid.WebApi.Http.Attributes
     /// Swagger header base attribute class. Used to populate custom headers in Swagger.
     /// </summary>
     /// <seealso cref="Attribute" />
+    /// <remarks>
+    /// Initializes a new instance of the <see cref="SwaggerCustomHeaderAttribute" /> class.
+    /// </remarks>
+    /// <param name="name">The name.</param>
+    /// <param name="required">if set to <c>true</c> [required].</param>
+    /// <param name="description">The description.</param>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true)]
     [ExcludeFromCodeCoverage]
-    public class SwaggerCustomHeaderAttribute : SwaggerBaseHeaderAttribute
+    public class SwaggerCustomHeaderAttribute(string name, bool required = false, string description = "") : SwaggerBaseHeaderAttribute(name, required, description)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="SwaggerCustomHeaderAttribute" /> class.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <param name="required">if set to <c>true</c> [required].</param>
-        /// <param name="description">The description.</param>
-        public SwaggerCustomHeaderAttribute(string name, bool required = false, string description = "") : base(name, required, description)
-        {
-        }
     }
 }

@@ -8,7 +8,7 @@
 	  <Company>Avanade Inc.</Company>
 	  <Product>Liquid - Modern Application Framework</Product>
 	  <Copyright>Avanade 2019</Copyright>
-	  <Version>6.0.0-preview-20221201-02</Version>
+	  <Version>6.0.0</Version>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <IsPackable>true</IsPackable>
 	  <Description>Adapter for Microsoft Dataverse integrations.
@@ -18,7 +18,10 @@ This component is part of Liquid Application Framework.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.PowerPlatform.Dataverse.Client" Version="1.1.16" />
+    <PackageReference Include="Microsoft.Identity.Client" Version="4.61.3" />
+    <PackageReference Include="Microsoft.PowerPlatform.Dataverse.Client" Version="1.1.22" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

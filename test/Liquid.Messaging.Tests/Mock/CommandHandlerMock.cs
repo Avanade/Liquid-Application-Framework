@@ -6,10 +6,9 @@ namespace Liquid.Messaging.Tests.Mock
 {
     public class CommandHandlerMock : IRequestHandler<CommandRequestMock>
     {
-        public async Task<Unit> Handle(CommandRequestMock request, CancellationToken cancellationToken)
+        public async Task Handle(CommandRequestMock request, CancellationToken cancellationToken)
         {
             await Task.CompletedTask;
-            return new Unit();
         }
     }
 }

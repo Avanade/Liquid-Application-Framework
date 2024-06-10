@@ -8,9 +8,9 @@
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
     <Copyright>Avanade 2019</Copyright>
-    <PackageProjectUrl>https://github.com/Avanade/Liquid.WebApi</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20231130-01</Version>
+    <Version>6.0.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <DebugType>Full</DebugType>
@@ -23,10 +23,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Core" Version="6.0.0-preview-20221201-01" />
-    <PackageReference Include="Liquid.Domain" Version="6.0.0-preview-20230201-02" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Liquid.Domain" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>

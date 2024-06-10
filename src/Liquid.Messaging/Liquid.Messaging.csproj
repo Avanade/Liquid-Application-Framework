@@ -7,9 +7,9 @@
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
     <Copyright>Avanade 2019</Copyright>
-    <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20231130-02</Version>
+    <Version>6.0.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>
       The Liquid.Messaging provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
@@ -20,8 +20,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Core" Version="6.0.0-preview-20221201-01" />
-    <PackageReference Include="Liquid.Domain" Version="6.0.0-preview-20230201-02" />
+    <PackageReference Include="Liquid.Domain" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
   </ItemGroup>
 

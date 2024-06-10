@@ -8,9 +8,9 @@
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
     <Copyright>Avanade 2021</Copyright>
-    <PackageProjectUrl>https://github.com/Avanade/Liquid.Core</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20231131-01</Version>
+    <Version>6.0.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ProjectGuid>{AD354CF6-C132-4B5D-944D-0DFE21509781}</ProjectGuid>
     <IsPackable>true</IsPackable>
@@ -20,8 +20,11 @@
 
   <ItemGroup>
     <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.18.0" />
-    <PackageReference Include="Liquid.Core" Version="2.2.0-preview-20220901-01" />
-    <PackageReference Include="MediatR" Version="11.0.0" />
+    <PackageReference Include="Liquid.Core" Version="6.0.0" />
+    <PackageReference Include="MediatR" Version="12.1.1" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Net.Security" Version="4.3.2" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
   </ItemGroup>
 
   <ItemGroup>

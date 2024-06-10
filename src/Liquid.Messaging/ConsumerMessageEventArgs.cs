@@ -6,7 +6,7 @@ namespace Liquid.Messaging
     /// 
     /// </summary>
     /// <typeparam name="TEvent"></typeparam>
-    public class ProcessMessageEventArgs<TEvent>
+    public class ConsumerMessageEventArgs<TEvent>
     {
         /// <summary>
         /// 

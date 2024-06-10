@@ -5,7 +5,7 @@ namespace Liquid.Messaging
     /// <summary>
     /// Arguments for processing errors occurred during process execution.
     /// </summary>
-    public class ProcessErrorEventArgs
+    public class ConsumerErrorEventArgs
     {
         /// <summary>
         ///   Represents errors that occur during process execution.

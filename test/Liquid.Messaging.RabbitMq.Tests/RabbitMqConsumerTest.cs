@@ -29,7 +29,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
             var messageReceiver = Substitute.For<IModel>();
             _factory.GetReceiver(Arg.Any<RabbitMqConsumerSettings>()).Returns(messageReceiver);
 
-            ProcessMessageAsync += ProcessMessageAsyncMock;
+            ConsumeMessageAsync += ProcessMessageAsyncMock;
 
             RegisterMessageHandler();
 
@@ -58,13 +58,13 @@ namespace Liquid.Messaging.RabbitMq.Tests
             var messageReceiver = Substitute.For<IModel>();
             _factory.GetReceiver(Arg.Any<RabbitMqConsumerSettings>()).Returns(messageReceiver);
 
-            ProcessMessageAsync += ProcessMessageAsyncMock;
+            ConsumeMessageAsync += ProcessMessageAsyncMock;
 
             await MessageHandler(message, new CancellationToken());
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        private async Task ProcessMessageAsyncMock(ProcessMessageEventArgs<MessageMock> args, CancellationToken cancellationToken)
+        private async Task ProcessMessageAsyncMock(ConsumerMessageEventArgs<MessageMock> args, CancellationToken cancellationToken)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             if (args.Data.TestMessageId == 2)

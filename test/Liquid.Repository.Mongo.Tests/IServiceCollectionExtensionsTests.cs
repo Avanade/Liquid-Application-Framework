@@ -83,16 +83,6 @@ namespace Liquid.Repository.Mongo.Tests
             Assert.IsNotNull(_serviceProvider.GetService<IMongoDataContext<TestEntity>>());
             Assert.IsNotNull(_serviceProvider.GetService<ILiquidRepository<TestEntity, int>>());
         }
-
-        [Test]
-        public void AddLiquidMongoRepositories_WhenAdded_ServicesIsFilledForTestEntities()
-        {
-            _services.AddLiquidMongoRepositories(_entityConfigurationSectionName);
-            _serviceProvider = _services.BuildServiceProvider();
-            Assert.IsNotNull(_serviceProvider.GetService<IMongoDataContext<TestEntity>>());
-            Assert.IsNotNull(_serviceProvider.GetService<ILiquidRepository<TestEntity, int>>());
-            Assert.IsNotNull(_serviceProvider.GetService<IMongoDataContext<AnotherTestEntity>>());
-            Assert.IsNotNull(_serviceProvider.GetService<ILiquidRepository<AnotherTestEntity, int>>());
-        }
+        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Liquid.Core.Extensions;
 using Liquid.Core.Utils;
 using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.Kafka.Settings;
@@ -25,7 +26,7 @@ namespace Liquid.Messaging.Kafka.Tests
             var messageReceiver = Substitute.For<IConsumer<Ignore, string>>();
             _factory.GetConsumer(Arg.Any<KafkaSettings>()).Returns(messageReceiver);
 
-            ProcessMessageAsync += ProcessMessageAsyncMock;
+            ConsumeMessageAsync += ProcessMessageAsyncMock;
 
             RegisterMessageHandler();
 
@@ -50,7 +51,7 @@ namespace Liquid.Messaging.Kafka.Tests
             var entity = new MessageMock() { TestMessageId = 1 };
 
             var messageObj = new Message<Ignore, string>();
-            messageObj.Value = entity.ToJson();
+            messageObj.Value = entity.ToJsonString();
 
             message.Message = messageObj;
 
@@ -59,7 +60,7 @@ namespace Liquid.Messaging.Kafka.Tests
             var messageReceiver = Substitute.For<IConsumer<Ignore, string>>();
             _factory.GetConsumer(Arg.Any<KafkaSettings>()).Returns(messageReceiver);
 
-            ProcessMessageAsync += ProcessMessageAsyncMock;
+            ConsumeMessageAsync += ProcessMessageAsyncMock;
 
             var sut =  MessageHandler(message, new CancellationToken());
 
@@ -76,7 +77,7 @@ namespace Liquid.Messaging.Kafka.Tests
             var entity = new MessageMock() { TestMessageId = 2 };
 
             var messageObj = new Message<Ignore, string>();
-            messageObj.Value = entity.ToJson();
+            messageObj.Value = entity.ToJsonString();
 
             message.Message = messageObj;
             message.Message.Headers = new Headers();
@@ -84,7 +85,7 @@ namespace Liquid.Messaging.Kafka.Tests
             var messageReceiver = Substitute.For<IConsumer<Ignore, string>>();
             _factory.GetConsumer(Arg.Any<KafkaSettings>()).Returns(messageReceiver);
 
-            ProcessMessageAsync += ProcessMessageAsyncMock;
+            ConsumeMessageAsync += ProcessMessageAsyncMock;
 
             var task = MessageHandler(message, new CancellationToken());
 
@@ -93,7 +94,7 @@ namespace Liquid.Messaging.Kafka.Tests
         }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        private async Task ProcessMessageAsyncMock(ProcessMessageEventArgs<MessageMock> args, CancellationToken cancellationToken)
+        private async Task ProcessMessageAsyncMock(ConsumerMessageEventArgs<MessageMock> args, CancellationToken cancellationToken)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             if (args.Data.TestMessageId == 2)

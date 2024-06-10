@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <PackageId>Liquid.Messaging.ServiceBus</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Avanade Brazil</Authors>
@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid.Messaging</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20221201-01</Version>
+    <Version>6.0.0-preview-20231130-02</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>
       The Liquid.Messaging.Azure provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
@@ -22,11 +22,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoFixture.Xunit2" Version="4.17.0" />
-    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.1.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Liquid.Messaging\Liquid.Messaging.csproj" />
+    <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.17.0" />
+    <PackageReference Include="Liquid.Messaging" Version="6.0.0-preview-20231130-02" />
   </ItemGroup>
 
   <ItemGroup>

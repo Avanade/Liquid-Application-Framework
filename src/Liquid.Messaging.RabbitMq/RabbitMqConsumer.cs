@@ -28,10 +28,10 @@ namespace Liquid.Messaging.RabbitMq
         private readonly RabbitMqConsumerSettings _settings;
 
         ///<inheritdoc/>
-        public event Func<ProcessMessageEventArgs<TEntity>, CancellationToken, Task> ProcessMessageAsync;
+        public event Func<ConsumerMessageEventArgs<TEntity>, CancellationToken, Task> ConsumeMessageAsync;
 
         ///<inheritdoc/>
-        public event Func<ProcessErrorEventArgs, Task> ProcessErrorAsync;
+        public event Func<ConsumerErrorEventArgs, Task> ProcessErrorAsync;
 
         /// <summary>
         /// Initilize an instance of <see cref="RabbitMqConsumer{TEntity}"/>
@@ -49,9 +49,9 @@ namespace Liquid.Messaging.RabbitMq
         ///<inheritdoc/>
         public void RegisterMessageHandler()
         {
-            if (ProcessMessageAsync is null)
+            if (ConsumeMessageAsync is null)
             {
-                throw new NotImplementedException($"The {nameof(ProcessMessageAsync)} action must be added to class.");
+                throw new NotImplementedException($"The {nameof(ConsumeMessageAsync)} action must be added to class.");
             }
 
             _channelModel = _factory.GetReceiver(_settings);
@@ -72,7 +72,7 @@ namespace Liquid.Messaging.RabbitMq
         {
             try
             {
-                await ProcessMessageAsync(GetEventArgs(deliverEvent), cancellationToken);
+                await ConsumeMessageAsync(GetEventArgs(deliverEvent), cancellationToken);
 
                 if (!_autoAck)
                 {
@@ -83,12 +83,26 @@ namespace Liquid.Messaging.RabbitMq
             {
                 if (!_autoAck)
                 {
-                    _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
+                    var queueAckMode = _settings.AdvancedSettings.QueueAckModeSettings ?? new QueueAckModeSettings() { QueueAckMode = QueueAckModeEnum.BasicAck, Requeue = true };
+
+                    switch (queueAckMode.QueueAckMode)
+                    {
+                        case QueueAckModeEnum.BasicAck:
+                            _channelModel.BasicNack(deliverEvent.DeliveryTag, false, queueAckMode.Requeue);
+                            break;
+                        case QueueAckModeEnum.BasicReject:
+                            _channelModel.BasicReject(deliverEvent.DeliveryTag, queueAckMode.Requeue);
+                            break;
+                        default:
+                            _channelModel.BasicNack(deliverEvent.DeliveryTag, false, true);
+                            break;
+                    }
+
                 }
             }
         }
 
-        private ProcessMessageEventArgs<TEntity> GetEventArgs(BasicDeliverEventArgs deliverEvent)
+        private ConsumerMessageEventArgs<TEntity> GetEventArgs(BasicDeliverEventArgs deliverEvent)
         {
             var data = deliverEvent.BasicProperties?.ContentType == CommonExtensions.GZipContentType
                    ? deliverEvent.Body.ToArray().GzipDecompress().ParseJson<TEntity>()
@@ -96,7 +110,7 @@ namespace Liquid.Messaging.RabbitMq
 
             var headers = deliverEvent.BasicProperties?.Headers;
 
-            return new ProcessMessageEventArgs<TEntity> { Data = data, Headers = headers };
+            return new ConsumerMessageEventArgs<TEntity> { Data = data, Headers = headers };
         }
     }
 }

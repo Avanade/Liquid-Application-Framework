@@ -1,9 +1,11 @@
+using Azure.Core.Amqp;
+using Azure.Messaging.ServiceBus;
+using Liquid.Core.Extensions;
+using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.ServiceBus.Tests.Mock;
-using Microsoft.Azure.ServiceBus;
-using Microsoft.Azure.ServiceBus.Core;
 using NSubstitute;
 using System;
-using System.Text.Json;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -13,69 +15,81 @@ namespace Liquid.Messaging.ServiceBus.Tests
     public class ServiceBusConsumerTest : ServiceBusConsumer<EntityMock>
     {
         private static readonly IServiceBusFactory _factory = Substitute.For<IServiceBusFactory>();
+        private static readonly ServiceBusProcessor _processor = Substitute.For<ServiceBusProcessor>();
+        private static readonly ServiceBusReceiver _receiver = Substitute.For<ServiceBusReceiver>();
 
         public ServiceBusConsumerTest() : base(_factory, "test")
         {
-
+            _factory.GetProcessor(Arg.Any<string>()).Returns(_processor);
         }
 
         [Fact]
-        public void RegisterMessageHandler_WhenRegisteredSucessfully_RegisterMessageHandlerReceivedCall()
+        public void RegisterMessageHandler_WhenRegisteredSucessfully_StartProcessingReceivedCall()
         {
-            var messageReceiver = Substitute.For<IMessageReceiver>();
-            _factory.GetReceiver(Arg.Any<string>()).Returns(messageReceiver);
+            var messageReceiver = Substitute.For<ServiceBusProcessor>();
+            _factory.GetProcessor(Arg.Any<string>()).Returns(messageReceiver);
 
-            ProcessMessageAsync += ProcessMessageAsyncMock;
+            ConsumeMessageAsync += ProcessMessageAsyncMock;
 
             RegisterMessageHandler();
 
-            messageReceiver.Received(1).RegisterMessageHandler(Arg.Any<Func<Message, CancellationToken, Task>>(), Arg.Any<MessageHandlerOptions>());
+            messageReceiver.Received(1).StartProcessingAsync();
+        }
+
+        [Fact]
+        public void RegisterMessageHandler_WhenConsumeMessageAssyncIsNull_ThrowNotImplementedException()
+        {
+            var messageReceiver = Substitute.For<ServiceBusProcessor>();
+            _factory.GetProcessor(Arg.Any<string>()).Returns(messageReceiver);
+
+            Assert.Throws<NotImplementedException>(() => RegisterMessageHandler());
         }
 
 
         [Fact]
         public async Task MessageHandler_WhenProcessExecutedSucessfully()
         {
-            var message = new Message();
 
             var entity = new EntityMock() { Id = 1, MyProperty = "test" };
 
-            message.Body = JsonSerializer.SerializeToUtf8Bytes(entity);
+            var readOnly = new ReadOnlyMemory<byte>(entity.ToJsonBytes());
 
-            var messageReceiver = Substitute.For<IMessageReceiver>();
-            _factory.GetReceiver(Arg.Any<string>()).Returns(messageReceiver);
+            var convertEntity = new List<ReadOnlyMemory<byte>>();
 
-            ProcessMessageAsync += ProcessMessageAsyncMock;
+            convertEntity.Add(readOnly);
 
-            await MessageHandler(message, new CancellationToken());
+            var amqp = new AmqpAnnotatedMessage(new AmqpMessageBody(convertEntity));
+
+            BinaryData binary = default;
+
+            var message = ServiceBusReceivedMessage.FromAmqpMessage(amqp, binary);
+
+            var processMessage = new ProcessMessageEventArgs(message, _receiver, new CancellationToken());
+
+            ConsumeMessageAsync += ProcessMessageAsyncMock;
+
+            await MessageHandler(processMessage);
         }
+
 
         [Fact]
-        public async Task MessageHandler_WhenProcessExecutionFail_ThrowException()
+        public async Task ErrorHandler_WhenProcessErrorExecuted_ThrowsMessagingConsumerException()
         {
-            var message = new Message();
 
-            var entity = new EntityMock() { Id = 2, MyProperty = "test" };
+            var processError = new ProcessErrorEventArgs(new Exception("teste"), ServiceBusErrorSource.ProcessMessageCallback, "teste"
+                , "testqueue", Guid.NewGuid().ToString(), new CancellationToken());
 
-            message.Body = JsonSerializer.SerializeToUtf8Bytes(entity);
+            ProcessErrorAsync += ProcessError;
 
-            var messageReceiver = Substitute.For<IMessageReceiver>();
-            _factory.GetReceiver(Arg.Any<string>()).Returns(messageReceiver);
-
-            ProcessMessageAsync += ProcessMessageAsyncMock;
-
-            var task = MessageHandler(message, new CancellationToken());
-
-            await Assert.ThrowsAsync<Exception>(() => task);
-
+            await Assert.ThrowsAsync<MessagingConsumerException>(() => ErrorHandler(processError));
         }
 
+
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-        private async Task ProcessMessageAsyncMock(ProcessMessageEventArgs<EntityMock> args, CancellationToken cancellationToken)
+        private async Task ProcessMessageAsyncMock(ConsumerMessageEventArgs<EntityMock> args, CancellationToken cancellationToken)
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            if (args.Data.Id == 2)
-                throw new Exception();
+
         }
 
     }

@@ -29,7 +29,7 @@ namespace Liquid.Domain.Extensions.DependencyInjection
             if (withTelemetry)
                 services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LiquidTelemetryBehavior<,>));
 
-            services.AddMediatR(assemblies);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assemblies));
         }
     }
 }

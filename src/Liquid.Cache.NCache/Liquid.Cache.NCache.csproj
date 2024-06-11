@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <PackageReference Include="Alachisoft.NCache.SDK" Version="5.3.4" />
-    <PackageReference Include="Liquid.Cache" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="NCache.Microsoft.Extensions.Caching" Version="5.3.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -43,6 +42,10 @@
     <PackageReference Include="System.ServiceModel.Http" Version="4.10.3" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.3" />
     <PackageReference Include="System.ServiceModel.Security" Version="4.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Cache\Liquid.Cache.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -11,7 +11,7 @@
 	  <Copyright>Avanade 2019</Copyright>
 	  <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
 	  <PackageIcon>logo.png</PackageIcon>
-	  <Version>6.0.0-preview-20231130-01</Version>
+	  <Version>6.0.0</Version>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <IsPackable>true</IsPackable>
 	  <DebugType>Full</DebugType>
@@ -29,9 +29,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Cache" Version="6.0.0-preview-20231130-02" />
+    <PackageReference Include="Alachisoft.NCache.SDK" Version="5.3.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
-    <PackageReference Include="NCache.Microsoft.Extensions.Caching" Version="5.3.1" />
+    <PackageReference Include="NCache.Microsoft.Extensions.Caching" Version="5.3.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.6" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="6.0.1" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="System.Private.ServiceModel" Version="4.10.3" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="6.0.4" />
+    <PackageReference Include="System.ServiceModel.Duplex" Version="4.10.3" />
+    <PackageReference Include="System.ServiceModel.Http" Version="4.10.3" />
+    <PackageReference Include="System.ServiceModel.NetTcp" Version="4.10.3" />
+    <PackageReference Include="System.ServiceModel.Security" Version="4.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Cache\Liquid.Cache.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -8,9 +8,9 @@
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
     <Copyright>Avanade 2019</Copyright>
-    <PackageProjectUrl>https://github.com/Avanade/Liquid.Repository</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0-preview-20231130-02</Version>
+    <Version>6.0.0</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <DebugType>Full</DebugType>
@@ -25,8 +25,8 @@
   
 
   <ItemGroup>
-	<PackageReference Include="Liquid.Repository" Version="6.0.0-preview-20231130-02" />
-	<PackageReference Include="MongoDB.Driver" Version="2.19.0" />
+	<PackageReference Include="Liquid.Repository" Version="6.0.1" />
+	<PackageReference Include="MongoDB.Driver" Version="2.25.0" />
   </ItemGroup>
 
   <ItemGroup>

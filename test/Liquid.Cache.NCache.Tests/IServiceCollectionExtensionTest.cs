@@ -27,7 +27,7 @@ namespace Liquid.Cache.NCache.Tests
             _sut.AddLiquidNCacheDistributedCache(configuration =>
             {
                 configuration.CacheName = "myCache";
-                configuration.EnableLogs = true;
+                configuration.EnableLogs = false;
                 configuration.ExceptionsEnabled = true;
             }, true);
 
@@ -45,7 +45,7 @@ namespace Liquid.Cache.NCache.Tests
             _sut.AddLiquidNCacheDistributedCache(configuration =>
             {
                 configuration.CacheName = "myCache";
-                configuration.EnableLogs = true;
+                configuration.EnableLogs = false;
                 configuration.ExceptionsEnabled = true;
             }, false);
 

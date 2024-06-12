@@ -42,24 +42,22 @@ You can use Liquid Templates to get your microservice started.
 Install the templates by running the following dotnet CLI command at the PowerShell prompt :
 
 ```Shell
-dotnet new --install Liquid.Templates
+dotnet new install Liquid.Templates
 ```
 and run dotnet new command with the name and parameters of the following templates:
 |Name|Description|
 | :-- | :-- |
 |`liquidcrudsolution`       |Liquid WebAPI CRUD Solution (Domain and WebAPI projects)              |
-|`liquidwebapisolution`     |Liquid WebAPI solution (Domain and WebAPI projects)                   |
-|`liquidcrudextsolution`    |Liquid CRUD Extension solution (Domain and WebAPI projects)           |
-|`liquidworkersolution`     |Liquid WorkerService solution (Domain and WorkerService projects)     |
-|`liquiddomainaddhandler`   |Liquid mediator command handler                                       |
 |`liquidcrudaddentity`      |Liquid entity class, CRUD mediator handlers and CRUD controller       |
-|`liquidcrudextaddentity`   |Liquid CRUD Extension entity and controller classes                   |
+|`liquiddomainaddhandler`   |Liquid mediator command handler                                       |
+|`liquiddomainproject`      |Liquid Domain project (mediator command handler)                      |
+|`liquidwebapisolution`     |Liquid WebAPI solution (Domain and WebAPI projects)                   |
 |`liquidwebapiaddentity`    |Liquid entity class, mediator command handler and CRUD controller     |
+|`liquidwebapiproject`      |Liquid WebAPI project                                                 |
+|`liquidworkersolution`     |Liquid WorkerService solution (Domain and WorkerService projects)     |
+|`liquidworkerproject`      |Liquid WorkerService project                                          |
 |`liquidbcontextaddentity`  |Liquid DbContext entity configuration class (for Entity Framework)    |
 |`liquiddbcontextproject`   |Liquid Repository project (EntityFramework DbContext configurations)  |
-|`liquidwebapiproject`      |Liquid WebAPI project                                                 |
-|`liquidworkerproject`      |Liquid WorkerService project                                          |
-|`liquiddomainproject`      |Liquid Domain project (mediator command handler)                      |
 
 
 ### Sample:

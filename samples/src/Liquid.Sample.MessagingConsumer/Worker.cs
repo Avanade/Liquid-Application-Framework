@@ -20,7 +20,7 @@ namespace Liquid.Sample.MessagingConsumer
             _mediator = mediator;
         }
 
-        public async Task ProcessMessageAsync(ProcessMessageEventArgs<SampleMessageEntity> args, CancellationToken cancellationToken)
+        public async Task ProcessMessageAsync(ConsumerMessageEventArgs<SampleMessageEntity> args, CancellationToken cancellationToken)
         {
             await _mediator.Send(new PutCommandRequest(args.Data));
         }

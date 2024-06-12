@@ -4,6 +4,7 @@ using Liquid.Repository.Mongo.Extensions;
 using Liquid.Sample.Domain.Entities;
 using Liquid.Sample.Domain.Handlers.SamplePut;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace Liquid.Sample.MessagingConsumer
 {
@@ -19,9 +20,9 @@ namespace Liquid.Sample.MessagingConsumer
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddLiquidConfiguration();
-                    services.AddLiquidMongoRepository<SampleEntity, int>("Liquid:MyMongoDbSettings:Entities");
-                    services.AddLiquidServiceBusProducer<SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleProducer");
-                    services.AddLiquidServiceBusConsumer<Worker, SampleMessageEntity>("Liquid:Messaging:ServiceBus:SampleConsumer", true, typeof(PutCommandRequest).Assembly);
+                    services.AddLiquidMongoRepository<SampleEntity, Guid>("Liquid:MyMongoDbSettings:Entities");
+                    services.AddLiquidServiceBusProducer<SampleMessageEntity>("ServiceBus", "liquidoutput", false);
+                    services.AddLiquidServiceBusConsumer<Worker, SampleMessageEntity> ("ServiceBus", "liquidinput", false, typeof(PutCommandRequest).Assembly);
                 });
     }
 }

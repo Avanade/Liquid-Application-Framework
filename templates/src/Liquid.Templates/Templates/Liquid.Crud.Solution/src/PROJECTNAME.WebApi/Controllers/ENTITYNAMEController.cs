@@ -2,15 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PROJECTNAME.Domain.Entities;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Create;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Remove;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Read;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.Update;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.List;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using System;
+using PROJECTNAME.Domain.Handlers;
 
 namespace PROJECTNAME.WebApi.Controllers
 {
@@ -27,7 +23,7 @@ namespace PROJECTNAME.WebApi.Controllers
 
         public async Task<IActionResult> GetById([FromRoute] ENTITYIDTYPE id)
         {
-            var response = await ExecuteAsync(new ReadENTITYNAMEQuery(id));
+            var response = await ExecuteAsync(new ReadENTITYNAMERequest(id));
 
             if (response.Data == null) return NotFound();
 
@@ -38,7 +34,7 @@ namespace PROJECTNAME.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
         {
-            var response = await ExecuteAsync(new ListENTITYNAMEQuery());
+            var response = await ExecuteAsync(new ListENTITYNAMERequest());
 
             if (response.Data == null) return NotFound();
 
@@ -47,18 +43,18 @@ namespace PROJECTNAME.WebApi.Controllers
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public async Task<IActionResult> Post([FromBody] ENTITYNAMEEntity entity)
+        public async Task<IActionResult> Post([FromBody] ENTITYNAME entity)
         {
-            await ExecuteAsync(new CreateENTITYNAMECommand(entity));
+            await Mediator.Send(new CreateENTITYNAMERequest(entity));
 
             return CreatedAtAction(nameof(GetById), new { id = entity.Id }, entity);
         }
 
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Put([FromBody] ENTITYNAMEEntity entity)
+        public async Task<IActionResult> Put([FromBody] ENTITYNAME entity)
         {
-            var response = await ExecuteAsync(new UpdateENTITYNAMECommand(entity));
+            var response = await ExecuteAsync(new UpdateENTITYNAMERequest(entity));
 
             if (response.Data == null) return NotFound();
 
@@ -69,7 +65,7 @@ namespace PROJECTNAME.WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Delete([FromRoute] ENTITYIDTYPE id)
         {
-            var response = await ExecuteAsync(new RemoveENTITYNAMECommand(id));
+            var response = await ExecuteAsync(new RemoveENTITYNAMERequest(id));
 
             if (response.Data == null) return NotFound();
 

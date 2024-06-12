@@ -1,7 +1,8 @@
 using Liquid.Core.Extensions.DependencyInjection;
-using PROJECTNAME.Domain.Entities;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.COMMANDNAME;
 using Microsoft.Extensions.Hosting;
+using PROJECTNAME.Domain.Entities;
+using PROJECTNAME.Domain.Handlers;
+using System;
 
 namespace PROJECTNAME.WorkerService
 {
@@ -21,16 +22,16 @@ namespace PROJECTNAME.WorkerService
                     // Example:
                     //
                     // [ServiceBus and Mongo Cartridges]
-                    // 1. add Liquid Cartridge using CLI : dotnet add package Liquid.Messaging.ServiceBus --version 2.X.X
-                    // 2. add Liquid Cartridge using CLI : dotnet add package Liquid.Repository.Mongo --version 2.X.X
+                    // 1. add Liquid Cartridge using CLI : dotnet add package Liquid.Messaging.ServiceBus --version 6.X.X
+                    // 2. add Liquid Cartridge using CLI : dotnet add package Liquid.Repository.Mongo --version 6.X.X
                     // 3. import liquid cartridge reference here: using Liquid.Repository.Mongo.Extensions;
                     // 4. import liquid cartridge reference here: using Liquid.Messaging.ServiceBus.Extensions.DependencyInjection;
                     // 5. call repository cartridge DI method :
-                    //  services.AddLiquidMongoRepository<SampleEntity, int>("Liquid:MongoSettings:Entities");
+                    //  services.AddLiquidMongoRepository<ENTITYNAME, Guid>("Liquid:MyMongoDbSettings:Entities");
                     // 6. call messaging cartridge DI method :
-                    //  services.AddLiquidServiceBusConsumer<Worker, SampleEntity>("Liquid:ServiceBus:SampleConsumer", true, typeof(SampleCommand).Assembly);
+                    //  services.AddLiquidServiceBusConsumer<Worker, ENTITYNAME>("Liquid:ServiceBus", "liquidinput", false, typeof(COMMANDNAMEENTITYNAMERequest).Assembly);
                     // 7. edit appsettings.json file to include database and message queue configurations.
-
+                   
                     services.AddLiquidConfiguration();
                 });
     }

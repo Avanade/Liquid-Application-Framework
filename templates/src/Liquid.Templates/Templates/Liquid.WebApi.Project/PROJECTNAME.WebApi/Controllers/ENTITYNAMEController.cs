@@ -2,9 +2,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PROJECTNAME.Domain.Entities;
-using PROJECTNAME.Domain.Handlers.ENTITYNAME.COMMANDNAME;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System;
+using PROJECTNAME.Domain.Handlers;
 
 namespace PROJECTNAME.WebApi.Controllers
 {
@@ -17,7 +19,7 @@ namespace PROJECTNAME.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> COMMANDNAME([FromBody] ENTITYNAMEEntity entity) => await ExecuteAsync(new COMMANDNAMEENTITYNAMECommand(entity), HttpStatusCode.OK);
+        public async Task<IActionResult> COMMANDNAME([FromBody] ENTITYNAME entity) => await ExecuteAsync(new COMMANDNAMEENTITYNAMERequest(entity), HttpStatusCode.OK);
 
     }
 }

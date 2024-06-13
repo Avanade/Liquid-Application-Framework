@@ -3,12 +3,12 @@ name: CI/CD - Liquid.Repository.Mongo Cartridge for Liquid Application Framework
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
     - 'src/Liquid.Repository.Mongo/**'
     
   pull_request:
-    branches: [ main ]
+    branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
     - 'src/Liquid.Repository.Mongo/**'

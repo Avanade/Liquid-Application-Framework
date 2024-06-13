@@ -3,7 +3,7 @@ name: CI/CD - Liquid.Cache.SqlServer component for Liquid Application Framework
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
     - 'src/Liquid.Cache.SqlServer/**'
     

@@ -3,12 +3,12 @@ name: CI/CD - Liquid.Messaging.ServiceBus cartridge for Liquid Application Frame
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
     - 'src/Liquid.Messaging.ServiceBus/**'
     
   pull_request:
-    branches: [ main ]
+    branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
     - 'src/Liquid.Messaging.ServiceBus/**'

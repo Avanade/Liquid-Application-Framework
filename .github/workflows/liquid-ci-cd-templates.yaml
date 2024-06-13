@@ -3,12 +3,12 @@ name: CI/CD - Liquid.Templates for Liquid Application Framework
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
     - 'templates/src/Liquid.Templates/**'
     
   pull_request:
-    branches: [ main ]
+    branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
     - 'templates/src/Liquid.Templates/**'

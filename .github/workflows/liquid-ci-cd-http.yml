@@ -3,12 +3,12 @@ name: CI/CD - Liquid.WebApi.Http component for Liquid Application Framework
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
     - 'src/Liquid.WebApi.Http/**'
     
   pull_request:
-    branches: [ main ]
+    branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
     - 'src/Liquid.WebApi.Http/**'

@@ -3,7 +3,7 @@ name: CI/CD - Liquid.Adapter.Dataverse component for Liquid Application Framewor
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
     - 'src/Liquid.Adapter.Dataverse/**'
     

@@ -4,7 +4,7 @@ using Liquid.Core.Interfaces;
 using Liquid.Core.Tests.Mocks;
 using Xunit;
 
-namespace Liquid.Core.Tests
+namespace Liquid.Core.Tests.Core
 {
     public class LiquidXmlSerializerTest
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Liquid.Domain.PipelineBehaviors
+namespace Liquid.Core.PipelineBehaviors
 {
     /// <summary>
     /// Validation Request Behavior implementation for Mediator pipelines.

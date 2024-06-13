@@ -6,7 +6,7 @@ using NSubstitute;
 using System;
 using Xunit;
 
-namespace Liquid.Core.UnitTests
+namespace Liquid.Core.Tests.Core
 {
     public class LiquidConfigurationTest
     {

@@ -2,7 +2,7 @@
 using Liquid.Core.Interfaces;
 using Xunit;
 
-namespace Liquid.Core.UnitTests
+namespace Liquid.Core.Tests.Core
 {
     public class LiquidContextTest
     {

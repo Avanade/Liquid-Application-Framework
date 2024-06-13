@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Liquid.Domain.PipelineBehaviors
+namespace Liquid.Core.PipelineBehaviors
 {
     /// <summary>
     /// Telemetry Behavior implementation for Mediator pipelines.

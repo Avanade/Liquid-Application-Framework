@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Liquid.Core.Tests
+namespace Liquid.Core.Tests.Core
 {
     public class LiquidSerializerProviderTest
     {

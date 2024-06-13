@@ -1,4 +1,4 @@
-﻿namespace Liquid.Cache.Tests
+﻿namespace Liquid.Core.Tests.Mocks
 {
     internal class MockType
     {

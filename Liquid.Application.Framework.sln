@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.SqlServer.Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.Redis.Tests", "test\Liquid.Cache.Redis.Tests\Liquid.Cache.Redis.Tests.csproj", "{2E8F3332-545A-4454-9F75-1498A9B7B9BF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8863A92B-E1A3-4203-8C08-C017E5B3D2CC} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
+		{28747B1E-0784-4B7B-AE48-F5AD3C937262} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
+		{08A826AA-2C2E-4E21-A3D8-60BF8E57772E} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
+		{ED3C04BC-3DEF-4B5C-BF91-EE8F5C38F8E4} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
+		{2E8F3332-545A-4454-9F75-1498A9B7B9BF} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D003939-9797-4F37-B391-10047A780641}

@@ -1,11 +1,13 @@
 using Liquid.Core.Extensions;
+using Liquid.Core.Implementations;
+using Liquid.Core.Tests.Mocks;
 using Microsoft.Extensions.Caching.Distributed;
 using NSubstitute;
 using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Liquid.Cache.Tests
+namespace Liquid.Core.Tests.Cache
 {
     public class LiquidCacheTests
     {

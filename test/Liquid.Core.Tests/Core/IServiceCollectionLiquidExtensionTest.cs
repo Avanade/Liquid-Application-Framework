@@ -7,7 +7,7 @@ using NSubstitute;
 using System.Linq;
 using Xunit;
 
-namespace Liquid.Core.Tests
+namespace Liquid.Core.Tests.Core
 {
     public class IServiceCollectionLiquidExtensionTest
     {

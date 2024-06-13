@@ -1,4 +1,5 @@
-﻿using Liquid.Cache.Extensions.DependencyInjection;
+﻿using Liquid.Core.Extensions.DependencyInjection;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,7 @@ using NSubstitute;
 using System.Linq;
 using Xunit;
 
-namespace Liquid.Cache.Tests
+namespace Liquid.Core.Tests.Cache
 {
     public class IServiceCollectionExtensionTests
     {

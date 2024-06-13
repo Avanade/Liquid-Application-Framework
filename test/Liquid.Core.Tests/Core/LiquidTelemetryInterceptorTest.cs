@@ -7,7 +7,7 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Liquid.Core.UnitTests
+namespace Liquid.Core.Tests.Core
 {
     public class LiquidTelemetryInterceptorTest
     {

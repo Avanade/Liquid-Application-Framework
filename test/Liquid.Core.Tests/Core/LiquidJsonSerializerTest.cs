@@ -2,7 +2,7 @@
 using Liquid.Core.Interfaces;
 using Xunit;
 
-namespace Liquid.Core.Tests
+namespace Liquid.Core.Tests.Core
 {
     public class LiquidJsonSerializerTest
     {

@@ -1,4 +1,5 @@
 using Liquid.Cache.SqlServer.Extensions.DependencyInjection;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Caching.SqlServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Liquid.Cache
+namespace Liquid.Core.Interfaces
 {
     /// <summary>
     /// Represents a distributed cache of serialized values.
@@ -25,7 +25,7 @@ namespace Liquid.Cache
         /// that the operation should be canceled.</param>
         /// <returns>The System.Threading.Tasks.Task that represents the asynchronous operation, containing
         /// the located value or null.</returns>
-        Task<T> GetAsync<T>(string key, CancellationToken token = default(CancellationToken));
+        Task<T> GetAsync<T>(string key, CancellationToken token = default);
 
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Liquid.Cache
         /// <param name="token">Optional. The System.Threading.CancellationToken used to propagate notifications
         /// that the operation should be canceled.</param>
         /// <returns>The System.Threading.Tasks.Task that represents the asynchronous operation.</returns>
-        Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default(CancellationToken));
+        Task SetAsync<T>(string key, T value, DistributedCacheEntryOptions options, CancellationToken token = default);
 
     }
 }

@@ -29,8 +29,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Liquid.Cache" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Liquid.Core\Liquid.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 using Liquid.Cache.Memory.Extensions.DependencyInjection;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

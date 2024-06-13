@@ -1,8 +1,8 @@
-﻿using Liquid.Core.Extensions.DependencyInjection;
-using Liquid.Core.Implementations;
+﻿using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Liquid.Cache.Extensions.DependencyInjection
+namespace Liquid.Core.Extensions.DependencyInjection
 {
     /// <summary>
     /// LiquidCache <see cref="IServiceCollection"/> extensions class.

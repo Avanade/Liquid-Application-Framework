@@ -1,10 +1,11 @@
 ﻿using Liquid.Core.Extensions;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Liquid.Cache
+namespace Liquid.Core.Implementations
 {
     ///<inheritdoc/>
     public class LiquidCache : ILiquidCache

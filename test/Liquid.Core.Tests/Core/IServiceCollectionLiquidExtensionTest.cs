@@ -1,6 +1,6 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
-using Liquid.Core.UnitTests.Mocks;
+using Liquid.Core.Tests.Mocks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;

@@ -1,6 +1,6 @@
 ﻿using Liquid.Core.Attributes;
 
-namespace Liquid.Core.UnitTests.Mocks
+namespace Liquid.Core.Tests.Mocks
 {
     [LiquidSectionName("MockSettings")]
     public class MockSettings

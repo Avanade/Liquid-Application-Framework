@@ -1,7 +1,8 @@
 using Azure.Core.Amqp;
 using Azure.Messaging.ServiceBus;
+using Liquid.Core.Entities;
+using Liquid.Core.Exceptions;
 using Liquid.Core.Extensions;
-using Liquid.Messaging.Exceptions;
 using Liquid.Messaging.ServiceBus.Tests.Mock;
 using NSubstitute;
 using System;

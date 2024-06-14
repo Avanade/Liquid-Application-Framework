@@ -1,15 +1,9 @@
-﻿using Liquid.Messaging.Exceptions;
+﻿using Liquid.Core.Exceptions;
 using Liquid.Messaging.ServiceBus.Settings;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using NSubstitute;
-using NSubstitute.ReturnsExtensions;
-using NSubstitute.Routing.Handlers;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Liquid.Messaging.ServiceBus.Tests

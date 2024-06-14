@@ -1,5 +1,5 @@
-﻿using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Interfaces;
+﻿using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Settings;
 using Liquid.Messaging.RabbitMq.Tests.Mock;
 using NSubstitute;

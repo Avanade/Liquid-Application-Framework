@@ -1,5 +1,5 @@
 using Liquid.Core.Implementations;
-using Liquid.Core.UnitTests.Mocks;
+using Liquid.Core.Tests.Mocks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using NSubstitute;

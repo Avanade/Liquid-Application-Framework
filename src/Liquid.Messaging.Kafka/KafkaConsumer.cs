@@ -1,15 +1,15 @@
 ﻿using Confluent.Kafka;
 using Liquid.Core.Extensions;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Extensions;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Extensions;
 using Liquid.Messaging.Kafka.Settings;
 using System;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Liquid.Core.Entities;
 
 namespace Liquid.Messaging.Kafka
 {

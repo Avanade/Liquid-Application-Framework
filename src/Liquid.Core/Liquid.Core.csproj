@@ -32,6 +32,7 @@
     <PackageReference Include="System.Text.Json" Version="6.0.9" />
     <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
 	<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="6.0.0" />
+	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>

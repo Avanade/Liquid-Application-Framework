@@ -1,4 +1,5 @@
-﻿using Liquid.Messaging.Interfaces;
+﻿using Liquid.Core.Entities;
+using Liquid.Core.Interfaces;
 using System.Threading;
 using System.Threading.Tasks;
 

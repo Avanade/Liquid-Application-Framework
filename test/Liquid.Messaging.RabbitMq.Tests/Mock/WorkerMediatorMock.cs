@@ -1,4 +1,5 @@
-﻿using Liquid.Messaging.Interfaces;
+﻿using Liquid.Core.Entities;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Tests.Mock.HandlerMock;
 using MediatR;
 using System.Threading;

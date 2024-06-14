@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy;
 using Liquid.Core.Implementations;
-using Liquid.Core.UnitTests.Mocks;
+using Liquid.Core.Tests.Mocks;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
 using System;

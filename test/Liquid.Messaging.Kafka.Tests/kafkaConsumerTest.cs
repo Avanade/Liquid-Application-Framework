@@ -1,7 +1,7 @@
 ﻿using Confluent.Kafka;
 using Liquid.Core.Extensions;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Exceptions;
+using Liquid.Core.Exceptions;
 using Liquid.Messaging.Kafka.Settings;
 using Liquid.Messaging.Kafka.Tests.Mock;
 using NSubstitute;
@@ -9,6 +9,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
+using Liquid.Core.Entities;
 
 namespace Liquid.Messaging.Kafka.Tests
 {

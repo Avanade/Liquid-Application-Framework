@@ -2,7 +2,6 @@ using Liquid.Core.Exceptions;
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Tests.Mocks;
-using Liquid.Repository.Tests.Mock;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
@@ -54,14 +53,6 @@ namespace Liquid.Core.Tests.Repository
             _sut = _unitOfWork.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>();
         }
 
-        
-        public void DisposeResources()
-        {
-            _serviceProvider = null;
-            _sut = null;
-            _unitOfWork.Dispose();
-            _unitOfWork = null;
-        }
 
         [Fact]
         public void LiquidUnitOfWorkConstructor_WhenServiceProviderDoesntExists_ThrowException()

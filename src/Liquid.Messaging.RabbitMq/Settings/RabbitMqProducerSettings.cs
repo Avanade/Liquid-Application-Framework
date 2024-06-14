@@ -3,7 +3,7 @@
 namespace Liquid.Messaging.RabbitMq.Settings
 {
     /// <summary>
-    /// RabbitMq Producer Attribute
+    /// RabbitMq Producer configurations set.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public class RabbitMqProducerSettings

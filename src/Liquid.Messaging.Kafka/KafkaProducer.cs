@@ -1,8 +1,8 @@
 ﻿using Confluent.Kafka;
 using Liquid.Core.Utils;
 using Liquid.Core.Extensions;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Extensions;
 using Liquid.Messaging.Kafka.Settings;
 using System;

@@ -1,6 +1,5 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
-using Liquid.Messaging.Extensions.DependencyInjection;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,7 +50,7 @@ namespace Liquid.Messaging.RabbitMq.Extensions.DependencyInjection
 
         /// <summary>
         /// Register Liquid resources for consumers 
-        /// <see cref="IServiceCollectionExtensions.AddLiquidMessageConsumer{TService, TEntity}(IServiceCollection, Assembly[])"/>
+        /// <see cref="IServiceCollectionCoreExtensions.AddLiquidMessageConsumer{TService, TEntity}(IServiceCollection, Assembly[])"/>
         /// and a <see cref="RabbitMqConsumer{TEntity}"/> service with its dependency, with 
         /// <see cref="IServiceCollectionLiquidExtension.AddLiquidTelemetryInterceptor{TInterface, TService}(IServiceCollection)"/>.
         /// </summary>

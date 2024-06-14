@@ -1,6 +1,5 @@
 ﻿using Liquid.Core.Extensions.DependencyInjection;
-using Liquid.Messaging.Extensions.DependencyInjection;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.ServiceBus.Settings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -58,7 +57,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
 
         /// <summary>
         /// Register Liquid resources for consumers 
-        /// <see cref="Messaging.Extensions.DependencyInjection.IServiceCollectionExtensions.AddLiquidMessageConsumer{TService, TEntity}(IServiceCollection, Assembly[])"/>
+        /// <see cref="IServiceCollectionCoreExtensions.AddLiquidMessageConsumer{TService, TEntity}(IServiceCollection, Assembly[])"/>
         /// and a <see cref="ServiceBusConsumer{TEntity}"/> service with its dependency, with 
         /// <see cref="IServiceCollectionLiquidExtension.AddLiquidTelemetryInterceptor{TInterface, TService}(IServiceCollection)"/>.
         /// </summary>

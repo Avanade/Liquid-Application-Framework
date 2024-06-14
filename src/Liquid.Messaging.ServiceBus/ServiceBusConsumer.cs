@@ -1,6 +1,7 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Entities;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -84,7 +85,11 @@ namespace Liquid.Messaging.ServiceBus
 
             return new ConsumerMessageEventArgs<TEntity> { Data = data, Headers = headers };
         }
-
+        /// <summary>
+        /// Process error from message handler.
+        /// </summary>
+        /// <param name="args"><see cref="ConsumerErrorEventArgs"/></param>
+        /// <exception cref="MessagingConsumerException"></exception>
         protected Task ProcessError(ConsumerErrorEventArgs args)
         {
             throw new MessagingConsumerException(args.Exception);

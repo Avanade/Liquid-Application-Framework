@@ -1,5 +1,5 @@
 ﻿using Confluent.Kafka;
-using Liquid.Messaging.Exceptions;
+using Liquid.Core.Exceptions;
 using Liquid.Messaging.Kafka.Settings;
 using System;
 

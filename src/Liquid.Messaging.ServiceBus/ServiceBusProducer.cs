@@ -1,6 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

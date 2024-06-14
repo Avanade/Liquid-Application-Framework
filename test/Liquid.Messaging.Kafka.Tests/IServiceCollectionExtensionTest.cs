@@ -1,4 +1,5 @@
-﻿using Liquid.Messaging.Interfaces;
+﻿using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Extensions.DependencyInjection;
 using Liquid.Messaging.Kafka.Tests.Mock;
 using Liquid.Messaging.Kafka.Tests.Mock.HandlerMock;

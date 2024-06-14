@@ -1,7 +1,8 @@
-﻿using Liquid.Repository.Mongo.Configuration;
+﻿using Liquid.Core.Entities;
+using Liquid.Core.Interfaces;
+using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Extensions;
 using MongoDB.Bson;
-using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;

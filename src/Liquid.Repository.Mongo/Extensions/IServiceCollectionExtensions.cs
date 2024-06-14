@@ -1,5 +1,7 @@
-﻿using Liquid.Core.Extensions.DependencyInjection;
+﻿using Liquid.Core.Entities;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Liquid.Repository.Mongo.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

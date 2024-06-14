@@ -37,6 +37,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Cache.Redis.Tests", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.Mongo.Tests", "test\Liquid.Repository.Mongo.Tests\Liquid.Repository.Mongo.Tests.csproj", "{400BD703-3E6F-41E6-929B-5FD888EFD00A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.EntityFramework.Tests", "test\Liquid.Repository.EntityFramework.Tests\Liquid.Repository.EntityFramework.Tests.csproj", "{73A5230F-0A90-4D2C-8D5E-D95C40DEF310}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.EntityFramework", "src\Liquid.Repository.EntityFramework\Liquid.Repository.EntityFramework.csproj", "{376DEF77-CBE3-452A-890C-FF2728D90322}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.Mongo", "src\Liquid.Repository.Mongo\Liquid.Repository.Mongo.csproj", "{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,16 +99,35 @@ Global
 		{2E8F3332-545A-4454-9F75-1498A9B7B9BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E8F3332-545A-4454-9F75-1498A9B7B9BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E8F3332-545A-4454-9F75-1498A9B7B9BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{400BD703-3E6F-41E6-929B-5FD888EFD00A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{400BD703-3E6F-41E6-929B-5FD888EFD00A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{400BD703-3E6F-41E6-929B-5FD888EFD00A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{400BD703-3E6F-41E6-929B-5FD888EFD00A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73A5230F-0A90-4D2C-8D5E-D95C40DEF310}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73A5230F-0A90-4D2C-8D5E-D95C40DEF310}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73A5230F-0A90-4D2C-8D5E-D95C40DEF310}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73A5230F-0A90-4D2C-8D5E-D95C40DEF310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{376DEF77-CBE3-452A-890C-FF2728D90322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{376DEF77-CBE3-452A-890C-FF2728D90322}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{376DEF77-CBE3-452A-890C-FF2728D90322}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{376DEF77-CBE3-452A-890C-FF2728D90322}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7B0D4F0-756B-4038-9DB2-0A1AD65ED72A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{69B34B22-198D-4BD0-AAFC-39A90F9ADAC2} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 		{8863A92B-E1A3-4203-8C08-C017E5B3D2CC} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 		{28747B1E-0784-4B7B-AE48-F5AD3C937262} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 		{08A826AA-2C2E-4E21-A3D8-60BF8E57772E} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 		{ED3C04BC-3DEF-4B5C-BF91-EE8F5C38F8E4} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 		{2E8F3332-545A-4454-9F75-1498A9B7B9BF} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
+		{400BD703-3E6F-41E6-929B-5FD888EFD00A} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
+		{73A5230F-0A90-4D2C-8D5E-D95C40DEF310} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D003939-9797-4F37-B391-10047A780641}

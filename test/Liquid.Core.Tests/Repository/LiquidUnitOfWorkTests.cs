@@ -1,18 +1,18 @@
+using Liquid.Core.Exceptions;
 using Liquid.Core.Implementations;
-using Microsoft.Extensions.Configuration;
+using Liquid.Core.Interfaces;
+using Liquid.Core.Tests.Mocks;
+using Liquid.Repository.Tests.Mock;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
-using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using Liquid.Repository.Tests.Mock;
-using Liquid.Repository.Exceptions;
+using Xunit;
 
-namespace Liquid.Repository.Tests
+namespace Liquid.Core.Tests.Repository
 {
     [ExcludeFromCodeCoverage]
     public class LiquidUnitOfWorkIntegrationTests
@@ -36,8 +36,8 @@ namespace Liquid.Repository.Tests
             MockTitle = "test"
         };
 
-        [SetUp]
-        public void Setup()
+        
+        public LiquidUnitOfWorkIntegrationTests()
         {
             var services = new ServiceCollection();
 
@@ -54,7 +54,7 @@ namespace Liquid.Repository.Tests
             _sut = _unitOfWork.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>();
         }
 
-        [TearDown]
+        
         public void DisposeResources()
         {
             _serviceProvider = null;
@@ -63,19 +63,19 @@ namespace Liquid.Repository.Tests
             _unitOfWork = null;
         }
 
-        [Test]
+        [Fact]
         public void LiquidUnitOfWorkConstructor_WhenServiceProviderDoesntExists_ThrowException()
         {
             Assert.Throws<ArgumentNullException>(() => new LiquidUnitOfWork(null));
         }
 
-        [Test]
+        [Fact]
         public void GetRepository_WhenRepositoryDoesntExists_ThrowException()
         {
             Assert.Throws<NullReferenceException>(() => _unitOfWork.GetRepository<ILiquidRepository<AnotherTestEntity, int>, AnotherTestEntity, int>());
         }
 
-        [Test]
+        [Fact]
         public void GetRepository_WhenRepositoryExists_Success()
         {
             var serviceProvider = new ServiceCollection()
@@ -83,14 +83,14 @@ namespace Liquid.Repository.Tests
                 .AddScoped<ILiquidRepository<TestEntity, int>, InMemoryRepository<TestEntity, int>>()
                 .BuildServiceProvider();
 
-            var unitOfWorkWithRepository = new LiquidUnitOfWork(serviceProvider); 
+            var unitOfWorkWithRepository = new LiquidUnitOfWork(serviceProvider);
 
-            Assert.IsInstanceOf<ILiquidRepository<TestEntity, int>>(unitOfWorkWithRepository.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>());
+            Assert.IsAssignableFrom<ILiquidRepository<TestEntity, int>>(unitOfWorkWithRepository.GetRepository<ILiquidRepository<TestEntity, int>, TestEntity, int>());
 
             unitOfWorkWithRepository.Dispose();
         }
 
-        [Test]
+        [Fact]
         public async Task AddAsync_WhenCommitTransaction_ItemAdded()
         {
             await _unitOfWork.StartTransactionAsync();
@@ -104,7 +104,7 @@ namespace Liquid.Repository.Tests
             Assert.NotNull(result);
         }
 
-        [Test]
+        [Fact]
         public async Task AddAsync_WhenRollbackTransaction_ItemNotInserted()
         {
             await _unitOfWork.StartTransactionAsync();
@@ -118,7 +118,7 @@ namespace Liquid.Repository.Tests
             Assert.Null(result);
         }
 
-        [Test]
+        [Fact]
         public async Task RemoveByIdAsync_WhenCommitTransaction_ItemDeleted()
         {
             await _sut.AddAsync(_entity);
@@ -131,10 +131,10 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.WhereAsync(e => e.Id.Equals(_entity.Id));
 
-            Assert.IsFalse(result.Any());
+            Assert.False(result.Any());
         }
 
-        [Test]
+        [Fact]
         public async Task RemoveByIdAsync_WhenRollbackTransaction_ItemNotDeleted()
         {
             await _sut.AddAsync(_entity);
@@ -150,7 +150,7 @@ namespace Liquid.Repository.Tests
             Assert.NotNull(result);
         }
 
-        [Test]
+        [Fact]
         public async Task UpdateAsync_WhenCommitTransaction_ItemNotDeleted()
         {
             await _sut.AddAsync(_entity);
@@ -163,10 +163,10 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            Assert.AreEqual(_updateEntity.Active, result.Active);
+            Assert.Equal(_updateEntity.Active, result.Active);
         }
 
-        [Test]
+        [Fact]
         public async Task UpdateAsync_WhenRollbackTransaction_ItemNotDeleted()
         {
             await _sut.AddAsync(_entity);
@@ -179,10 +179,10 @@ namespace Liquid.Repository.Tests
 
             var result = await _sut.FindByIdAsync(1242);
 
-            Assert.AreEqual(_entity.Active, result.Active);
+            Assert.Equal(_entity.Active, result.Active);
         }
 
-        [Test]
+        [Fact]
         public void StartTransactionAsync_WhenDataContextDoesntExists_ThrowException()
         {
             var serviceProvider = new ServiceCollection()
@@ -196,13 +196,13 @@ namespace Liquid.Repository.Tests
             unitOfWorkWithoutRepository.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void CommitAsync_WhenNoTransactionIsStarted_ThrowException()
         {
             Assert.ThrowsAsync<UnitOfWorkTransactionNotStartedException>(async () => await _unitOfWork.CommitAsync());
         }
 
-        [Test]
+        [Fact]
         public void RollbackTransactionAsync_WhenNoTransactionIsStarted_ThrowException()
         {
             Assert.ThrowsAsync<UnitOfWorkTransactionNotStartedException>(async () => await _unitOfWork.RollbackTransactionAsync());

@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Liquid.Core.Entities;
+using System;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository
+namespace Liquid.Core.Interfaces
 {
     /// <summary>
     /// Interface responsible for Managing the repositories transactions.

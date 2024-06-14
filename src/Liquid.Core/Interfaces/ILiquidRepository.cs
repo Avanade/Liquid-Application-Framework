@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Liquid.Core.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository
+namespace Liquid.Core.Interfaces
 {
     /// <summary>
     /// This interface represents a single repository for the specific <typeparamref name="TEntity"/> entity.

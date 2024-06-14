@@ -10,6 +10,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Liquid.Core.Interfaces;
 
 namespace Liquid.Repository.Mongo.Tests
 {

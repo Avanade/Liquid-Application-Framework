@@ -1,9 +1,8 @@
-﻿using Liquid.Core.Exceptions;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace Liquid.Repository.Exceptions
+namespace Liquid.Core.Exceptions
 {
     /// <summary>
     /// Occurs when the transaction is not started.

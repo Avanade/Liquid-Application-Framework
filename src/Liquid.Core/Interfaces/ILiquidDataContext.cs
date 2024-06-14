@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository
+namespace Liquid.Core.Interfaces
 {
     /// <summary>
     /// Represents the database context

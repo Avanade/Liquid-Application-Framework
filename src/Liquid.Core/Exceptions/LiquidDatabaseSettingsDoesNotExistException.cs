@@ -1,14 +1,13 @@
-﻿using Liquid.Core.Exceptions;
-using System;
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.Serialization;
 
-namespace Liguid.Repository.Configuration
+namespace Liquid.Core.Exceptions
 {
     /// <summary>
     /// Occurs when the database connection string is not found in appsettings file. Check the connection id and the configuration file.
     /// </summary>
-    /// <seealso cref="Liquid.Core.Exceptions.LiquidException" />
+    /// <seealso cref="LiquidException" />
     [ExcludeFromCodeCoverage]
     [Serializable]
     public class LiquidDatabaseSettingsDoesNotExistException : LiquidException

@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.Configuration
+namespace Liquid.Core.Settings
 {
     /// <summary>
     /// Database configuration properties.

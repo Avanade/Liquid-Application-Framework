@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Liquid.Core.Entities;
+using System;
 using System.Diagnostics.CodeAnalysis;
-using Liquid.Repository;
 
 namespace Liquid.Repository.Tests.Mock
 {

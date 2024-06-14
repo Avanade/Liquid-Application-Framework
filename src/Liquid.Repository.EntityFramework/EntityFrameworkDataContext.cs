@@ -7,7 +7,7 @@ namespace Liquid.Repository.EntityFramework
     /// <summary>
     /// Implements the EntityFramework data context for repositories.
     /// </summary>
-    /// <seealso cref="Liquid.Repository.EntityFramework.EntityFrameworkDataContext{TContext}" />
+    /// <seealso cref="EntityFrameworkDataContext{TContext}" />
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
     public class EntityFrameworkDataContext<TContext> : IEntityFrameworkDataContext<TContext> where TContext : DbContext
     {

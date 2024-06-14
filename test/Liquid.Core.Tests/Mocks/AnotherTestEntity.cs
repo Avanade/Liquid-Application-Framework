@@ -1,7 +1,8 @@
-﻿using System;
+﻿using Liquid.Core.Entities;
+using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.Tests.Mock
+namespace Liquid.Core.Tests.Mocks
 {
     /// <summary>
     /// Mock test entity class.

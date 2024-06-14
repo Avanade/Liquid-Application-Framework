@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository
+namespace Liquid.Core.Entities
 {
     /// <summary>
     /// Represents the repository entity

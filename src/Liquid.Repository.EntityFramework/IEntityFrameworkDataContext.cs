@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Liquid.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace Liquid.Repository.EntityFramework
 {
@@ -6,7 +7,7 @@ namespace Liquid.Repository.EntityFramework
     /// EntityFramework database context interface.
     /// </summary>
     /// <typeparam name="TContext">The type of the <see cref="DbContext"/>.</typeparam>
-    /// <seealso cref="Liquid.Repository.ILiquidDataContext" />
+    /// <seealso cref="ILiquidDataContext" />
     public interface IEntityFrameworkDataContext<out TContext> : ILiquidDataContext where TContext : DbContext
     {
         /// <summary>

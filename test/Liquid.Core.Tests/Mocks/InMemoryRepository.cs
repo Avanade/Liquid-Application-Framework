@@ -1,13 +1,13 @@
-﻿using Liquid.Repository.Exceptions;
+﻿using Liquid.Core.Entities;
+using Liquid.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository.Tests.Mock
+namespace Liquid.Core.Tests.Mocks
 {
     [ExcludeFromCodeCoverage]
     public class InMemoryRepository<TEntity, TIdentifier> : ILiquidRepository<TEntity, TIdentifier>, ILiquidDataContext where TEntity : LiquidEntity<TIdentifier>, new()
@@ -28,7 +28,7 @@ namespace Liquid.Repository.Tests.Mock
 
         public async Task AddAsync(TEntity entity)
         {
-            await Task.FromResult<bool>(_inMemoryRepository.TryAdd(entity.Id, entity));
+            await Task.FromResult(_inMemoryRepository.TryAdd(entity.Id, entity));
         }
 
         public async Task<IEnumerable<TEntity>> FindAllAsync()
@@ -39,24 +39,24 @@ namespace Liquid.Repository.Tests.Mock
 
         public async Task<TEntity> FindByIdAsync(TIdentifier id)
         {
-            var entity = await Task.FromResult<TEntity>(_inMemoryRepository.GetValueOrDefault(id));
+            var entity = await Task.FromResult(_inMemoryRepository.GetValueOrDefault(id));
             return entity;
         }
 
         public async Task RemoveByIdAsync(TIdentifier id)
         {
-            await Task.FromResult<bool>(_inMemoryRepository.Remove(id));
+            await Task.FromResult(_inMemoryRepository.Remove(id));
         }
 
         public async Task UpdateAsync(TEntity entity)
         {
-            await Task.FromResult<bool>(_inMemoryRepository.Remove(entity.Id));
-            await Task.FromResult<bool>(_inMemoryRepository.TryAdd(entity.Id, entity));
+            await Task.FromResult(_inMemoryRepository.Remove(entity.Id));
+            await Task.FromResult(_inMemoryRepository.TryAdd(entity.Id, entity));
         }
 
         public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> whereClause)
         {
-            var selectableCollection = _inMemoryRepository.Values.AsQueryable<TEntity>();
+            var selectableCollection = _inMemoryRepository.Values.AsQueryable();
             var entities = await Task.FromResult<IEnumerable<TEntity>>(selectableCollection.Where(whereClause));
             return entities;
         }
@@ -99,7 +99,7 @@ namespace Liquid.Repository.Tests.Mock
         private Dictionary<TIdentifier, TEntity> CloneRepository(Dictionary<TIdentifier, TEntity> repoToClone)
         {
             var clone = new Dictionary<TIdentifier, TEntity>();
-            foreach(var key in repoToClone.Keys)
+            foreach (var key in repoToClone.Keys)
             {
                 clone.Add(key, repoToClone[key]);
             }

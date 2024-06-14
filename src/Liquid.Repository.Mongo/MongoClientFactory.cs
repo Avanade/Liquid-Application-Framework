@@ -1,4 +1,4 @@
-﻿using Liquid.Repository.Configuration;
+﻿using Liquid.Core.Settings;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;

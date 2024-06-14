@@ -1,16 +1,18 @@
-﻿using Liquid.Repository.Exceptions;
+﻿using Liquid.Core.Entities;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Liquid.Repository
+namespace Liquid.Core.Implementations
 {
     /// <summary>
     /// Controls transactions in all data contexts
     /// </summary>
-    /// <seealso cref="Liquid.Repository.ILiquidUnitOfWork" />
+    /// <seealso cref="ILiquidUnitOfWork" />
     public class LiquidUnitOfWork : ILiquidUnitOfWork
     {
         private bool _disposed = false;
@@ -52,7 +54,7 @@ namespace Liquid.Repository
         /// <summary>
         /// Starts the transaction of all data contexts in repositories inside UnitOfWork.
         /// </summary>
-        /// <exception cref="Liquid.Repository.Exceptions.UnitofWorkTransactionWithoutRepositoryException"></exception>
+        /// <exception cref="UnitofWorkTransactionWithoutRepositoryException"></exception>
         public async Task StartTransactionAsync()
         {
             if (!_datacontexts.Any()) throw new UnitofWorkTransactionWithoutRepositoryException();
@@ -69,7 +71,7 @@ namespace Liquid.Repository
         /// <summary>
         /// Commits all commands added to the database context.
         /// </summary>
-        /// <exception cref="Liquid.Repository.Exceptions.UnitOfWorkTransactionNotStartedException"></exception>
+        /// <exception cref="UnitOfWorkTransactionNotStartedException"></exception>
         public async Task CommitAsync()
         {
             if (!_transactionStarted) throw new UnitOfWorkTransactionNotStartedException();
@@ -84,7 +86,7 @@ namespace Liquid.Repository
         /// <summary>
         /// Rollbacks the transactions.
         /// </summary>
-        /// <exception cref="Liquid.Repository.Exceptions.UnitOfWorkTransactionNotStartedException"></exception>
+        /// <exception cref="UnitOfWorkTransactionNotStartedException"></exception>
         public async Task RollbackTransactionAsync()
         {
             if (!_transactionStarted) throw new UnitOfWorkTransactionNotStartedException();

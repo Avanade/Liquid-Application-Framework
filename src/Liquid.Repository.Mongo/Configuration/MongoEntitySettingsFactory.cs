@@ -1,5 +1,5 @@
-﻿using Liguid.Repository.Configuration;
-using Liquid.Repository.Configuration;
+﻿using Liquid.Core.Exceptions;
+using Liquid.Core.Settings;
 using Liquid.Repository.Mongo.Exceptions;
 using Microsoft.Extensions.Configuration;
 using System;

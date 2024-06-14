@@ -1,8 +1,7 @@
-﻿using Liquid.Core.Extensions;
-using Liquid.Messaging.Exceptions;
+﻿using Liquid.Core.Entities;
+using Liquid.Core.Extensions;
 using Liquid.Messaging.RabbitMq.Settings;
 using Liquid.Messaging.RabbitMq.Tests.Mock;
-using Microsoft.Extensions.Logging;
 using NSubstitute;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;

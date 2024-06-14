@@ -1,5 +1,4 @@
-﻿using Liquid.Repository.Configuration;
-using System;
+﻿using Liquid.Core.Settings;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.Repository.Mongo.Configuration

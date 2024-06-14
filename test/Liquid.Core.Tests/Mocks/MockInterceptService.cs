@@ -2,11 +2,11 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Liquid.Core.UnitTests.Mocks
+namespace Liquid.Core.Tests.Mocks
 {
     public class MockInterceptService : IMockService
     {
-        
+
         public MockInterceptService()
         {
 

@@ -1,5 +1,5 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Liquid.Messaging.Exceptions;
+using Liquid.Core.Exceptions;
 using Liquid.Messaging.ServiceBus.Settings;
 using Microsoft.Extensions.Options;
 using System;

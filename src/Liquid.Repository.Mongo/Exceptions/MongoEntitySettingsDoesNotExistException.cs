@@ -8,7 +8,7 @@ namespace Liquid.Repository.Mongo.Exceptions
     /// <summary>
     /// Occurs when the Mongo Entity Settings aren't not found in any configuration provider. Check the entity name and the configuration files.
     /// </summary>
-    /// <seealso cref="Liquid.Core.Exceptions.LiquidException" />
+    /// <seealso cref="LiquidException" />
     [ExcludeFromCodeCoverage]
     [Serializable]
     public class MongoEntitySettingsDoesNotExistException : LiquidException

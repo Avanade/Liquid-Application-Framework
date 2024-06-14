@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Liquid.Core.UnitTests.Mocks
+namespace Liquid.Core.Tests.Mocks
 {
     public interface IMockService
     {

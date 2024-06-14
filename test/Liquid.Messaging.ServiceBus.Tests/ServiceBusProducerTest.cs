@@ -1,6 +1,6 @@
 ﻿using Azure.Messaging.ServiceBus;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.ServiceBus.Tests.Mock;
 using NSubstitute;
 using System;

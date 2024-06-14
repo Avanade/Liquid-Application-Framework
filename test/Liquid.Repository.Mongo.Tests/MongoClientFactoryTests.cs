@@ -1,5 +1,5 @@
-﻿using Liquid.Repository.Configuration;
-using EphemeralMongo;
+﻿using EphemeralMongo;
+using Liquid.Core.Settings;
 using NUnit.Framework;
 using System;
 using System.Diagnostics.CodeAnalysis;

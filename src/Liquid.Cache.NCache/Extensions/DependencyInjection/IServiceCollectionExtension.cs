@@ -1,6 +1,6 @@
 ﻿using Alachisoft.NCache.Caching.Distributed;
 using Alachisoft.NCache.Caching.Distributed.Configuration;
-using Liquid.Cache.Extensions.DependencyInjection;
+using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 using System;

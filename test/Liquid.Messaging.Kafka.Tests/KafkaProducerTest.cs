@@ -1,6 +1,6 @@
 ﻿using Confluent.Kafka;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Settings;
 using Liquid.Messaging.Kafka.Tests.Mock;
 using NSubstitute;

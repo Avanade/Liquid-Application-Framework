@@ -1,4 +1,4 @@
-﻿using Liquid.Repository.Configuration;
+﻿using Liquid.Core.Settings;
 using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;

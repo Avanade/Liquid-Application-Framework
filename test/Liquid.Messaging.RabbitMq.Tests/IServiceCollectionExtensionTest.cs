@@ -1,4 +1,5 @@
-﻿using Liquid.Messaging.Interfaces;
+﻿using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Extensions.DependencyInjection;
 using Liquid.Messaging.RabbitMq.Tests.Mock;
 using Liquid.Messaging.RabbitMq.Tests.Mock.HandlerMock;

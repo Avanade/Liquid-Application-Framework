@@ -1,8 +1,7 @@
 ﻿using Liquid.Core.Extensions;
 using Liquid.Core.Utils;
-using Liquid.Messaging.Exceptions;
-using Liquid.Messaging.Extensions;
-using Liquid.Messaging.Interfaces;
+using Liquid.Core.Exceptions;
+using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Settings;
 using RabbitMQ.Client;
 using System;

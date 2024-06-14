@@ -1,10 +1,7 @@
 ﻿using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Exceptions;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Liquid.Repository.Mongo

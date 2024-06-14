@@ -3,8 +3,6 @@ using Liquid.Core.Extensions;
 using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
-using Liquid.Core.Utils;
-using Liquid.Domain.Extensions.DependencyInjection;
 using Liquid.WebApi.Http.Filters.Swagger;
 using Liquid.WebApi.Http.Settings;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +25,7 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
         ///  Registers a <see cref="LiquidContext"/> service and execute registration methods
         ///  to configure <see cref="IServiceCollectionLiquidExtension.AddLiquidConfiguration(IServiceCollection)"/>,
         ///  set mapping <see cref="IServiceCollectionAutoMapperExtensions.AddAutoMapper(IServiceCollection, Action{AutoMapper.IMapperConfigurationExpression}, Assembly[])"/>,
-        ///  register domain handlers <see cref="Domain.Extensions.DependencyInjection.IServiceCollectionExtensions.AddLiquidHandlers(IServiceCollection, bool, bool, Assembly[])"/>, 
+        ///  register domain handlers <see cref="IServiceCollectionCoreExtensions.AddLiquidHandlers(IServiceCollection, bool, bool, Assembly[])"/>, 
         ///  and swagger <see cref="AddLiquidSwagger(IServiceCollection)"/>
         /// </summary>
         /// <param name="services">Extended service collection instance.</param>
@@ -50,7 +48,6 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
         /// and <see cref="OverloadMethodsSameVerb"/>.
         /// </summary>
         /// <param name="services">Extended service collection instance.</param>
-        /// <returns></returns>
         public static IServiceCollection AddLiquidSwagger(this IServiceCollection services)
         {
             var serviceProvider = services.BuildServiceProvider();

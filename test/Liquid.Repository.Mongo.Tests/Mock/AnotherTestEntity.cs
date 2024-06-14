@@ -1,4 +1,4 @@
-﻿using Liquid.Repository.Mongo.Configuration;
+﻿using Liquid.Core.Entities;
 using System;
 using System.Diagnostics.CodeAnalysis;
 

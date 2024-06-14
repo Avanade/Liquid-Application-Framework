@@ -1,4 +1,5 @@
-﻿using Liquid.Repository.EntityFramework.Extensions;
+﻿using Liquid.Core.Interfaces;
+using Liquid.Repository.EntityFramework.Extensions;
 using Liquid.Repository.EntityFramework.Tests.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

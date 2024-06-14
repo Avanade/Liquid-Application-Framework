@@ -1,4 +1,4 @@
-﻿using Liquid.Repository.Configuration;
+﻿using Liquid.Core.Settings;
 
 namespace Liquid.Repository.Mongo.Configuration
 {

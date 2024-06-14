@@ -1,4 +1,5 @@
 using Liquid.Cache.Redis.Extensions.DependencyInjection;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,4 +1,5 @@
-﻿using Liquid.Repository.Mongo.Configuration;
+﻿using Liquid.Core.Interfaces;
+using Liquid.Repository.Mongo.Configuration;
 using MongoDB.Driver;
 
 namespace Liquid.Repository.Mongo
@@ -6,7 +7,7 @@ namespace Liquid.Repository.Mongo
     /// <summary>
     /// Mongo database context interface.
     /// </summary>
-    /// <seealso cref="Liquid.Repository.ILiquidDataContext" />
+    /// <seealso cref="ILiquidDataContext" />
     public interface IMongoDataContext<TEntity> : ILiquidDataContext
     {
         /// <summary>

@@ -4,7 +4,7 @@ namespace Liquid.Messaging.RabbitMq.Settings
 {
 
     /// <summary>
-    /// 
+    /// RabbitMq configurations set.
     /// </summary>
     [ExcludeFromCodeCoverage]
     public class RabbitMqSettings

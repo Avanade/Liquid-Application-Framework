@@ -1,4 +1,4 @@
-﻿using Liguid.Repository.Configuration;
+﻿using Liquid.Core.Exceptions;
 using Liquid.Repository.Mongo.Exceptions;
 using System;
 

@@ -15,10 +15,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Http", "Http", "{13C213E0-7
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http.Tests", "test\Liquid.WebApi.Http.Tests\Liquid.WebApi.Http.Tests.csproj", "{39DDC514-44CD-43BE-9E5B-C3B86665895E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http.Extensions.Crud", "src\Liquid.WebApi.Http.Extensions.Crud\Liquid.WebApi.Http.Extensions.Crud.csproj", "{52C452EC-7C53-4177-A0C5-8CCFC6C0D76F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http.Extensions.Crud.Tests", "test\Liquid.WebApi.Http.Extensions.Crud.Tests\Liquid.WebApi.Http.Extensions.Crud.Tests.csproj", "{B1629220-240B-4C02-80BE-655F093F86D8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,14 +29,6 @@ Global
 		{39DDC514-44CD-43BE-9E5B-C3B86665895E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39DDC514-44CD-43BE-9E5B-C3B86665895E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39DDC514-44CD-43BE-9E5B-C3B86665895E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{52C452EC-7C53-4177-A0C5-8CCFC6C0D76F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{52C452EC-7C53-4177-A0C5-8CCFC6C0D76F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{52C452EC-7C53-4177-A0C5-8CCFC6C0D76F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{52C452EC-7C53-4177-A0C5-8CCFC6C0D76F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B1629220-240B-4C02-80BE-655F093F86D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B1629220-240B-4C02-80BE-655F093F86D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B1629220-240B-4C02-80BE-655F093F86D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B1629220-240B-4C02-80BE-655F093F86D8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,8 +36,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{25D05D84-4DFB-4F3D-92A2-B06DFA244BA4} = {13C213E0-722A-4CD5-9209-21E12FDA0CA8}
 		{39DDC514-44CD-43BE-9E5B-C3B86665895E} = {13C213E0-722A-4CD5-9209-21E12FDA0CA8}
-		{52C452EC-7C53-4177-A0C5-8CCFC6C0D76F} = {13C213E0-722A-4CD5-9209-21E12FDA0CA8}
-		{B1629220-240B-4C02-80BE-655F093F86D8} = {13C213E0-722A-4CD5-9209-21E12FDA0CA8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {83C46B4F-18D0-45CB-B7EC-9A5B8840F6A0}

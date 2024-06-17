@@ -4,17 +4,17 @@ using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
-using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Liquid.Repository.Mongo.Tests
 {
     [ExcludeFromCodeCoverage]
-    class MongoRepositoryTests
+    public class MongoRepositoryTests
     {
         private IMongoDataContext<TestEntity> _dbDataContext;
         private ILiquidRepository<TestEntity, int> _sut;
@@ -23,8 +23,7 @@ namespace Liquid.Repository.Mongo.Tests
         internal static string _collectionName = "TestEntities";
         private IMongoCollection<TestEntity> _collection;
 
-        [SetUp]
-        protected void SetContext()
+        public MongoRepositoryTests()
         {
 
             _entity = new TestEntity()
@@ -39,10 +38,8 @@ namespace Liquid.Repository.Mongo.Tests
             {
                 CollectionName = _collectionName,
                 ShardKey = "id",
-                DatabaseSettings = new DatabaseSettings() {
-                    DatabaseName = _databaseName,
-                    ConnectionString = "test connection string"
-                }
+                DatabaseName = _databaseName,
+                ConnectionString = "test connection string"
             };
 
             _dbDataContext = Substitute.For<IMongoDataContext<TestEntity>>();
@@ -55,7 +52,7 @@ namespace Liquid.Repository.Mongo.Tests
             _collection = GetCollection();
 
             _dbDataContext.Database.GetCollection<TestEntity>(_collectionName)
-                .Returns(_collection);
+                    .Returns(_collection);
 
             _sut = new MongoRepository<TestEntity, int>(_dbDataContext);
         }
@@ -74,13 +71,13 @@ namespace Liquid.Repository.Mongo.Tests
         }
 
 
-        [Test]
+        [Fact]
         public void MongoRepository_WhenCreatedWithNoDataContext_ThrowException()
         {
             Assert.Throws<ArgumentNullException>(() => new MongoRepository<TestEntity, int>(null));
         }
 
-        [Test]
+        [Fact]
         public async Task ValidateCollection_WhenCollectionExists_Success()
         {
             await _sut.AddAsync(_entity);
@@ -88,7 +85,7 @@ namespace Liquid.Repository.Mongo.Tests
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
         }
 
-        [Test]
+        [Fact]
         public async Task AddAsync_WhenActionIsSuccessful_CallInsertOneMethod()
         {
 
@@ -99,17 +96,17 @@ namespace Liquid.Repository.Mongo.Tests
             await _collection.Received(1).InsertOneAsync(_entity);
         }
 
-        [Test]
-        public void AddAsync_WhenClientThrowsError_ThrowException()
+        [Fact]
+        public async Task AddAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.InsertOneAsync(Arg.Any<TestEntity>())).Do((call) => throw new Exception());
 
             var test = _sut.AddAsync(_entity);
 
-            Assert.ThrowsAsync<Exception>(() => test);
+            await Assert.ThrowsAsync<Exception>(() => test);
         }
 
-        [Test]
+        [Fact]
         public async Task FindAllAsync_WhenCollectionExists_ReturnItens()
         {
             var result = await _sut.FindAllAsync();
@@ -117,21 +114,21 @@ namespace Liquid.Repository.Mongo.Tests
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
             Assert.NotNull(result);
-            Assert.AreEqual(result.FirstOrDefault(), _entity);
+            Assert.Equal(result.FirstOrDefault(), _entity);
 
         }
 
-        [Test]
-        public void FindAllAsync_WhenClientThrowsError_ThrowException()
+        [Fact]
+        public async Task FindAllAsync_WhenClientThrowsError_ThrowException()
         {
             _dbDataContext.Database.When(o => o.GetCollection<TestEntity>(Arg.Any<string>())).Do((call) => throw new Exception());
 
             var test = _sut.FindAllAsync();
 
-            Assert.ThrowsAsync<Exception>(() => test);
+            await Assert.ThrowsAsync<Exception>(() => test);
         }
 
-        [Test]
+        [Fact]
         public async Task FindByIdAsync_WhenItemExists_ReturnItem()
         {
 
@@ -139,22 +136,22 @@ namespace Liquid.Repository.Mongo.Tests
 
             _dbDataContext.Database.Received(1).GetCollection<TestEntity>(_collectionName);
 
-            Assert.IsTrue(result == _entity);
+            Assert.True(result == _entity);
 
         }
 
-        [Test]
-        public void FindByIdAsync_WhenClientThrowsError_ThrowException()
+        [Fact]
+        public async Task FindByIdAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.FindAsync<TestEntity>(Arg.Any<FilterDefinition<TestEntity>>())).Do((call) => throw new Exception());
 
             var test = _sut.FindByIdAsync(1234);
 
-            Assert.ThrowsAsync<Exception>(() => test);
+            await Assert.ThrowsAsync<Exception>(() => test);
 
-        }             
+        }
 
-        [Test]
+        [Fact]
         public async Task RemoveByIdAsync_WhenActionIsSuccessful_CallDeleteOneMethod()
         {
             await _sut.RemoveByIdAsync(_entity.Id);
@@ -165,17 +162,17 @@ namespace Liquid.Repository.Mongo.Tests
 
         }
 
-        [Test]
-        public void RemoveByIdAsync_WhenClientThrowsError_ThrowException()
+        [Fact]
+        public async Task RemoveByIdAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.DeleteOneAsync(Arg.Any<FilterDefinition<TestEntity>>())).Do((call) => throw new Exception());
 
             var test = _sut.RemoveByIdAsync(_entity.Id);
 
-            Assert.ThrowsAsync<Exception>(() => test);
+            await Assert.ThrowsAsync<Exception>(() => test);
         }
 
-        [Test]
+        [Fact]
         public async Task UpdateAsync_WhenActionIsSuccessful_CallReplaceOneMethod()
         {
 
@@ -187,17 +184,17 @@ namespace Liquid.Repository.Mongo.Tests
 
         }
 
-        [Test]
-        public void UpdateAsync_WhenClientThrowsError_ThrowException()
+        [Fact]
+        public async Task UpdateAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.ReplaceOneAsync(Arg.Any<FilterDefinition<TestEntity>>(), _entity, Arg.Any<ReplaceOptions>())).Do((call) => throw new Exception());
 
             var test = _sut.UpdateAsync(_entity);
 
-            Assert.ThrowsAsync<Exception>(() => test);
+            await Assert.ThrowsAsync<Exception>(() => test);
         }
 
-        [Test]
+        [Fact]
         public async Task WhereAsync_WhenItensExists_ReturnItens()
         {
             var result = await _sut.WhereAsync(e => e.Id.Equals(_entity.Id));
@@ -205,17 +202,17 @@ namespace Liquid.Repository.Mongo.Tests
             _dbDataContext.Database.Received().GetCollection<TestEntity>(_collectionName);
 
             Assert.NotNull(result);
-            Assert.AreEqual(result.FirstOrDefault(), _entity);
+            Assert.Equal(result.FirstOrDefault(), _entity);
         }
 
-        [Test]
-        public void WhereAsync_WhenClientThrowsError_ThrowException()
+        [Fact]
+        public async Task WhereAsync_WhenClientThrowsError_ThrowException()
         {
             _collection.When(o => o.FindAsync<TestEntity>(Arg.Any<FilterDefinition<TestEntity>>())).Do((call) => throw new Exception());
 
             var test = _sut.WhereAsync(e => e.Id.Equals(_entity.Id));
 
-            Assert.ThrowsAsync<Exception>(() => test);
+            await Assert.ThrowsAsync<Exception>(() => test);
         }
     }
 }

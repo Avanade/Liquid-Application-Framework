@@ -1,8 +1,11 @@
 ﻿using EphemeralMongo;
 using Liquid.Core.Settings;
-using NUnit.Framework;
+using Liquid.Repository.Mongo.Configuration;
+using Microsoft.Extensions.Options;
+using NSubstitute;
 using System;
 using System.Diagnostics.CodeAnalysis;
+using Xunit;
 
 namespace Liquid.Repository.Mongo.Tests
 {
@@ -12,11 +15,8 @@ namespace Liquid.Repository.Mongo.Tests
         private IMongoClientFactory _sut;
         internal static IMongoRunner _runner;
         internal const string _databaseName = "TestDatabase";
-        private DatabaseSettings _correctDatabaseSettings;
-        private DatabaseSettings _wrongDatabaseSettings;
-
-        [SetUp]
-        protected void SetContext()
+        private IOptions<MongoDbSettings> _options;
+        public MongoClientFactoryTests()
         {
             var options = new MongoRunnerOptions
             {
@@ -26,48 +26,57 @@ namespace Liquid.Repository.Mongo.Tests
 
             _runner = MongoRunner.Run(options);
 
-            _correctDatabaseSettings = new DatabaseSettings()
+
+            _options = Substitute.For<IOptions<MongoDbSettings>>();
+
+            var settings = new MongoDbSettings()
             {
-                DatabaseName = _databaseName,
-                ConnectionString = _runner.ConnectionString
+                Settings = new System.Collections.Generic.List<MongoEntitySettings>()
+                {
+                    new MongoEntitySettings()
+                    {
+                        CollectionName = "TestEntities",
+                        ShardKey = "id",
+                        ConnectionString = _runner.ConnectionString,
+                        DatabaseName = _databaseName
+                    },
+                    new MongoEntitySettings()
+                    {
+                        CollectionName = "TestEntities2",
+                        ShardKey = "id",
+                        ConnectionString = "incorrect connection string",
+                        DatabaseName = $"{_databaseName}-2"
+                    }
+                }
             };
 
-            _wrongDatabaseSettings = new DatabaseSettings()
-            {
-                DatabaseName = $"{_databaseName}-2",
-                ConnectionString = "incorrect connection string"
-            };
+            _options.Value.Returns(settings);
 
-            _sut = new MongoClientFactory();
+            _sut = new MongoClientFactory(_options);
         }
 
 
-        [TearDown]
-        public void DisposeResources()
-        {
-            _correctDatabaseSettings = null;
-            _sut = null;
-            _runner.Dispose();
-            _runner = null;
-        }
-
-        [Test]
+        [Fact]
         public void MongoClientFactory_WhenSettingsIsNull_ThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => _sut.GetClient(null));
+            MongoEntitySettings settings = null;
+            Assert.Throws<ArgumentNullException>(() => _sut.GetClient(null, out settings));
         }
 
-        [Test]
+        [Fact]
         public void GetClient_WhenDatabaseIdsExists_ClientCreated()
         {
-            var result = _sut.GetClient(_correctDatabaseSettings);
-            Assert.IsNotNull(result.GetDatabase(_databaseName));
+            MongoEntitySettings settings = null;
+            var result = _sut.GetClient("TestEntities", out settings);
+
+            Assert.NotNull(result);
         }
 
-        [Test]
+        [Fact]
         public void GetClient_WhenDatabaseSettingsIsWrong_ThrowException()
         {
-            Assert.Throws<MongoDB.Driver.MongoConfigurationException>(() => _sut.GetClient(_wrongDatabaseSettings));
+            MongoEntitySettings settings = null;
+            Assert.Throws<MongoDB.Driver.MongoConfigurationException>(() => _sut.GetClient("TestEntities2", out settings));
         }
     }
 }

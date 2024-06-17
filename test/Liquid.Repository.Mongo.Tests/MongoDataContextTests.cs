@@ -3,57 +3,49 @@ using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;
-using NUnit.Framework;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Liquid.Repository.Mongo.Tests
 {
     [ExcludeFromCodeCoverage]
-    class MongoDataContextTests
+    public class MongoDataContextTests
     {
         private MongoDataContext<TestEntity> _sut;
         private IMongoClient _client;
-        private IMongoEntitySettingsFactory _settingsFactory;
         private IMongoClientFactory _provider;
-        private IMongoEntitySettings _options;
 
-        [SetUp]
-        protected void SetContext()
+        public MongoDataContextTests()
         {
             _client = Substitute.For<IMongoClient>();
 
-            _options = new MongoEntitySettings()
+            var _options = new MongoEntitySettings()
             {
                 CollectionName = "TestEntities",
                 ShardKey = "id",
-                DatabaseSettingsSectionName = "Test:Database",
-                DatabaseSettings = new DatabaseSettings() 
-                {
-                    ConnectionString = "test connection string",
-                    DatabaseName = "TestDatabase"
-                }
-            };
+                ConnectionString = "test connection string",
+                DatabaseName = "TestDatabase"
 
-            _settingsFactory = Substitute.For<IMongoEntitySettingsFactory>();
-            _settingsFactory.GetSettings<TestEntity>().Returns(_options);
+            };           
 
             _provider = Substitute.For<IMongoClientFactory>();
-            _provider.GetClient(_options.DatabaseSettings).Returns(_client);
 
-            _sut = new MongoDataContext<TestEntity>(_provider, _settingsFactory);
+            _provider.GetClient("TestEntities", out _).Returns(x => { x[1] = _options; return _client; });
+
+            _sut = new MongoDataContext<TestEntity>(_provider, "TestEntities");
         }
 
-        [Test]
-        public void MongoDataContext_WhenCreatedWithNullArguments_ThrowsException() 
+        [Fact]
+        public void MongoDataContext_WhenCreatedWithNullArguments_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(null, _settingsFactory));
+            Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(null, "TestEntities"));
             Assert.Throws<ArgumentNullException>(() => new MongoDataContext<TestEntity>(_provider, null));
         }
 
 
-        [Test]
+        [Fact]
         public async Task StartTransaction_WhenDBInitialized_Sucess()
         {
             await _sut.StartTransactionAsync();
@@ -62,7 +54,7 @@ namespace Liquid.Repository.Mongo.Tests
 
         }
 
-        [Test]
+        [Fact]
         public async Task CommitAsync_WhenTansactionIsStarted_Sucess()
         {
             await _sut.StartTransactionAsync();
@@ -73,15 +65,15 @@ namespace Liquid.Repository.Mongo.Tests
 
         }
 
-        [Test]
-        public void CommitAsync_WhenTansactionIsntStarted_ThrowException()
+        [Fact]
+        public async Task CommitAsync_WhenTansactionIsntStarted_ThrowException()
         {
             var task = _sut.CommitAsync();
 
-            Assert.ThrowsAsync<NullReferenceException>(() => task);
+            await Assert.ThrowsAsync<NullReferenceException>(() => task);
         }
 
-        [Test]
+        [Fact]
         public async Task RollbackAsync_WhenTansactionIsStarted_Sucess()
         {
 
@@ -92,16 +84,16 @@ namespace Liquid.Repository.Mongo.Tests
 
         }
 
-        [Test]
-        public void RollbackAsync_WhenTansactionIsntStarted_ThrowException()
+        [Fact]
+        public async Task RollbackAsync_WhenTansactionIsntStarted_ThrowException()
         {
             var task = _sut.RollbackTransactionAsync();
 
-            Assert.ThrowsAsync<NullReferenceException>(() => task);
+            await Assert.ThrowsAsync<NullReferenceException>(() => task);
 
         }
 
-        [Test]
+        [Fact]
         public async Task Dispose_WhenTansactionIsStarted_Sucess()
         {
             await _sut.StartTransactionAsync();
@@ -114,7 +106,7 @@ namespace Liquid.Repository.Mongo.Tests
 
         }
 
-        [Test]
+        [Fact]
         public async Task Dispose_WhenTansactionIsntStarted_HandlerDisposed()
         {
             await _sut.StartTransactionAsync();

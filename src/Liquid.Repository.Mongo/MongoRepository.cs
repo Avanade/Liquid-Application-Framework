@@ -42,9 +42,7 @@ namespace Liquid.Repository.Mongo
         {
             MongoDataContext = dataContext ?? throw new ArgumentNullException(nameof(dataContext));
             
-            _settings = dataContext.Settings;
-
-            MongoDataContext.SetDatabase(_settings.DatabaseSettings.DatabaseName);            
+            _settings = dataContext.Settings;    
         }
 
         ///<inheritdoc/>

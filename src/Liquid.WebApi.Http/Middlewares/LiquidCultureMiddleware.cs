@@ -2,6 +2,7 @@
 using Liquid.Core.Settings;
 using Liquid.WebApi.Http.Extensions;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -16,7 +17,7 @@ namespace Liquid.WebApi.Http.Middlewares
     public sealed class LiquidCultureMiddleware
     {
         private const string _culture = "culture";
-        private readonly ILiquidConfiguration<CultureSettings> _options;
+        private readonly IOptions<CultureSettings> _options;
         private readonly RequestDelegate _next;
 
         /// <summary>
@@ -24,7 +25,7 @@ namespace Liquid.WebApi.Http.Middlewares
         /// </summary>
         /// <param name="next">The next.</param>
         /// <param name="options"></param>
-        public LiquidCultureMiddleware(RequestDelegate next, ILiquidConfiguration<CultureSettings> options)
+        public LiquidCultureMiddleware(RequestDelegate next, IOptions<CultureSettings> options)
         {
             _next = next;
             _options = options;
@@ -44,9 +45,9 @@ namespace Liquid.WebApi.Http.Middlewares
                 cultureCode = context.GetValueFromQuery(_culture).ToString();
             }
 
-            if (string.IsNullOrEmpty(cultureCode) && !string.IsNullOrEmpty(_options.Settings.DefaultCulture))
+            if (string.IsNullOrEmpty(cultureCode) && !string.IsNullOrEmpty(_options.Value.DefaultCulture))
             {
-                cultureCode = _options.Settings.DefaultCulture;
+                cultureCode = _options.Value.DefaultCulture;
             }
 
             if (!string.IsNullOrEmpty(cultureCode))

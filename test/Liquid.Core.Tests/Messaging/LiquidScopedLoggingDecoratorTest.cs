@@ -5,6 +5,7 @@ using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
 using Liquid.Core.Tests.Mocks;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -17,20 +18,20 @@ namespace Liquid.Core.Tests.Messaging
     public class LiquidScopedLoggingDecoratorTest
     {
         private readonly ILogger<LiquidScopedLoggingDecorator<EntityMock>> _logger;
-        private readonly ILiquidConfiguration<ScopedLoggingSettings> _options;
+        private readonly IOptions<ScopedLoggingSettings> _options;
         private readonly ILiquidWorker<EntityMock> _inner;
 
 
         public LiquidScopedLoggingDecoratorTest()
         {
             _logger = Substitute.For<ILogger<LiquidScopedLoggingDecorator<EntityMock>>>();
-            _options = Substitute.For<ILiquidConfiguration<ScopedLoggingSettings>>();
+            _options = Substitute.For<IOptions<ScopedLoggingSettings>>();
             _inner = Substitute.For<ILiquidWorker<EntityMock>>();
 
             var settings = new ScopedLoggingSettings();
             settings.Keys.Add(new ScopedKey() { KeyName = "test", Required = true });
 
-            _options.Settings.Returns(settings);
+            _options.Value.Returns(settings);
         }
 
         [Fact]

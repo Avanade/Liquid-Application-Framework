@@ -4,6 +4,7 @@ using Liquid.WebApi.Http.Middlewares;
 using Liquid.WebApi.Http.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace Liquid.WebApi.Http.Extensions.DependencyInjection
 {
@@ -55,9 +56,9 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
         /// <param name="builder">Extended application builder.</param>
         public static IApplicationBuilder UseLiquidSwagger(this IApplicationBuilder builder)
         {
-            var configuration = builder.ApplicationServices.GetService<ILiquidConfiguration<SwaggerSettings>>();
+            var configuration = builder.ApplicationServices.GetService<IOptions<SwaggerSettings>>();
 
-            var swaggerSettings = configuration.Settings;
+            var swaggerSettings = configuration.Value;
             builder.UseSwagger().UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint(swaggerSettings.SwaggerEndpoint.Url, swaggerSettings.SwaggerEndpoint.Name);

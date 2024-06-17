@@ -1,6 +1,7 @@
 ﻿using Liquid.Core.Entities;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
+using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -15,7 +16,7 @@ namespace Liquid.Core.Decorators
     public class LiquidCultureDecorator<TEntity> : ILiquidWorker<TEntity>
     {
         private const string _culture = "culture";
-        private readonly ILiquidConfiguration<CultureSettings> _options;
+        private readonly IOptions<CultureSettings> _options;
         private readonly ILiquidWorker<TEntity> _inner;
 
         /// <summary>
@@ -23,7 +24,7 @@ namespace Liquid.Core.Decorators
         /// </summary>
         /// <param name="inner">Decorated service.</param>
         /// <param name="options">Default culture configuration.</param>
-        public LiquidCultureDecorator(ILiquidWorker<TEntity> inner, ILiquidConfiguration<CultureSettings> options)
+        public LiquidCultureDecorator(ILiquidWorker<TEntity> inner, IOptions<CultureSettings> options)
         {
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _options = options ?? throw new ArgumentNullException(nameof(options));
@@ -36,9 +37,9 @@ namespace Liquid.Core.Decorators
 
             args.Headers?.TryGetValue(_culture, out cultureCode);
 
-            if (cultureCode is null && !string.IsNullOrEmpty(_options.Settings.DefaultCulture))
+            if (cultureCode is null && !string.IsNullOrEmpty(_options.Value.DefaultCulture))
             {
-                cultureCode = _options.Settings.DefaultCulture;
+                cultureCode = _options.Value.DefaultCulture;
             }
 
             if (cultureCode != null)

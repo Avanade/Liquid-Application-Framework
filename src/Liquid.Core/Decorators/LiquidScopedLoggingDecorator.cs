@@ -3,6 +3,7 @@ using Liquid.Core.Exceptions;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -17,7 +18,7 @@ namespace Liquid.Core.Decorators
     public class LiquidScopedLoggingDecorator<TEntity> : ILiquidWorker<TEntity>
     {
         private readonly ILogger<LiquidScopedLoggingDecorator<TEntity>> _logger;
-        private readonly ILiquidConfiguration<ScopedLoggingSettings> _options;
+        private readonly IOptions<ScopedLoggingSettings> _options;
         private readonly ILiquidWorker<TEntity> _inner;
 
         /// <summary>
@@ -27,7 +28,7 @@ namespace Liquid.Core.Decorators
         /// <param name="options">Default culture configuration.</param>
         /// <param name="logger">Logger service instance.</param>
         public LiquidScopedLoggingDecorator(ILiquidWorker<TEntity> inner
-            , ILiquidConfiguration<ScopedLoggingSettings> options
+            , IOptions<ScopedLoggingSettings> options
             , ILogger<LiquidScopedLoggingDecorator<TEntity>> logger)
         {
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
@@ -42,7 +43,7 @@ namespace Liquid.Core.Decorators
 
             object value = default;
 
-            foreach (var key in _options.Settings.Keys)
+            foreach (var key in _options.Value.Keys)
             {
                 args.Headers?.TryGetValue(key.KeyName, out value);
 

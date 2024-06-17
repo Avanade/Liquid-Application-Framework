@@ -5,6 +5,7 @@ using Liquid.WebApi.Http.Exceptions;
 using Liquid.WebApi.Http.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -19,14 +20,14 @@ namespace Liquid.WebApi.Http.Middlewares
     public class LiquidContextMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILiquidConfiguration<ScopedContextSettings> _options;
+        private readonly IOptions<ScopedContextSettings> _options;
 
         /// <summary>
         /// Initialize a instance of <see cref="LiquidContextMiddleware"/>
         /// </summary>
         /// <param name="next">Invoked request.</param>
         /// <param name="options">Context keys configuration.</param>
-        public LiquidContextMiddleware(RequestDelegate next, ILiquidConfiguration<ScopedContextSettings> options)
+        public LiquidContextMiddleware(RequestDelegate next, IOptions<ScopedContextSettings> options)
         {
             _next = next;
             _options = options;
@@ -44,7 +45,7 @@ namespace Liquid.WebApi.Http.Middlewares
 
             var value = string.Empty;
 
-            foreach (var key in _options.Settings.Keys)
+            foreach (var key in _options.Value.Keys)
             {
                 value = context.GetValueFromHeader(key.KeyName);
 
@@ -57,7 +58,7 @@ namespace Liquid.WebApi.Http.Middlewares
                 liquidContext.Upsert(key.KeyName, value);
             }
 
-            if (_options.Settings.Culture)
+            if (_options.Value.Culture)
             {
                 liquidContext.Upsert("culture", CultureInfo.CurrentCulture.Name);
             }

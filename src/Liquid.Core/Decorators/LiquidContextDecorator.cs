@@ -2,6 +2,7 @@
 using Liquid.Core.Exceptions;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
+using Microsoft.Extensions.Options;
 using System;
 using System.Globalization;
 using System.Threading;
@@ -17,7 +18,7 @@ namespace Liquid.Core.Decorators
     {
         private readonly ILiquidWorker<TEntity> _inner;
         private readonly ILiquidContext _context;
-        private readonly ILiquidConfiguration<ScopedContextSettings> _options;
+        private readonly IOptions<ScopedContextSettings> _options;
 
         /// <summary>
         /// Initialize a new instance of <see cref="LiquidContextDecorator{TEntity}"/>
@@ -25,7 +26,7 @@ namespace Liquid.Core.Decorators
         /// <param name="inner">Decorated service.</param>
         /// <param name="context">Scoped Context service.</param>
         /// <param name="options">Scoped context keys set.</param>
-        public LiquidContextDecorator(ILiquidWorker<TEntity> inner, ILiquidContext context, ILiquidConfiguration<ScopedContextSettings> options)
+        public LiquidContextDecorator(ILiquidWorker<TEntity> inner, ILiquidContext context, IOptions<ScopedContextSettings> options)
         {
             _inner = inner ?? throw new ArgumentNullException(nameof(inner));
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -37,7 +38,7 @@ namespace Liquid.Core.Decorators
         {
             object value = default;
 
-            foreach (var key in _options.Settings.Keys)
+            foreach (var key in _options.Value.Keys)
             {
                 args.Headers?.TryGetValue(key.KeyName, out value);
 
@@ -47,7 +48,7 @@ namespace Liquid.Core.Decorators
                 _context.Upsert(key.KeyName, value);
             }
 
-            if (_options.Settings.Culture)
+            if (_options.Value.Culture)
             {
                 _context.Upsert("culture", CultureInfo.CurrentCulture.Name);
             }

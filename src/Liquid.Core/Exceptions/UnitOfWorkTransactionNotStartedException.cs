@@ -30,9 +30,5 @@ namespace Liquid.Core.Exceptions
         {
         }
 
-        ///<inheritdoc/>
-        protected UnitOfWorkTransactionNotStartedException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

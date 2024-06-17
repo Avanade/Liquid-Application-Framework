@@ -19,10 +19,5 @@ namespace Liquid.Core.Exceptions
         public MessagingConsumerException(Exception innerException) : base("An error has occurred consuming message. See inner exception for more detail.", innerException)
         {
         }
-
-        /// <inheritdoc/>
-        protected MessagingConsumerException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

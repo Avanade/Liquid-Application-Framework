@@ -29,10 +29,5 @@ namespace Liquid.Core.Exceptions
         public UnitofWorkTransactionWithoutRepositoryException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        ///<inheritdoc/>
-        protected UnitofWorkTransactionWithoutRepositoryException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

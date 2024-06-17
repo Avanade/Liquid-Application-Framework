@@ -23,10 +23,5 @@ namespace Liquid.Core.Exceptions
         public MessagingMissingScopedKeysException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        ///<inheritdoc/>
-        protected MessagingMissingScopedKeysException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

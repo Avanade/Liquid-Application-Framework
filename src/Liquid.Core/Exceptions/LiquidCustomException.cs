@@ -40,10 +40,5 @@ namespace Liquid.Core.Exceptions
         {
             ResponseCode = responseCode;
         }
-
-        ///<inheritdoc/>
-        protected LiquidCustomException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

@@ -20,9 +20,5 @@ namespace Liquid.Core.Exceptions
         {
         }
 
-        /// <inheritdoc/>
-        protected MessagingProducerException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

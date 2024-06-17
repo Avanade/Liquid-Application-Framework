@@ -24,9 +24,5 @@ namespace Liquid.Core.Exceptions
         {
         }
 
-        ///<inheritdoc/>
-        protected MessagingMissingContextKeysException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

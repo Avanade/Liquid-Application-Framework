@@ -20,10 +20,5 @@ namespace Liquid.Core.Localization
         public LocalizationReaderException(Exception innerException) : base("An error occurred while reading the resource collection from datasource.", innerException)
         {
         }
-
-        ///<inheritdoc/>
-        protected LocalizationReaderException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

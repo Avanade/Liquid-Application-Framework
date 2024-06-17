@@ -24,10 +24,5 @@ namespace Liquid.Core.Exceptions
         public LiquidDatabaseSettingsDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        ///<inheritdoc/>
-        protected LiquidDatabaseSettingsDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

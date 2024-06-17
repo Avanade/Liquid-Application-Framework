@@ -22,9 +22,5 @@ namespace Liquid.Core.Exceptions
         {
         }
 
-        ///<inheritdoc/>
-        protected SerializerFailException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

@@ -78,9 +78,9 @@ namespace Liquid.Core.Tests.Domain
         }
 
         [Fact]
-        public void Test_WhenValidatorThrowError_ThowException()
+        public async Task Test_WhenValidatorThrowError_ThowException()
         {
-            Assert.ThrowsAsync<ValidationException>(async () =>
+            await Assert.ThrowsAsync<ValidationException>(async () =>
             {
                 var mediator = _serviceProvider.GetRequiredService<IMediator>();
                 using var scopedTransaction = _serviceProvider.CreateScope();

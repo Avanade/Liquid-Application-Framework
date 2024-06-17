@@ -174,7 +174,7 @@ namespace Liquid.Core.Tests.Repository
         }
 
         [Fact]
-        public void StartTransactionAsync_WhenDataContextDoesntExists_ThrowException()
+        public async Task StartTransactionAsync_WhenDataContextDoesntExists_ThrowException()
         {
             var serviceProvider = new ServiceCollection()
                 .AddTransient<ILiquidUnitOfWork, LiquidUnitOfWork>()
@@ -182,21 +182,21 @@ namespace Liquid.Core.Tests.Repository
 
             var unitOfWorkWithoutRepository = new LiquidUnitOfWork(serviceProvider);
 
-            Assert.ThrowsAsync<UnitofWorkTransactionWithoutRepositoryException>(async () => await unitOfWorkWithoutRepository.StartTransactionAsync());
+            await Assert.ThrowsAsync<UnitofWorkTransactionWithoutRepositoryException>(async () => await unitOfWorkWithoutRepository.StartTransactionAsync());
 
             unitOfWorkWithoutRepository.Dispose();
         }
 
         [Fact]
-        public void CommitAsync_WhenNoTransactionIsStarted_ThrowException()
+        public async Task CommitAsync_WhenNoTransactionIsStarted_ThrowException()
         {
-            Assert.ThrowsAsync<UnitOfWorkTransactionNotStartedException>(async () => await _unitOfWork.CommitAsync());
+            await Assert.ThrowsAsync<UnitOfWorkTransactionNotStartedException>(async () => await _unitOfWork.CommitAsync());
         }
 
         [Fact]
-        public void RollbackTransactionAsync_WhenNoTransactionIsStarted_ThrowException()
+        public async Task RollbackTransactionAsync_WhenNoTransactionIsStarted_ThrowException()
         {
-            Assert.ThrowsAsync<UnitOfWorkTransactionNotStartedException>(async () => await _unitOfWork.RollbackTransactionAsync());
+            await Assert.ThrowsAsync<UnitOfWorkTransactionNotStartedException>(async () => await _unitOfWork.RollbackTransactionAsync());
         }
     }
 }

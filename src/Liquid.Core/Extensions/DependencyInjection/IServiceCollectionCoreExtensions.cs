@@ -94,14 +94,14 @@ namespace Liquid.Core.Extensions.DependencyInjection
 
         /// <summary>
         /// Register domain handlers <see cref="AddLiquidDomain(IServiceCollection, Assembly[])"/> and
-        /// its mappers <see cref="IServiceCollectionAutoMapperExtensions.AddAutoMapper(IServiceCollection, Action{AutoMapper.IMapperConfigurationExpression}, Assembly[])"/>
+        /// its mappers <see cref="IServiceCollectionAutoMapperExtensions.LiquidAddAutoMapper(IServiceCollection, Action{AutoMapper.IMapperConfigurationExpression}, Assembly[])"/>
         /// that exists in <paramref name="assemblies"/>, with telemetry and validators.
         /// </summary>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="assemblies">Array of assemblies that contains domain handlers implementation.</param>
         public static IServiceCollection AddLiquidDomain(this IServiceCollection services, params Assembly[] assemblies)
         {
-            services.AddAutoMapper(assemblies);
+            services.LiquidAddAutoMapper(assemblies);
             services.AddLiquidHandlers(withTelemetry: true, withValidators: true, assemblies);
 
             return services;

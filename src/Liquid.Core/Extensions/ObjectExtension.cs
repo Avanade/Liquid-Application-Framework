@@ -238,8 +238,8 @@ namespace Liquid.Core.Extensions
         /// <exception cref="ArgumentOutOfRangeException">Couldn't find field {fieldName} in type {objType.FullName}</exception>
         public static object GetFieldValue(this object obj, string fieldName)
         {
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
+            ArgumentNullException.ThrowIfNull(obj);
+
             Type objType = obj.GetType();
             var fieldInfo = TypeUtils.GetFieldInfo(objType, fieldName);
             if (fieldInfo == null)
@@ -258,8 +258,8 @@ namespace Liquid.Core.Extensions
         /// <exception cref="ArgumentOutOfRangeException">Couldn't find field {fieldName} in type {objType.FullName}</exception>
         public static void SetFieldValue(this object obj, string fieldName, object val)
         {
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
+            ArgumentNullException.ThrowIfNull(obj);
+
             Type objType = obj.GetType();
             var fieldInfo = TypeUtils.GetFieldInfo(objType, fieldName);
             if (fieldInfo == null)
@@ -278,8 +278,8 @@ namespace Liquid.Core.Extensions
         /// <exception cref="ArgumentOutOfRangeException">Couldn't find property {propertyName} in type {objType.FullName}</exception>
         public static object GetPropertyValue(this object obj, string propertyName)
         {
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
+            ArgumentNullException.ThrowIfNull(obj);
+
             Type objType = obj.GetType();
             var propertyInfo = TypeUtils.GetPropertyInfo(objType, propertyName);
             if (propertyInfo == null)
@@ -298,8 +298,8 @@ namespace Liquid.Core.Extensions
         /// <exception cref="ArgumentOutOfRangeException">Couldn't find property {propertyName} in type {objType.FullName}</exception>
         public static void SetPropertyValue(this object obj, string propertyName, object val)
         {
-            if (obj == null)
-                throw new ArgumentNullException(nameof(obj));
+            ArgumentNullException.ThrowIfNull(obj);
+
             Type objType = obj.GetType();
             var propertyInfo = TypeUtils.GetPropertyInfo(objType, propertyName);
             if (propertyInfo == null)

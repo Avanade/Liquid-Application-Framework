@@ -3,6 +3,7 @@ using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Liquid.Repository.Mongo.Configuration;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -21,15 +22,24 @@ namespace Liquid.Repository.Mongo.Extensions
         /// <typeparam name="TEntity">Type of entity that the repository should correspond to</typeparam>
         /// <typeparam name="TIdentifier">Entity identifier type.</typeparam>
         /// <param name="services">Extended ServiceCollection object.</param>
-        /// <param name="entitiesConfigurationRootSectionName">Name of the configuration section where all entities have their repository settings configured. Default: "Liquid:RepositorySettings:Entities".</param>
+        /// <param name="sectionName">Name of the configuration section where all entities have their repository settings configured.</param>
+        /// <param name="collectionName">Name of the collection in the database that the repository should correspond to.</param>
         /// <param name="activateTelemetry">Specifies whether the telemetry should be activated or not for this repository. Default: True.</param>
-        public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services, string entitiesConfigurationRootSectionName = "Liquid:RepositorySettings:Entities", bool activateTelemetry = true)
+        public static IServiceCollection AddLiquidMongoRepository<TEntity, TIdentifier>(this IServiceCollection services, string sectionName, string collectionName, bool activateTelemetry = true)
             where TEntity : LiquidEntity<TIdentifier>, new()
         {
             services.TryAddSingleton<IMongoClientFactory, MongoClientFactory>();
-            services.TryAddSingleton<IMongoEntitySettingsFactory>(provider => { return ActivatorUtilities.CreateInstance<MongoEntitySettingsFactory>(provider, entitiesConfigurationRootSectionName); });
 
-            services.AddScoped<IMongoDataContext<TEntity>, MongoDataContext<TEntity>>();
+            services.AddOptions<MongoDbSettings>()
+             .Configure<IConfiguration>((settings, configuration) =>
+             {
+                 configuration.GetSection(sectionName).Bind(settings);
+             });
+
+            services.AddScoped<IMongoDataContext<TEntity>>((provider) =>
+            {
+                return ActivatorUtilities.CreateInstance<MongoDataContext<TEntity>>(provider, collectionName);
+            });
 
 
             if (activateTelemetry)

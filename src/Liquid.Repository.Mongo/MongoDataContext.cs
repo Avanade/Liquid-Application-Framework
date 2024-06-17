@@ -1,5 +1,6 @@
 ﻿using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Exceptions;
+using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
@@ -56,24 +57,22 @@ namespace Liquid.Repository.Mongo
         /// Initializes a new instance of the <see cref="MongoDataContext{Tentity}" /> class.
         /// </summary>
         /// <param name="clientProvider">Mongo client generator.</param>
-        /// <param name="settingsFactory">Mongo DB settings generator.</param>
+        /// <param name="collectionName">        /// </param>
         /// <exception cref="ArgumentNullException">
         /// clientProvider
         /// or
         /// settingsFactory
         /// </exception>
-        public MongoDataContext(IMongoClientFactory clientProvider, IMongoEntitySettingsFactory settingsFactory)
+        public MongoDataContext(IMongoClientFactory clientProvider, string collectionName)
         {    
             if (clientProvider is null) throw new ArgumentNullException(nameof(clientProvider));
-            if (settingsFactory is null) throw new ArgumentNullException(nameof(settingsFactory));
-
-            _settings = settingsFactory.GetSettings<TEntity>();
+            if (collectionName is null) throw new ArgumentNullException(nameof(collectionName));                      
+                        
+            _mongoClient = clientProvider.GetClient(collectionName, out _settings);
 
             if (_settings is null) throw new MongoEntitySettingsDoesNotExistException(nameof(TEntity));
 
-            _mongoClient = clientProvider.GetClient(_settings.DatabaseSettings);
-
-            SetDatabase(_settings.DatabaseSettings.DatabaseName);
+            SetDatabase(_settings.DatabaseName);
         }
 
         /// <summary>

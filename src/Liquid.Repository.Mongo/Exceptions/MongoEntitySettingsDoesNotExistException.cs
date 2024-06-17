@@ -25,10 +25,5 @@ namespace Liquid.Repository.Mongo.Exceptions
         public MongoEntitySettingsDoesNotExistException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        ///<inheritdoc/>
-        protected MongoEntitySettingsDoesNotExistException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

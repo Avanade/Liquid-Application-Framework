@@ -40,9 +40,5 @@ namespace Liquid.Repository.Mongo.Exceptions
         {
         }
 
-        ///<inheritdoc/>
-        protected MongoException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

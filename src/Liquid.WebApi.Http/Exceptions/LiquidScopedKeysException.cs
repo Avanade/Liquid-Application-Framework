@@ -25,9 +25,5 @@ namespace Liquid.WebApi.Http.Exceptions
         {
         }
 
-        ///<inheritdoc/>
-        protected LiquidScopedtKeysException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

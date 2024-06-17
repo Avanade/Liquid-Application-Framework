@@ -24,10 +24,5 @@ namespace Liquid.WebApi.Http.Exceptions
         public LiquidContextKeysException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        ///<inheritdoc/>
-        protected LiquidContextKeysException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

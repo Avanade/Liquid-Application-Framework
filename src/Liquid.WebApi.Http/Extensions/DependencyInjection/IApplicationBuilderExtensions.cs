@@ -1,10 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Liquid.Core.Interfaces;
-using Liquid.WebApi.Http.Middlewares;
+﻿using Liquid.WebApi.Http.Middlewares;
 using Liquid.WebApi.Http.Settings;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.WebApi.Http.Extensions.DependencyInjection
 {

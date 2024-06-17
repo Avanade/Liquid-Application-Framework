@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageId>Liquid.WebApi.Http</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Avanade Brazil</Authors>
@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.1</Version>
+    <Version>8.0.0-alpha-01</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IsPackable>true</IsPackable>
     <DebugType>Full</DebugType>
@@ -23,6 +23,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Liquid.Core" Version="8.0.0-alpha-03" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
@@ -31,10 +32,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Liquid.Core\Liquid.Core.csproj" />
   </ItemGroup>
 
 </Project>

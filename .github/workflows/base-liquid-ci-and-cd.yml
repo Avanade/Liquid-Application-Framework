@@ -61,6 +61,7 @@ jobs:
           3.1.x
           5.0.x
           6.0.x
+          8.0.x
     # required by sonarcloud scanner
     - name: (CI/CD) Setup Sonar Scanner tool
       if: ${{ github.event_name != 'pull_request' || (github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]') }}

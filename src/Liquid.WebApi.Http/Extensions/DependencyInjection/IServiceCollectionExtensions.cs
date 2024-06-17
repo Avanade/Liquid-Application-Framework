@@ -5,7 +5,9 @@ using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Liquid.WebApi.Http.Filters.Swagger;
 using Liquid.WebApi.Http.Settings;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -23,18 +25,22 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
     {
         /// <summary>
         ///  Registers a <see cref="LiquidContext"/> service and execute registration methods
-        ///  to configure <see cref="IServiceCollectionLiquidExtension.AddLiquidConfiguration(IServiceCollection)"/>,
         ///  set mapping <see cref="IServiceCollectionAutoMapperExtensions.AddAutoMapper(IServiceCollection, Action{AutoMapper.IMapperConfigurationExpression}, Assembly[])"/>,
         ///  register domain handlers <see cref="IServiceCollectionCoreExtensions.AddLiquidHandlers(IServiceCollection, bool, bool, Assembly[])"/>, 
         ///  and swagger <see cref="AddLiquidSwagger(IServiceCollection)"/>
         /// </summary>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="assemblies">Array of assemblies that the domain handlers are implemented.</param>
-        public static IServiceCollection AddLiquidHttp(this IServiceCollection services, params Assembly[] assemblies)
+        /// <param name="sectionName">Swagger configuration section name.</param>
+        public static IServiceCollection AddLiquidHttp(this IServiceCollection services, string sectionName, params Assembly[] assemblies)
         {
             services.AddScoped<ILiquidContext, LiquidContext>();
             services.AddLiquidSerializers();
-            services.AddLiquidConfiguration();
+            services.AddOptions<SwaggerSettings>()
+            .Configure<IConfiguration>((settings, configuration) =>
+            {
+                configuration.GetSection(sectionName).Bind(settings);
+            });
             services.AddAutoMapper(assemblies);
             services.AddLiquidHandlers(true, true, assemblies);
 
@@ -52,10 +58,10 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
         {
             var serviceProvider = services.BuildServiceProvider();
 
-            var configuration = serviceProvider.GetService<ILiquidConfiguration<SwaggerSettings>>();
-            if (configuration?.Settings == null) throw new LiquidException("'swagger' settings does not exist in appsettings.json file. Please check the file.");
+            var configuration = serviceProvider.GetService<IOptions<SwaggerSettings>>();
+            if (configuration?.Value == null) throw new LiquidException("'swagger' settings does not exist in appsettings.json file. Please check the file.");
 
-            var swaggerSettings = configuration.Settings;
+            var swaggerSettings = configuration.Value;
             services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc(swaggerSettings.Name,

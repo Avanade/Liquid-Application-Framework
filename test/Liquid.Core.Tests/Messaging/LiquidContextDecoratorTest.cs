@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Liquid.Core.Tests.Mocks;
 using Liquid.Core.Entities;
+using Microsoft.Extensions.Options;
 
 namespace Liquid.Core.Tests.Messaging
 {
@@ -18,18 +19,18 @@ namespace Liquid.Core.Tests.Messaging
     {
         private readonly ILiquidWorker<EntityMock> _inner;
         private readonly ILiquidContext _context;
-        private readonly ILiquidConfiguration<ScopedContextSettings> _options;
+        private readonly IOptions<ScopedContextSettings> _options;
 
         public LiquidContextDecoratorTest()
         {
             _inner = Substitute.For<ILiquidWorker<EntityMock>>();
             _context = new LiquidContext();
-            _options = Substitute.For<ILiquidConfiguration<ScopedContextSettings>>();
+            _options = Substitute.For<IOptions<ScopedContextSettings>>();
 
             var settings = new ScopedContextSettings();
             settings.Keys.Add(new ScopedKey() { KeyName = "test", Required = true });
             settings.Culture = true;
-            _options.Settings.Returns(settings);
+            _options.Value.Returns(settings);
 
         }
 

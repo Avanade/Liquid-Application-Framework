@@ -85,9 +85,9 @@ namespace Liquid.Core.Tests.Messaging
             _services.AddSingleton(Substitute.For<IOptions<ScopedContextSettings>>());
             _services.AddSingleton(Substitute.For<IOptions<ScopedLoggingSettings>>());
             _services.AddSingleton(Substitute.For<IOptions<CultureSettings>>());
-            _services.AddSingleton(Substitute.For<ILiquidConfiguration<ScopedContextSettings>>());
-            _services.AddSingleton(Substitute.For<ILiquidConfiguration<ScopedLoggingSettings>>());
-            _services.AddSingleton(Substitute.For<ILiquidConfiguration<CultureSettings>>());
+            _services.AddSingleton(Substitute.For<IOptions<ScopedContextSettings>>());
+            _services.AddSingleton(Substitute.For<IOptions<ScopedLoggingSettings>>());
+            _services.AddSingleton(Substitute.For<IOptions<CultureSettings>>());
             _services.AddSingleton(Substitute.For<ILogger<LiquidScopedLoggingDecorator<EntityMock>>>());
         }
     }

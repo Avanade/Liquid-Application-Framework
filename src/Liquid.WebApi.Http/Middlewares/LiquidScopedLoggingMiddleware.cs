@@ -4,6 +4,7 @@ using Liquid.WebApi.Http.Exceptions;
 using Liquid.WebApi.Http.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Liquid.WebApi.Http.Middlewares
     {
         private readonly RequestDelegate _next;
         private readonly ILogger<LiquidScopedLoggingMiddleware> _logger;
-        private readonly ILiquidConfiguration<ScopedLoggingSettings> _options;
+        private readonly IOptions<ScopedLoggingSettings> _options;
 
         /// <summary>
         /// Initialize a new instance of <see cref="LiquidScopedLoggingMiddleware"/>
@@ -27,7 +28,7 @@ namespace Liquid.WebApi.Http.Middlewares
         /// <param name="next">Invoked request.</param>
         /// <param name="logger">Logger service instance.</param>
         /// <param name="options">Context keys set.</param>
-        public LiquidScopedLoggingMiddleware(RequestDelegate next, ILogger<LiquidScopedLoggingMiddleware> logger, ILiquidConfiguration<ScopedLoggingSettings> options)
+        public LiquidScopedLoggingMiddleware(RequestDelegate next, ILogger<LiquidScopedLoggingMiddleware> logger, IOptions<ScopedLoggingSettings> options)
         {
             _next = next;
             _logger = logger;
@@ -43,7 +44,7 @@ namespace Liquid.WebApi.Http.Middlewares
         {
             var scope = new List<KeyValuePair<string, object>>();            
 
-            foreach (var key in _options.Settings.Keys)
+            foreach (var key in _options.Value.Keys)
             {
                 var value = context.GetValueFromHeader(key.KeyName);
 

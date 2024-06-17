@@ -13,17 +13,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
     /// </summary>
     public static class IServiceCollectionLiquidExtension
     {
-        /// <summary>
-        /// Inject a <see cref="LiquidConfiguration{T}"/> for each configuration section entity.
-        /// </summary>
-        /// <param name="services">Extended IServiceCollection instance.</param>
-        public static IServiceCollection AddLiquidConfiguration(this IServiceCollection services)
-        {
-            services.TryAddTransient(typeof(ILiquidConfiguration<>), typeof(LiquidConfiguration<>));
-
-            return services;
-        }
-
+        
         /// <summary>
         /// Register telemetry interceptor <see cref="LiquidTelemetryInterceptor"/> for defined <typeparamref name="TService"/> services. 
         /// </summary>

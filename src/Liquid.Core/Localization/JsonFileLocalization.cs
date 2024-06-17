@@ -1,7 +1,7 @@
 ﻿using Liquid.Core.Extensions;
-using Liquid.Core.Interfaces;
 using Liquid.Core.Localization.Entities;
 using Liquid.Core.Settings;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -26,7 +26,7 @@ namespace Liquid.Core.Localization
         /// Initializes a new instance of the <see cref="JsonFileLocalization" /> class.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        public JsonFileLocalization(ILiquidConfiguration<CultureSettings> configuration)
+        public JsonFileLocalization(IOptions<CultureSettings> configuration)
         {
             _localizationItems = ReadLocalizationFiles(configuration);
         }
@@ -101,9 +101,8 @@ namespace Liquid.Core.Localization
         /// Reads the resource collection from file.
         /// </summary>
         /// <param name="configuration">The configuration.</param>
-        /// <returns></returns>
         /// <exception cref="LocalizationReaderException"></exception>
-        private static IDictionary<CultureInfo, LocalizationCollection> ReadLocalizationFiles(ILiquidConfiguration<CultureSettings> configuration)
+        private static IDictionary<CultureInfo, LocalizationCollection> ReadLocalizationFiles(IOptions<CultureSettings> configuration)
         {
             var items = new ConcurrentDictionary<CultureInfo, LocalizationCollection>();
             try
@@ -115,7 +114,7 @@ namespace Liquid.Core.Localization
                 {
                     var fileInfo = new FileInfo(fileName);
                     var filenameParts = fileInfo.Name.Split('.');
-                    var culture = filenameParts.Length == 2 ? configuration.Settings.DefaultCulture : filenameParts[1];
+                    var culture = filenameParts.Length == 2 ? configuration.Value.DefaultCulture : filenameParts[1];
 
                     using var fileReader = new StreamReader(fileName);
                     var json = fileReader.ReadToEnd();

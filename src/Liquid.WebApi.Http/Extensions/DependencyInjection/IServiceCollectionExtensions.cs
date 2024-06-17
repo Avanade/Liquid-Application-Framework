@@ -3,6 +3,7 @@ using Liquid.Core.Extensions;
 using Liquid.Core.Extensions.DependencyInjection;
 using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
+using Liquid.Core.Settings;
 using Liquid.WebApi.Http.Filters.Swagger;
 using Liquid.WebApi.Http.Settings;
 using Microsoft.Extensions.Configuration;
@@ -25,23 +26,47 @@ namespace Liquid.WebApi.Http.Extensions.DependencyInjection
     {
         /// <summary>
         ///  Registers a <see cref="LiquidContext"/> service and execute registration methods
-        ///  set mapping <see cref="IServiceCollectionAutoMapperExtensions.AddAutoMapper(IServiceCollection, Action{AutoMapper.IMapperConfigurationExpression}, Assembly[])"/>,
+        ///  set mapping <see cref="IServiceCollectionAutoMapperExtensions.LiquidAddAutoMapper(IServiceCollection, Action{AutoMapper.IMapperConfigurationExpression}, Assembly[])"/>,
         ///  register domain handlers <see cref="IServiceCollectionCoreExtensions.AddLiquidHandlers(IServiceCollection, bool, bool, Assembly[])"/>, 
         ///  and swagger <see cref="AddLiquidSwagger(IServiceCollection)"/>
         /// </summary>
         /// <param name="services">Extended service collection instance.</param>
         /// <param name="assemblies">Array of assemblies that the domain handlers are implemented.</param>
         /// <param name="sectionName">Swagger configuration section name.</param>
-        public static IServiceCollection AddLiquidHttp(this IServiceCollection services, string sectionName, params Assembly[] assemblies)
+        /// <param name="middlewares">Indicates if middlewares options must be binded.</param>
+        public static IServiceCollection AddLiquidHttp(this IServiceCollection services, string sectionName, bool middlewares = false, params Assembly[] assemblies)
         {
+            if (middlewares)
+            {
+                services.AddOptions<ScopedContextSettings>()
+                 .Configure<IConfiguration>((settings, configuration) =>
+                 {
+                     configuration.GetSection(sectionName + ":ScopedContext").Bind(settings);
+                 });
+
+                services.AddOptions<CultureSettings>()
+                 .Configure<IConfiguration>((settings, configuration) =>
+                 {
+                     configuration.GetSection(sectionName + ":Culture").Bind(settings);
+                 });
+
+                services.AddOptions<ScopedLoggingSettings>()
+                .Configure<IConfiguration>((settings, configuration) =>
+                {
+                    configuration.GetSection(sectionName + ":ScopedLogging").Bind(settings);
+                });
+            }
+
             services.AddScoped<ILiquidContext, LiquidContext>();
             services.AddLiquidSerializers();
+
             services.AddOptions<SwaggerSettings>()
             .Configure<IConfiguration>((settings, configuration) =>
             {
-                configuration.GetSection(sectionName).Bind(settings);
+                configuration.GetSection(sectionName + ":Swagger").Bind(settings);
             });
-            services.AddAutoMapper(assemblies);
+
+            services.LiquidAddAutoMapper(assemblies);
             services.AddLiquidHandlers(true, true, assemblies);
 
             services.AddLiquidSwagger();

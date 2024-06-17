@@ -16,8 +16,7 @@ namespace Liquid.Core.Extensions
     /// 
     [ExcludeFromCodeCoverage]
     public static class StringExtension
-    {
-        private static readonly Regex WordCountRegex = new Regex(@"[^\s]+", RegexOptions.Compiled);
+    {       
 
         /// <summary>
         /// Determines whether a string contains a specified value.
@@ -98,26 +97,6 @@ namespace Liquid.Core.Extensions
         {
             if (condition) builder.Append(value);
             return builder;
-        }
-
-        /// <summary>
-        /// Count all words in a given string, it excludes whitespaces, tabs and line breaks
-        /// </summary>
-        /// <param name="str">The string to count words</param>
-        /// <returns>int</returns>
-        public static int CountWords(this string str)
-        {
-            var count = 0;
-            try
-            {
-                var matches = WordCountRegex.Matches(str);
-                count = matches.Count;
-            }
-            catch
-            {
-                //left intentionally blank.
-            }
-            return count;
         }
 
         /// <summary>

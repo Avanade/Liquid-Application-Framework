@@ -22,9 +22,5 @@ namespace Liquid.Core.Localization
         {
         }
 
-        ///<inheritdoc/>
-        protected LocalizationException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

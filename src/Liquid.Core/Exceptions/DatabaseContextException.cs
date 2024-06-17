@@ -16,11 +16,6 @@ namespace Liquid.Core.Exceptions
         {
         }
 
-        ///<inheritdoc/>
-        protected DatabaseContextException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="DatabaseContextException"/> class.
         /// </summary>

@@ -24,10 +24,5 @@ namespace Liquid.Core.Exceptions
         public MessagingMissingSettingsException(string message, Exception innerException) : base(message, innerException)
         {
         }
-
-        ///<inheritdoc/>
-        protected MessagingMissingSettingsException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
     }
 }

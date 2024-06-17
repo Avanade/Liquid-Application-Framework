@@ -16,7 +16,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
     /// <item> Registers <see cref="IConfigurationProvider"/> as <see cref="ServiceLifetime.Singleton"/>, and</item>
     /// <item> Registers <see cref="IMapper"/> as a configurable <see cref="ServiceLifetime"/> (default is <see cref="ServiceLifetime.Transient"/>)</item>
     /// </list>
-    /// After calling AddAutoMapper you can resolve an <see cref="IMapper" /> instance from a scoped service provider, or as a dependency
+    /// After calling LiquidAddAutoMapper you can resolve an <see cref="IMapper" /> instance from a scoped service provider, or as a dependency
     /// To use <see>
     ///     <cref>
     ///         QueryableExtensions.Extensions.ProjectTo{TDestination}(IQueryable,IConfigurationProvider,
@@ -34,7 +34,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <param name="services">The services.</param>
         /// <param name="assemblies">The assemblies.</param>
         /// <returns></returns>
-        public static IServiceCollection AddAutoMapper(this IServiceCollection services, params Assembly[] assemblies)
+        public static IServiceCollection LiquidAddAutoMapper(this IServiceCollection services, params Assembly[] assemblies)
             => AddAutoMapperClasses(services, null, assemblies);
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Liquid.Core.Extensions.DependencyInjection
         /// <param name="configAction">The configuration action.</param>
         /// <param name="assemblies">The assemblies.</param>
         /// <returns></returns>
-        public static IServiceCollection AddAutoMapper(this IServiceCollection services, Action<IMapperConfigurationExpression> configAction, params Assembly[] assemblies)
+        public static IServiceCollection LiquidAddAutoMapper(this IServiceCollection services, Action<IMapperConfigurationExpression> configAction, params Assembly[] assemblies)
             => AddAutoMapperClasses(services, (sp, cfg) => configAction?.Invoke(cfg), assemblies);
 
         /// <summary>

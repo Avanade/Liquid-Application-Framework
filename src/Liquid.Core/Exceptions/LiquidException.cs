@@ -36,11 +36,6 @@ namespace Liquid.Core.Exceptions
         {
         }
 
-        ///<inheritdoc/>
-        protected LiquidException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.
         /// </summary>

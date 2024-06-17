@@ -194,21 +194,6 @@ namespace Liquid.Core.Extensions
         }
 
         /// <summary>
-        /// Converts an object to byte array.
-        /// </summary>
-        /// <param name="obj">The object.</param>
-        /// <returns></returns>
-        public static byte[] ToBytes(this object obj)
-        {
-            if (obj == null) return Array.Empty<byte>();
-
-            using var memoryStream = new MemoryStream();
-            var binaryFormatter = new BinaryFormatter();
-            binaryFormatter.Serialize(memoryStream, obj);
-            return memoryStream.ToArray();
-        }
-
-        /// <summary>
         /// Determines whether [is primitive type].
         /// </summary>
         /// <param name="obj">The object.</param>

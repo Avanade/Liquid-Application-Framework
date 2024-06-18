@@ -4,22 +4,21 @@ using Liquid.Repository.EntityFramework.Tests.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
-using NUnit.Framework;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Liquid.Repository.EntityFramework.Tests
 {
     [ExcludeFromCodeCoverage]
-    [TestFixture()]
     public class EntityFrameworkRepositoryTest
     {
         private IServiceProvider _serviceProvider;
 
-        [SetUp]
-        public async Task EstablishContext()
+
+        public EntityFrameworkRepositoryTest()
         {
             var services = new ServiceCollection();
             var databaseName = $"TEMP_{Guid.NewGuid()}";
@@ -28,7 +27,7 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             _serviceProvider = services.BuildServiceProvider();
 
-            await SeedDataAsync(_serviceProvider);
+            SeedDataAsync(_serviceProvider);
         }
 
         private EntityFrameworkRepository<MockEntity, int, MockDbContext> GenerateMockRepository()
@@ -47,9 +46,8 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             return new EntityFrameworkRepository<MockEntity, int, MockDbContext>(dataContext);
         }
-
-        [Category("AddAsync")]
-        [Test]
+                
+        [Fact]
         public async Task Verify_insert()
         {
             //Arrange
@@ -61,12 +59,11 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             //Assert
             Assert.NotNull(entity);
-            Assert.AreNotEqual(default, entity.MockId);
+            Assert.NotEqual(default, entity.MockId);
         }
 
-        [Category("AddAsync")]
-        [Test]
-        public void Verify_insert_Except()
+        [Fact]
+        public async Task Verify_insert_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -79,11 +76,10 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.AddAsync(entity);
 
             //Assert
-            Assert.ThrowsAsync<Exception>(() => task);
+            await Assert.ThrowsAsync<Exception>(() => task);
         }
 
-        [Category("FindByIdAsync")]
-        [Test]
+        [Fact]
         public async Task Verify_find_by_id()
         {
             //Arrange
@@ -95,11 +91,11 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             //Assert
             Assert.NotNull(entity);
-            Assert.AreEqual(mockId, entity.MockId);
+            Assert.Equal(mockId, entity.MockId);
         }
-        [Category("FindByIdAsync")]
-        [Test]
-        public void Verify_find_by_id_Except()
+
+        [Fact]
+        public async Task Verify_find_by_id_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -110,11 +106,10 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => task);
+            await Assert.ThrowsAsync<ArgumentNullException>(() => task);
         }
 
-        [Category("WhereAsync")]
-        [Test]
+        [Fact]
         public async Task Verify_where()
         {
             //Arrange
@@ -126,13 +121,12 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             //Assert
             Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.IsTrue(result.All(o => o.MockTitle.Equals(mockTitle)));
+            Assert.NotEmpty(result);
+            Assert.True(result.All(o => o.MockTitle.Equals(mockTitle)));
         }
 
-        [Category("WhereAsync")]
-        [Test]
-        public void Verify_where_Except()
+        [Fact]
+        public async Task Verify_where_Except()
         {
             //Arrange
             //Arrange
@@ -144,11 +138,10 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.WhereAsync(o => o.MockTitle.Equals(mockTitle));
 
             //Assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => task);
+            await Assert.ThrowsAsync<ArgumentNullException>(() => task);
         }
 
-        [Category("GetAllAsync")]
-        [Test]
+        [Fact]
         public async Task Verify_find_all()
         {
             //Arrange
@@ -159,12 +152,11 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             //Assert
             Assert.NotNull(result);
-            Assert.IsNotEmpty(result);
-            Assert.AreEqual(100, result.Count());
+            Assert.NotEmpty(result);
+            Assert.Equal(100, result.Count());
         }
 
-        [Category("FindAllAsync")]
-        [Test]
+        [Fact]
         public async Task Verify_find_all_Except()
         {
             //Arrange
@@ -176,11 +168,10 @@ namespace Liquid.Repository.EntityFramework.Tests
             var result = await mockRepository.FindAllAsync();
 
             //Assert
-            Assert.IsEmpty(result);
+            Assert.Empty(result);
         }             
 
-        [Category("RemoveByIdAsync")]
-        [Test]
+        [Fact]
         public async Task Verify_delete()
         {
             //Arrange
@@ -192,11 +183,10 @@ namespace Liquid.Repository.EntityFramework.Tests
             var anotherEntity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.IsNull(anotherEntity);
+            Assert.Null(anotherEntity);
         }
 
-        [Category("RemoveByIdAsync")]
-        [Test]
+        [Fact]
         public async Task Verify_delete_invalid()
         {
             //Arrange
@@ -208,12 +198,11 @@ namespace Liquid.Repository.EntityFramework.Tests
             var anotherEntity = await mockRepository.FindByIdAsync(mockId);
 
             //Assert
-            Assert.IsNull(anotherEntity);
+            Assert.Null(anotherEntity);
         }
 
-        [Category("RemoveByIdAsync")]
-        [Test]
-        public void Verify_delete_Except()
+        [Fact]
+        public async Task Verify_delete_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -224,11 +213,10 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.RemoveByIdAsync(mockId);
 
             //Assert
-            Assert.ThrowsAsync<InvalidOperationException>(() => task);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => task);
         }
 
-        [Category("UpdateAsync")]
-        [Test]
+        [Fact]
         public async Task Verify_updates()
         {
             //Arrange
@@ -243,12 +231,11 @@ namespace Liquid.Repository.EntityFramework.Tests
 
             //Assert
             Assert.NotNull(anotherEntity);
-            Assert.AreEqual("TITLE_001_UPDATED", anotherEntity.MockTitle);
+            Assert.Equal("TITLE_001_UPDATED", anotherEntity.MockTitle);
         }
 
-        [Category("UpdateAsync")]
-        [Test]
-        public void Verify_updates_Except()
+        [Fact]
+        public async Task Verify_updates_Except()
         {
             //Arrange
             var dbSet = Substitute.For<DbSet<MockEntity>, IQueryable<MockEntity>>();
@@ -259,29 +246,28 @@ namespace Liquid.Repository.EntityFramework.Tests
             var task = mockRepository.UpdateAsync(new MockEntity() { MockId = mockId });
 
             //Assert
-            Assert.ThrowsAsync<ArgumentNullException>(() => task);
+            await Assert.ThrowsAsync<ArgumentNullException>(() => task);
         }
 
-        private async Task SeedDataAsync(IServiceProvider serviceProvider)
+        private void SeedDataAsync(IServiceProvider serviceProvider)
         {
             MockDbContext dbContext = serviceProvider.GetService<MockDbContext>();
 
             for (int i = 1; i <= 100; i++)
             {
-                await dbContext.AddAsync(new MockEntity() { MockId = i, MockTitle = $"TITLE_{i:000}", Active = true, CreatedDate = DateTime.Now });
+                dbContext.AddAsync(new MockEntity() { MockId = i, MockTitle = $"TITLE_{i:000}", Active = true, CreatedDate = DateTime.Now })
+                    .GetAwaiter().GetResult();
             }
-            await dbContext.SaveChangesAsync();
+            dbContext.SaveChangesAsync().GetAwaiter().GetResult();
         }
 
-        [Category("ctor")]
-        [Test]
+        [Fact]
         public void EntityFrameworkRepository_WhenCreatedWithoutDataContext_ThrowException()
         {
             Assert.Throws<ArgumentNullException>(() => new EntityFrameworkRepository<MockEntity, int, MockDbContext>(null));
         }
 
-        [Category("Members")]
-        [Test]
+        [Fact]
         public void EntityFrameworkRepository_WhenCreated_DataContextIsValid()
         {
             //Arrange
@@ -293,11 +279,11 @@ namespace Liquid.Repository.EntityFramework.Tests
             var entityFrameworkDataContext = mockRepository.EntityDataContext;
 
             //Assert
-            Assert.IsNotNull(dataContext);
-            Assert.IsInstanceOf<ILiquidDataContext>(dataContext);
+            Assert.NotNull(dataContext);
+            Assert.IsAssignableFrom<ILiquidDataContext>(dataContext);
 
-            Assert.IsNotNull(entityFrameworkDataContext);
-            Assert.IsInstanceOf<IEntityFrameworkDataContext<MockDbContext>>(entityFrameworkDataContext);
+            Assert.NotNull(entityFrameworkDataContext);
+            Assert.IsAssignableFrom<IEntityFrameworkDataContext<MockDbContext>>(entityFrameworkDataContext);
         }
     }
 }

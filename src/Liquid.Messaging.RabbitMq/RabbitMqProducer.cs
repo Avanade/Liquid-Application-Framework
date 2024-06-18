@@ -7,6 +7,7 @@ using RabbitMQ.Client;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Liquid.Messaging.RabbitMq
 {
@@ -23,17 +24,17 @@ namespace Liquid.Messaging.RabbitMq
         /// <param name="factory"></param>
         /// <param name="settings"></param>
         /// <exception cref="MessagingMissingConfigurationException"></exception>
-        public RabbitMqProducer(IRabbitMqFactory factory, RabbitMqProducerSettings settings)
+        public RabbitMqProducer(IRabbitMqFactory factory, IOptions<RabbitMqProducerSettings> settings)
         {
             if (factory is null)
             {
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
 
 
-            _channelModel = factory.GetSender(settings);
+            _channelModel = factory.GetSender(_settings);
         }
 
 

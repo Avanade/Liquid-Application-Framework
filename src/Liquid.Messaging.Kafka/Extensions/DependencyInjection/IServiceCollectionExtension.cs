@@ -16,7 +16,7 @@ namespace Liquid.Messaging.Kafka.Extensions.DependencyInjection
 
         /// <summary>
         /// Register a <see cref="KafkaConsumer{TEntity}"/> with its dependency, and with 
-        /// <see cref="IServiceCollectionLiquidExtension.AddScopedLiquidTelemetry{TInterface, TService}(IServiceCollection)"/>.
+        /// <see cref="IServiceCollectionLiquidExtension.AddSingletonLiquidTelemetry{TInterface, TService}(IServiceCollection)"/>.
         /// </summary>
         /// <typeparam name="TEntity">Type of entity that will be consumed by this service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
@@ -25,23 +25,19 @@ namespace Liquid.Messaging.Kafka.Extensions.DependencyInjection
         public static IServiceCollection AddLiquidKafkaProducer<TEntity>(this IServiceCollection services, string sectionName, bool activateTelemetry = true)
         {
             services.TryAddTransient<IKafkaFactory, KafkaFactory>();
+            services.AddOptions<KafkaSettings>()
+            .Configure<IConfiguration>((settings, configuration) =>
+            {
+                configuration.GetSection(sectionName).Bind(settings);
+            });
             if (activateTelemetry)
             {
-                services.AddScoped((provider) =>
-                {
-                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<KafkaSettings>();
-                    return ActivatorUtilities.CreateInstance<KafkaProducer<TEntity>>(provider, settings);
-                });
-
-                services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, KafkaProducer<TEntity>>();
+                services.AddSingleton<KafkaProducer<TEntity>>();
+                services.AddSingletonLiquidTelemetry<ILiquidProducer<TEntity>, KafkaProducer<TEntity>>();
             }
             else
             {
-                services.AddScoped<ILiquidProducer<TEntity>>((provider) =>
-                {
-                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<KafkaSettings>();
-                    return ActivatorUtilities.CreateInstance<KafkaProducer<TEntity>>(provider, settings);
-                });
+                services.AddSingleton<ILiquidProducer<TEntity>, KafkaProducer<TEntity>>();
             }
 
             return services;
@@ -72,8 +68,7 @@ namespace Liquid.Messaging.Kafka.Extensions.DependencyInjection
         /// <summary>
         /// Register a <see cref="KafkaConsumer{TEntity}"/> service with its dependency, and with 
         /// <see cref="IServiceCollectionLiquidExtension.AddLiquidTelemetryInterceptor{TInterface, TService}(IServiceCollection)"/>.
-        /// In order for consumers injected by this method to work correctly, you will need to register the Liquid settings
-        /// <see cref="IServiceCollectionLiquidExtension.AddLiquidConfiguration(IServiceCollection)"/> and 
+        /// In order for consumers injected by this method to work correctly and 
         /// domain handlers/services in your build configurator.
         /// </summary>
         /// <typeparam name="TWorker">Type of implementation from <see cref="ILiquidWorker{TEntity}"/></typeparam>
@@ -95,26 +90,23 @@ namespace Liquid.Messaging.Kafka.Extensions.DependencyInjection
         {
             services.AddTransient<IKafkaFactory, KafkaFactory>();
 
+            services.AddOptions<KafkaSettings>()
+            .Configure<IConfiguration>((settings, configuration) =>
+            {
+                configuration.GetSection(sectionName).Bind(settings);
+            });
+
             if (activateTelemetry)
             {
-                services.AddSingleton((provider) =>
-                {
-                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<KafkaSettings>();
-                    return ActivatorUtilities.CreateInstance<KafkaConsumer<TEntity>>(provider, settings);
-                });
+                services.AddSingleton<KafkaConsumer<TEntity>>();
 
 
                 services.AddSingletonLiquidTelemetry<ILiquidConsumer<TEntity>, KafkaConsumer<TEntity>>();
             }
             else
             {
-                services.AddSingleton<ILiquidConsumer<TEntity>>((provider) =>
-                {
-                    var settings = provider.GetService<IConfiguration>().GetSection(sectionName).Get<KafkaSettings>();
-                    return ActivatorUtilities.CreateInstance<KafkaConsumer<TEntity>>(provider, settings);
-                });
+                services.AddSingleton<ILiquidConsumer<TEntity>, KafkaConsumer<TEntity>>();
             }
-
 
             return services;
         }

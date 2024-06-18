@@ -17,7 +17,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
     {
         /// <summary>
         /// Register a <see cref="ServiceBusConsumer{TEntity}"/> with its dependency, and with 
-        /// <see cref="IServiceCollectionLiquidExtension.AddLiquidTelemetryInterceptor{TInterface, TService}(IServiceCollection)"/>.
+        /// <see cref="IServiceCollectionLiquidExtension.AddSingletonLiquidTelemetry{TInterface, TService}(IServiceCollection)"/>.
         /// </summary>
         /// <typeparam name="TEntity">Type of entity that will be consumed by this service instance.</typeparam>
         /// <param name="services">Extended service collection instance.</param>
@@ -37,16 +37,16 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
 
             if (activateTelemetry)
             {
-                services.AddScoped((provider) =>
+                services.AddSingleton((provider) =>
                 {
                     return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, entityPath);
                 });
 
-                services.AddScopedLiquidTelemetry<ILiquidProducer<TEntity>, ServiceBusProducer<TEntity>>();
+                services.AddSingletonLiquidTelemetry<ILiquidProducer<TEntity>, ServiceBusProducer<TEntity>>();
             }
             else
             {
-                services.AddScoped<ILiquidProducer<TEntity>>((provider) =>
+                services.AddSingleton<ILiquidProducer<TEntity>>((provider) =>
                 {
                     return ActivatorUtilities.CreateInstance<ServiceBusProducer<TEntity>>(provider, entityPath);
                 });
@@ -90,8 +90,7 @@ namespace Liquid.Messaging.ServiceBus.Extensions.DependencyInjection
         /// <summary>
         /// Register a <see cref="ServiceBusConsumer{TEntity}"/> service with its dependency, and with 
         /// <see cref="IServiceCollectionLiquidExtension.AddLiquidTelemetryInterceptor{TInterface, TService}(IServiceCollection)"/>.
-        /// In order for consumers injected by this method to work correctly, you will need to register the Liquid settings
-        /// <see cref="IServiceCollectionLiquidExtension.AddLiquidConfiguration(IServiceCollection)"/> and 
+        /// In order for consumers injected by this method to work correctly and 
         /// domain handlers/services in your build configurator.
         /// </summary>
         /// <typeparam name="TWorker">Type of implementation from <see cref="ILiquidWorker{TEntity}"/></typeparam>

@@ -3,6 +3,7 @@ using Liquid.Core.Extensions;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Utils;
 using Liquid.Messaging.RabbitMq.Settings;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
@@ -36,10 +37,10 @@ namespace Liquid.Messaging.RabbitMq
         /// </summary>
         /// <param name="factory">RabbitMq client factory.</param>
         /// <param name="settings">Configuration properties set.</param>
-        public RabbitMqConsumer(IRabbitMqFactory factory, RabbitMqConsumerSettings settings)
+        public RabbitMqConsumer(IRabbitMqFactory factory, IOptions<RabbitMqConsumerSettings> settings)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
+            _settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
 
             _autoAck = _settings.AdvancedSettings?.AutoAck ?? true;
         }

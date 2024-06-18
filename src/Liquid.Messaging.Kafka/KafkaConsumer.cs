@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Liquid.Core.Entities;
+using Microsoft.Extensions.Options;
 
 namespace Liquid.Messaging.Kafka
 {
@@ -33,10 +34,10 @@ namespace Liquid.Messaging.Kafka
         /// <param name="kafkaFactory">Kafka client provider service.</param>
         /// <param name="kafkaSettings">Configuration properties set.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public KafkaConsumer(IKafkaFactory kafkaFactory, KafkaSettings kafkaSettings)
+        public KafkaConsumer(IKafkaFactory kafkaFactory, IOptions<KafkaSettings> kafkaSettings)
         {
             _factory = kafkaFactory ?? throw new ArgumentNullException(nameof(kafkaFactory));
-            _settings = kafkaSettings ?? throw new ArgumentNullException(nameof(kafkaSettings));
+            _settings = kafkaSettings?.Value ?? throw new ArgumentNullException(nameof(kafkaSettings));
         }
 
         ///<inheritdoc/>

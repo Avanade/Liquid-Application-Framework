@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Liquid.Messaging.Kafka
 {
@@ -24,16 +25,16 @@ namespace Liquid.Messaging.Kafka
         /// <param name="settings"></param>
         /// <param name="factory"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public KafkaProducer(KafkaSettings settings, IKafkaFactory factory)
+        public KafkaProducer(IOptions<KafkaSettings> settings, IKafkaFactory factory)
         {
             if (factory is null)
             {
                 throw new ArgumentNullException(nameof(factory));
             }
 
-            _settings = settings;
+            _settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
 
-            _client = factory.GetProducer(settings);
+            _client = factory.GetProducer(_settings);
         }
 
         ///<inheritdoc/>

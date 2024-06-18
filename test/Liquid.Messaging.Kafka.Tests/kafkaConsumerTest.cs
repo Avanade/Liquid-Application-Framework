@@ -10,14 +10,23 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Liquid.Core.Entities;
+using Microsoft.Extensions.Options;
 
 namespace Liquid.Messaging.Kafka.Tests
 {
     public class kafkaConsumerTest : KafkaConsumer<MessageMock>
     {
         public static readonly IKafkaFactory _factory = Substitute.For<IKafkaFactory>();
+        public static readonly IOptions<KafkaSettings> _settings = GetOptions();
+
+        public static IOptions<KafkaSettings> GetOptions()
+        {
+            var settings = Substitute.For<IOptions<KafkaSettings>>();
+            settings.Value.Returns(new KafkaSettings());
+            return settings;
+        }
         public kafkaConsumerTest() 
-            : base(_factory, new KafkaSettings())
+            : base(_factory, _settings)
         {
         }
 

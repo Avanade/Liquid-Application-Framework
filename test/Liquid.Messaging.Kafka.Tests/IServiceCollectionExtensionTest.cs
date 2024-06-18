@@ -33,7 +33,7 @@ namespace Liquid.Messaging.Kafka.Tests
             var provider = _sut.BuildServiceProvider();
 
             Assert.NotNull(provider.GetService<IKafkaFactory>());
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidProducer<MessageMock>) && x.Lifetime == ServiceLifetime.Scoped));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidProducer<MessageMock>) && x.Lifetime == ServiceLifetime.Singleton));
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace Liquid.Messaging.Kafka.Tests
             var provider = _sut.BuildServiceProvider();
 
             Assert.NotNull(provider.GetService<IKafkaFactory>());
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidProducer<MessageMock>) && x.Lifetime == ServiceLifetime.Scoped));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidProducer<MessageMock>) && x.Lifetime == ServiceLifetime.Singleton));
         }
 
         [Fact]

@@ -2,6 +2,7 @@
 using Liquid.Core.Interfaces;
 using Liquid.Messaging.RabbitMq.Settings;
 using Liquid.Messaging.RabbitMq.Tests.Mock;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using RabbitMQ.Client;
 using System;
@@ -16,6 +17,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
         private readonly ILiquidProducer<MessageMock> _sut;
         private IRabbitMqFactory _factory;
         private IModel _client;
+        private IOptions<RabbitMqProducerSettings> _settings;
 
         public RabbitMqProducerTest()
         {
@@ -25,7 +27,11 @@ namespace Liquid.Messaging.RabbitMq.Tests
 
             _factory.GetSender(Arg.Any<RabbitMqProducerSettings>()).Returns(_client);
 
-            _sut = new RabbitMqProducer<MessageMock>(_factory, new RabbitMqProducerSettings());
+            _settings = Substitute.For<IOptions<RabbitMqProducerSettings>>();
+
+            _settings.Value.Returns(new RabbitMqProducerSettings());
+
+            _sut = new RabbitMqProducer<MessageMock>(_factory, _settings);
         }
 
         [Fact]
@@ -85,7 +91,7 @@ namespace Liquid.Messaging.RabbitMq.Tests
         [Fact]
         public void Ctor_WhenRabbitMqFactoryIsNull_ThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new RabbitMqProducer<MessageMock>(null, new RabbitMqProducerSettings()));
+            Assert.Throws<ArgumentNullException>(() => new RabbitMqProducer<MessageMock>(null, _settings));
         }
 
         [Fact]

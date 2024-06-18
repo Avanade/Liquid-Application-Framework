@@ -3,6 +3,7 @@ using Liquid.Core.Exceptions;
 using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Settings;
 using Liquid.Messaging.Kafka.Tests.Mock;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace Liquid.Messaging.Kafka.Tests
         private readonly ILiquidProducer<MessageMock> _sut;
         private IKafkaFactory _factory;
         private IProducer<Null, string> _client;
+        private IOptions<KafkaSettings> _settings;
 
         public KafkaProducerTest()
         {
@@ -26,7 +28,11 @@ namespace Liquid.Messaging.Kafka.Tests
 
             _factory.GetProducer(Arg.Any<KafkaSettings>()).Returns(_client);
 
-            _sut = new KafkaProducer<MessageMock>(new KafkaSettings(), _factory);
+            _settings = Substitute.For<IOptions<KafkaSettings>>();
+
+            _settings.Value.Returns(new KafkaSettings());
+
+            _sut = new KafkaProducer<MessageMock>(_settings, _factory);
         }
 
         [Fact]
@@ -86,7 +92,7 @@ namespace Liquid.Messaging.Kafka.Tests
         [Fact]
         public void Ctor_WhenRabbitMqFactoryIsNull_ThrowException()
         {
-            Assert.Throws<ArgumentNullException>(() => new KafkaProducer<MessageMock>(new KafkaSettings(), null));
+            Assert.Throws<ArgumentNullException>(() => new KafkaProducer<MessageMock>(_settings, null));
         }
     }
 }

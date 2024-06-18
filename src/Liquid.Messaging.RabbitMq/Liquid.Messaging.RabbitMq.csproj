@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <PackageId>Liquid.Messaging.RabbitMq</PackageId>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Authors>Avanade Brazil</Authors>
@@ -9,7 +9,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>6.0.0</Version>
+    <Version>8.0.0-alpha-01</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Description>
       The Liquid.Messaging.RabbitMq provides producer and consumer patterns to allow the send and consumption of Messaging inside your microservice.
@@ -20,7 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
+    <PackageReference Include="Liquid.Core" Version="8.0.0-alpha-04" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
     <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
   </ItemGroup>
 
@@ -31,7 +32,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Liquid.Core\Liquid.Core.csproj" />
-  </ItemGroup>
 </Project>

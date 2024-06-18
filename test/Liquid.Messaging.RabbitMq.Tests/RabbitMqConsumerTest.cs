@@ -2,6 +2,7 @@
 using Liquid.Core.Extensions;
 using Liquid.Messaging.RabbitMq.Settings;
 using Liquid.Messaging.RabbitMq.Tests.Mock;
+using Microsoft.Extensions.Options;
 using NSubstitute;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
@@ -15,11 +16,18 @@ namespace Liquid.Messaging.RabbitMq.Tests
     public class RabbitMqConsumerTest : RabbitMqConsumer<MessageMock>
     {
         public static readonly IRabbitMqFactory _factory = Substitute.For<IRabbitMqFactory>();
+        public static readonly IOptions<RabbitMqConsumerSettings> _settings = GetOptions();
+
+        public static IOptions<RabbitMqConsumerSettings> GetOptions()
+        {
+            var settings = Substitute.For<IOptions<RabbitMqConsumerSettings>>();
+            settings.Value.Returns(new RabbitMqConsumerSettings());
+            return settings;
+        }
 
         public RabbitMqConsumerTest()
-            : base(_factory, new RabbitMqConsumerSettings())
+            : base(_factory, _settings)
         {
-
         }
 
         [Fact]

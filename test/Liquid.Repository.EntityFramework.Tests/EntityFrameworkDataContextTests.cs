@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using NSubstitute;
-using NUnit.Framework;
+
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Xunit;
 
 namespace Liquid.Repository.EntityFramework.Tests
 {
@@ -15,8 +16,8 @@ namespace Liquid.Repository.EntityFramework.Tests
         private DbContext _client;
         private DatabaseFacade _database;
 
-        [SetUp]
-        protected void SetContext()
+        
+        public EntityFrameworkDataContextTests()
         {
 
             _client = Substitute.For<DbContext>();
@@ -28,7 +29,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             _sut = new EntityFrameworkDataContext<DbContext>(_client);
         }
 
-        [Test]
+        [Fact]
         public async Task StartTransactionAsync_WhenClientExecutedSucessfuly_Success()
         {
             await _sut.StartTransactionAsync();
@@ -36,17 +37,17 @@ namespace Liquid.Repository.EntityFramework.Tests
             await _client.Database.Received(1).BeginTransactionAsync();
         }
 
-        [Test]
-        public void StartTransactionAsync_WhenClientThrow_ThrowException()
+        [Fact]
+        public async Task StartTransactionAsync_WhenClientThrow_ThrowException()
         {
             _database.When(o => o.BeginTransactionAsync()).Do((call) => throw new Exception());
 
             var task = _sut.StartTransactionAsync();
 
-            Assert.ThrowsAsync<Exception>(() => task);
+            await Assert.ThrowsAsync<Exception>(() => task);
         }
 
-        [Test]
+        [Fact]
         public async Task CommitAsync_WhenClientExecutedSucessfuly_Success()
         {
             await _sut.CommitAsync();
@@ -54,17 +55,17 @@ namespace Liquid.Repository.EntityFramework.Tests
             await _client.Database.Received(1).CommitTransactionAsync();
         }
 
-        [Test]
-        public void CommitAsync_WhenClientExcept_ThrowException()
+        [Fact]
+        public async Task CommitAsync_WhenClientExcept_ThrowException()
         {
             _database.When(o => o.CommitTransactionAsync()).Do((call) => throw new Exception());
 
             var task = _sut.CommitAsync();
 
-            Assert.ThrowsAsync<Exception>(() => task);
+            await Assert.ThrowsAsync<Exception>(() => task);
         }
 
-        [Test]
+        [Fact]
         public async Task RollbackTransactionAsync_WhenClientExecutedSucessfuly_Success()
         {
             await _sut.RollbackTransactionAsync();
@@ -72,17 +73,17 @@ namespace Liquid.Repository.EntityFramework.Tests
             await _client.Database.Received(1).RollbackTransactionAsync();
         }
 
-        [Test]
-        public void RollbackTransactionAsync_WhenClientExcept_ThrowException()
+        [Fact]
+        public async Task RollbackTransactionAsync_WhenClientExcept_ThrowException()
         {
             _database.When(o => o.RollbackTransactionAsync()).Do((call) => throw new Exception());
 
             var task = _sut.RollbackTransactionAsync();
 
-            Assert.ThrowsAsync<Exception>(() => task);
+            await Assert.ThrowsAsync<Exception>(() => task);
         }
 
-        [Test]
+        [Fact]
         public void Verify_Dispose()
         {
             _sut.Dispose();
@@ -93,7 +94,7 @@ namespace Liquid.Repository.EntityFramework.Tests
             _sut.Dispose();
         }
 
-        [Test]
+        [Fact]
         public void Verify_Dispose_Except()
         {
             _client.When(o => o.Dispose()).Do((call) => throw new Exception());
@@ -101,23 +102,23 @@ namespace Liquid.Repository.EntityFramework.Tests
             Assert.Throws<Exception>(() => _sut.Dispose());
         }
 
-        [Test]
+        [Fact]
         public void EntityFrameworkDataContext_WhenCreated_DbContextIsValid()
         {
-            Assert.IsNotNull(_sut.DbClient);
-            Assert.IsInstanceOf<DbContext>(_sut.DbClient);
+            Assert.NotNull(_sut.DbClient);
+            Assert.IsAssignableFrom<DbContext>(_sut.DbClient);
         }
 
-        [Test]
+        [Fact]
         public void EntityFrameworkDataContext_WhenCreatedWithoutDbContext_ThrowException()
         {
             Assert.Throws<ArgumentNullException>(() => new EntityFrameworkDataContext<DbContext>(null));
         }
 
-        [Test]
+        [Fact]
         public void EntityFrameworkDataContext_IdIsAlwaysNull()
         {
-            Assert.IsNull(_sut.Id);
+            Assert.Null(_sut.Id);
         }
     }
 }

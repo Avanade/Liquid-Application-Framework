@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
 	  <PackageId>Liquid.Cache.Memory</PackageId>
 	<Nullable>enable</Nullable>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -11,7 +11,7 @@
 	  <Copyright>Avanade 2019</Copyright>
 	  <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
 	  <PackageIcon>logo.png</PackageIcon>
-	  <Version>6.0.0</Version>
+	  <Version>8.0.0-alpha-01</Version>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <IsPackable>true</IsPackable>
 	  <DebugType>Full</DebugType>
@@ -29,11 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="6.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Liquid.Core\Liquid.Core.csproj" />
+    <PackageReference Include="Liquid.Core" Version="8.0.0-alpha-04" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
   </ItemGroup>
 
 </Project>

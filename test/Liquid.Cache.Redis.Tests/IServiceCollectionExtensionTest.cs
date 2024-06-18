@@ -1,4 +1,5 @@
 using Liquid.Cache.Redis.Extensions.DependencyInjection;
+using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
@@ -37,7 +38,7 @@ namespace Liquid.Cache.Redis.Tests
 
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(LiquidCache)));
 
         }
 
@@ -55,7 +56,7 @@ namespace Liquid.Cache.Redis.Tests
 
             Assert.NotNull(provider.GetService<ILiquidCache>());
             Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
-            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(RedisCache)));
+            Assert.NotNull(_sut.FirstOrDefault(x => x.ImplementationType == typeof(LiquidCache)));
 
         }
     }

@@ -1,4 +1,5 @@
 using Liquid.Cache.NCache.Extensions.DependencyInjection;
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -22,16 +23,16 @@ namespace Liquid.Cache.NCache.Tests
         [Fact]
         public void AddLiquidNCacheDistributedCache_WhenWithTelemetryTrue_GetServicesReturnLiqudCache()
         {
-            //SetCollection();
-            //_sut.AddLogging();
-            //_sut.AddLiquidNCacheDistributedCache(configuration =>
-            //{
-            //    configuration.CacheName = "myCache";
-            //    configuration.EnableLogs = false;
-            //    configuration.ExceptionsEnabled = true;
-            //}, true);
+            SetCollection();
+            _sut.AddLogging();
+            _sut.AddLiquidNCacheDistributedCache(configuration =>
+            {
+                configuration.CacheName = "myCache";
+                configuration.EnableLogs = false;
+                configuration.ExceptionsEnabled = true;
+            }, true);
 
-            //var provider = _sut.BuildServiceProvider();
+            var provider = _sut.BuildServiceProvider();
 
             //Assert.NotNull(provider.GetService<ILiquidCache>());
             //Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));
@@ -41,15 +42,15 @@ namespace Liquid.Cache.NCache.Tests
         [Fact]
         public void AddLiquidNCacheDistributedCache_WhenWithTelemetryfalse_GetServicesReturnLiqudCache()
         {
-            //SetCollection();
-            //_sut.AddLiquidNCacheDistributedCache(configuration =>
-            //{
-            //    configuration.CacheName = "myCache";
-            //    configuration.EnableLogs = false;
-            //    configuration.ExceptionsEnabled = true;
-            //}, false);
+            SetCollection();
+            _sut.AddLiquidNCacheDistributedCache(configuration =>
+            {
+                configuration.CacheName = "myCache";
+                configuration.EnableLogs = false;
+                configuration.ExceptionsEnabled = true;
+            }, false);
 
-            //var provider = _sut.BuildServiceProvider();
+            var provider = _sut.BuildServiceProvider();
 
             //Assert.NotNull(provider.GetService<ILiquidCache>());
             //Assert.NotNull(_sut.FirstOrDefault(x => x.ServiceType == typeof(ILiquidCache) && x.Lifetime == ServiceLifetime.Scoped));

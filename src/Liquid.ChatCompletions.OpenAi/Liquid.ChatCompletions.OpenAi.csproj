@@ -23,6 +23,13 @@
 	  </Description>
   </PropertyGroup>
 
+	<ItemGroup>
+		<None Include="..\..\logo.png" Link="logo.png">
+			<PackagePath></PackagePath>
+			<Pack>True</Pack>
+		</None>
+	</ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.17" />
     <PackageReference Include="Liquid.Core" Version="8.0.0-alpha-05" />

@@ -29,7 +29,7 @@ namespace Liquid.ChatCompletions.OpenAi
 
             var requestMessages = new List<ChatRequestMessage>();
 
-            messages.Messages.ForEach(m => requestMessages.Add(GetChatRequestMessage(m)));
+            messages.Messages.ForEach(m => requestMessages.Add(MapChatRequestMessage(m)));
 
             var option = MapChatCompletionOptions(requestMessages, settings);
 
@@ -94,6 +94,12 @@ namespace Liquid.ChatCompletions.OpenAi
             };
         }
 
+        /// <summary>
+        /// get chat messages for a chat completions request.
+        /// </summary>
+        /// <param name="content">content of the user message</param>
+        /// <param name="prompt">prompt message</param>
+        /// <param name="chatHistory">chat context messages</param>
         private List<ChatRequestMessage> GetChatMessagesAsync(string content, string prompt, ChatMessages? chatHistory = null)
         {
             var messages = new List<ChatRequestMessage>
@@ -105,7 +111,7 @@ namespace Liquid.ChatCompletions.OpenAi
             {
                 foreach (var message in chatHistory.Messages)
                 {
-                    messages.Add(GetChatRequestMessage(message));
+                    messages.Add(MapChatRequestMessage(message));
                 }
             }
 
@@ -114,7 +120,12 @@ namespace Liquid.ChatCompletions.OpenAi
             return messages;
         }
 
-        private ChatRequestMessage GetChatRequestMessage(ChatMessage message)
+        /// <summary>
+        /// Return a chat request message based on the role of the message.
+        /// </summary>
+        /// <param name="message">chat message</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        private ChatRequestMessage MapChatRequestMessage(ChatMessage message)
         {
             ChatRequestMessage chatRequestMessage = null;
             switch (message.Role.ToLower())
@@ -140,6 +151,12 @@ namespace Liquid.ChatCompletions.OpenAi
             return chatRequestMessage;
         }
 
+        /// <summary>
+        /// Return a chat completions options based on the chat completions settings.
+        /// </summary>
+        /// <param name="messages">Chat messages </param>
+        /// <param name="settings">Chat completions settings</param>
+        /// <returns></returns>
         private ChatCompletionsOptions MapChatCompletionOptions(List<ChatRequestMessage> messages, CompletionsSettings settings)
         {
             return new ChatCompletionsOptions(settings.DeploymentName, messages)

@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	  <PackageId>Liquid.ChatCompletions.OpenAi</PackageId>
+	  <Nullable>enable</Nullable>
+	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	  <Authors>Avanade Brazil</Authors>
+	  <Company>Avanade Inc.</Company>
+	  <Product>Liquid Application Framework</Product>
+	  <Copyright>Avanade 2019</Copyright>
+	  <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
+	  <PackageIcon>logo.png</PackageIcon>
+	  <Version>8.0.0-beta-01</Version>
+	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+	  <IsPackable>true</IsPackable>
+	  <DebugType>Full</DebugType>
+	  <Description>
+		  Liquid adapter for Azure OpenAi completions.
+		  This component is part of Liquid Application Framework.
+	  </Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.AI.OpenAI" Version="1.0.0-beta.17" />
+    <PackageReference Include="Liquid.Core" Version="8.0.0-alpha-05" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+  </ItemGroup>
+
+</Project>

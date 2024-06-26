@@ -69,7 +69,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Adapter.Dataverse.Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Adapter.AzureStorage.Tests", "test\Liquid.Adapter.AzureStorage.Tests\Liquid.Adapter.AzureStorage.Tests.csproj", "{53341B04-6D30-4137-943B-20D8706351E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.ChatCompletions.OpenAi", "src\Liquid.ChatCompletions.OpenAi\Liquid.ChatCompletions.OpenAi.csproj", "{CB199ED6-3D1D-4E12-A15F-597B6A0BA564}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.ChatCompletions.OpenAi", "src\Liquid.ChatCompletions.OpenAi\Liquid.ChatCompletions.OpenAi.csproj", "{CB199ED6-3D1D-4E12-A15F-597B6A0BA564}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.OData", "src\Liquid.Repository.OData\Liquid.Repository.OData.csproj", "{60AE2AF5-D84C-4A8B-AA36-FD58A6A423D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Repository.OData.Tests", "test\Liquid.Repository.OData.Tests\Liquid.Repository.OData.Tests.csproj", "{70A43D24-4905-4A16-8CE2-165F73243B8D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -193,6 +197,14 @@ Global
 		{CB199ED6-3D1D-4E12-A15F-597B6A0BA564}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CB199ED6-3D1D-4E12-A15F-597B6A0BA564}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CB199ED6-3D1D-4E12-A15F-597B6A0BA564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60AE2AF5-D84C-4A8B-AA36-FD58A6A423D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60AE2AF5-D84C-4A8B-AA36-FD58A6A423D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60AE2AF5-D84C-4A8B-AA36-FD58A6A423D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60AE2AF5-D84C-4A8B-AA36-FD58A6A423D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70A43D24-4905-4A16-8CE2-165F73243B8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70A43D24-4905-4A16-8CE2-165F73243B8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70A43D24-4905-4A16-8CE2-165F73243B8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70A43D24-4905-4A16-8CE2-165F73243B8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,6 +224,7 @@ Global
 		{DED98401-EAED-4BE0-84A9-494D77B0E70D} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 		{5B0DC38B-5BC9-4DAC-8527-8D1C33E97247} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 		{53341B04-6D30-4137-943B-20D8706351E8} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
+		{70A43D24-4905-4A16-8CE2-165F73243B8D} = {BDB77DF2-2D7D-4363-BB2B-D6A3A8A69C7B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D003939-9797-4F37-B391-10047A780641}

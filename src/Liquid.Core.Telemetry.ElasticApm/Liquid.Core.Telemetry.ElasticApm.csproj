@@ -10,7 +10,7 @@
     <Copyright>Avanade 2021</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.0.0-alpha-01</Version>
+    <Version>8.0.0-beta-02</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ProjectGuid>{AD354CF6-C132-4B5D-944D-0DFE21509781}</ProjectGuid>
     <IsPackable>true</IsPackable>
@@ -20,7 +20,7 @@
 
   <ItemGroup>
     <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.27.3" />
-    <PackageReference Include="Liquid.Core" Version="8.0.0-alpha-04" />
+    <PackageReference Include="Liquid.Core" Version="8.0.0-beta-06" />
     <PackageReference Include="MediatR" Version="12.3.0" />
   </ItemGroup>
 

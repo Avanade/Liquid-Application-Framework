@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>Liquid.Repository.EntityFramework</PackageId>
-    <Version>8.0.0-beta-02</Version>
+    <Version>8.0.0-beta-03</Version>
     <Authors>Avanade Brazil</Authors>
     <Company>Avanade Inc.</Company>
     <Product>Liquid - Modern Application Framework</Product>
@@ -17,7 +17,7 @@
     <NoWarn>1701;1702;1584;1658</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-	  <PackageReference Include="Liquid.Core" Version="8.0.0-alpha-04" />
+	  <PackageReference Include="Liquid.Core" Version="8.0.0-beta-06" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
   </ItemGroup>
   <ItemGroup>

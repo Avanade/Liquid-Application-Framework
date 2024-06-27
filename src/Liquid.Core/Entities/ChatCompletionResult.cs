@@ -20,5 +20,14 @@
         /// </summary>
         public int Usage { get; set; }
 
+        /// <summary>
+        /// The number of tokens used by the prompt.
+        /// </summary>
+        public int PromptUsage { get; set; }
+
+        /// <summary>
+        /// The number of tokens used by the completion.
+        /// </summary>
+        public int CompletionUsage { get; set; }
     }
 }

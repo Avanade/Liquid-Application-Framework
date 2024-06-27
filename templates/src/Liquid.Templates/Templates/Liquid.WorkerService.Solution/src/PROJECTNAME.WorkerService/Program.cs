@@ -27,12 +27,11 @@ namespace PROJECTNAME.WorkerService
                     // 3. import liquid cartridge reference here: using Liquid.Repository.Mongo.Extensions;
                     // 4. import liquid cartridge reference here: using Liquid.Messaging.ServiceBus.Extensions.DependencyInjection;
                     // 5. call repository cartridge DI method :
-                    //  services.AddLiquidMongoRepository<ENTITYNAME, Guid>("Liquid:MyMongoDbSettings:Entities");
+                    //  services.AddLiquidMongoRepository<ENTITYNAME, Guid>("Liquid:MyMongoDbSettings", "SampleCollection");
                     // 6. call messaging cartridge DI method :
                     //  services.AddLiquidServiceBusConsumer<Worker, ENTITYNAME>("Liquid:ServiceBus", "liquidinput", false, typeof(COMMANDNAMEENTITYNAMERequest).Assembly);
                     // 7. edit appsettings.json file to include database and message queue configurations.
-                   
-                    services.AddLiquidConfiguration();
+
                 });
     }
 }

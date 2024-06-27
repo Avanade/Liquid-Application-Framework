@@ -1,4 +1,4 @@
-﻿using Liquid.Repository;
+﻿using Liquid.Core.Interfaces;
 using MediatR;
 using PROJECTNAME.Domain.Entities;
 using System.Threading;

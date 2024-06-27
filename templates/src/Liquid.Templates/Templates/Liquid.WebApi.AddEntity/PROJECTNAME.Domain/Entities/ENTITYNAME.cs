@@ -1,4 +1,4 @@
-﻿using Liquid.Repository;
+﻿using Liquid.Core.Entities;
 using System;
 
 namespace PROJECTNAME.Domain.Entities

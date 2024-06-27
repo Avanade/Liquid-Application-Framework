@@ -34,7 +34,7 @@ var builder = WebApplication.CreateBuilder(args);
 // 9. call cartridge DI method here: builder.Services.AddLiquidEntityFramework<LiquidDbContext, ENTITYNAME, ENTITYIDTYPE>(options);
 // 10. edit appsettings.json file to include database configurations if necessary (for InMemory it's not necessary).
 
-builder.Services.AddLiquidHttp(typeof(IDomainInjection).Assembly);
+builder.Services.AddLiquidHttp("Liquid", false, typeof(IDomainInjection).Assembly);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

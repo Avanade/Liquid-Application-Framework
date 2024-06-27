@@ -101,5 +101,39 @@ namespace Liquid.Repository.EntityFramework
             return returnValue;
         }
 
+        /// <summary>
+        /// Gets the list of entities that matches the where clause,
+        /// including the related entities.
+        /// </summary>
+        /// <param name="whereClause"> The where clause.</param>
+        /// <param name="include"> The include clause.</param>
+        /// <returns></returns>
+        public IEnumerable<TEntity> WhereInclude(Expression<Func<TEntity, bool>> whereClause, Expression<Func<TEntity, bool>> include = null)
+        {
+            var result = _queryableReadOnly.Where(whereClause).Include(include);
+            return result.AsEnumerable();
+        }
+
+        /// <summary>
+        /// Gets the list of entities that matches the where clause,
+        /// including the related entities.
+        /// </summary>
+        /// <param name="whereClause">where clause.</param>
+        /// <param name="includes">Entities to include.</param>
+        /// <returns></returns>
+        public IEnumerable<TEntity> WhereInclude(Expression<Func<TEntity, bool>> whereClause, string[] includes)
+        {
+            var query = _queryableReadOnly.Where(whereClause);
+
+            if (includes != null)
+            {
+                foreach (var include in includes)
+                {
+                    query = query.Include(include);
+                }
+            }
+
+            return query.AsEnumerable();
+        }
     }
 }

@@ -45,7 +45,8 @@ namespace Liquid.ChatCompletions.OpenAi
                 FinishReason = responseWithoutStream.Value.Choices[0]?.FinishReason?.ToString(),
                 Content = response,
                 Usage = responseWithoutStream.Value.Usage.TotalTokens,
-
+                PromptUsage = responseWithoutStream.Value.Usage.PromptTokens,
+                CompletionUsage = responseWithoutStream.Value.Usage.CompletionTokens,
             };
 
             return result;
@@ -67,6 +68,8 @@ namespace Liquid.ChatCompletions.OpenAi
                 FinishReason = responseWithoutStream.Value.Choices[0]?.FinishReason?.ToString(),
                 Content = responseWithoutStream.Value.Choices[0]?.Message?.Content,
                 Usage = responseWithoutStream.Value.Usage.TotalTokens,
+                PromptUsage = responseWithoutStream.Value.Usage.PromptTokens,
+                CompletionUsage = responseWithoutStream.Value.Usage.CompletionTokens,
             };
 
             return result;

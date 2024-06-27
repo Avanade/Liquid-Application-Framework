@@ -108,7 +108,7 @@ namespace Liquid.Repository.EntityFramework
         /// <param name="whereClause"> The where clause.</param>
         /// <param name="include"> The include clause.</param>
         /// <returns></returns>
-        public IEnumerable<TEntity> WhereInclude(Expression<Func<TEntity, bool>> whereClause, Expression<Func<TEntity, bool>> include = null)
+        public IEnumerable<TEntity> WhereInclude(Expression<Func<TEntity, bool>> whereClause, Expression<Func<TEntity, object>> include = null)
         {
             var result = _queryableReadOnly.Where(whereClause).Include(include);
             return result.AsEnumerable();

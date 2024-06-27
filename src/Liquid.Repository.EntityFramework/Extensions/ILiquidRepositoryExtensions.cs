@@ -2,6 +2,7 @@
 using Liquid.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 
 namespace Liquid.Repository.EntityFramework.Extensions
@@ -9,6 +10,7 @@ namespace Liquid.Repository.EntityFramework.Extensions
     /// <summary>
     /// Extension methods for <see cref="ILiquidRepository{TEntity, TIdentifier}"/>.
     /// </summary>
+    [ExcludeFromCodeCoverage]
     public static class ILiquidRepositoryExtensions
     {
         /// <summary>
@@ -23,7 +25,7 @@ namespace Liquid.Repository.EntityFramework.Extensions
         /// <param name="include"> The include clause.</param>
         /// <returns></returns>
         public static ILiquidRepository<TEntity, TIdentifier> WhereInclude<TEntity, TIdentifier, TContext>(this ILiquidRepository<TEntity, TIdentifier> repository
-            , Expression<Func<TEntity, bool>> whereClause, Expression<Func<TEntity, bool>> include = null) 
+            , Expression<Func<TEntity, bool>> whereClause, Expression<Func<TEntity, object>> include = null) 
             where TEntity : LiquidEntity<TIdentifier>, new() where TContext : DbContext
         {
             var EfRepository = repository as EntityFrameworkRepository<TEntity, TIdentifier,TContext>;

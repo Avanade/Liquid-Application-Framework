@@ -49,5 +49,8 @@ namespace Liquid.Repository.EntityFramework.Tests.Entities
         /// </value>
         public DateTime CreatedDate { get; set; }
 
+
+        public MockSubEntity SubEntity { get; set; }
+
     }
 }

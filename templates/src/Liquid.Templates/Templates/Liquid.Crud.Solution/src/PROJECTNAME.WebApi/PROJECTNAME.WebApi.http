@@ -1,0 +1,6 @@
+@PROJECTNAME.WebApi_HostAddress = http://localhost:5003
+
+GET {{PROJECTNAME.WebApi_HostAddress}}/ENTITYNAME/
+Accept: application/json
+
+###

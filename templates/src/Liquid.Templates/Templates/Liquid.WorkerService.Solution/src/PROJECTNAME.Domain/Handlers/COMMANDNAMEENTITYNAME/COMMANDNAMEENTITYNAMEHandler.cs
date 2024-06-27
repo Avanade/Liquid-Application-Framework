@@ -1,4 +1,4 @@
-﻿using Liquid.Repository;
+﻿using Liquid.Core.Interfaces;
 using MediatR;
 using PROJECTNAME.Domain.Entities;
 using System.Threading;
@@ -9,9 +9,9 @@ namespace PROJECTNAME.Domain.Handlers
 {
     public class COMMANDNAMEENTITYNAMEHandler : IRequestHandler<COMMANDNAMEENTITYNAMERequest, COMMANDNAMEENTITYNAMEResponse>
     {
-        private readonly ILiquidRepository<ENTITYNAME, Guid> _repository;
+        private readonly ILiquidRepository<ENTITYNAME, ENTITYIDTYPE> _repository;
 
-        public COMMANDNAMEENTITYNAMEHandler(ILiquidRepository<ENTITYNAME, Guid> repository)
+        public COMMANDNAMEENTITYNAMEHandler(ILiquidRepository<ENTITYNAME, ENTITYIDTYPE> repository)
         {
             _repository = repository;
         }

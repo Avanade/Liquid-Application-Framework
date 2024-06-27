@@ -1,11 +1,11 @@
-using Liquid.Messaging;
-using Liquid.Messaging.Interfaces;
-using PROJECTNAME.Domain.Entities;
+using Liquid.Core.Entities;
+using Liquid.Core.Interfaces;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using PROJECTNAME.Domain.Entities;
+using PROJECTNAME.Domain.Handlers;
 using System.Threading;
 using System.Threading.Tasks;
-using PROJECTNAME.Domain.Handlers;
 
 namespace PROJECTNAME.WorkerService
 {

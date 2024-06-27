@@ -285,5 +285,35 @@ namespace Liquid.Repository.EntityFramework.Tests
             Assert.NotNull(entityFrameworkDataContext);
             Assert.IsAssignableFrom<IEntityFrameworkDataContext<MockDbContext>>(entityFrameworkDataContext);
         }
+
+        [Fact]
+        public void WhereInclude_WhenCalled_ReturnsExpected()
+        {
+            //Arrange
+            var mockRepository = GenerateMockRepository();
+
+            //Act
+            var result = mockRepository.WhereInclude(o => o.MockTitle.Equals("TITLE_002"), new string[] {"SubEntity" });
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+            Assert.True(result.All(o => o.MockTitle.Equals("TITLE_002")));
+        }
+
+        [Fact]
+        public void WhereInclude_WhenCalledExpressionOverload_ReturnsExpected()
+        {
+            //Arrange
+            var mockRepository = GenerateMockRepository();
+
+            //Act
+            var result = mockRepository.WhereInclude(o => o.MockTitle.Equals("TITLE_002"), o => o.SubEntity);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.NotEmpty(result);
+            Assert.True(result.All(o => o.MockTitle.Equals("TITLE_002")));
+        }
     }
 }

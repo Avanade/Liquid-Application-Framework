@@ -1,13 +1,12 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using Azure.Core;
-using Liquid.ChatCompletions.OpenAi;
 using Liquid.Core.Entities;
 using Liquid.Core.Settings;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Pixel.Platform.Infra.OpenAi
+namespace Liquid.ChatCompletions.OpenAi
 {
     ///<inheritdoc/>
     [ExcludeFromCodeCoverage]
@@ -29,7 +28,7 @@ namespace Pixel.Platform.Infra.OpenAi
 
         ///<inheritdoc/>
         public OpenAIClient GetOpenAIClient(string clientId)
-        {            
+        {
             var settings = _settings.Value.Settings.Where(x => x.ClientId == clientId).ToList();
 
             if (settings.Count == 0)

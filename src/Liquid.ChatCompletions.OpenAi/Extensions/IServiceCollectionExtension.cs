@@ -2,7 +2,6 @@
 using Liquid.Core.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Pixel.Platform.Infra.OpenAi;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.ChatCompletions.OpenAi.Extensions

@@ -1,5 +1,6 @@
 ﻿using Liquid.Core.Entities;
 using Liquid.Core.Extensions.DependencyInjection;
+using Liquid.Core.Implementations;
 using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,7 @@ namespace Liquid.Repository.OData.Extensions
             where TEntity : LiquidEntity<TIdentifier>, new()
         {
             services.TryAddSingleton<IODataClientFactory, ODataClientFactory>();
+            services.TryAddSingleton<ILiquidContext, LiquidContext>();
 
             services.AddOptions<ODataOptions>()
              .Configure<IConfiguration>((settings, configuration) =>

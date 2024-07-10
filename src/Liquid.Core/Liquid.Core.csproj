@@ -10,7 +10,7 @@
     <Copyright>Avanade 2019</Copyright>
     <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
     <PackageIcon>logo.png</PackageIcon>
-    <Version>8.0.0-beta-06</Version>
+    <Version>8.0.0-beta-07</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <ProjectGuid>{C33A89FC-4F4D-4274-8D0F-29456BA8F76B}</ProjectGuid>
     <IsPackable>true</IsPackable>
@@ -28,7 +28,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageReference Include="System.Memory.Data" Version="8.0.0" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
-    <PackageReference Include="System.Text.Json" Version="8.0.3" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
 	<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="8.0.0" />
 	  <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
 	  <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />

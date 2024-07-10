@@ -1,4 +1,5 @@
-﻿using Liquid.Core.Interfaces;
+﻿using Liquid.Core.Implementations;
+using Liquid.Core.Interfaces;
 using Liquid.Repository.OData.Extensions;
 using Liquid.Repository.OData.Tests.Mock;
 using Microsoft.Extensions.Configuration;

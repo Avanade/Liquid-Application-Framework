@@ -1,6 +1,5 @@
 ﻿using Liquid.Core.Entities;
 using Liquid.Core.Interfaces;
-using Simple.OData.Client;
 using System.Linq.Expressions;
 
 namespace Liquid.Repository.OData
@@ -13,7 +12,6 @@ namespace Liquid.Repository.OData
 
         private readonly IODataClientFactory _clientFactory;
         private readonly string _entityName;
-        private string _token;
 
         /// <summary>
         /// Initialize a new instance of <see cref="ODataRepository{TEntity, TIdentifier}"/>
@@ -27,24 +25,11 @@ namespace Liquid.Repository.OData
             _entityName = entityName ?? throw new ArgumentNullException(nameof(entityName));
         }
 
-        /// <summary>
-        /// Set the token to perform operations.
-        /// </summary>
-        /// <param name="token">Token to be set.</param>
-        public void SetToken(string token)
-        {
-            _token = token;
-        }
 
         ///<inheritdoc/>
         public async Task AddAsync(TEntity entity)
-        {
-            if (string.IsNullOrEmpty(_token))
-            {
-                throw new InvalidOperationException("Token is required to perform this operation.");
-            }
-
-            var client = _clientFactory.CreateODataClientAsync(_entityName, _token);
+        {   
+            var client = _clientFactory.CreateODataClientAsync(_entityName);
 
             await client.For<TEntity>().Set(entity).InsertEntryAsync();
         }
@@ -52,12 +37,7 @@ namespace Liquid.Repository.OData
         ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> FindAllAsync()
         {
-            if (string.IsNullOrEmpty(_token))
-            {
-                throw new InvalidOperationException("Token is required to perform this operation.");
-            }
-
-            var client = _clientFactory.CreateODataClientAsync(_entityName, _token);
+            var client = _clientFactory.CreateODataClientAsync(_entityName);
 
             return await client.For<TEntity>().FindEntriesAsync();
         }
@@ -65,11 +45,7 @@ namespace Liquid.Repository.OData
         ///<inheritdoc/>
         public async Task<TEntity> FindByIdAsync(TIdentifier id)
         {
-            if (string.IsNullOrEmpty(_token))
-            {
-                throw new InvalidOperationException("Token is required to perform this operation.");
-            }
-            var client = _clientFactory.CreateODataClientAsync(_entityName, _token);
+            var client = _clientFactory.CreateODataClientAsync(_entityName);
 
             return await client.For<TEntity>().Key(id).FindEntryAsync();
         }
@@ -77,12 +53,7 @@ namespace Liquid.Repository.OData
         ///<inheritdoc/>
         public async Task RemoveByIdAsync(TIdentifier id)
         {
-            if (string.IsNullOrEmpty(_token))
-            {
-                throw new InvalidOperationException("Token is required to perform this operation.");
-            }
-
-            var client = _clientFactory.CreateODataClientAsync(_entityName, _token);
+            var client = _clientFactory.CreateODataClientAsync(_entityName);
 
             await client.For<TEntity>().Key(id).DeleteEntryAsync();
         }
@@ -90,12 +61,7 @@ namespace Liquid.Repository.OData
         ///<inheritdoc/>
         public async Task UpdateAsync(TEntity entity)
         {
-            if (string.IsNullOrEmpty(_token))
-            {
-                throw new InvalidOperationException("Token is required to perform this operation.");
-            }
-
-            var client = _clientFactory.CreateODataClientAsync(_entityName, _token);
+            var client = _clientFactory.CreateODataClientAsync(_entityName);
 
             await client.For<TEntity>().Set(entity).UpdateEntryAsync();
         }
@@ -103,12 +69,7 @@ namespace Liquid.Repository.OData
         ///<inheritdoc/>
         public async Task<IEnumerable<TEntity>> WhereAsync(Expression<Func<TEntity, bool>> whereClause)
         {
-            if (string.IsNullOrEmpty(_token))
-            {
-                throw new InvalidOperationException("Token is required to perform this operation.");
-            }
-
-            var client = _clientFactory.CreateODataClientAsync(_entityName, _token);
+            var client = _clientFactory.CreateODataClientAsync(_entityName);
 
             return await client.For<TEntity>().Filter(whereClause).FindEntriesAsync();
         }

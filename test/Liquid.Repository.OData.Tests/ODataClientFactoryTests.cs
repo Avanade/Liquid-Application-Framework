@@ -1,3 +1,4 @@
+using Liquid.Core.Interfaces;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 
@@ -7,6 +8,7 @@ namespace Liquid.Repository.OData.Tests
     {
         private IODataClientFactory _sut;
         private IOptions<ODataOptions> _options;
+        private ILiquidContext _context;
 
         public ODataClientFactoryTests()
         {
@@ -26,26 +28,29 @@ namespace Liquid.Repository.OData.Tests
 
             _options.Value.Returns(settings);
 
-            _sut = new ODataClientFactory(_options);
+            _context = Substitute.For<ILiquidContext>();
+            _context.Get("OdataToken").Returns("token");
+
+            _sut = new ODataClientFactory(_options, _context);
         }
 
 
         [Fact]
         public void ODataClientFactory_WhenEntityNameIsNotFound_ThrowException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => _sut.CreateODataClientAsync("TestEntities2", "token"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _sut.CreateODataClientAsync("TestEntities2"));
         }
 
         [Fact]
         public void ODataClientFactory_WhenEntityNameIsNull_ThrowException()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => _sut.CreateODataClientAsync(null, "token"));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _sut.CreateODataClientAsync(null));
         }
 
         [Fact]
         public void OdataClientFactory_WhenValidateCertIsFalse_ReturnClient()
         {
-            var client = _sut.CreateODataClientAsync("TestEntities", "token");
+            var client = _sut.CreateODataClientAsync("TestEntities");
 
             Assert.NotNull(client);
         }
@@ -65,12 +70,44 @@ namespace Liquid.Repository.OData.Tests
                 Settings = new List<ODataSettings>() { settings }
             });
 
-            var sut = new ODataClientFactory(_options);
+            var sut = new ODataClientFactory(_options, _context);
 
-            var client = sut.CreateODataClientAsync("TestEntities", "token");
+            var client = sut.CreateODataClientAsync("TestEntities");
 
             Assert.NotNull(client);
         }
 
+        [Fact]
+        public void OdataClientFactory_WhenTokenIsNotSet_ThrowException()
+        {
+            _context.Get("OdataToken").Returns("");
+
+            Assert.Throws<InvalidOperationException>(() => _sut.CreateODataClientAsync("TestEntities"));
+        }
+        [Fact]
+        public void OdataClientFactory_WhenTokenIsNull_ThrowException()
+        {
+            var context = Substitute.For<ILiquidContext>(); 
+
+            var sut = new ODataClientFactory(_options, context);
+
+            Assert.Throws<NullReferenceException>(() => sut.CreateODataClientAsync("TestEntities"));
+        }
+
+        [Fact]
+        public void OdataClientFactory_WhenOptionsIsNull_ThrowException()
+        {
+            _options = null;
+
+            Assert.Throws<ArgumentNullException>(() => new ODataClientFactory(_options, _context));
+        }
+
+        [Fact]
+        public void OdataClientFactory_WhenContextIsNull_ThrowException()
+        {
+            _context = null;
+
+            Assert.Throws<ArgumentNullException>(() => new ODataClientFactory(_options, _context));
+        }
     }
 }

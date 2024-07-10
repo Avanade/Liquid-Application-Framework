@@ -16,7 +16,6 @@ namespace Liquid.Repository.OData
         /// Create an OData client.
         /// </summary>
         /// <param name="entityName">The entity name.</param>
-        /// <param name="token">Authorization token.</param>
-        IODataClient CreateODataClientAsync(string entityName, string token);
+        IODataClient CreateODataClientAsync(string entityName);
     }
 }

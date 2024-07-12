@@ -30,6 +30,7 @@ namespace Liquid.Repository.OData.Tests
 
             _context = Substitute.For<ILiquidContext>();
             _context.Get("OdataToken").Returns("token");
+            _context.current.ContainsKey("OdataToken").Returns(true);
 
             _sut = new ODataClientFactory(_options, _context);
         }
@@ -80,18 +81,27 @@ namespace Liquid.Repository.OData.Tests
         [Fact]
         public void OdataClientFactory_WhenTokenIsNotSet_ThrowException()
         {
-            _context.Get("OdataToken").Returns("");
+            var context = Substitute.For<ILiquidContext>();
 
-            Assert.Throws<InvalidOperationException>(() => _sut.CreateODataClientAsync("TestEntities"));
-        }
-        [Fact]
-        public void OdataClientFactory_WhenTokenIsNull_ThrowException()
-        {
-            var context = Substitute.For<ILiquidContext>(); 
+            context.Get("OdataToken").Returns("");
+            context.current.ContainsKey("OdataToken").Returns(true);
 
             var sut = new ODataClientFactory(_options, context);
 
-            Assert.Throws<NullReferenceException>(() => sut.CreateODataClientAsync("TestEntities"));
+            Assert.Throws<KeyNotFoundException>(() => sut.CreateODataClientAsync("TestEntities"));
+        }
+
+        [Fact]
+        public void OdataClientFactory_WhenTokenIsNotSetInContext_ThrowException()
+        {
+            var context = Substitute.For<ILiquidContext>();
+
+            context.Get("OdataToken").Returns(null);
+            context.current.ContainsKey("OdataToken").Returns(false);
+
+            var sut = new ODataClientFactory(_options, context);
+
+            Assert.Throws<KeyNotFoundException>(() => sut.CreateODataClientAsync("TestEntities"));
         }
 
         [Fact]

@@ -24,12 +24,13 @@ namespace Liquid.Repository.OData
         ///<inheritdoc/>
         public IODataClient CreateODataClientAsync(string entityName)
         {
-            var token = _context.Get("OdataToken").ToString();
+            var hasToken = _context.current.ContainsKey("OdataToken");
+            var token = _context?.Get("OdataToken")?.ToString();
 
-            if (string.IsNullOrEmpty(token))
+            if (!hasToken || string.IsNullOrEmpty(token))
             {
-                throw new InvalidOperationException("Token is required to perform this operation. The 'OdataToken' variable" +
-                    " must be declared in the LiquidContext service.");
+                throw new KeyNotFoundException("Token is required to perform this operation. The 'OdataToken' " +
+                    "key was not found in the context.");
             }
 
             var settings = _options?.Value?.Settings.FirstOrDefault(x => x.EntityName == entityName);

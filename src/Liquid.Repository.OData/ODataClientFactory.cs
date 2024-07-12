@@ -25,7 +25,7 @@ namespace Liquid.Repository.OData
         public IODataClient CreateODataClientAsync(string entityName)
         {
             var hasToken = _context.current.ContainsKey("OdataToken");
-            var token = _context?.Get("OdataToken")?.ToString();
+            var token = _context.Get("OdataToken")?.ToString();
 
             if (!hasToken || string.IsNullOrEmpty(token))
             {

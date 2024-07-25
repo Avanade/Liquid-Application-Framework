@@ -50,8 +50,6 @@ namespace Liquid.Messaging.Kafka.Settings
         /// </summary>
         public bool CompressMessage { get; set; }
 
-        public int MyProperty { get; set; }
-
         /// <summary>
         /// Client group id string. All clients sharing the same group.id belong to the same group.
         /// </summary>

@@ -52,6 +52,7 @@ namespace Liquid.Messaging.Kafka
                 BootstrapServers = settings.ConnectionString,
                 ClientId = settings.ConnectionId,
                 EnableAutoCommit = settings.EnableAutoCommit,
+                GroupId = settings.GroupId
             };
         }
 

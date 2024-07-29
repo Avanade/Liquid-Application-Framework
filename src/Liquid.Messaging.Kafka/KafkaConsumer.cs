@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Liquid.Core.Entities;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace Liquid.Messaging.Kafka
 {
@@ -41,7 +42,7 @@ namespace Liquid.Messaging.Kafka
         }
 
         ///<inheritdoc/>
-        public void RegisterMessageHandler()
+        public void RegisterMessageHandler(CancellationToken cancellationToken = default)
         {
             if (ConsumeMessageAsync is null)
             {
@@ -49,11 +50,26 @@ namespace Liquid.Messaging.Kafka
             }
 
             _client = _factory.GetConsumer(_settings);
-            _client.Subscribe(_settings.Topic);
 
-            var result = _client.Consume();
+            using (var consumer = _client)
+            {
+                consumer.Subscribe(_settings.Topic);
 
-            MessageHandler(result, new CancellationToken()).GetAwaiter();
+                try
+                {
+                    while (!cancellationToken.IsCancellationRequested)
+                    {
+                        var result = _client.Consume();
+
+                        MessageHandler(result, cancellationToken);
+                    }
+                }
+                catch (OperationCanceledException)
+                {
+                    consumer.Close();
+                }
+            }
+
         }
 
         /// <summary>
@@ -82,9 +98,12 @@ namespace Liquid.Messaging.Kafka
         {
             var headers = deliverEvent.Message.Headers.GetCustomHeaders();
 
-            var data = headers.Count > 0 && headers["ContentType"]?.ToString() == CommonExtensions.GZipContentType
-                ? Encoding.UTF8.GetBytes(deliverEvent.Message.Value).GzipDecompress().ParseJson<TEntity>()
-                : deliverEvent.Message.Value.ParseJson<TEntity>();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            var data = JsonSerializer.Deserialize<TEntity>(deliverEvent.Message.Value, options);
 
             return new ConsumerMessageEventArgs<TEntity> { Data = data, Headers = headers };
         }

@@ -46,6 +46,8 @@ namespace Liquid.Messaging.Kafka
                 throw new NotImplementedException($"The {nameof(ProcessErrorAsync)} action must be added to class.");
             }
 
+            ProcessErrorAsync += ProcessError;
+
             _client = _factory.GetConsumer(_settings);
 
 
@@ -72,7 +74,7 @@ namespace Liquid.Messaging.Kafka
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    var deliverEvent = _client.Consume();
+                    var deliverEvent = _client.Consume(cancellationToken);
 
                     _ = Task.Run(async () =>
                     {
@@ -86,9 +88,7 @@ namespace Liquid.Messaging.Kafka
                             }
                         }
                         catch (Exception ex)
-                        {
-                            _client.Close();
-
+                        {    
                             var errorArgs = new ConsumerErrorEventArgs
                             {
                                 Exception = ex,
@@ -117,6 +117,12 @@ namespace Liquid.Messaging.Kafka
             var data = JsonSerializer.Deserialize<TEntity>(deliverEvent.Message.Value, options);
 
             return new ConsumerMessageEventArgs<TEntity> { Data = data, Headers = headers };
+        }
+
+        private Task ProcessError(ConsumerErrorEventArgs args)
+        {
+            _client.Close();
+            throw args.Exception;
         }
     }
 }

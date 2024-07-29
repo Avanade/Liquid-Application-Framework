@@ -39,7 +39,7 @@ namespace Liquid.Core.Implementations
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _consumer.ConsumeMessageAsync += ProcessMessageAsync;
-            _consumer.RegisterMessageHandler();
+            _consumer.RegisterMessageHandler(stoppingToken);
 
             await Task.CompletedTask;
         }

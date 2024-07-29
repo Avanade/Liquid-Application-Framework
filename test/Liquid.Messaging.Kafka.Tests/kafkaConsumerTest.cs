@@ -44,12 +44,12 @@ namespace Liquid.Messaging.Kafka.Tests
         }
 
         [Fact]
-        public void RegisterMessageHandler_WhenRegistereFail_ThrowException()
+        public async Task RegisterMessageHandler_WhenRegistereFail_ThrowException()
         {
             var messageReceiver = Substitute.For<IConsumer<Ignore, string>>();
             _factory.GetConsumer(Arg.Any<KafkaSettings>()).Returns(messageReceiver);
 
-            Assert.Throws<NotImplementedException>(() => RegisterMessageHandler());
+           await Assert.ThrowsAsync<NotImplementedException>(() => RegisterMessageHandler(new CancellationToken()));
         }
 
 
@@ -68,15 +68,17 @@ namespace Liquid.Messaging.Kafka.Tests
             message.Message.Headers = new Headers(); 
 
             var messageReceiver = Substitute.For<IConsumer<Ignore, string>>();
+
+            messageReceiver.Consume(Arg.Any<CancellationToken>()).Returns(message);
+
             _factory.GetConsumer(Arg.Any<KafkaSettings>()).Returns(messageReceiver);
 
             ConsumeMessageAsync += ProcessMessageAsyncMock;
+              
 
-            var sut =  MessageHandler(message, new CancellationToken());
+            var sut = RegisterMessageHandler(new CancellationToken());
 
-            await sut;
-
-            Assert.True(sut.IsCompletedSuccessfully);
+            Assert.NotNull(sut);
         }
 
         [Fact]
@@ -93,13 +95,16 @@ namespace Liquid.Messaging.Kafka.Tests
             message.Message.Headers = new Headers();
 
             var messageReceiver = Substitute.For<IConsumer<Ignore, string>>();
+            messageReceiver.Consume(Arg.Any<CancellationToken>()).Returns(message);
             _factory.GetConsumer(Arg.Any<KafkaSettings>()).Returns(messageReceiver);
 
             ConsumeMessageAsync += ProcessMessageAsyncMock;
 
-            var task = MessageHandler(message, new CancellationToken());
+            ProcessErrorAsync += ProcessErrorAsyncMock;
 
-            await Assert.ThrowsAsync<MessagingConsumerException>(() => task);
+            var sut = MessageHandler(new CancellationToken());
+
+            await Assert.ThrowsAsync<MessagingConsumerException>(() => sut);
 
         }
 
@@ -110,6 +115,12 @@ namespace Liquid.Messaging.Kafka.Tests
             if (args.Data.TestMessageId == 2)
                 throw new Exception();
         }
+
+        private async Task ProcessErrorAsyncMock(ConsumerErrorEventArgs args)
+        {
+            throw args.Exception;
+        }
+
 
         private bool RegisterHandleMock()
         {

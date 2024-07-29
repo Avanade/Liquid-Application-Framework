@@ -14,7 +14,7 @@ namespace Liquid.Core.Interfaces
         /// <summary>
         /// Initialize handler for consume <typeparamref name="TEntity"/> messages from topic or queue.
         /// </summary>
-        void RegisterMessageHandler(CancellationToken cancellationToken = default);
+        Task RegisterMessageHandler(CancellationToken cancellationToken = default);
 
         /// <summary>
         /// Defining the message processing function.

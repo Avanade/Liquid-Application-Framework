@@ -1,17 +1,14 @@
 ﻿using Confluent.Kafka;
-using Liquid.Core.Extensions;
-using Liquid.Core.Utils;
+using Liquid.Core.Entities;
 using Liquid.Core.Exceptions;
 using Liquid.Core.Interfaces;
 using Liquid.Messaging.Kafka.Extensions;
 using Liquid.Messaging.Kafka.Settings;
+using Microsoft.Extensions.Options;
 using System;
-using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using Liquid.Core.Entities;
-using Microsoft.Extensions.Options;
-using System.Text.Json;
 
 namespace Liquid.Messaging.Kafka
 {
@@ -42,7 +39,7 @@ namespace Liquid.Messaging.Kafka
         }
 
         ///<inheritdoc/>
-        public void RegisterMessageHandler(CancellationToken cancellationToken = default)
+        public Task RegisterMessageHandler(CancellationToken cancellationToken = default)
         {
             if (ConsumeMessageAsync is null)
             {
@@ -51,41 +48,55 @@ namespace Liquid.Messaging.Kafka
 
             _client = _factory.GetConsumer(_settings);
 
-            using (var consumer = _client)
+
+            var task = Task.Run( async () =>
             {
-                consumer.Subscribe(_settings.Topic);
-
-                try
+                using (_client)
                 {
-                    while (!cancellationToken.IsCancellationRequested)
-                    {
-                        var result = _client.Consume();
+                    _client.Subscribe(_settings.Topic);
 
-                        MessageHandler(result, cancellationToken);
-                    }
+                    await MessageHandler(cancellationToken);                    
                 }
-                catch (OperationCanceledException)
-                {
-                    consumer.Close();
-                }
-            }
+            });
 
+            return task;
         }
 
         /// <summary>
         /// Process incoming messages.
         /// </summary>
-        /// <param name="deliverEvent">Message to be processed.</param>
         /// <param name="cancellationToken"> Propagates notification that operations should be canceled.</param>
-        protected async Task MessageHandler(ConsumeResult<Ignore, string> deliverEvent, CancellationToken cancellationToken)
+        protected async Task MessageHandler(CancellationToken cancellationToken)
         {
             try
             {
-                await ConsumeMessageAsync(GetEventArgs(deliverEvent), cancellationToken);
-
-                if (!_settings.EnableAutoCommit)
+                while (!cancellationToken.IsCancellationRequested)
                 {
-                    _client.Commit(deliverEvent);
+                    var deliverEvent = _client.Consume();
+
+                    _ = Task.Run(async () =>
+                    {
+                        try
+                        {
+                            await ConsumeMessageAsync(GetEventArgs(deliverEvent), cancellationToken);
+
+                            if (!_settings.EnableAutoCommit)
+                            {
+                                _client.Commit(deliverEvent);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            _client.Close();
+
+                            var errorArgs = new ConsumerErrorEventArgs
+                            {
+                                Exception = ex,
+                            };
+
+                            await ProcessErrorAsync(errorArgs);
+                        }
+                    });                    
                 }
             }
             catch (Exception ex)

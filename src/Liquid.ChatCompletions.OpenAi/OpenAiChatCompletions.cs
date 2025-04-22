@@ -1,7 +1,7 @@
 ﻿using Liquid.Core.Entities;
 using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
-using Azure.AI.OpenAI;
+using OpenAI.Chat;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Liquid.ChatCompletions.OpenAi
@@ -27,26 +27,24 @@ namespace Liquid.ChatCompletions.OpenAi
         {
             var client = _factory.GetOpenAIClient(settings.ClientId);
 
-            var requestMessages = new List<ChatRequestMessage>();
+            var requestMessages = new List<OpenAI.Chat.ChatMessage>();
 
             messages.Messages.ForEach(m => requestMessages.Add(MapChatRequestMessage(m)));
 
             var option = MapChatCompletionOptions(requestMessages, settings);
 
-            functions.ForEach(f => option.Functions.Add(GetDefinition(f)));
+            functions.ForEach(f => option.Tools.Add(ChatTool.CreateFunctionTool(f.Name, f.Description, f.Parameters)));
 
-            var responseWithoutStream = await client.GetChatCompletionsAsync(option, new CancellationToken());
-
-            var response = responseWithoutStream.Value.Choices[0].Message.FunctionCall == null ?
-               null : responseWithoutStream.Value.Choices[0].Message.FunctionCall.Arguments;
+            var responseWithoutStream = await client.CompleteChatAsync(requestMessages, option);
+            var response = responseWithoutStream.Value.Content[0].Text;
 
             var result = new ChatCompletionResult()
             {
-                FinishReason = responseWithoutStream.Value.Choices[0]?.FinishReason?.ToString(),
+                FinishReason = responseWithoutStream.Value.FinishReason.ToString(),
                 Content = response,
-                Usage = responseWithoutStream.Value.Usage.TotalTokens,
-                PromptUsage = responseWithoutStream.Value.Usage.PromptTokens,
-                CompletionUsage = responseWithoutStream.Value.Usage.CompletionTokens,
+                Usage = responseWithoutStream.Value.Usage.TotalTokenCount,
+                PromptUsage = responseWithoutStream.Value.Usage.InputTokenCount,
+                CompletionUsage = responseWithoutStream.Value.Usage.OutputTokenCount,
             };
 
             return result;
@@ -61,15 +59,16 @@ namespace Liquid.ChatCompletions.OpenAi
 
             var option = MapChatCompletionOptions(messages, settings);
 
-            var responseWithoutStream = await client.GetChatCompletionsAsync(option, new CancellationToken());
+            var responseWithoutStream = await client.CompleteChatAsync(messages, option);
+            var response = responseWithoutStream.Value.Content[0].Text;
 
             var result = new ChatCompletionResult()
             {
-                FinishReason = responseWithoutStream.Value.Choices[0]?.FinishReason?.ToString(),
-                Content = responseWithoutStream.Value.Choices[0]?.Message?.Content,
-                Usage = responseWithoutStream.Value.Usage.TotalTokens,
-                PromptUsage = responseWithoutStream.Value.Usage.PromptTokens,
-                CompletionUsage = responseWithoutStream.Value.Usage.CompletionTokens,
+                FinishReason = responseWithoutStream.Value.FinishReason.ToString(),
+                Content = response,
+                Usage = responseWithoutStream.Value.Usage.TotalTokenCount,
+                PromptUsage = responseWithoutStream.Value.Usage.InputTokenCount,
+                CompletionUsage = responseWithoutStream.Value.Usage.OutputTokenCount,
             };
 
             return result;
@@ -78,24 +77,17 @@ namespace Liquid.ChatCompletions.OpenAi
         ///<inheritdoc/>
         public async Task<ReadOnlyMemory<float>> GetEmbeddings(string description, string modelName, string clientId)
         {
-            var client = _factory.GetOpenAIClient(clientId);
+            //var client = _factory.GetOpenAIClient(clientId);
 
-            EmbeddingsOptions embeddingsOptions = new(modelName, new string[] { description });
+            //EmbeddingGenerationOptions embeddingsOptions = new(modelName, new string[] { description });
 
-            var embeddings = await client.GetEmbeddingsAsync(embeddingsOptions);
+            //var embeddings = await client.(embeddingsOptions);
 
-            return embeddings.Value.Data[0].Embedding;
+            //return embeddings.Value.Data[0].Embedding;
+
+            throw new NotImplementedException();
         }
 
-        private FunctionDefinition GetDefinition(FunctionBody function)
-        {
-            return new FunctionDefinition()
-            {
-                Name = function.Name,
-                Description = function.Description,
-                Parameters = function.Parameters,
-            };
-        }
 
         /// <summary>
         /// get chat messages for a chat completions request.
@@ -103,11 +95,11 @@ namespace Liquid.ChatCompletions.OpenAi
         /// <param name="content">content of the user message</param>
         /// <param name="prompt">prompt message</param>
         /// <param name="chatHistory">chat context messages</param>
-        private List<ChatRequestMessage> GetChatMessagesAsync(string content, string prompt, ChatMessages? chatHistory = null)
+        private List<OpenAI.Chat.ChatMessage> GetChatMessagesAsync(string content, string prompt, ChatMessages? chatHistory = null)
         {
-            var messages = new List<ChatRequestMessage>
+            var messages = new List<OpenAI.Chat.ChatMessage>
             {
-                new ChatRequestSystemMessage(prompt)
+                new SystemChatMessage(prompt)
             };
 
             if (chatHistory?.Messages != null && chatHistory.Messages.Count > 0)
@@ -118,7 +110,7 @@ namespace Liquid.ChatCompletions.OpenAi
                 }
             }
 
-            messages.Add(new ChatRequestUserMessage(content));
+            messages.Add(new UserChatMessage(content));
 
             return messages;
         }
@@ -128,19 +120,19 @@ namespace Liquid.ChatCompletions.OpenAi
         /// </summary>
         /// <param name="message">chat message</param>
         /// <exception cref="ArgumentNullException"></exception>
-        private ChatRequestMessage MapChatRequestMessage(ChatMessage message)
+        private OpenAI.Chat.ChatMessage MapChatRequestMessage(Core.Entities.ChatMessage message)
         {
-            ChatRequestMessage chatRequestMessage = null;
+            OpenAI.Chat.ChatMessage chatRequestMessage = null;
             switch (message.Role.ToLower())
             {
                 case "system":
-                    chatRequestMessage = new ChatRequestSystemMessage(message.Content);
+                    chatRequestMessage = new SystemChatMessage(message.Content);
                     break;
                 case "assistant":
-                    chatRequestMessage = new ChatRequestAssistantMessage(message.Content);
+                    chatRequestMessage = new AssistantChatMessage(message.Content);
                     break;
                 case "user":
-                    chatRequestMessage = new ChatRequestUserMessage(message.Content);
+                    chatRequestMessage = new UserChatMessage(message.Content);
                     break;
                 default:
                     break;
@@ -160,15 +152,16 @@ namespace Liquid.ChatCompletions.OpenAi
         /// <param name="messages">Chat messages </param>
         /// <param name="settings">Chat completions settings</param>
         /// <returns></returns>
-        private ChatCompletionsOptions MapChatCompletionOptions(List<ChatRequestMessage> messages, CompletionsSettings settings)
+        private ChatCompletionOptions MapChatCompletionOptions(List<OpenAI.Chat.ChatMessage> messages, CompletionsSettings settings)
         {
-            return new ChatCompletionsOptions(settings.DeploymentName, messages)
+            return new ChatCompletionOptions()
             {
                 Temperature = settings.Temperature,
-                MaxTokens = settings.MaxTokens,
-                NucleusSamplingFactor = settings.NucleusSamplingFactor,
+                MaxOutputTokenCount = settings.MaxTokens,
+                TopP = settings.NucleusSamplingFactor,
                 FrequencyPenalty = settings.FrequencyPenalty,
-                PresencePenalty = settings.PresencePenalty,
+                PresencePenalty = settings.PresencePenalty
+
             };
         }
     }

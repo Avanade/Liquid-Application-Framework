@@ -1,16 +1,17 @@
 ﻿using Azure.AI.OpenAI;
+using OpenAI.Chat;
 
 namespace Liquid.ChatCompletions.OpenAi
 {
     /// <summary>
-    /// Provide <see cref="OpenAIClient"/> generator methods.
+    /// Provide <see cref="ChatClient"/> generator methods.
     /// </summary>
     public interface IOpenAiClientFactory
     {
         /// <summary>
-        /// Provide a instance of <see cref="OpenAIClient"/> with conection started.
+        /// Provide a instance of <see cref="ChatClient"/> with conection started.
         /// </summary>
         /// <param name="clientId">OpenAI connections alias.</param>
-        OpenAIClient GetOpenAIClient(string clientId);
+        ChatClient GetOpenAIClient(string clientId);
     }
 }

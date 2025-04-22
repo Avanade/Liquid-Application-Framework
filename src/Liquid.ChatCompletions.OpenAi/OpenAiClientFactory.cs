@@ -4,7 +4,10 @@ using Azure.Core;
 using Liquid.Core.Entities;
 using Liquid.Core.Settings;
 using Microsoft.Extensions.Options;
+using OpenAI.Chat;
 using System.Diagnostics.CodeAnalysis;
+using System.Net;
+using System.Reflection;
 
 namespace Liquid.ChatCompletions.OpenAi
 {
@@ -13,7 +16,7 @@ namespace Liquid.ChatCompletions.OpenAi
     public class OpenAiClientFactory : IOpenAiClientFactory
     {
         private readonly IOptions<GenAiOptions> _settings;
-        private readonly List<ClientDictionary<OpenAIClient>> _openAiClients;
+        private readonly List<ClientDictionary<ChatClient>> _openAiClients;
 
         /// <summary>
         /// Initialize a new instance of <see cref="OpenAiClientFactory"/>
@@ -23,11 +26,11 @@ namespace Liquid.ChatCompletions.OpenAi
         public OpenAiClientFactory(IOptions<GenAiOptions> settings)
         {
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-            _openAiClients = new List<ClientDictionary<OpenAIClient>>();
+            _openAiClients = new List<ClientDictionary<ChatClient>>();
         }
 
         ///<inheritdoc/>
-        public OpenAIClient GetOpenAIClient(string clientId)
+        public ChatClient GetOpenAIClient(string clientId)
         {
             var settings = _settings.Value.Settings.Where(x => x.ClientId == clientId).ToList();
 
@@ -49,30 +52,31 @@ namespace Liquid.ChatCompletions.OpenAi
             }
         }
 
-        private OpenAIClient CreateClient(List<GenAiSettings> settings)
+        private ChatClient CreateClient(List<GenAiSettings> settings)
         {
             if (settings == null || settings.Count == 0)
             {
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            OpenAIClient? client = null;
+            ChatClient? client = null;        
 
             foreach (var setting in settings)
-            {
+            {               
 
-                var options = new OpenAIClientOptions();
+                var options = new AzureOpenAIClientOptions();
 
-                options.Retry.MaxRetries = setting.MaxRetries;
-                options.Retry.Delay = TimeSpan.FromSeconds(setting.RetryMinDelay);
-                options.Retry.Mode = setting.ExponentialBackoff ? RetryMode.Exponential : RetryMode.Fixed;
-                options.Retry.MaxDelay = TimeSpan.FromSeconds(setting.RetryMaxDelay);
+                //options.Retry.MaxRetries = setting.MaxRetries;
+                //options.Retry.Delay = TimeSpan.FromSeconds(setting.RetryMinDelay);
+                //options.Retry.Mode = setting.ExponentialBackoff ? RetryMode.Exponential : RetryMode.Fixed;
+                //options.Retry.MaxDelay = TimeSpan.FromSeconds(setting.RetryMaxDelay);
 
 
-                client = new OpenAIClient(new Uri(setting.Url),
-                new AzureKeyCredential(setting.Key), options);
+                AzureOpenAIClient azureClient = new(new Uri(setting.Url), new AzureKeyCredential(setting.Key), options);
 
-                _openAiClients.Add(new ClientDictionary<OpenAIClient>(setting.ClientId, client));
+                client = azureClient.GetChatClient("");
+
+                _openAiClients.Add(new ClientDictionary<ChatClient>(setting.ClientId, client));
             }
 
             return client;

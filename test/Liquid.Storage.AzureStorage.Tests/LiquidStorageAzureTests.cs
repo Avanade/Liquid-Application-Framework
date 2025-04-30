@@ -81,7 +81,7 @@ namespace Liquid.Storage.AzureStorage.Tests
                 BlobsModelFactory.BlobDownloadResult(new BinaryData("test-blob")), null
             ));
 
-            _blockBlobClient.GetTags().Returns(Response.FromValue(
+            _blockBlobClient.GetTagsAsync().Returns(Response.FromValue(
                 BlobsModelFactory.GetBlobTagResult(new Dictionary<string, string> { { "tag1", "value1" } }), null
             ));
 
@@ -102,7 +102,7 @@ namespace Liquid.Storage.AzureStorage.Tests
             var containerName = "test-container";
             _blockBlobClient.DownloadContentAsync().Returns(Task.FromException<Response<BlobDownloadResult>>(new Exception("Test exception")));
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(() => _sut.ReadBlobsByName(blobName, containerName));
+            await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => _sut.ReadBlobsByName(blobName, containerName));
         }
 
         [Fact]

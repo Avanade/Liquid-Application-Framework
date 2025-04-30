@@ -4,12 +4,11 @@ using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
 using Liquid.Core.Entities;
 using Liquid.Core.Interfaces;
-using System.Diagnostics.CodeAnalysis;
+using System.Text;
 
 namespace Liquid.Storage.AzureStorage
 {
     ///<inheritdoc/>
-    [ExcludeFromCodeCoverage]
     public class LiquidStorageAzure : ILiquidStorage
     {
         private readonly IBlobClientFactory _factory;
@@ -31,12 +30,13 @@ namespace Liquid.Storage.AzureStorage
         {
             var client = _factory.GetContainerClient(containerName);
 
-            var stringFilter = string.Empty;
-
+            var stringFilterBd = new StringBuilder();
             foreach (var tag in tags)
             {
-                stringFilter += @$"""{tag.Key}"" = '{tag.Value}' AND ";
+                stringFilterBd.Append(@$"""{tag.Key}"" = '{tag.Value}' AND ");
             }
+
+            var stringFilter = stringFilterBd.ToString();
 
             stringFilter = stringFilter.Substring(0, stringFilter.Length - 4);
 
@@ -45,7 +45,7 @@ namespace Liquid.Storage.AzureStorage
                 var blockBlob = client.GetBlockBlobClient(blobItem.BlobName);
 
                 await blockBlob.DeleteAsync();
-            };
+            }
         }
 
         ///<inheritdoc/>
@@ -59,11 +59,12 @@ namespace Liquid.Storage.AzureStorage
             {
                 var blockBlob = client.GetBlockBlobClient(blobItem.Name);
                 var blob = await blockBlob.DownloadContentAsync();
+                var blobTags = await blockBlob.GetTagsAsync();
 
                 var item = new LiquidBlob
                 {
                     Blob = blob.Value.Content.ToArray(),
-                    Tags = blockBlob.GetTags().Value.Tags,
+                    Tags = blobTags?.Value?.Tags,
                     Name = blobItem.Name,
                     AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
@@ -88,11 +89,13 @@ namespace Liquid.Storage.AzureStorage
         {
             var client = _factory.GetContainerClient(containerName);
 
-            var stringFilter = string.Empty;
+            var stringFilterBd = new StringBuilder(); 
             foreach (var tag in tags)
             {
-                stringFilter += @$"""{tag.Key}"" = '{tag.Value}' AND ";
+                stringFilterBd.Append(@$"""{tag.Key}"" = '{tag.Value}' AND ");
             }
+
+            var stringFilter = stringFilterBd.ToString();
             stringFilter = stringFilter.Substring(0, stringFilter.Length - 4);
 
             var results = new List<LiquidBlob>();
@@ -100,10 +103,12 @@ namespace Liquid.Storage.AzureStorage
             {
                 var blockBlob = client.GetBlockBlobClient(blobItem.BlobName);
                 var blob = await blockBlob.DownloadContentAsync();
+                var blobTags = await blockBlob.GetTagsAsync();
+
                 var item = new LiquidBlob
                 {
                     Blob = blob.Value.Content.ToArray(),
-                    Tags = blockBlob.GetTags().Value.Tags,
+                    Tags = blobTags?.Value?.Tags,
                     Name = blobItem.BlobName,
                     AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
@@ -136,10 +141,12 @@ namespace Liquid.Storage.AzureStorage
                 var client = _factory.GetContainerClient(containerName);
                 var blockBlob = client.GetBlockBlobClient(blobName);
                 var blob = await blockBlob.DownloadContentAsync();
+                var tags = await blockBlob.GetTagsAsync();
+
                 var item = new LiquidBlob
                 {
                     Blob = blob.Value.Content.ToArray(),
-                    Tags = blockBlob.GetTags().Value.Tags,
+                    Tags = tags?.Value?.Tags,
                     Name = blobName,
                     AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
@@ -151,9 +158,9 @@ namespace Liquid.Storage.AzureStorage
             {
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new ArgumentOutOfRangeException("Error reading blob", ex);
             }
 
         }

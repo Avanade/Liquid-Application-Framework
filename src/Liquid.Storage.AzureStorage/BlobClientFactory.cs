@@ -7,7 +7,7 @@ namespace Liquid.Storage.AzureStorage
     public class BlobClientFactory : IBlobClientFactory
     {
         private readonly StorageSettings _options;
-        private IList<BlobContainerClient> _clients = new List<BlobContainerClient>();
+        private readonly List<BlobContainerClient> _clients = new List<BlobContainerClient>();
 
         ///<inheritdoc/>
         public IList<BlobContainerClient> Clients => _clients;
@@ -43,7 +43,7 @@ namespace Liquid.Storage.AzureStorage
 
             if (client == null)
             {
-                throw new ArgumentException(nameof(containerName));
+                throw new ArgumentException($"Container named {containerName} not found.");
             }
 
             return client;

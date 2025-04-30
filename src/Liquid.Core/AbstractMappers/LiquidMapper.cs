@@ -1,5 +1,4 @@
-﻿using Liquid.Core.Entities;
-using Liquid.Core.Exceptions;
+﻿using Liquid.Core.Exceptions;
 using Liquid.Core.Interfaces;
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -7,25 +6,22 @@ using System.Threading.Tasks;
 
 namespace Liquid.Core.AbstractMappers
 {
-    /// <summary>
-    /// Defines object that map data between two instance types.
-    /// </summary>
-    /// <typeparam name="TFrom">type of data source object.</typeparam>
+    ///<inheritdoc/>
     [ExcludeFromCodeCoverage]
-    public abstract class OcrResultMapper<TFrom> : ILiquidMapper<TFrom, OcrResult>
+    public abstract class LiquidMapper<TFrom, TTo> : ILiquidMapper<TFrom, TTo>
     {
         private readonly string _mapperName;
 
         /// <summary>
-        /// Create a new instance of <see cref="OcrResultMapper{TFrom}"/>
+        /// Create a new instance of <see cref="LiquidMapper{TFrom, TTo}"/>
         /// </summary>
         /// <param name="mapperName">Mapper implementation name.</param>
-        public OcrResultMapper(string mapperName)
+        protected LiquidMapper(string mapperName)
         {
             _mapperName = mapperName;
         }
         ///<inheritdoc/>
-        public async Task<OcrResult> Map(TFrom dataObject, string entityName = null)
+        public async Task<TTo> Map(TFrom dataObject, string entityName = null)
         {
             if (dataObject is null)
             {
@@ -34,7 +30,7 @@ namespace Liquid.Core.AbstractMappers
 
             try
             {
-                return await MapImpl(dataObject);
+                return await MapImpl(dataObject, entityName);
             }
             catch (Exception e)
             {
@@ -44,10 +40,11 @@ namespace Liquid.Core.AbstractMappers
             }
         }
         /// <summary>
-        /// Create a new instance of <see cref="OcrResult"/>
-        /// with values obtained from <see cref="TFrom"/>. 
+        /// 
         /// </summary>
-        /// <param name="dataObject">data source object instance.</param>
-        protected abstract Task<OcrResult> MapImpl(TFrom dataObject);
+        /// <param name="dataObject"></param>
+        /// <param name="entityName"></param>
+        /// <returns></returns>
+        protected abstract Task<TTo> MapImpl(TFrom dataObject, string entityName = null);
     }
 }

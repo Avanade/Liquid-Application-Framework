@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Liquid.Core.Settings;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Liquid.Core.Settings
+namespace Liquid.Core.GenAi.Settings
 {
     /// <summary>
     /// The options for chat completions request.
     /// </summary>
     [ExcludeFromCodeCoverage]
-    public class CompletionsSettings
+    public class CompletionsOptions
     {
         /// <summary>
         /// Client connection alias to use for a chat completions request.
@@ -41,10 +42,10 @@ namespace Liquid.Core.Settings
 
         /// <summary>
         ///   An alternative value to <see cref="Temperature"/>, called nucleus sampling, that causes
-        ///   the model to consider the results of the tokens with <see cref="NucleusSamplingFactor"/> probability
+        ///   the model to consider the results of the tokens with <see cref="TopP"/> probability
         ///   mass.
         /// </summary>
-        public float NucleusSamplingFactor { get; set; } = (float)0.95;
+        public float TopP { get; set; } = (float)0.95;
 
         /// <summary>
         ///  Gets or sets a value that influences the probability of generated tokens appearing based on their

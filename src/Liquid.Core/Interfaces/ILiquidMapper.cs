@@ -14,6 +14,7 @@ namespace Liquid.Core.Interfaces
         /// with values obtained from <see cref="TFrom"/>.
         /// </summary>
         /// <param name="dataObject">data source object instance.</param>
-        Task<TTo> Map(TFrom dataObject);
+        /// <param name="entityName"> optional entity name.</param>
+        Task<TTo> Map(TFrom dataObject, string entityName = null);
     }
 }

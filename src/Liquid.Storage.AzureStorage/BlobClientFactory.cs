@@ -1,8 +1,7 @@
-﻿using Azure.Core;
-using Azure.Storage.Blobs;
+﻿using Azure.Storage.Blobs;
 using Microsoft.Extensions.Options;
 
-namespace Liquid.Adapter.AzureStorage
+namespace Liquid.Storage.AzureStorage
 {
     ///<inheritdoc/>
     public class BlobClientFactory : IBlobClientFactory
@@ -26,12 +25,12 @@ namespace Liquid.Adapter.AzureStorage
         ///<inheritdoc/>
         public void SetContainerClients()
         {
-            if(_options.Containers.Count  == 0)
-                throw new ArgumentNullException(nameof(_options));        
+            if (_options.Containers.Count == 0)
+                throw new ArgumentNullException(nameof(_options));
 
-            foreach(var container in _options.Containers)
+            foreach (var container in _options.Containers)
             {
-                var client = new BlobContainerClient(container.ConnectionString,container.ContainerName);
+                var client = new BlobContainerClient(container.ConnectionString, container.ContainerName);
 
                 _clients.Add(client);
             }
@@ -42,8 +41,9 @@ namespace Liquid.Adapter.AzureStorage
         {
             var client = _clients.FirstOrDefault(x => x.Name == containerName);
 
-            if (client == null) { 
-                throw new ArgumentException(nameof(containerName)); 
+            if (client == null)
+            {
+                throw new ArgumentException(nameof(containerName));
             }
 
             return client;

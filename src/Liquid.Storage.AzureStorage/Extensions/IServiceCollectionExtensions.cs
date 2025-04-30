@@ -1,8 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Liquid.Core.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Adapter.AzureStorage.Extensions
+namespace Liquid.Storage.AzureStorage.Extensions
 {
     /// <summary>
     /// Extension methods of <see cref="IServiceCollection"/>
@@ -12,7 +13,7 @@ namespace Liquid.Adapter.AzureStorage.Extensions
     public static class IServiceCollectionExtensions
     {
         /// <summary>
-        /// Registers <see cref="BlobStorageAdapter"/> service, it's dependency
+        /// Registers <see cref="LiquidStorageAzure"/> service, it's dependency
         /// <see cref="BlobClientFactory"/>, and also set configuration
         /// option <see cref="StorageSettings"/>.
         /// </summary>
@@ -28,7 +29,7 @@ namespace Liquid.Adapter.AzureStorage.Extensions
 
             services.AddSingleton<IBlobClientFactory, BlobClientFactory>();
 
-            services.AddScoped<ILiquidBlobStorageAdapter, BlobStorageAdapter>();
+            services.AddScoped<ILiquidStorage, LiquidStorageAzure>();
 
             return services;
         }

@@ -1,17 +1,17 @@
 # CI & CD workflow
-name: CI/CD - Liquid.Adapter.AzureStorage component for Liquid Application Framework
+name: CI/CD - Liquid.Storage.AzureStorage component for Liquid Application Framework
 
 on:
   push:
     branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
-    - 'src/Liquid.Adapter.AzureStorage/**'
+    - 'src/Liquid.Storage.AzureStorage/**'
     
   pull_request:
     branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
-    - 'src/Liquid.Adapter.AzureStorage/**'
+    - 'src/Liquid.Storage.AzureStorage/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
   call-reusable-build-workflow:
     uses: Avanade/Liquid-Application-Framework/.github/workflows/base-liquid-ci-and-cd.yml@main
     with:
-      component_name: Liquid.Adapter.AzureStorage
+      component_name: Liquid.Storage.AzureStorage
     secrets:
       sonar_token: ${{ secrets.SONAR_TOKEN_STORAGE }}
       nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

@@ -1,8 +1,7 @@
-using Azure.Storage.Blobs;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 
-namespace Liquid.Adapter.AzureStorage.Tests
+namespace Liquid.Storage.AzureStorage.Tests
 {
     public class BlobClientFactoryTests
     {
@@ -47,7 +46,7 @@ namespace Liquid.Adapter.AzureStorage.Tests
 
             var sut = new BlobClientFactory(options);
 
-            Assert.Throws<ArgumentNullException>(() => sut.SetContainerClients()) ;
+            Assert.Throws<ArgumentNullException>(() => sut.SetContainerClients());
 
         }
 

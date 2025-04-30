@@ -2,23 +2,24 @@
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
+using Liquid.Core.Entities;
+using Liquid.Core.Interfaces;
 using System.Diagnostics.CodeAnalysis;
-using System.Text;
 
-namespace Liquid.Adapter.AzureStorage
+namespace Liquid.Storage.AzureStorage
 {
     ///<inheritdoc/>
     [ExcludeFromCodeCoverage]
-    public class BlobStorageAdapter : ILiquidBlobStorageAdapter
+    public class LiquidStorageAzure : ILiquidStorage
     {
         private readonly IBlobClientFactory _factory;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="BlobStorageAdapter"/>
+        /// Initialize a new instance of <see cref="LiquidStorageAzure"/>
         /// </summary>
         /// <param name="factory"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public BlobStorageAdapter(IBlobClientFactory factory)
+        public LiquidStorageAzure(IBlobClientFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
@@ -158,7 +159,7 @@ namespace Liquid.Adapter.AzureStorage
         }
 
         ///<inheritdoc/>
-        public string? GetBlobSasUri(string blobName, string containerName, DateTimeOffset expiresOn, BlobContainerSasPermissions permissions)
+        public string? GetBlobSasUri(string blobName, string containerName, DateTimeOffset expiresOn, string permissions)
         {
             var blobClient = _factory.GetContainerClient(containerName);
 
@@ -183,5 +184,6 @@ namespace Liquid.Adapter.AzureStorage
 
             return sasURI.AbsoluteUri;
         }
+
     }
 }

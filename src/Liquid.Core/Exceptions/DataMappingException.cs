@@ -20,7 +20,7 @@ namespace Liquid.Core.Exceptions
         {
         }
 
-        protected DataMappingException(SerializationInfo info, StreamingContext context) : base(info, context)
+        public DataMappingException(SerializationInfo info, StreamingContext context)
         {
         }
     }

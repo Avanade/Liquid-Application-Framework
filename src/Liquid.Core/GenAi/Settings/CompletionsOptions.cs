@@ -42,7 +42,7 @@ namespace Liquid.Core.GenAi.Settings
 
         /// <summary>
         ///   An alternative value to <see cref="Temperature"/>, called nucleus sampling, that causes
-        ///   the model to consider the results of the tokens with <see cref="NucleusSamplingFactor"/> probability
+        ///   the model to consider the results of the tokens with <see cref="TopP"/> probability
         ///   mass.
         /// </summary>
         public float TopP { get; set; } = (float)0.95;

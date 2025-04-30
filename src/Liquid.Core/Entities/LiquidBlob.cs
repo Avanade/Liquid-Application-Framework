@@ -12,7 +12,7 @@ namespace Liquid.Core.Entities
         /// <summary>
         /// Lista de tags referentes ao blob.
         /// </summary>
-        public IDictionary<string, string>? Tags { get; set; }
+        public IDictionary<string, string> Tags { get; set; } = new Dictionary<string, string>();
 
         /// <summary>
         /// Conteúdo do blob.

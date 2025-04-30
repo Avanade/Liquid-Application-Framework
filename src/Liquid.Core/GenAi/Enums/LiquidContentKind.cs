@@ -11,8 +11,13 @@ namespace Liquid.Core.GenAi.Enums
     /// </summary>
     public enum LiquidContentKind
     {
+        /// <summary>
+        /// Text content
+        /// </summary>
         Text,
-
+        /// <summary>
+        /// Image content
+        /// </summary>
         Image
     }
 }

@@ -54,6 +54,17 @@ namespace Liquid.Storage.AzureStorage.Tests
                 { "tag2", "value2" }
             };
             var containerName = "test-container";
+
+            var page = Page<TaggedBlobItem>.FromValues(new List<TaggedBlobItem>
+            {
+                 BlobsModelFactory.TaggedBlobItem("test-blob","test-container", new Dictionary<string, string> { { "tag1", "value1" } }),
+                 BlobsModelFactory.TaggedBlobItem("test-blob","test-container", new Dictionary<string, string> { { "tag2", "value2" } })
+            }, continuationToken: null,Substitute.For<Response>());
+
+            var pages = AsyncPageable<TaggedBlobItem>.FromPages(new[] { page });
+
+            _blobContainerClient.FindBlobsByTagsAsync(Arg.Any<string>()).Returns(pages);
+
             // Act & Assert
             var exception = await Record.ExceptionAsync(() => _sut.DeleteByTags(tags, containerName));
             Assert.Null(exception);
@@ -64,6 +75,17 @@ namespace Liquid.Storage.AzureStorage.Tests
         {
             // Arrange
             var containerName = "test-container";
+            var blobItem = BlobsModelFactory.BlobItem();
+
+            _blobContainerClient.GetBlobsAsync().Returns(AsyncPageable<BlobItem>.FromPages(new[] { Page<BlobItem>.FromValues(new[] { blobItem }, null, Substitute.For<Response>()) }));
+            _blockBlobClient.DownloadContentAsync().Returns(Response.FromValue(
+                BlobsModelFactory.BlobDownloadResult(new BinaryData("test-blob")), null
+            ));
+            _blockBlobClient.GetTagsAsync().Returns(Response.FromValue(
+                BlobsModelFactory.GetBlobTagResult(new Dictionary<string, string> { { "tag1", "value1" } }), null
+            ));
+            _blockBlobClient.Uri.Returns(new Uri("https://test.blob.core.windows.net/test-blob"));
+
             // Act
             var result = await _sut.GetAllBlobs(containerName);
             // Assert
@@ -192,7 +214,9 @@ namespace Liquid.Storage.AzureStorage.Tests
             var blobName = "test-blob";
             var containerName = "test-container";
 
-            _blobContainerClient.GetBlobClient(Arg.Any<string>()).Returns(Substitute.For<BlobClient>());
+            var blobClient = Substitute.For<BlobClient>();
+            _blobContainerClient.GetBlobClient(Arg.Any<string>()).Returns(blobClient);
+
             // Act & Assert
             var exception = await Record.ExceptionAsync(() => _sut.Delete(blobName, containerName));
 
@@ -209,6 +233,26 @@ namespace Liquid.Storage.AzureStorage.Tests
                 { "tag2", "value2" }
             };
             var containerName = "test-container";
+
+            var page = Page<TaggedBlobItem>.FromValues(new List<TaggedBlobItem>
+            {
+                 BlobsModelFactory.TaggedBlobItem("test-blob","test-container", new Dictionary<string, string> { { "tag1", "value1" } }),
+                 BlobsModelFactory.TaggedBlobItem("test-blob","test-container", new Dictionary<string, string> { { "tag2", "value2" } })
+            }, continuationToken: null, Substitute.For<Response>());
+
+            var pages = AsyncPageable<TaggedBlobItem>.FromPages(new[] { page });
+
+            _blobContainerClient.FindBlobsByTagsAsync(Arg.Any<string>()).Returns(pages);
+
+            _blockBlobClient.DownloadContentAsync().Returns(Response.FromValue(
+                BlobsModelFactory.BlobDownloadResult(new BinaryData("test-blob")), null
+            ));
+
+            _blockBlobClient.GetTagsAsync().Returns(Response.FromValue(
+                BlobsModelFactory.GetBlobTagResult(new Dictionary<string, string> { { "tag1", "value1" } }), null
+            ));
+
+            _blockBlobClient.Uri.Returns(new Uri("https://test.blob.core.windows.net/test-blob"));
             // Act
             var result = await _sut.ReadBlobsByTags(tags, containerName);
             // Assert

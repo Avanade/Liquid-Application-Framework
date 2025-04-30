@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.Serialization;
 
 namespace Liquid.Core.Exceptions
 {
     [Serializable]
-    internal class DataMappingException : LiquidException
+    [ExcludeFromCodeCoverage]
+    internal class DataMappingException : Exception
     {
         public DataMappingException()
         {
@@ -17,5 +20,8 @@ namespace Liquid.Core.Exceptions
         {
         }
 
+        protected DataMappingException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 }

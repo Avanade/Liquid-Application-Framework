@@ -25,7 +25,7 @@ namespace Liquid.Core.AbstractMappers
             _mapperName = mapperName;
         }
         ///<inheritdoc/>
-        public async Task<OcrResult> Map(TFrom dataObject)
+        public async Task<OcrResult> Map(TFrom dataObject, string entityName = null)
         {
             if (dataObject is null)
             {

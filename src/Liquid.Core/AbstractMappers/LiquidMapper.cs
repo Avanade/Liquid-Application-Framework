@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 
-namespace Liquid.Core.Implementations
+namespace Liquid.Core.AbstractMappers
 {
     ///<inheritdoc/>
     [ExcludeFromCodeCoverage]
@@ -16,7 +16,7 @@ namespace Liquid.Core.Implementations
         /// Create a new instance of <see cref="LiquidMapper{TFrom, TTo}"/>
         /// </summary>
         /// <param name="mapperName">Mapper implementation name.</param>
-        public LiquidMapper(string mapperName)
+        protected LiquidMapper(string mapperName)
         {
             _mapperName = mapperName;
         }

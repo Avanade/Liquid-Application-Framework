@@ -2,23 +2,23 @@
 using Azure.Storage.Blobs.Models;
 using Azure.Storage.Blobs.Specialized;
 using Azure.Storage.Sas;
-using System.Diagnostics.CodeAnalysis;
+using Liquid.Core.Entities;
+using Liquid.Core.Interfaces;
 using System.Text;
 
-namespace Liquid.Adapter.AzureStorage
+namespace Liquid.Storage.AzureStorage
 {
     ///<inheritdoc/>
-    [ExcludeFromCodeCoverage]
-    public class BlobStorageAdapter : ILiquidBlobStorageAdapter
+    public class LiquidStorageAzure : ILiquidStorage
     {
         private readonly IBlobClientFactory _factory;
 
         /// <summary>
-        /// Initialize a new instance of <see cref="BlobStorageAdapter"/>
+        /// Initialize a new instance of <see cref="LiquidStorageAzure"/>
         /// </summary>
         /// <param name="factory"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public BlobStorageAdapter(IBlobClientFactory factory)
+        public LiquidStorageAzure(IBlobClientFactory factory)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
 
@@ -30,12 +30,13 @@ namespace Liquid.Adapter.AzureStorage
         {
             var client = _factory.GetContainerClient(containerName);
 
-            var stringFilter = string.Empty;
-
+            var stringFilterBd = new StringBuilder();
             foreach (var tag in tags)
             {
-                stringFilter += @$"""{tag.Key}"" = '{tag.Value}' AND ";
+                stringFilterBd.Append(@$"""{tag.Key}"" = '{tag.Value}' AND ");
             }
+
+            var stringFilter = stringFilterBd.ToString();
 
             stringFilter = stringFilter.Substring(0, stringFilter.Length - 4);
 
@@ -44,7 +45,7 @@ namespace Liquid.Adapter.AzureStorage
                 var blockBlob = client.GetBlockBlobClient(blobItem.BlobName);
 
                 await blockBlob.DeleteAsync();
-            };
+            }
         }
 
         ///<inheritdoc/>
@@ -58,11 +59,12 @@ namespace Liquid.Adapter.AzureStorage
             {
                 var blockBlob = client.GetBlockBlobClient(blobItem.Name);
                 var blob = await blockBlob.DownloadContentAsync();
+                var blobTags = await blockBlob.GetTagsAsync();
 
                 var item = new LiquidBlob
                 {
                     Blob = blob.Value.Content.ToArray(),
-                    Tags = blockBlob.GetTags().Value.Tags,
+                    Tags = blobTags?.Value?.Tags,
                     Name = blobItem.Name,
                     AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
@@ -87,11 +89,13 @@ namespace Liquid.Adapter.AzureStorage
         {
             var client = _factory.GetContainerClient(containerName);
 
-            var stringFilter = string.Empty;
+            var stringFilterBd = new StringBuilder(); 
             foreach (var tag in tags)
             {
-                stringFilter += @$"""{tag.Key}"" = '{tag.Value}' AND ";
+                stringFilterBd.Append(@$"""{tag.Key}"" = '{tag.Value}' AND ");
             }
+
+            var stringFilter = stringFilterBd.ToString();
             stringFilter = stringFilter.Substring(0, stringFilter.Length - 4);
 
             var results = new List<LiquidBlob>();
@@ -99,10 +103,12 @@ namespace Liquid.Adapter.AzureStorage
             {
                 var blockBlob = client.GetBlockBlobClient(blobItem.BlobName);
                 var blob = await blockBlob.DownloadContentAsync();
+                var blobTags = await blockBlob.GetTagsAsync();
+
                 var item = new LiquidBlob
                 {
                     Blob = blob.Value.Content.ToArray(),
-                    Tags = blockBlob.GetTags().Value.Tags,
+                    Tags = blobTags?.Value?.Tags,
                     Name = blobItem.BlobName,
                     AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
@@ -135,10 +141,12 @@ namespace Liquid.Adapter.AzureStorage
                 var client = _factory.GetContainerClient(containerName);
                 var blockBlob = client.GetBlockBlobClient(blobName);
                 var blob = await blockBlob.DownloadContentAsync();
+                var tags = await blockBlob.GetTagsAsync();
+
                 var item = new LiquidBlob
                 {
                     Blob = blob.Value.Content.ToArray(),
-                    Tags = blockBlob.GetTags().Value.Tags,
+                    Tags = tags?.Value?.Tags,
                     Name = blobName,
                     AbsoluteUri = blockBlob.Uri.AbsoluteUri
                 };
@@ -150,15 +158,15 @@ namespace Liquid.Adapter.AzureStorage
             {
                 return null;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw new ArgumentOutOfRangeException("Error reading blob", ex);
             }
 
         }
 
         ///<inheritdoc/>
-        public string? GetBlobSasUri(string blobName, string containerName, DateTimeOffset expiresOn, BlobContainerSasPermissions permissions)
+        public string? GetBlobSasUri(string blobName, string containerName, DateTimeOffset expiresOn, string permissions)
         {
             var blobClient = _factory.GetContainerClient(containerName);
 
@@ -183,5 +191,6 @@ namespace Liquid.Adapter.AzureStorage
 
             return sasURI.AbsoluteUri;
         }
+
     }
 }

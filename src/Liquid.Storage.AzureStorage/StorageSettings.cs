@@ -1,4 +1,4 @@
-﻿namespace Liquid.Adapter.AzureStorage
+﻿namespace Liquid.Storage.AzureStorage
 {
     /// <summary>
     /// Set of Azure Storage containers configs.

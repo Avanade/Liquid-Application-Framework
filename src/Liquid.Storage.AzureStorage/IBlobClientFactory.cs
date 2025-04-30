@@ -1,6 +1,6 @@
 ﻿using Azure.Storage.Blobs;
 
-namespace Liquid.Adapter.AzureStorage
+namespace Liquid.Storage.AzureStorage
 {
     /// <summary>
     /// <see cref="BlobContainerClient"/> instances factory. 

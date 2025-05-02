@@ -41,7 +41,7 @@ When writing Liquid applications, you stop worrying about the technology and foc
 | [`Liquid.Messaging.ServiceBus`](https://www.nuget.org/packages/Liquid.Messaging.ServiceBus) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging.ServiceBus) |
 | [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi.Http) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Http) |
 | [`Liquid.Dataverse`](https://www.nuget.org/packages/Liquid.Dataverse) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Dataverse) |
-| [`Liquid.Storage`](https://www.nuget.org/packages/Liquid.Storage) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Storage) |
+| [`Liquid.Storage.AzureStorage`](https://www.nuget.org/packages/Liquid.Storage.AzureStorage) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Storage.AzureStorage) |
 
 
 ## Getting Started

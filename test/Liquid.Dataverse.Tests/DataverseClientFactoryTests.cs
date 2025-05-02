@@ -1,8 +1,7 @@
 using Microsoft.Extensions.Options;
-using Microsoft.PowerPlatform.Dataverse.Client;
 using NSubstitute;
 
-namespace Liquid.Adapter.Dataverse.Tests
+namespace Liquid.Dataverse.Tests
 {
     public class DataverseClientFactoryTests
     {
@@ -12,10 +11,10 @@ namespace Liquid.Adapter.Dataverse.Tests
         public DataverseClientFactoryTests()
         {
             _options = Substitute.For<IOptions<DataverseSettings>>();
-            _options.Value.ReturnsForAnyArgs(new DataverseSettings() { ClientId = "4erewgewgh", ClientSecret = "greggrbnte", Url = "https://test"});  
+            _options.Value.ReturnsForAnyArgs(new DataverseSettings() { ClientId = "4erewgewgh", ClientSecret = "greggrbnte", Url = "https://test" });
             _sut = new DataverseClientFactory(_options);
-        }        
-        
+        }
+
 
         [Fact]
         public void Ctor_WhenOptionsIsNull_ThenReturnArgumentNullException()

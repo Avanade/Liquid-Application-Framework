@@ -1,6 +1,6 @@
 ﻿using Microsoft.PowerPlatform.Dataverse.Client;
 
-namespace Liquid.Adapter.Dataverse
+namespace Liquid.Dataverse
 {
     /// <summary>
     /// Defines Dataverse <see cref="ServiceClient"/> provider.

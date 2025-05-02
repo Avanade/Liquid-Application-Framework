@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 
-namespace Liquid.Adapter.Dataverse.Extensions
+namespace Liquid.Dataverse.Extensions
 {
     /// <summary>
     /// Extension methods of <see cref="Entity"/>.

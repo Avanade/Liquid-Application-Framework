@@ -1,7 +1,7 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Liquid.Adapter.Dataverse\Liquid.Adapter.Dataverse.csproj" />
+    <ProjectReference Include="..\..\src\Liquid.Dataverse\Liquid.Dataverse.csproj" />
   </ItemGroup>
 
 </Project>

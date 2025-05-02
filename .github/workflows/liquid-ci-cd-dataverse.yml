@@ -1,17 +1,17 @@
 # CI & CD workflow
-name: CI/CD - Liquid.Adapter.Dataverse component for Liquid Application Framework
+name: CI/CD - Liquid.Dataverse component for Liquid Application Framework
 
 on:
   push:
     branches: [ main, releases/v2.X.X, releases/v6.X.X ]
     paths:
-    - 'src/Liquid.Adapter.Dataverse/**'
+    - 'src/Liquid.Dataverse/**'
     
   pull_request:
     branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
-    - 'src/Liquid.Adapter.Dataverse/**'
+    - 'src/Liquid.Dataverse/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
   call-reusable-build-workflow:
     uses: Avanade/Liquid-Application-Framework/.github/workflows/base-liquid-ci-and-cd.yml@main
     with:
-      component_name: Liquid.Adapter.Dataverse
+      component_name: Liquid.Dataverse
     secrets:
       sonar_token: ${{ secrets.SONAR_TOKEN_DATAVERSE }}
       nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

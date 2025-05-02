@@ -2,7 +2,7 @@
 using Microsoft.PowerPlatform.Dataverse.Client;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Adapter.Dataverse
+namespace Liquid.Dataverse
 {
     ///<inheritdoc/>
     public class DataverseClientFactory : IDataverseClientFactory
@@ -16,16 +16,13 @@ namespace Liquid.Adapter.Dataverse
         /// <exception cref="ArgumentNullException"></exception>
         public DataverseClientFactory(IOptions<DataverseSettings> options)
         {
-            if (options is null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
+            ArgumentNullException.ThrowIfNull(options);
 
             _options = options;
         }
 
+        ///<inheritdoc/>   
         [ExcludeFromCodeCoverage]
-        ///<inheritdoc/>
         public IOrganizationServiceAsync GetClient()
         {
             var settings = _options.Value;

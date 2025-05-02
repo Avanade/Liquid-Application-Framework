@@ -27,7 +27,7 @@ When writing Liquid applications, you stop worrying about the technology and foc
 - Brings a directed programming model that will save you time on thinking how to structure your application, allowing you to focus on writing business code.
 
 | Liquid Application Framework Binaries | Version |
-| :-- | :--: | :--: |
+| :-- | :--: |
 | [`Liquid.Core`](https://www.nuget.org/packages/Liquid.Core) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Core) |
 | [`Liquid.Repository.Mongo`](https://www.nuget.org/packages/Liquid.Repository.Mongo) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Repository.Mongo) |
 | [`Liquid.Repository.EntityFramework`](https://www.nuget.org/packages/Liquid.Repository.EntityFramework) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Repository.EntityFramework) |

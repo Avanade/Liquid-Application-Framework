@@ -16,16 +16,13 @@ namespace Liquid.Dataverse
         /// <exception cref="ArgumentNullException"></exception>
         public DataverseClientFactory(IOptions<DataverseSettings> options)
         {
-            if (options is null)
-            {
-                throw new ArgumentNullException(nameof(options));
-            }
+            ArgumentNullException.ThrowIfNull(options);
 
             _options = options;
         }
 
+        ///<inheritdoc/>   
         [ExcludeFromCodeCoverage]
-        ///<inheritdoc/>
         public IOrganizationServiceAsync GetClient()
         {
             var settings = _options.Value;

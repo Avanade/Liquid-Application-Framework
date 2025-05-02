@@ -30,16 +30,19 @@ namespace Liquid.Dataverse
         ///<inheritdoc/>
         protected override async Task<Entity> MapImpl(string jsonString, string? entityName = null)
         {
-            if (entityName == null) { throw new ArgumentNullException(nameof(entityName)); }
+            ArgumentNullException.ThrowIfNull(entityName);
 
             var entityAttributes = await GetEntityAttributes(entityName);
+
+            if (entityAttributes == null)
+                throw new ArgumentNullException(nameof(entityAttributes), $"Entity {entityName} not found.");
 
             var entity = JsonToEntity(entityAttributes, jsonString);
 
             return entity;
         }
 
-        private async Task<List<AttributeMetadata>> GetEntityAttributes(string entityName, List<string>? noMappingFields = null)
+        private async Task<List<AttributeMetadata>?> GetEntityAttributes(string entityName, List<string>? noMappingFields = null)
         {
             var entityMetadata = _entitiesMetadata.FirstOrDefault(x => x.Key == entityName).Value;
 
@@ -67,15 +70,21 @@ namespace Liquid.Dataverse
 
             return listAttributes;
         }
-        private Entity JsonToEntity(List<AttributeMetadata> attributes, string values)
+        private static Entity JsonToEntity(List<AttributeMetadata> attributes, string values)
         {
             var entidade = new Entity();
             var valuesObject = JsonConvert.DeserializeObject<JObject>(values);
+            if (valuesObject == null)
+                return entidade;
 
             foreach (var atrribute in attributes)
             {
                 var logicalName = atrribute.LogicalName.ToUpper();
-                if (valuesObject[logicalName] != null && valuesObject[logicalName].ToString() != "")
+
+                if (valuesObject[logicalName] == null)
+                    continue;
+
+                if (valuesObject[logicalName].ToString() != "")
                 {
 
                     switch (atrribute.AttributeType.ToString())

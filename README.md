@@ -26,14 +26,23 @@ When writing Liquid applications, you stop worrying about the technology and foc
 - Abstracts a number of services from cloud providers such as Azure, AWS and Google Cloud to enable you to write code that could run anywhere.
 - Brings a directed programming model that will save you time on thinking how to structure your application, allowing you to focus on writing business code.
 
-| Liquid Application Framework Binaries | Type | Version |
+| Liquid Application Framework Binaries | Version |
 | :-- | :--: | :--: |
-| [`Liquid.Core`](https://www.nuget.org/packages/Liquid.Core) | **_mandatory_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Core) |
-| [`Liquid.Domain`](https://www.nuget.org/packages/Liquid.Domain) | **_desirable_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Domain) |
-| [`Liquid.Repository`](https://www.nuget.org/packages/Liquid.Repository) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Repository) |
-| [`Liquid.Cache`](https://www.nuget.org/packages/Liquid.Cache) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Cache) |
-| [`Liquid.Messaging`](https://www.nuget.org/packages/Liquid.Messaging) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging) |
-| [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi.Http) | **_optional_** | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Http) |
+| [`Liquid.Core`](https://www.nuget.org/packages/Liquid.Core) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Core) |
+| [`Liquid.Repository.Mongo`](https://www.nuget.org/packages/Liquid.Repository.Mongo) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Repository.Mongo) |
+| [`Liquid.Repository.EntityFramework`](https://www.nuget.org/packages/Liquid.Repository.EntityFramework) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Repository.EntityFramework) |
+| [`Liquid.Repository.OData`](https://www.nuget.org/packages/Liquid.Repository.OData) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Repository.OData) |
+| [`Liquid.Cache.Memory`](https://www.nuget.org/packages/Liquid.Cache.Memory) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Cache.Memory) |
+| [`Liquid.Cache.NCache`](https://www.nuget.org/packages/Liquid.Cache.NCache) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Cache.NCache) |
+| [`Liquid.Cache.Redis`](https://www.nuget.org/packages/Liquid.Cache.Redis) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Cache.Redis) |
+| [`Liquid.Cache.SqlServer`](https://www.nuget.org/packages/Liquid.Cache.SqlServer) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Cache.SqlServer) |
+| [`Liquid.Messaging.Kafka`](https://www.nuget.org/packages/Liquid.Messaging.Kafka) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging.Kafka) |
+| [`Liquid.Messaging.RabbitMq`](https://www.nuget.org/packages/Liquid.Messaging.RabbitMq) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging.RabbitMq) |
+| [`Liquid.Messaging.ServiceBus`](https://www.nuget.org/packages/Liquid.Messaging.ServiceBus) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Messaging.ServiceBus) |
+| [`Liquid.WebApi.Http`](https://www.nuget.org/packages/Liquid.WebApi.Http) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.WebApi.Http) |
+| [`Liquid.Dataverse`](https://www.nuget.org/packages/Liquid.Dataverse) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Dataverse) |
+| [`Liquid.Storage`](https://www.nuget.org/packages/Liquid.Storage) | ![Nuget (with prereleases)](https://img.shields.io/nuget/vpre/Liquid.Storage) |
+
 
 ## Getting Started
 

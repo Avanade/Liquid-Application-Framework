@@ -2,7 +2,7 @@
 using Microsoft.PowerPlatform.Dataverse.Client;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Adapter.Dataverse
+namespace Liquid.Dataverse
 {
     ///<inheritdoc/>
     public class DataverseClientFactory : IDataverseClientFactory

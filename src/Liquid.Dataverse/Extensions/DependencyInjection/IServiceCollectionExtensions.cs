@@ -1,9 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Liquid.Core.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Xrm.Sdk;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Adapter.Dataverse.Extensions.DependencyInjection
+namespace Liquid.Dataverse.Extensions.DependencyInjection
 {
     /// <summary>
     /// Extension methods of <see cref="IServiceCollection"/>
@@ -12,7 +13,7 @@ namespace Liquid.Adapter.Dataverse.Extensions.DependencyInjection
     public static class IServiceCollectionExtensions
     {
         /// <summary>
-        /// Registers <see cref="DataverseAdapter"/> service, it's dependency
+        /// Registers <see cref="LiquidDataverse"/> service, it's dependency
         /// <see cref="DataverseClientFactory"/>, and also set configuration
         /// option <see cref="DataverseSettings"/>.
         /// Also register <see cref="DataverseEntityMapper"/> service.
@@ -29,7 +30,7 @@ namespace Liquid.Adapter.Dataverse.Extensions.DependencyInjection
 
             services.AddTransient<IDataverseClientFactory, DataverseClientFactory>();
 
-            services.AddSingleton<ILiquidDataverseAdapter, DataverseAdapter>();
+            services.AddSingleton<ILiquidDataverse, LiquidDataverse>();
 
             services.AddSingleton<ILiquidMapper<string, Entity>, DataverseEntityMapper>();
 

@@ -1,10 +1,11 @@
-﻿using Microsoft.Xrm.Sdk;
+﻿using Liquid.Core.AbstractMappers;
+using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Metadata;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Adapter.Dataverse
+namespace Liquid.Dataverse
 {
     /// <summary>
     /// Implementation of <see cref="LiquidMapper{TFrom, TTo}"/> that
@@ -13,7 +14,7 @@ namespace Liquid.Adapter.Dataverse
     [ExcludeFromCodeCoverage]
     public class DataverseEntityMapper : LiquidMapper<string, Entity>
     {
-        private readonly ILiquidDataverseAdapter _dataverseAdapter;
+        private readonly ILiquidDataverse _dataverseAdapter;
         private Dictionary<string, EntityMetadata> _entitiesMetadata = new Dictionary<string, EntityMetadata>();
 
         /// <summary>
@@ -21,7 +22,7 @@ namespace Liquid.Adapter.Dataverse
         /// </summary>
         /// <param name="adapter"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public DataverseEntityMapper(ILiquidDataverseAdapter adapter) : base(nameof(DataverseEntityMapper))
+        public DataverseEntityMapper(ILiquidDataverse adapter) : base(nameof(DataverseEntityMapper))
         {
             _dataverseAdapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
         }

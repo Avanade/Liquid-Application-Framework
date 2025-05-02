@@ -63,9 +63,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.WebApi.Http.Tests", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Storage.AzureStorage", "src\Liquid.Storage.AzureStorage\Liquid.Storage.AzureStorage.csproj", "{F599C512-7224-4A27-A474-3AA9510D2A14}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Adapter.Dataverse", "src\Liquid.Adapter.Dataverse\Liquid.Adapter.Dataverse.csproj", "{CD31C6F6-F8DD-4B56-B08C-D9E8D5BA3E73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Dataverse", "src\Liquid.Dataverse\Liquid.Dataverse.csproj", "{CD31C6F6-F8DD-4B56-B08C-D9E8D5BA3E73}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Adapter.Dataverse.Tests", "test\Liquid.Adapter.Dataverse.Tests\Liquid.Adapter.Dataverse.Tests.csproj", "{5B0DC38B-5BC9-4DAC-8527-8D1C33E97247}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Dataverse.Tests", "test\Liquid.Dataverse.Tests\Liquid.Dataverse.Tests.csproj", "{5B0DC38B-5BC9-4DAC-8527-8D1C33E97247}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Storage.AzureStorage.Tests", "test\Liquid.Storage.AzureStorage.Tests\Liquid.Storage.AzureStorage.Tests.csproj", "{53341B04-6D30-4137-943B-20D8706351E8}"
 EndProject

@@ -1,21 +1,18 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
-using Azure.Core;
 using Liquid.Core.Entities;
-using Liquid.Core.Settings;
+using Liquid.GenAi.OpenAi.Settings;
 using Microsoft.Extensions.Options;
 using OpenAI.Chat;
+using System.ClientModel.Primitives;
 using System.Diagnostics.CodeAnalysis;
-using System.Net;
-using System.Reflection;
 
-namespace Liquid.ChatCompletions.OpenAi
+namespace Liquid.GenAi.OpenAi
 {
     ///<inheritdoc/>
-    [ExcludeFromCodeCoverage]
     public class OpenAiClientFactory : IOpenAiClientFactory
     {
-        private readonly IOptions<GenAiOptions> _settings;
+        private readonly IOptions<OpenAiOptions> _settings;
         private readonly List<ClientDictionary<ChatClient>> _openAiClients;
 
         /// <summary>
@@ -23,7 +20,7 @@ namespace Liquid.ChatCompletions.OpenAi
         /// </summary>
         /// <param name="settings">Connection options.</param>
         /// <exception cref="ArgumentNullException"></exception>
-        public OpenAiClientFactory(IOptions<GenAiOptions> settings)
+        public OpenAiClientFactory(IOptions<OpenAiOptions> settings)
         {
             _settings = settings ?? throw new ArgumentNullException(nameof(settings));
             _openAiClients = new List<ClientDictionary<ChatClient>>();
@@ -36,50 +33,52 @@ namespace Liquid.ChatCompletions.OpenAi
 
             if (settings.Count == 0)
             {
-                throw new ArgumentNullException(nameof(clientId));
+                throw new KeyNotFoundException($"No settings found for client ID: {clientId}");
             }
 
             var clientDefinition = _openAiClients.Where(x => x.ClientId == clientId)?.MinBy(x => x.Executions);
 
-            if (clientDefinition == null)
-            {
-                return CreateClient(settings);
-            }
-            else
+            if (clientDefinition != null)
             {
                 clientDefinition.Executions++;
                 return clientDefinition.Client;
             }
+
+            var response = CreateClient(settings, clientId);
+
+            if (response == null)
+            {
+                throw new KeyNotFoundException($"No settings found for client ID: {clientId}");
+            }
+
+            return response;
         }
 
-        private ChatClient CreateClient(List<GenAiSettings> settings)
+        private ChatClient? CreateClient(List<OpenAiSettings>? settings, string clientId)
         {
             if (settings == null || settings.Count == 0)
             {
                 throw new ArgumentNullException(nameof(settings));
             }
 
-            ChatClient? client = null;        
+            ChatClient? client = null;
 
             foreach (var setting in settings)
-            {               
-
+            {
                 var options = new AzureOpenAIClientOptions();
 
-                //options.Retry.MaxRetries = setting.MaxRetries;
-                //options.Retry.Delay = TimeSpan.FromSeconds(setting.RetryMinDelay);
-                //options.Retry.Mode = setting.ExponentialBackoff ? RetryMode.Exponential : RetryMode.Fixed;
-                //options.Retry.MaxDelay = TimeSpan.FromSeconds(setting.RetryMaxDelay);
-
+                options.RetryPolicy = new ClientRetryPolicy(setting.MaxRetries);
 
                 AzureOpenAIClient azureClient = new(new Uri(setting.Url), new AzureKeyCredential(setting.Key), options);
 
-                client = azureClient.GetChatClient("");
+                client = azureClient.GetChatClient(setting.DeploymentName);
 
                 _openAiClients.Add(new ClientDictionary<ChatClient>(setting.ClientId, client));
             }
 
-            return client;
+            var result = _openAiClients.Where(x => x.ClientId == clientId).MinBy(x => x.Executions);
+
+            return result?.Client;
         }
     }
 }

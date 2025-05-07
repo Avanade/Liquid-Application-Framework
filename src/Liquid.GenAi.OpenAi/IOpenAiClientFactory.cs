@@ -1,7 +1,6 @@
-﻿using Azure.AI.OpenAI;
-using OpenAI.Chat;
+﻿using OpenAI.Chat;
 
-namespace Liquid.ChatCompletions.OpenAi
+namespace Liquid.GenAi.OpenAi
 {
     /// <summary>
     /// Provide <see cref="ChatClient"/> generator methods.

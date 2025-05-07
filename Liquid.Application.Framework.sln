@@ -75,7 +75,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Liquid.Repository.OData", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.Repository.OData.Tests", "test\Liquid.Repository.OData.Tests\Liquid.Repository.OData.Tests.csproj", "{70A43D24-4905-4A16-8CE2-165F73243B8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.GenAi.OpenAi.Tests", "test\Liquid.GenAi.OpenAi\Liquid.GenAi.OpenAi.Tests.csproj", "{ECDF1DD3-073D-4708-A20B-1F0F2D663065}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Liquid.GenAi.OpenAi.Tests", "test\Liquid.GenAi.OpenAi.Tests\Liquid.GenAi.OpenAi.Tests.csproj", "{ECDF1DD3-073D-4708-A20B-1F0F2D663065}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

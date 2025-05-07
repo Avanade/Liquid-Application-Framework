@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	  <PackageId>Liquid.ChatCompletions.OpenAi</PackageId>
+	  <PackageId>Liquid.GenAi.OpenAi</PackageId>
 	  <Nullable>enable</Nullable>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <Authors>Avanade Brazil</Authors>

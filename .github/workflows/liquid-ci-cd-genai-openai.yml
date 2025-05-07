@@ -1,17 +1,17 @@
 # CI & CD workflow
-name: CI/CD - Liquid.ChatCompletions.OpenAi component for Liquid Application Framework
+name: CI/CD - Liquid.GenAi.OpenAi component for Liquid Application Framework
 
 on:
   push:
     branches: [ main ]
     paths:
-    - 'src/Liquid.ChatCompletions.OpenAi/**'
+    - 'src/Liquid.GenAi.OpenAi/**'
     
   pull_request:
     branches: [ main, releases/** ]
     types: [opened, synchronize, reopened]
     paths:
-    - 'src/Liquid.ChatCompletions.OpenAi/**'
+    - 'src/Liquid.GenAi.OpenAi/**'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,7 +20,7 @@ jobs:
   call-reusable-build-workflow:
     uses: Avanade/Liquid-Application-Framework/.github/workflows/base-liquid-ci-and-cd.yml@main
     with:
-      component_name: Liquid.ChatCompletions.OpenAi
+      component_name: Liquid.GenAi.OpenAi
     secrets:
       sonar_token: ${{ secrets.SONAR_TOKEN_OPENAI }}
       nuget_token: ${{ secrets.PUBLISH_TO_NUGET_ORG }}

@@ -13,7 +13,7 @@
 	  <Copyright>Avanade 2019</Copyright>
 	  <PackageProjectUrl>https://github.com/Avanade/Liquid-Application-Framework</PackageProjectUrl>
 	  <PackageIcon>logo.png</PackageIcon>
-	  <Version>8.0.0-beta-04</Version>
+	  <Version>8.0.0-rc-01</Version>
 	  <GenerateDocumentationFile>true</GenerateDocumentationFile>
 	  <IsPackable>true</IsPackable>
 	  <DebugType>Full</DebugType>
@@ -32,7 +32,7 @@
 	
   <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" Version="2.1.0" />
-    <PackageReference Include="Liquid.Core" Version="8.0.0-beta-09" />
+    <PackageReference Include="Liquid.Core" Version="8.0.0-rc-01" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.2" />
   </ItemGroup>
 

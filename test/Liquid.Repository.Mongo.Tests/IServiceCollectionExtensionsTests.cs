@@ -28,7 +28,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var options = new MongoRunnerOptions
             {
-                UseSingleNodeReplicaSet = true,
+                UseSingleNodeReplicaSet = false,
                 AdditionalArguments = "--quiet",
                 KillMongoProcessesWhenCurrentProcessExits = true
             };
@@ -68,6 +68,7 @@ namespace Liquid.Repository.Mongo.Tests
             Assert.NotNull(_serviceProvider.GetService<ILiquidRepository<TestEntity, int>>());
             Assert.NotNull(_serviceProvider.GetService<IMongoDataContext<AnotherTestEntity>>());
             Assert.NotNull(_serviceProvider.GetService<ILiquidRepository<AnotherTestEntity, int>>());
+
         }
         
     }

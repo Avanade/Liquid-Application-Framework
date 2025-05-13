@@ -44,12 +44,12 @@ namespace Liquid.Messaging.RabbitMq.Tests
         }
 
         [Fact]
-        public void RegisterMessageHandler_WhenRegistereFail_ThrowException()
+        public async Task RegisterMessageHandler_WhenRegistereFail_ThrowException()
         {
             var messageReceiver = Substitute.For<IModel>();
             _factory.GetReceiver(Arg.Any<RabbitMqConsumerSettings>()).Returns(messageReceiver);
 
-            Assert.Throws<NotImplementedException>(() => RegisterMessageHandler());
+            await Assert.ThrowsAsync<NotImplementedException>(() => RegisterMessageHandler());
         }
 
 

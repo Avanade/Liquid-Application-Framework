@@ -20,6 +20,7 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var options = new MongoRunnerOptions
             {
+                UseSingleNodeReplicaSet = false,
                 AdditionalArguments = "--quiet", 
                 KillMongoProcessesWhenCurrentProcessExits = true
             };

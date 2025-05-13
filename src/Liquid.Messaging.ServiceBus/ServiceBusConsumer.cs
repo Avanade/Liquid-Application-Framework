@@ -89,7 +89,7 @@ namespace Liquid.Messaging.ServiceBus
         /// </summary>
         /// <param name="args"><see cref="ConsumerErrorEventArgs"/></param>
         /// <exception cref="MessagingConsumerException"></exception>
-        protected Task ProcessError(ConsumerErrorEventArgs args)
+        protected static Task ProcessError(ConsumerErrorEventArgs args)
         {
             throw new MessagingConsumerException(args.Exception);
         }

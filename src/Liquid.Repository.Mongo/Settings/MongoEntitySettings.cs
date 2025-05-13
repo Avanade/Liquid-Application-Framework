@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Liquid.Repository.Mongo.Configuration
+namespace Liquid.Repository.Mongo.Settings
 {
     /// <summary>
     /// Properties set list of service bus configurations.

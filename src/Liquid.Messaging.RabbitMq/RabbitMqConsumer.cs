@@ -46,7 +46,7 @@ namespace Liquid.Messaging.RabbitMq
         }
 
         ///<inheritdoc/>
-        public void RegisterMessageHandler()
+        public async Task RegisterMessageHandler(CancellationToken cancellationToken = default)
         {
             if (ConsumeMessageAsync is null)
             {
@@ -57,7 +57,8 @@ namespace Liquid.Messaging.RabbitMq
 
             var consumer = new EventingBasicConsumer(_channelModel);
 
-            consumer.Received += async (model, deliverEvent) => { await MessageHandler(deliverEvent, new CancellationToken()); };
+
+            consumer.Received += async (model, deliverEvent) => { await MessageHandler(deliverEvent, cancellationToken); };
 
             _channelModel.BasicConsume(_settings.Queue, _autoAck, consumer);
         }

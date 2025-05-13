@@ -1,5 +1,5 @@
 ﻿using Liquid.Core.Interfaces;
-using Liquid.Repository.Mongo.Configuration;
+using Liquid.Repository.Mongo.Settings;
 using MongoDB.Driver;
 
 namespace Liquid.Repository.Mongo

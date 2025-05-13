@@ -1,6 +1,6 @@
 ﻿using Liquid.Core.Interfaces;
 using Liquid.Core.Settings;
-using Liquid.Repository.Mongo.Configuration;
+using Liquid.Repository.Mongo.Settings;
 using Liquid.Repository.Mongo.Tests.Mock;
 using MongoDB.Driver;
 using NSubstitute;

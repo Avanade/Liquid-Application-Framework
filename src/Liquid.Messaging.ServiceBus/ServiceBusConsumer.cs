@@ -38,7 +38,7 @@ namespace Liquid.Messaging.ServiceBus
         }
 
         ///<inheritdoc/>
-        public void RegisterMessageHandler()
+        public async Task RegisterMessageHandler(CancellationToken cancellationToken = default)
         {
             if (ConsumeMessageAsync is null)
             {
@@ -52,8 +52,7 @@ namespace Liquid.Messaging.ServiceBus
             _messageProcessor.ProcessMessageAsync += MessageHandler;
             _messageProcessor.ProcessErrorAsync += ErrorHandler;
 
-            _messageProcessor.StartProcessingAsync().GetAwaiter();
-
+            await _messageProcessor.StartProcessingAsync(cancellationToken);
         }
 
         /// <summary>
@@ -90,9 +89,10 @@ namespace Liquid.Messaging.ServiceBus
         /// </summary>
         /// <param name="args"><see cref="ConsumerErrorEventArgs"/></param>
         /// <exception cref="MessagingConsumerException"></exception>
-        protected Task ProcessError(ConsumerErrorEventArgs args)
+        protected static Task ProcessError(ConsumerErrorEventArgs args)
         {
             throw new MessagingConsumerException(args.Exception);
         }
+
     }
 }

@@ -1,6 +1,6 @@
 ﻿using EphemeralMongo;
 using Liquid.Core.Settings;
-using Liquid.Repository.Mongo.Configuration;
+using Liquid.Repository.Mongo.Settings;
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using System;
@@ -20,8 +20,8 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var options = new MongoRunnerOptions
             {
-                AdditionalArguments = "--quiet", 
-                KillMongoProcessesWhenCurrentProcessExits = true
+                UseSingleNodeReplicaSet = false,
+                AdditionalArguments = "--quiet"
             };
 
             _runner = MongoRunner.Run(options);

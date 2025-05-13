@@ -38,12 +38,12 @@ namespace Liquid.Messaging.ServiceBus.Tests
         }
 
         [Fact]
-        public void RegisterMessageHandler_WhenConsumeMessageAssyncIsNull_ThrowNotImplementedException()
+        public async Task RegisterMessageHandler_WhenConsumeMessageAssyncIsNull_ThrowNotImplementedException()
         {
             var messageReceiver = Substitute.For<ServiceBusProcessor>();
             _factory.GetProcessor(Arg.Any<string>()).Returns(messageReceiver);
 
-            Assert.Throws<NotImplementedException>(() => RegisterMessageHandler());
+            await Assert.ThrowsAsync<NotImplementedException>(() => RegisterMessageHandler());
         }
 
 

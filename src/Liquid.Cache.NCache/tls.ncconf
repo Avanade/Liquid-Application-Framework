@@ -1,7 +1,10 @@
 <tls-info>
-	<certificate-name>certificate-name</certificate-name>	
-	<certificate-thumbprint>your-thumbprint</certificate-thumbprint>	
+	<server-certificate-cn>certificate-name</server-certificate-cn>
+	<server-certificate-thumbprint>your-thumbprint</server-certificate-thumbprint>
+	<client-certificate-cn>certificate-name</client-certificate-cn>
+	<client-certificate-thumbprint>your-thumbprint</client-certificate-thumbprint>
 	<enable>false</enable>
 	<enable-client-server-tls>false</enable-client-server-tls>
 	<use-mutual-tls-for-client-to-server>false</use-mutual-tls-for-client-to-server>
+	<protocol-version>tls12</protocol-version>
 </tls-info>

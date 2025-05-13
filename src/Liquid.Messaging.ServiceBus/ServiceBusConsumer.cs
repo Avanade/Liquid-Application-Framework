@@ -34,7 +34,7 @@ namespace Liquid.Messaging.ServiceBus
         public ServiceBusConsumer(IServiceBusFactory factory, string settingsName)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            _settingsName = settingsName;
+            _settingsName = settingsName ?? throw new ArgumentNullException(nameof(settingsName));
         }
 
         ///<inheritdoc/>

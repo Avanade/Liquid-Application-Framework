@@ -28,6 +28,11 @@ namespace Liquid.Messaging.ServiceBus
             {
                 var config = _options.Settings.FirstOrDefault(x => x.EntityPath == settingsName);
 
+                if (config == null)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(settingsName), $"The settings name '{settingsName}' is not found in the configuration.");
+                }
+
                 var options = new ServiceBusProcessorOptions();
 
                 options.ReceiveMode = config.PeekLockMode ? ServiceBusReceiveMode.PeekLock : ServiceBusReceiveMode.ReceiveAndDelete;
@@ -42,7 +47,7 @@ namespace Liquid.Messaging.ServiceBus
                     processor = serviceBusClient.CreateProcessor(config.EntityPath, options);
                 }
                 else
-                {                    
+                {
                     processor = serviceBusClient.CreateProcessor(config.EntityPath, config.Subscription, options);
                 }
 
@@ -58,6 +63,11 @@ namespace Liquid.Messaging.ServiceBus
         public ServiceBusSender GetSender(string settingsName)
         {
             var config = _options.Settings.FirstOrDefault(x => x.EntityPath == settingsName);
+
+            if (config == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(settingsName), $"The settings name '{settingsName}' is not found in the configuration.");
+            }
 
             try
             {
@@ -77,15 +87,20 @@ namespace Liquid.Messaging.ServiceBus
         {
             var config = _options.Settings.FirstOrDefault(x => x.EntityPath == settingsName);
 
+            if (config == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(settingsName), $"The settings name '{settingsName}' is not found in the configuration.");
+            }
+
             try
             {
                 var options = new ServiceBusReceiverOptions();
 
                 options.ReceiveMode = config.PeekLockMode ? ServiceBusReceiveMode.PeekLock : ServiceBusReceiveMode.ReceiveAndDelete;
-                
-                var serviceBusClient = new ServiceBusClient(config.ConnectionString);                
-                
-                var receiver = serviceBusClient.CreateReceiver(config.EntityPath, options);                
+
+                var serviceBusClient = new ServiceBusClient(config.ConnectionString);
+
+                var receiver = serviceBusClient.CreateReceiver(config.EntityPath, options);
 
                 return receiver;
             }

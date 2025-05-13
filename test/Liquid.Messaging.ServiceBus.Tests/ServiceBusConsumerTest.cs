@@ -25,16 +25,16 @@ namespace Liquid.Messaging.ServiceBus.Tests
         }
 
         [Fact]
-        public void RegisterMessageHandler_WhenRegisteredSucessfully_StartProcessingReceivedCall()
+        public async Task RegisterMessageHandler_WhenRegisteredSucessfully_StartProcessingReceivedCall()
         {
             var messageReceiver = Substitute.For<ServiceBusProcessor>();
             _factory.GetProcessor(Arg.Any<string>()).Returns(messageReceiver);
 
             ConsumeMessageAsync += ProcessMessageAsyncMock;
 
-            RegisterMessageHandler();
+            await RegisterMessageHandler();
 
-            messageReceiver.Received(1).StartProcessingAsync();
+            await messageReceiver.Received(1).StartProcessingAsync();
         }
 
         [Fact]
@@ -45,7 +45,6 @@ namespace Liquid.Messaging.ServiceBus.Tests
 
             await Assert.ThrowsAsync<NotImplementedException>(() => RegisterMessageHandler());
         }
-
 
         [Fact]
         public async Task MessageHandler_WhenProcessExecutedSucessfully()
@@ -85,6 +84,17 @@ namespace Liquid.Messaging.ServiceBus.Tests
             await Assert.ThrowsAsync<MessagingConsumerException>(() => ErrorHandler(processError));
         }
 
+        [Fact]
+        public void Constructor_WhenFactoryIsNull_ThrowsArgumentNullException()
+        {
+           Assert.Throws<ArgumentNullException>(() => new ServiceBusConsumer<EntityMock>(null, "test"));
+        }
+
+        [Fact]
+        public void Constructor_WhenSettingsNameIsNull_ThrowsArgumentNullException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ServiceBusConsumer<EntityMock>(_factory, null));
+        }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task ProcessMessageAsyncMock(ConsumerMessageEventArgs<EntityMock> args, CancellationToken cancellationToken)

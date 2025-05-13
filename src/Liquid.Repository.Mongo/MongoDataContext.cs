@@ -1,6 +1,5 @@
 ﻿using Liquid.Repository.Mongo.Configuration;
 using Liquid.Repository.Mongo.Exceptions;
-using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;

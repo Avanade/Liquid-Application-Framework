@@ -24,7 +24,7 @@ namespace Liquid.Messaging.RabbitMq
         private readonly bool _autoAck;
         private IModel _channelModel;
         private readonly IRabbitMqFactory _factory;
-        private readonly RabbitMqConsumerSettings _settings;
+        private readonly IOptions<RabbitMqConsumerSettings> _settings;
 
         ///<inheritdoc/>
         public event Func<ConsumerMessageEventArgs<TEntity>, CancellationToken, Task> ConsumeMessageAsync;
@@ -40,9 +40,14 @@ namespace Liquid.Messaging.RabbitMq
         public RabbitMqConsumer(IRabbitMqFactory factory, IOptions<RabbitMqConsumerSettings> settings)
         {
             _factory = factory ?? throw new ArgumentNullException(nameof(factory));
-            _settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
 
-            _autoAck = _settings.AdvancedSettings?.AutoAck ?? true;
+            if (_settings.Value == null)
+            {
+                throw new ArgumentNullException(nameof(_settings.Value), "The settings value must be set.");
+            }
+
+            _autoAck = _settings.Value.AdvancedSettings?.AutoAck ?? true;
         }
 
         ///<inheritdoc/>
@@ -53,14 +58,14 @@ namespace Liquid.Messaging.RabbitMq
                 throw new NotImplementedException($"The {nameof(ConsumeMessageAsync)} action must be added to class.");
             }
 
-            _channelModel = _factory.GetReceiver(_settings);
+            _channelModel = _factory.GetReceiver(_settings.Value);
 
             var consumer = new EventingBasicConsumer(_channelModel);
 
 
             consumer.Received += async (model, deliverEvent) => { await MessageHandler(deliverEvent, cancellationToken); };
 
-            _channelModel.BasicConsume(_settings.Queue, _autoAck, consumer);
+            _channelModel.BasicConsume(_settings.Value.Queue, _autoAck, consumer);
         }
 
         /// <summary>
@@ -83,7 +88,7 @@ namespace Liquid.Messaging.RabbitMq
             {
                 if (!_autoAck)
                 {
-                    var queueAckMode = _settings.AdvancedSettings.QueueAckModeSettings ?? new QueueAckModeSettings() { QueueAckMode = QueueAckModeEnum.BasicAck, Requeue = true };
+                    var queueAckMode = _settings.Value.AdvancedSettings.QueueAckModeSettings ?? new QueueAckModeSettings() { QueueAckMode = QueueAckModeEnum.BasicAck, Requeue = true };
 
                     switch (queueAckMode.QueueAckMode)
                     {

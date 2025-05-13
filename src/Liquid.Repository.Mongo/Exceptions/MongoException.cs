@@ -1,7 +1,6 @@
 ﻿using Liquid.Core.Exceptions;
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Runtime.Serialization;
 
 namespace Liquid.Repository.Mongo.Exceptions
 {

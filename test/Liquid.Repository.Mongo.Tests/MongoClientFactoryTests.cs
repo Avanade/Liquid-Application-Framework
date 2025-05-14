@@ -23,6 +23,7 @@ namespace Liquid.Repository.Mongo.Tests
                 UseSingleNodeReplicaSet = false,
                 AdditionalArguments = "--quiet",
                 MongoPort = 27017,
+                ConnectionTimeout = TimeSpan.FromSeconds(60)
             };
 
             _runner = MongoRunner.Run(options);

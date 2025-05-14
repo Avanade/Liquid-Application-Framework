@@ -20,7 +20,7 @@ namespace Liquid.Repository.Mongo
         public MongoClientFactory(IOptions<MongoDbSettings> settings)
         {
             _mongoClients = new Dictionary<string, IMongoClient>();
-            _settings = settings;
+            _settings = settings ?? throw new ArgumentNullException(nameof(settings));
         }
 
         ///<inheritdoc/>

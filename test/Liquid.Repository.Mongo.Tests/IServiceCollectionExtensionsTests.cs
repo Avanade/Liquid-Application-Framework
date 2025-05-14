@@ -29,7 +29,7 @@ namespace Liquid.Repository.Mongo.Tests
             var options = new MongoRunnerOptions
             {
                 UseSingleNodeReplicaSet = false,
-                AdditionalArguments = "--quiet"
+                AdditionalArguments = "--quiet",                
             };
 
             _runner = MongoRunner.Run(options);
@@ -43,7 +43,7 @@ namespace Liquid.Repository.Mongo.Tests
             {
                 {"MyMongoEntityOptions:Settings:1:DatabaseName", _databaseName},
                 {"MyMongoEntityOptions:Settings:1:ConnectionString", _runner.ConnectionString},
-                {"MyMongoEntityOptions:Settings:1:CollectionName", "TestEntity"},
+                {"MyMongoEntityOptions:Settings:1:CollectionName", "ATestEntity"},
                 {"MyMongoEntityOptions:Settings:1:ShardKey", "id"},
                 {"MyMongoEntityOptions:Settings:2:DatabaseName", _databaseName},
                 {"MyMongoEntityOptions:Settings:2:ConnectionString", _runner.ConnectionString},
@@ -60,7 +60,7 @@ namespace Liquid.Repository.Mongo.Tests
         [Fact]
         public void AddLiquidMongoRepository_WhenAdded_ServicesIsFilledForTestEntity()
         {
-            _services.AddLiquidMongoRepository<TestEntity, int>("MyMongoEntityOptions","TestEntity");
+            _services.AddLiquidMongoRepository<TestEntity, int>("MyMongoEntityOptions","ATestEntity");
             _services.AddLiquidMongoRepository<AnotherTestEntity, int>("MyMongoEntityOptions", "AnotherTestEntity");
             _serviceProvider = _services.BuildServiceProvider();
             Assert.NotNull(_serviceProvider.GetService<IMongoDataContext<TestEntity>>());

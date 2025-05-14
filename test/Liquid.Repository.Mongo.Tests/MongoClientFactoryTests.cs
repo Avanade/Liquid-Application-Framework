@@ -21,7 +21,8 @@ namespace Liquid.Repository.Mongo.Tests
             var options = new MongoRunnerOptions
             {
                 UseSingleNodeReplicaSet = false,
-                AdditionalArguments = "--quiet"
+                AdditionalArguments = "--quiet",
+                MongoPort = 27017,
             };
 
             _runner = MongoRunner.Run(options);

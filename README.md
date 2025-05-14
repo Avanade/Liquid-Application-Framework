@@ -8,13 +8,6 @@
 
 This repository contains Liquid Application Framework full code, samples, templates and [documentation](docs/About-Liquid.md).
 
-| New Major Version Warning |
-|----|
-
-- This is the new major version of Liquid Application Framework, launched on April/2021.
-- We've made significant breaking changes and a complete rearchitecture of our framework. So, this version isn't compatible and there is no easy conversion from the old one.
-- We decided to deprecate the old version and it will not receive any kind of updates, not even bug fixes. But, for historical purposes and to allow anyone relying on it to fork the code and maintain its own version of it, we'll keep the [old repository](https://github.com/Avanade/Liquid-Application-Framework-1.0-deprecated) public.
-
 ## What is Liquid?
 
 Liquid is a **multi-cloud** framework designed to **accelerate the development** of cloud-native microservices while avoiding coupling your code to specific cloud providers.
@@ -95,20 +88,6 @@ Some of the best ways to contribute are to try things out, file issues, and make
 - Avanade asks that all commits sign the [Developer Certificate of Origin](https://developercertificate.org/).
 
 In any case, be sure to take a look at [the contributing guide](CONTRIBUTING.md) before starting, and see our [security disclosure](https://github.com/Avanade/avanade-template/blob/main/SECURITY.md) policy.
-
-## Useful Links
-
-| Liquid Application Framework Old Repositories |
-| :-- |
-| [Liquid.Core](https://github.com/Avanade/Liquid.Core) |
-| [Liquid.Domain](https://github.com/Avanade/Liquid.Domain) |
-| [Liquid.Repository](https://github.com/Avanade/Liquid.Repository) |
-| [Liquid.Cache](https://github.com/Avanade/Liquid.Cache) |
-| [Liquid.Messaging](https://github.com/Avanade/Liquid.Messaging) |
-| [Liquid.Services](https://github.com/Avanade/Liquid.Services) |
-| [Liquid.WebApi](https://github.com/Avanade/Liquid.WebApi) |
-| [Liquid.Serverless](https://github.com/Avanade/Liquid.Serverless) |
-| [Liquid.Tests](https://github.com/Avanade/Liquid.Tests) |
 
 ## Who is Avanade?
 

@@ -28,10 +28,10 @@ namespace Liquid.Repository.Mongo.Tests
         {
             var options = new MongoRunnerOptions
             {
-                UseSingleNodeReplicaSet = false,
+                UseSingleNodeReplicaSet = true,
                 AdditionalArguments = "--quiet",
-                MongoPort = 27018,
                 ConnectionTimeout = TimeSpan.FromSeconds(60),
+                ReplicaSetSetupTimeout = TimeSpan.FromSeconds(60),
             };
 
             _runner = MongoRunner.Run(options);

@@ -44,7 +44,7 @@ namespace Liquid.Repository.Mongo.Tests
                     {
                         CollectionName = "TestEntities2",
                         ShardKey = "id",
-                        ConnectionString = "incorrect connection string",
+                        ConnectionString = "",
                         DatabaseName = $"{_databaseName}-2"
                     }
                 }
@@ -77,6 +77,12 @@ namespace Liquid.Repository.Mongo.Tests
         {
             MongoEntitySettings settings = null;
             Assert.Throws<MongoDB.Driver.MongoConfigurationException>(() => _sut.GetClient("TestEntities2", out settings));
+        }
+
+        [Fact]
+        public void Constructor_WhenSettingsIsNull_ThrowException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new MongoClientFactory(null));
         }
     }
 }

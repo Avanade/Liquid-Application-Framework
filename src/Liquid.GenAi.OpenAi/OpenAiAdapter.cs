@@ -150,15 +150,15 @@ namespace Liquid.GenAi.OpenAi
         private static ChatMessage MapChatRequestMessage(LiquidChatMessage message)
         {
             ChatMessage? chatRequestMessage = null;
-            switch (message.Role.ToLower())
+            switch (message.Role)
             {
-                case "system":
+                case LiquidMessageRole.System:
                     chatRequestMessage = new SystemChatMessage(CreateContent(message));
                     break;
-                case "assistant":
+                case LiquidMessageRole.Assistant:
                     chatRequestMessage = new AssistantChatMessage(CreateContent(message));
                     break;
-                case "user":
+                case LiquidMessageRole.User:
                     chatRequestMessage = new UserChatMessage(CreateContent(message));
                     break;
                 default:
